@@ -1,0 +1,13 @@
+langgraph
+langchain
+langchain_community
+ollama
+langchain-openai
+langchain-google-genai
+langchain-anthropic
+python-dotenv
+streamlit
+google-genai
+openai
+anthropic
+google-generativeai
