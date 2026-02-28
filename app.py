@@ -57,6 +57,9 @@ def get_available_models(provider, api_key=None):
                 "claude-3-5-haiku-latest",
                 "claude-3-opus-latest"
             ]
+
+        else:
+            return []
             
     except Exception as e:
         st.error(f"Error fetching models for {provider}: {str(e)}")
@@ -90,6 +93,9 @@ def get_llm_instance(provider, model_name, api_key=None):
     elif provider == "Anthropic":
         from langchain_anthropic import ChatAnthropic
         return ChatAnthropic(api_key=api_key, model=model_name)
+
+    else:
+        raise ValueError(f"Unsupported provider: {provider}")
 
 # --- UI SIDEBAR ---
 # Allows user to configure the model provider and API key

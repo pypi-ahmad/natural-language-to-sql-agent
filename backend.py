@@ -1,3 +1,4 @@
+import re
 import sqlite3
 from typing import TypedDict
 from langgraph.graph import StateGraph, END
@@ -26,18 +27,20 @@ def setup_db():
     Inserts predefined sample records into both tables.
     """
     conn = sqlite3.connect("company.db")
-    cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS departments (dept_id INTEGER PRIMARY KEY, dept_name TEXT, location TEXT)")
-    cursor.executemany("INSERT OR IGNORE INTO departments VALUES (?,?,?)", [
-        (101, 'Engineering', 'New York'), (102, 'Sales', 'San Francisco'), (103, 'HR', 'Remote')
-    ])
-    cursor.execute("CREATE TABLE IF NOT EXISTS employees (emp_id INTEGER PRIMARY KEY, name TEXT, salary REAL, dept_id INTEGER)")
-    cursor.executemany("INSERT OR IGNORE INTO employees VALUES (?,?,?,?)", [
-        (1, 'Alice', 120000, 101), (2, 'Bob', 85000, 102), (3, 'Charlie', 115000, 101),
-        (4, 'Diana', 95000, 103), (5, 'Eve', 88000, 102)
-    ])
-    conn.commit()
-    conn.close()
+    try:
+        cursor = conn.cursor()
+        cursor.execute("CREATE TABLE IF NOT EXISTS departments (dept_id INTEGER PRIMARY KEY, dept_name TEXT, location TEXT)")
+        cursor.executemany("INSERT OR IGNORE INTO departments VALUES (?,?,?)", [
+            (101, 'Engineering', 'New York'), (102, 'Sales', 'San Francisco'), (103, 'HR', 'Remote')
+        ])
+        cursor.execute("CREATE TABLE IF NOT EXISTS employees (emp_id INTEGER PRIMARY KEY, name TEXT, salary REAL, dept_id INTEGER)")
+        cursor.executemany("INSERT OR IGNORE INTO employees VALUES (?,?,?,?)", [
+            (1, 'Alice', 120000, 101), (2, 'Bob', 85000, 102), (3, 'Charlie', 115000, 101),
+            (4, 'Diana', 95000, 103), (5, 'Eve', 88000, 102)
+        ])
+        conn.commit()
+    finally:
+        conn.close()
 
 # --- AGENT CLASS ---
 class SQLAgent:
@@ -72,18 +75,20 @@ class SQLAgent:
             dict: A dictionary containing the 'schema' string, which lists table names and column details.
         """
         conn = sqlite3.connect("company.db")
-        cursor = conn.cursor()
-        cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
-        tables = cursor.fetchall()
-        schema_str = ""
-        for table in tables:
-            table_name = table[0]
-            cursor.execute(f"PRAGMA table_info({table_name})")
-            columns = cursor.fetchall()
-            col_names = [f"{col[1]} ({col[2]})" for col in columns]
-            schema_str += f"Table '{table_name}': {', '.join(col_names)}\n"
-        conn.close()
-        return {"schema": schema_str}
+        try:
+            cursor = conn.cursor()
+            cursor.execute("SELECT name FROM sqlite_master WHERE type='table';")
+            tables = cursor.fetchall()
+            schema_str = ""
+            for table in tables:
+                table_name = table[0]
+                cursor.execute(f"PRAGMA table_info({table_name})")
+                columns = cursor.fetchall()
+                col_names = [f"{col[1]} ({col[2]})" for col in columns]
+                schema_str += f"Table '{table_name}': {', '.join(col_names)}\n"
+            return {"schema": schema_str}
+        finally:
+            conn.close()
 
     def write_sql(self, state: AgentState):
         """
@@ -124,9 +129,9 @@ class SQLAgent:
         query = state['sql_query'].upper()
         forbidden = ["DROP", "DELETE", "TRUNCATE", "INSERT", "UPDATE", "ALTER"]
         for word in forbidden:
-            if word in query:
+            if re.search(r'\b' + word + r'\b', query):
                 return {"sql_safe": False, "error": f"Forbidden keyword '{word}' detected."}
-        return {"sql_safe": True}
+        return {"sql_safe": True, "error": ""}
 
     def execute_sql(self, state: AgentState):
         """
@@ -145,8 +150,8 @@ class SQLAgent:
             rows = cursor.fetchall()
             if not rows: return {"result": "No data found.", "error": ""}
             return {"result": str(rows), "error": ""}
-        except Exception as e:
-            return {"error": str(e)}
+        except sqlite3.Error as e:
+            return {"result": "", "error": str(e)}
         finally:
             conn.close()
 
@@ -161,9 +166,10 @@ class SQLAgent:
             dict: Updates 'result' with the final natural language answer.
         """
         prompt = f"""
-        User Question: {state['question']}
-        SQL Used: {state['sql_query']}
-        Data Found: {state['result']}
+        User Question: {state.get('question', '')}
+        SQL Used: {state.get('sql_query', '')}
+        Data Found: {state.get('result', 'N/A')}
+        Error: {state.get('error', '')}
         
         Provide a professional, concise answer.
         """
