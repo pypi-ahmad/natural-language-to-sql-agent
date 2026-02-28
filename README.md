@@ -1,6 +1,6 @@
 # Natural Language to SQL Data Analyst Agent
 
-This project is a Streamlit application backed by a LangGraph workflow that translates a user question into SQL, executes the SQL on a local SQLite database, and returns an LLM-generated natural-language answer.
+This repository contains a Streamlit application backed by a LangGraph workflow that converts user questions into SQL, executes SQL against a local SQLite database, and returns an LLM-generated natural-language response.
 
 ## 1) Project Overview
 
@@ -18,7 +18,7 @@ This project is a Streamlit application backed by a LangGraph workflow that tran
 - Automatic SQLite bootstrap and seed data creation.
 
 ### Problem it solves
-- Converts ad-hoc user questions into executable SQL and readable answers for a small relational dataset without requiring users to write SQL manually.
+- Enables non-SQL users to query the bundled relational dataset through natural-language questions and receive readable answers.
 
 ## 2) Architecture Overview
 
@@ -51,7 +51,7 @@ This project is a Streamlit application backed by a LangGraph workflow that tran
 7. `guardian` checks SQL for forbidden keywords.
 8. If safe, `executor` runs SQL and returns rows or SQL error.
 9. If execution error and `retry_count < 3`, route back to `writer`.
-10. `summarizer` generates final natural-language answer from question, SQL, data, and error context.
+10. `summarizer` generates the final natural-language answer from question, SQL, data, and error context.
 11. App displays final response and appends it to chat history.
 
 ```mermaid
@@ -156,6 +156,7 @@ flowchart TD
 ### Constraints / non-guarantees
 - The filter is allow/deny by keyword list, not a full SQL parser.
 - Potentially unsafe statements outside the current forbidden set (for example `CREATE`, `ATTACH`, `PRAGMA`) are not blocked by `check_security`.
+- Python `sqlite3` enforces single-statement execution in `cursor.execute(...)`, but this is a driver constraint, not an application-layer SQL policy.
 
 ## 8) LLM / Provider Integration
 
@@ -281,4 +282,5 @@ python -m pytest tests/ --cov=backend --cov-report=term-missing
 - Make database path configurable instead of hardcoded `company.db`.
 - Decouple database bootstrap from `SQLAgent` construction.
 - Invalidate/reset provider model cache on provider switch.
+- Migrate deprecated `google.generativeai` usage to the actively maintained `google-genai` package.
 - Pin dependency versions for reproducible installs.
