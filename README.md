@@ -1,150 +1,195 @@
 # Natural Language to SQL Data Analyst Agent
 
-A LangGraph-based agent that converts natural language questions into SQL queries, executes them against a SQLite database, and returns LLM-generated natural language summaries. The frontend is a Streamlit chat interface with multi-provider LLM support.
+This project is a Streamlit application backed by a LangGraph workflow that translates a user question into SQL, executes the SQL on a local SQLite database, and returns an LLM-generated natural-language answer.
 
-## Architecture
+## 1) Project Overview
 
+### What the system does
+- Accepts natural-language questions through a chat UI.
+- Builds SQL using an LLM with schema context.
+- Runs a security gate before execution.
+- Executes SQL against `company.db`.
+- Summarizes database output (or errors) using the same LLM.
+
+### Key capabilities (implemented)
+- Multi-provider LLM selection in the UI (`Ollama`, `Gemini`, `OpenAI`, `Anthropic`).
+- Provider model discovery via SDK calls (`ollama.list`, `OpenAI.models.list`, `google.generativeai.list_models`, curated Anthropic list).
+- Stateful LangGraph execution with retry loop (`retry_count < 3`).
+- Automatic SQLite bootstrap and seed data creation.
+
+### Problem it solves
+- Converts ad-hoc user questions into executable SQL and readable answers for a small relational dataset without requiring users to write SQL manually.
+
+## 2) Architecture Overview
+
+### Components
+- **UI layer (`app.py`)**
+   - Streamlit sidebar configuration (provider, API key, model selection).
+   - Chat input/history rendering.
+   - Live status output per workflow node.
+- **Backend logic (`backend.py`)**
+   - SQLite setup (`setup_db`).
+   - `SQLAgent` methods for schema fetch, SQL generation, query safety check, SQL execution, and summarization.
+- **Workflow system (`LangGraph`)**
+   - `StateGraph(AgentState)` with five nodes:
+      - `fetch_schema`
+      - `writer`
+      - `guardian`
+      - `executor`
+      - `summarizer`
+   - Conditional routing after `guardian` and `executor`.
+
+## 3) System Flow
+
+### Step-by-step execution
+1. User submits a question in Streamlit chat.
+2. App validates API key requirement (non-Ollama providers).
+3. App builds an LLM instance from selected provider/model.
+4. App creates `SQLAgent(llm)` and compiles workflow.
+5. Workflow enters `fetch_schema`.
+6. `writer` generates SQL from schema + question (+ prior error, if any).
+7. `guardian` checks SQL for forbidden keywords.
+8. If safe, `executor` runs SQL and returns rows or SQL error.
+9. If execution error and `retry_count < 3`, route back to `writer`.
+10. `summarizer` generates final natural-language answer from question, SQL, data, and error context.
+11. App displays final response and appends it to chat history.
+
+```mermaid
+flowchart TD
+      A[User enters question in Streamlit chat] --> B[Validate provider/API key]
+      B --> C[Create LLM instance]
+      C --> D[Create SQLAgent and compile StateGraph]
+      D --> E[fetch_schema]
+      E --> F[writer]
+      F --> G[guardian]
+      G -->|sql_safe = true| H[executor]
+      G -->|sql_safe = false| J[summarizer]
+      H -->|error and retry_count < 3| F
+      H -->|no error or retry_count >= 3| J
+      J --> K[Final response shown in UI]
 ```
-┌─────────────────────────────────────────────────────────────┐
-│  app.py  (Streamlit UI)                                     │
-│  - Provider/model selection sidebar                         │
-│  - API key management (env vars or manual input)            │
-│  - Chat interface with streaming agent status               │
-│  - Calls backend.SQLAgent with selected LLM                 │
-└──────────────────────────┬──────────────────────────────────┘
-                           │ imports SQLAgent
-┌──────────────────────────▼──────────────────────────────────┐
-│  backend.py  (LangGraph Workflow)                           │
-│                                                             │
-│  AgentState (TypedDict)                                     │
-│  ┌────────────────────────────────────────────────────────┐ │
-│  │ question, schema, sql_query, sql_safe,                 │ │
-│  │ result, error, retry_count                             │ │
-│  └────────────────────────────────────────────────────────┘ │
-│                                                             │
-│  SQLAgent class                                             │
-│  ┌─ Nodes ──────────────────────────────────────────┐      │
-│  │ fetch_schema → writer → guardian ─┬→ executor    │      │
-│  │                  ▲                │   │           │      │
-│  │                  │ (retry ≤3)     │   ▼           │      │
-│  │                  └────────────────┤ summarizer   │      │
-│  │                   (unsafe)────────┘   │           │      │
-│  │                                       ▼           │      │
-│  │                                      END          │      │
-│  └───────────────────────────────────────────────────┘      │
-│                                                             │
-│  Database: SQLite  (company.db, relative path)              │
-└─────────────────────────────────────────────────────────────┘
-```
 
-### State Schema
+## 4) Workflow / Agent Logic
 
-Defined as `AgentState(TypedDict)` in `backend.py`:
+### Node behavior
+- `fetch_schema(state)`
+   - Reads table names from `sqlite_master`.
+   - Reads table columns using `PRAGMA table_info(<table>)`.
+   - Returns `{"schema": schema_str}`.
+- `write_sql(state)`
+   - Prompts LLM with schema, question, and previous error.
+   - Strips markdown fences from output.
+   - Returns `{"sql_query": sql, "retry_count": state.get("retry_count", 0) + 1}`.
+- `check_security(state)`
+   - Uppercases query.
+   - Blocks if regex word-boundary match hits one of: `DROP`, `DELETE`, `TRUNCATE`, `INSERT`, `UPDATE`, `ALTER`.
+   - Returns either:
+      - `{"sql_safe": False, "error": "..."}` or
+      - `{"sql_safe": True, "error": ""}`.
+- `execute_sql(state)`
+   - Executes SQL via `sqlite3`.
+   - Returns:
+      - `{"result": str(rows), "error": ""}` for non-empty rows,
+      - `{"result": "No data found.", "error": ""}` for empty rows,
+      - `{"result": "", "error": str(e)}` on `sqlite3.Error`.
+- `summarize_result(state)`
+   - Prompts LLM with question, SQL, data, and error.
+   - Returns `{"result": response.content}`.
 
-| Key           | Type  | Purpose                                    |
-|---------------|-------|--------------------------------------------|
-| `question`    | `str` | User's natural language question            |
-| `schema`      | `str` | Database schema string (tables + columns)   |
-| `sql_query`   | `str` | LLM-generated SQL query                     |
-| `sql_safe`    | `bool`| Result of security check                    |
-| `result`      | `str` | SQL execution output or final summary       |
-| `error`       | `str` | Error message from execution or security    |
-| `retry_count` | `int` | Number of SQL generation attempts           |
-
-## Execution Flow
-
-The workflow is a `StateGraph` compiled via LangGraph. The exact node names and edges are defined in `SQLAgent.get_workflow()`:
-
-1. **`fetch_schema`** — Connects to `company.db`, reads `sqlite_master` for table names, then `PRAGMA table_info()` per table. Returns schema string.
-2. **`writer`** (`write_sql`) — Sends schema + question + previous error to the LLM via `HumanMessage`. Strips markdown fences from response. Increments `retry_count`.
-3. **`guardian`** (`check_security`) — Uppercases the SQL and checks for forbidden keywords using word-boundary regex (`\b`). Forbidden keywords: `DROP`, `DELETE`, `TRUNCATE`, `INSERT`, `UPDATE`, `ALTER`.
-4. **Routing** (`route_after_security`):
+### Routing logic
+- After `guardian`:
    - `sql_safe == True` → `executor`
-   - `sql_safe == False` → `summarizer` (reports the security error)
-5. **`executor`** (`execute_sql`) — Runs the raw SQL against `company.db`. Returns result rows as a string, or error.
-6. **Routing** (`route_after_execute`):
-   - No error → `summarizer`
-   - Error and `retry_count < 3` → `writer` (retry)
-   - Error and `retry_count >= 3` → `summarizer` (reports the error)
-7. **`summarizer`** (`summarize_result`) — Sends question + SQL + data + error to the LLM. Returns final natural language answer.
+   - `sql_safe == False` → `summarizer`
+- After `executor`:
+   - `state["error"]` truthy and `state["retry_count"] < 3` → `writer`
+   - otherwise → `summarizer`
 
-## LLM Providers
+## 5) Data Model / State Structure
 
-Four providers are supported. Selection and API key entry happen in the Streamlit sidebar (`app.py`).
+`AgentState` is a `TypedDict` in `backend.py`.
 
-| Provider     | LangChain Wrapper               | Model Fetching Method                                   | Default Models (fallback)                   |
-|--------------|---------------------------------|---------------------------------------------------------|---------------------------------------------|
-| **Ollama**   | `ChatOllama`                    | `ollama.list()` (local SDK)                             | `llama3`, `mistral`                         |
-| **OpenAI**   | `ChatOpenAI`                    | `OpenAI(api_key).models.list()` — filters for `gpt`/`o1` | `gpt-4o`, `gpt-3.5-turbo`                  |
-| **Gemini**   | `ChatGoogleGenerativeAI`        | `google.generativeai.list_models()` — filters for `generateContent` | `gemini-1.5-flash`, `gemini-pro`            |
-| **Anthropic**| `ChatAnthropic`                 | Hardcoded list (no list-models API)                     | `claude-3-5-sonnet-latest`                  |
+| Key | Type | Purpose |
+|---|---|---|
+| `question` | `str` | Original user question |
+| `schema` | `str` | Schema text passed to SQL writer |
+| `sql_query` | `str` | Current SQL candidate |
+| `sql_safe` | `bool` | Security gate decision |
+| `result` | `str` | SQL output or final summarized answer |
+| `error` | `str` | Security/execution error text |
+| `retry_count` | `int` | SQL rewrite attempt count |
 
-LangChain wrappers are imported lazily inside `get_llm_instance()` (`langchain_community`, `langchain_openai`, `langchain_google_genai`, `langchain_anthropic`).
+## 6) Core Modules Breakdown
 
-## Database
+### Backend module (`backend.py`)
 
-The SQLite database `company.db` is created by `setup_db()`, which is called in `SQLAgent.__init__()`. It uses `INSERT OR IGNORE` for idempotent seeding.
+| Function | Inputs | Output | Behavior |
+|---|---|---|---|
+| `setup_db()` | None | None | Creates `departments` and `employees`, inserts seed rows with `INSERT OR IGNORE` |
+| `SQLAgent.__init__(llm)` | LLM object | Instance | Stores LLM and calls `setup_db()` |
+| `fetch_schema(state)` | `AgentState` | `{"schema": str}` | Introspects SQLite schema |
+| `write_sql(state)` | `AgentState` | `{"sql_query": str, "retry_count": int}` | LLM SQL generation + fence stripping + retry increment |
+| `check_security(state)` | `AgentState` | `{"sql_safe": bool, "error": str}` | Regex keyword gate |
+| `execute_sql(state)` | `AgentState` | `{"result": str, "error": str}` | Runs SQL and normalizes result/error contract |
+| `summarize_result(state)` | `AgentState` | `{"result": str}` | LLM answer synthesis |
+| `route_after_security(state)` | `AgentState` | `"execute"` or `"summarize"` | Conditional edge selector |
+| `route_after_execute(state)` | `AgentState` | `"retry"` or `"summarize"` | Retry routing selector |
+| `get_workflow()` | None | Compiled graph | Defines graph nodes/edges and compiles workflow |
 
-**Tables:**
+### UI module (`app.py`)
 
-```
-departments (dept_id INTEGER PRIMARY KEY, dept_name TEXT, location TEXT)
-employees   (emp_id INTEGER PRIMARY KEY, name TEXT, salary REAL, dept_id INTEGER)
-```
+| Function | Inputs | Output | Behavior |
+|---|---|---|---|
+| `get_available_models(provider, api_key)` | Provider string + optional key | `list[str]` | Provider-specific model discovery, `[]` on unsupported provider/error |
+| `get_llm_instance(provider, model_name, api_key)` | Provider/model/key | LangChain chat model | Returns provider wrapper or raises `ValueError` for unsupported provider |
 
-**Seed Data:**
+## 7) Security Model
 
-| dept_id | dept_name    | location       |
-|---------|-------------|----------------|
-| 101     | Engineering | New York       |
-| 102     | Sales       | San Francisco  |
-| 103     | HR          | Remote         |
+### Implemented protections
+- **Keyword filter before execution**
+   - Forbidden terms: `DROP`, `DELETE`, `TRUNCATE`, `INSERT`, `UPDATE`, `ALTER`.
+   - Word-boundary regex reduces substring false positives (e.g., avoids matching partial words).
+- **Execution error containment**
+   - SQL exceptions are caught as `sqlite3.Error` and converted into state `error` text.
+- **Routing safety**
+   - Unsafe SQL (`sql_safe = False`) never reaches `execute_sql`; it is summarized directly.
 
-| emp_id | name    | salary  | dept_id |
-|--------|---------|---------|---------|
-| 1      | Alice   | 120000  | 101     |
-| 2      | Bob     | 85000   | 102     |
-| 3      | Charlie | 115000  | 101     |
-| 4      | Diana   | 95000   | 103     |
-| 5      | Eve     | 88000   | 102     |
+### Constraints / non-guarantees
+- The filter is allow/deny by keyword list, not a full SQL parser.
+- Potentially unsafe statements outside the current forbidden set (for example `CREATE`, `ATTACH`, `PRAGMA`) are not blocked by `check_security`.
 
-## Dependencies
+## 8) LLM / Provider Integration
 
-All dependencies are listed in `requirements.txt` (unpinned):
+### Supported providers (implemented)
+- `Ollama`
+- `OpenAI`
+- `Gemini`
+- `Anthropic`
 
-| Package                  | Used By        | Purpose                                      |
-|--------------------------|----------------|----------------------------------------------|
-| `langgraph`              | `backend.py`   | StateGraph workflow engine                    |
-| `langchain`              | `backend.py`   | Core LangChain framework                     |
-| `langchain_community`    | `app.py`       | `ChatOllama` wrapper                          |
-| `langchain-openai`       | `app.py`       | `ChatOpenAI` wrapper                          |
-| `langchain-google-genai` | `app.py`       | `ChatGoogleGenerativeAI` wrapper              |
-| `langchain-anthropic`    | `app.py`       | `ChatAnthropic` wrapper                       |
-| `ollama`                 | `app.py`       | Ollama SDK for model listing                  |
-| `openai`                 | `app.py`       | OpenAI SDK for model listing                  |
-| `google-generativeai`    | `app.py`       | Google GenAI SDK for model listing (deprecated) |
-| `google-genai`           | (unused)       | Listed but not imported anywhere in code      |
-| `anthropic`              | (unused)       | Listed but not imported anywhere in code      |
-| `python-dotenv`          | `app.py`       | Loads `.env` file via `load_dotenv()`         |
-| `streamlit`              | `app.py`       | Web UI framework                              |
+### Model selection behavior
+- User selects provider in sidebar.
+- User can click **Fetch Available Models**:
+   - `Ollama` → `ollama.list()`
+   - `OpenAI` → `OpenAI(api_key).models.list()` filtered to `gpt`/`o1`
+   - `Gemini` → `google.generativeai.list_models()` filtered to `generateContent`
+   - `Anthropic` → curated static list in code
+- If no fetched list exists in session, provider-specific fallback model lists are used.
 
-**Note:** `google-genai` and `anthropic` are in `requirements.txt` but are not directly imported by any source file. `google-generativeai` triggers a `FutureWarning` about deprecation.
+### API key behavior
+- `Ollama`: no API key required.
+- `OpenAI` / `Gemini` / `Anthropic`: key comes from environment variable or manual sidebar input.
+- Environment variable mapping:
+   - `OPENAI_API_KEY`
+   - `GOOGLE_API_KEY`
+   - `ANTHROPIC_API_KEY`
 
-## Setup Instructions
+## 9) Setup & Installation
 
-### 1. Clone the repository
-
-```bash
-git clone <repository-url>
-cd "Natural Language to SQL Data Analyst Agent"
-```
-
-### 2. Create and activate a virtual environment
-
+### 1. Create a virtual environment
 ```bash
 python -m venv venv
 ```
 
+### 2. Activate the virtual environment
 **Windows (PowerShell):**
 ```powershell
 .\venv\Scripts\Activate.ps1
@@ -155,114 +200,85 @@ python -m venv venv
 venv\Scripts\activate.bat
 ```
 
-**Linux / macOS:**
+**Linux/macOS:**
 ```bash
 source venv/bin/activate
 ```
 
 ### 3. Install dependencies
-
 ```bash
 pip install -r requirements.txt
 ```
 
-### 4. Configure API keys
-
-The app reads API keys from environment variables via `python-dotenv`. Create a `.env` file in the project root:
-
+### 4. Optional `.env` file
 ```env
 OPENAI_API_KEY=your_openai_key
 GOOGLE_API_KEY=your_google_key
 ANTHROPIC_API_KEY=your_anthropic_key
 ```
 
-The specific variable names are hardcoded in `app.py`:
-- `Gemini` → `GOOGLE_API_KEY`
-- `OpenAI` → `OPENAI_API_KEY`
-- `Anthropic` → `ANTHROPIC_API_KEY`
-- `Ollama` → no key required (local)
+## 10) Running the Application
 
-If no env variable is found, the sidebar prompts for manual entry.
-
-### 5. Run the application
+Start the app:
 
 ```bash
 streamlit run app.py
 ```
 
-The database `company.db` is auto-created in the working directory on first agent instantiation.
+### What the user sees
+- Sidebar: provider selector, API key controls, model fetch button, model selector.
+- Main area: chat history + chat input.
+- During execution: status steps emitted for `fetch_schema`, `writer`, `guardian`, `executor`, and completion.
+- Assistant response appended to session chat history.
 
-## Running Tests
+## 11) Testing
 
-The test suite uses `pytest` with `pytest-cov`. Tests are in the `tests/` directory.
+### Framework
+- `pytest` test suite under `tests/`.
+- Coverage runs use `pytest-cov`.
 
+### Test files
+- `test_setup_db.py`
+- `test_fetch_schema.py`
+- `test_check_security.py`
+- `test_execute_sql.py`
+- `test_write_sql.py`
+- `test_summarize.py`
+- `test_routing.py`
+- `test_workflow_integration.py`
+- `test_app_helpers.py`
+
+### Commands
 ```bash
-pip install pytest pytest-cov
 python -m pytest tests/ -v
-```
-
-With coverage:
-
-```bash
 python -m pytest tests/ --cov=backend --cov-report=term-missing
 ```
 
-**Test inventory** (126 tests across 9 files):
+### Current validated result in this workspace
+- `126 passed`
+- `backend.py` coverage: `100%` (89/89 statements)
 
-| File                          | Tests | Scope                                       |
-|-------------------------------|-------|---------------------------------------------|
-| `test_setup_db.py`           | 11    | Table creation, schema, seed data, idempotency |
-| `test_fetch_schema.py`       | 9     | Return structure, content, format, empty DB  |
-| `test_check_security.py`     | 24    | Safe/unsafe queries, case insensitivity, false positives |
-| `test_execute_sql.py`        | 16    | Success paths, aggregates, JOINs, error handling |
-| `test_write_sql.py`          | 15    | LLM invocation, prompt content, retry count, markdown stripping |
-| `test_summarize.py`          | 8     | LLM interaction, prompt content, return contract |
-| `test_routing.py`            | 12    | All routing branches, boundary conditions    |
-| `test_workflow_integration.py`| 13   | Happy path, security block, retry, retry exhaustion |
-| `test_app_helpers.py`        | 18    | Model listing, no-key guards, unknown provider handling |
+## 12) Limitations
 
-All tests use isolated temp directories (via `conftest.py` fixtures) to avoid polluting the workspace.
+1. **Keyword coverage is partial**
+    - `check_security` blocks six keywords only: `DROP`, `DELETE`, `TRUNCATE`, `INSERT`, `UPDATE`, `ALTER`.
+2. **Database path is fixed**
+    - `company.db` is hardcoded in setup, schema fetch, and execution paths.
+3. **Database bootstrap runs per agent instance**
+    - `SQLAgent.__init__` calls `setup_db()` every instantiation.
+4. **Schema introspection uses formatted SQL**
+    - `PRAGMA table_info({table_name})` is built via f-string from table names read from `sqlite_master`.
+5. **Error text is injected into prompts**
+    - `summarize_result` includes `error` in LLM prompt context.
+6. **Model list may become stale across provider changes**
+    - Fetched models are stored in `st.session_state.models` and not explicitly cleared when provider changes.
+7. **Dependencies are unpinned**
+    - `requirements.txt` does not lock versions.
 
-## Project Structure
+## 13) Future Improvements (Code-grounded)
 
-```
-├── app.py                  Streamlit frontend: provider selection, API key management, chat UI
-├── backend.py              LangGraph agent: StateGraph, 5 nodes, routing, DB access
-├── requirements.txt        13 dependencies (unpinned)
-├── company.db              SQLite database (auto-generated at runtime)
-├── .env                    API keys (not tracked in git)
-├── .gitignore              Git ignore rules
-├── tests/
-│   ├── __init__.py         Package marker
-│   ├── conftest.py         Shared fixtures (DB isolation, mock LLM, state factory)
-│   ├── test_setup_db.py
-│   ├── test_fetch_schema.py
-│   ├── test_check_security.py
-│   ├── test_execute_sql.py
-│   ├── test_write_sql.py
-│   ├── test_summarize.py
-│   ├── test_routing.py
-│   ├── test_workflow_integration.py
-│   └── test_app_helpers.py
-└── README.md
-```
-
-## Known Limitations
-
-The following are documented from static analysis and testing of the current codebase:
-
-1. **Incomplete keyword coverage** — The system prevents multi-statement execution via SQLite's single-statement constraint (`sqlite3.Cursor.execute()` raises `ProgrammingError` on multi-statement input) and blocks destructive operations via word-boundary keyword filtering for `DROP`, `DELETE`, `TRUNCATE`, `INSERT`, `UPDATE`, and `ALTER`. However, non-destructive but potentially unsafe statements such as `CREATE`, `ATTACH`, and `PRAGMA` are not currently blocked by `check_security`.
-
-2. **PRAGMA injection** — `fetch_schema` uses an f-string (`f"PRAGMA table_info({table_name})"`) where `table_name` comes from `sqlite_master`. In the current codebase this is safe because table names are self-generated, but the pattern is fragile if the code is extended.
-
-3. **`setup_db()` called per agent instantiation** — Every `SQLAgent.__init__()` call runs `setup_db()`, which opens a connection, runs `CREATE TABLE IF NOT EXISTS` and `INSERT OR IGNORE` statements, then closes. This adds overhead when creating agents per request.
-
-4. **Hardcoded database path** — The path `"company.db"` is a string literal in `setup_db()`, `fetch_schema()`, and `execute_sql()`. It is not configurable.
-
-5. **Error messages passed to LLM** — `summarize_result` includes `state['error']` in the LLM prompt. Raw database error messages could potentially influence LLM output.
-
-6. **Stale model list in session state** — `st.session_state.models` is set by "Fetch Available Models" but is not cleared when switching providers, so stale models from a previous provider may appear.
-
-7. **Unpinned dependencies** — All 13 entries in `requirements.txt` lack version pins, which may cause reproducibility issues.
-
-8. **Deprecated SDK** — `google-generativeai` is deprecated and produces a `FutureWarning` at import time. The replacement is `google-genai`.
+- Expand or redesign SQL safety controls beyond the current keyword list.
+- Make database path configurable instead of hardcoded `company.db`.
+- Decouple database bootstrap from `SQLAgent` construction.
+- Invalidate/reset provider model cache on provider switch.
+- Pin dependency versions for reproducible installs.
