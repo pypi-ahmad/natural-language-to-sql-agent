@@ -16,6 +16,8 @@ env/
 
 # Database (Generated on run)
 company.db
+*.db
+*.db-journal
 
 # Streamlit
 .streamlit/
@@ -23,3 +25,14 @@ company.db
 # OS generated files
 .DS_Store
 Thumbs.db
+
+# Tooling caches
+.mypy_cache/
+.pytest_cache/
+.ruff_cache/
+.coverage
+coverage.xml
+htmlcov/
+
+# uv
+.uv-cache/

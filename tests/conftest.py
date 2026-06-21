@@ -1,46 +1,58 @@
-"""
-Shared fixtures for the SQL Agent test suite.
+"""Shared pytest fixtures and helpers."""
 
-Provides:
-- Database isolation via tmp_path + monkeypatch.chdir
-- Mock LLM for deterministic testing
-- Pre-built SQLAgent instances
-- State factory for creating AgentState dicts
-"""
-import pytest
+from __future__ import annotations
+
+from collections.abc import Iterator
+from pathlib import Path
 from unittest.mock import MagicMock
 
+import pytest
+
+from nl2sql_agent.config import reset_settings_cache
+from nl2sql_agent.db import Database
+
+
+@pytest.fixture(autouse=True)
+def _reset_settings(monkeypatch: pytest.MonkeyPatch) -> None:
+    """Ensure tests don't leak env-var settings between runs."""
+    # Clear any cached settings
+    reset_settings_cache()
+    # Make sure no API keys are picked up from the environment.
+    for var in (
+        "NL2SQL_PROVIDER", "NL2SQL_MODEL",
+        "OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY",
+    ):
+        monkeypatch.delenv(var, raising=False)
+    yield
+    reset_settings_cache()
+
 
 @pytest.fixture
-def tmp_db_dir(tmp_path, monkeypatch):
-    """
-    Redirect CWD to tmp_path so all relative file operations
-    (e.g., sqlite3.connect('company.db')) resolve inside the temp directory.
-    Prevents polluting the real workspace.
-    """
+def tmp_db_path(tmp_path: Path, monkeypatch: pytest.MonkeyPatch) -> Path:
+    """CWD + db path inside tmp so tests don't pollute the real DB."""
     monkeypatch.chdir(tmp_path)
-    return tmp_path
+    return tmp_path / "company.db"
 
 
 @pytest.fixture
-def seeded_db(tmp_db_dir):
-    """
-    Create and seed the company database in a temp directory.
-    Calls backend.setup_db() to create tables and insert sample data.
-    Returns the tmp directory path.
-    """
-    from backend import setup_db
-    setup_db()
-    return tmp_db_dir
+def seeded_db(tmp_db_path: Path) -> Database:
+    """Database instance with the demo schema and seed data."""
+    db = Database(tmp_db_path)
+    db.ensure_schema(seed=True)
+    return db
 
 
 @pytest.fixture
-def mock_llm():
-    """
-    Mock LLM that returns a response with .content = 'SELECT 1' by default.
-    Tests can override via mock_llm.invoke.return_value.content = "..."
-    or mock_llm.invoke.side_effect = [resp1, resp2, ...]
-    """
+def empty_db(tmp_db_path: Path) -> Database:
+    """Database with schema only, no seed data."""
+    db = Database(tmp_db_path)
+    db.ensure_schema(seed=False)
+    return db
+
+
+@pytest.fixture
+def mock_llm() -> MagicMock:
+    """Mock LLM whose ``invoke`` returns ``content="SELECT 1"`` by default."""
     llm = MagicMock()
     response = MagicMock()
     response.content = "SELECT 1"
@@ -49,35 +61,32 @@ def mock_llm():
 
 
 @pytest.fixture
-def agent(seeded_db, mock_llm):
-    """
-    SQLAgent instance with a mock LLM and a seeded temp database.
-    The database is in an isolated tmp directory.
-    """
-    from backend import SQLAgent
-    return SQLAgent(mock_llm)
-
-
-@pytest.fixture
 def make_state():
-    """
-    Factory fixture for creating AgentState-compatible dicts.
-    All 7 keys are populated with safe defaults.
-    Override any key via keyword arguments.
+    """Factory for :class:`AgentState`-compatible dicts with safe defaults."""
+    from nl2sql_agent.agent import AgentState
 
-    Usage:
-        state = make_state(question="Who earns the most?", sql_query="SELECT ...")
-    """
-    def _make(**overrides):
-        defaults = {
+    def _make(**overrides) -> AgentState:
+        defaults: AgentState = {
             "question": "",
             "schema": "",
             "sql_query": "",
-            "sql_safe": False,
-            "result": "",
             "error": "",
             "retry_count": 0,
+            "max_retries": 3,
         }
-        defaults.update(overrides)
+        defaults.update(overrides)  # type: ignore[typeddict-item]
         return defaults
+
     return _make
+
+
+@pytest.fixture
+def example_questions() -> Iterator[str]:
+    """A small set of canonical NL2SQL questions used in integration tests."""
+    yield from iter(
+        [
+            "How many employees are in each department?",
+            "What is the total salary in Engineering?",
+            "Who is the highest-paid employee overall?",
+        ]
+    )
