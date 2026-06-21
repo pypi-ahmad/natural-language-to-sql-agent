@@ -1,0 +1,191 @@
+[project]
+name = "nl2sql-agent"
+version = "0.2.0"
+description = "Production-grade natural-language to SQL data analyst agent with local Ollama support"
+readme = "README.md"
+requires-python = ">=3.12.10,<3.13"
+license = { file = "LICENSE" }
+authors = [
+    { name = "Ahmad" },
+]
+keywords = ["nlp", "sql", "agent", "ollama", "langgraph", "streamlit", "text2sql"]
+classifiers = [
+    "Development Status :: 4 - Beta",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "License :: OSI Approved :: MIT License",
+    "Operating System :: OS Independent",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Database",
+    "Topic :: Scientific/Engineering :: Artificial Intelligence",
+]
+
+dependencies = [
+    # LLM providers (LangChain ecosystem)
+    "langchain>=0.3.27,<0.4",
+    "langchain-core>=0.3.74,<0.4",
+    "langchain-community>=0.3.27,<0.4",
+    "langchain-ollama>=0.2.3,<0.4",
+    "langchain-openai>=0.3.32,<0.4",
+    "langchain-google-genai>=2.1.10,<3",
+    "langchain-anthropic>=0.3.18,<0.4",
+    # LangGraph workflow
+    "langgraph>=0.6.7,<0.7",
+    # Native SDKs (for model discovery and direct API use)
+    "ollama>=0.5.4,<0.6",
+    "openai>=1.84.0,<2",
+    "anthropic>=0.52.0,<1",
+    "google-genai>=1.27.0,<2",
+    # UI
+    "streamlit>=1.46.1,<2",
+    # Config, validation, logging
+    "pydantic>=2.11.7,<3",
+    "pydantic-settings>=2.10.1,<3",
+    "loguru>=0.7.3,<0.8",
+    "python-dotenv>=1.1.1,<2",
+    # SQL safety
+    "sqlglot>=27.16.0,<28",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.4.2,<9",
+    "pytest-cov>=6.2.1,<7",
+    "pytest-asyncio>=1.1.0,<2",
+    "pytest-mock>=3.14.1,<4",
+    "ruff>=0.13.0,<0.14",
+    "mypy>=1.18.0,<2",
+    "freezegun>=1.5.2,<2",
+]
+
+[project.scripts]
+nl2sql-agent = "nl2sql_agent.cli:main"
+
+[project.urls]
+Repository = "https://github.com/ahmad/natural-language-to-sql-agent"
+
+[build-system]
+requires = ["hatchling>=1.27.0,<2"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build.targets.wheel]
+packages = ["src/nl2sql_agent"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "src/nl2sql_agent",
+    "README.md",
+    "LICENSE",
+    "CHANGELOG.md",
+]
+
+# ----- Tooling -----
+
+[tool.ruff]
+target-version = "py312"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "B",   # flake8-bugbear
+    "C4",  # flake8-comprehensions
+    "UP",  # pyupgrade
+    "N",   # pep8-naming
+    "SIM", # flake8-simplify
+    "RUF", # ruff-specific
+    "PT",  # pytest style
+    "TID", # tidy imports
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+    "B008",  # function call in default argument (Pydantic Field)
+    "RUF012", # mutable class attributes
+    "PT011", # pytest.raises too broad (we narrow where needed)
+    "TID252", # relative imports inside the same package are idiomatic
+]
+
+[tool.ruff.lint.per-file-ignores]
+"tests/**/*.py" = ["N802", "N803", "N806", "RUF043"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["nl2sql_agent"]
+
+[tool.mypy]
+python_version = "3.12"
+strict = true
+warn_unused_ignores = true
+warn_redundant_casts = true
+disallow_untyped_defs = true
+ignore_missing_imports = true
+plugins = ["pydantic.mypy"]
+exclude = ["build/", "dist/", ".venv/", "tests/"]
+
+[[tool.mypy.overrides]]
+module = [
+    "nl2sql_agent.ui.*",
+    "nl2sql_agent.cli",
+    "streamlit.*",
+    "ollama.*",
+    "openai.*",
+    "anthropic.*",
+    "google.*",
+    "langchain_community.*",
+    "langchain_core.*",
+    "langchain_ollama.*",
+    "langchain_openai.*",
+    "langchain_google_genai.*",
+    "langchain_anthropic.*",
+    "langgraph.*",
+]
+ignore_missing_imports = true
+disallow_untyped_defs = false
+disallow_untyped_calls = false
+check_untyped_defs = false
+
+[tool.pytest.ini_options]
+minversion = "8.0"
+testpaths = ["tests"]
+pythonpath = ["src"]
+addopts = [
+    "-ra",
+    "--strict-markers",
+    "--strict-config",
+    "--showlocals",
+    "--tb=short",
+]
+markers = [
+    "integration: marks tests that require external services (Ollama)",
+    "slow: marks tests as slow",
+]
+filterwarnings = [
+    "error",
+    "ignore::DeprecationWarning:langchain.*",
+    "ignore::DeprecationWarning:google.*",
+    "ignore::PendingDeprecationWarning",
+]
+
+[tool.coverage.run]
+source = ["src/nl2sql_agent"]
+branch = true
+omit = [
+    "*/tests/*",
+    "*/__main__.py",
+]
+
+[tool.coverage.report]
+precision = 1
+show_missing = true
+skip_covered = false
+exclude_lines = [
+    "pragma: no cover",
+    "raise NotImplementedError",
+    "if __name__ == .__main__.:",
+    "if TYPE_CHECKING:",
+    "\\.\\.\\.",
+]
