@@ -193,7 +193,7 @@ def build_parser() -> argparse.ArgumentParser:
     p_cfg.set_defaults(func=cmd_config)
 
     p_serve = sub.add_parser("serve", help="Launch the Streamlit UI.")
-    p_serve.add_argument("--port", type=int, default=8501)
+    p_serve.add_argument("--port", type=int, default=8512)
     p_serve.add_argument("--host", default="127.0.0.1")
     p_serve.set_defaults(func=cmd_serve)
 

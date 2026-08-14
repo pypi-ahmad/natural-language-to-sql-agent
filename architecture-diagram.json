@@ -20,7 +20,7 @@
   },
   "components": [
     {"id": "user", "type": "external", "label": "Operator", "sublabel": "Question + SQL approval", "pos": [40, 330], "size": [150, 70]},
-    {"id": "clients", "type": "frontend", "label": "CLI / Streamlit", "sublabel": "Chat · Costs · Sessions · Insights · Pricing", "pos": [250, 320], "size": [210, 90], "sources": [{"path": "src/nl2sql_agent/ui/streamlit_app.py", "label": "UI entrypoint"}, {"path": "src/nl2sql_agent/cli.py", "label": "CLI"}]},
+    {"id": "clients", "type": "frontend", "label": "CLI / Streamlit", "sublabel": "Chat · Costs · Sessions · Insights · Pricing", "tag": "127.0.0.1:8512", "pos": [250, 320], "size": [210, 90], "sources": [{"path": "src/nl2sql_agent/ui/streamlit_app.py", "label": "UI entrypoint"}, {"path": "src/nl2sql_agent/cli.py", "label": "CLI"}]},
     {"id": "agent", "type": "backend", "label": "LangGraph Agent", "sublabel": "schema → writer → guardian → executor → summary", "pos": [530, 310], "size": [230, 110], "sources": [{"path": "src/nl2sql_agent/agent/workflow.py", "label": "Workflow"}]},
     {"id": "guardian", "type": "security", "label": "SQL Guardian", "sublabel": "AST policy · physical-table allowlist · LIMIT", "pos": [830, 320], "size": [220, 90], "sources": [{"path": "src/nl2sql_agent/security/sql_validator.py", "label": "Validator"}]},
     {"id": "databases", "type": "database", "label": "Read-only Databases", "sublabel": "SQLite mode=ro · PostgreSQL verified transaction", "pos": [1120, 310], "size": [250, 110], "sources": [{"path": "src/nl2sql_agent/db/database.py", "label": "Backend contract"}]},

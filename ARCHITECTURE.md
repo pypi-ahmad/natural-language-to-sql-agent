@@ -130,6 +130,9 @@ a session-owned temporary directory. Changing the database, provider, or model
 starts a new saved context; changing the allowlist invalidates pending SQL.
 Saved history retains messages, approved SQL, pricing snapshots, and bounded
 metrics, but never raw rows, CSV payloads, uploads, schemas, keys, or DSNs.
+The project Streamlit configuration and `nl2sql-agent serve` wrapper both
+default to the loopback endpoint `127.0.0.1:8512`; command-line options can
+override the port while the wrapper continues to reject non-loopback hosts.
 
 ---
 

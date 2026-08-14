@@ -103,7 +103,7 @@ ollama pull qwen3.5:4b         # 3.4 GB — better quality, also fits
 ### Run the Streamlit UI
 
 On Windows, double-click `Launch NL2SQL Agent.cmd`. It starts the locked `uv`
-environment, opens the app on `127.0.0.1:8501`, and keeps a visible log window;
+environment, opens the app on `127.0.0.1:8512`, and keeps a visible log window;
 press Ctrl+C there to stop it.
 
 The equivalent command on any platform is:
@@ -112,7 +112,7 @@ The equivalent command on any platform is:
 uv run nl2sql-agent serve
 ```
 
-Open http://localhost:8501, choose **Ollama** as the provider, pick
+Open http://localhost:8512, choose **Ollama** as the provider, pick
 `phi4-mini:3.8b`, and start asking.
 
 ### Or use the CLI for a single question
@@ -392,11 +392,11 @@ is fully tested in `tests/unit/test_sql_validator.py`.
 On Windows, double-click `Launch NL2SQL Agent.cmd`. For terminal launches:
 
 ```bash
-# Default port 8501
+# Default port 8512 (from .streamlit/config.toml)
 uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py
 
 # Custom port
-uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py --server.port 8502
+uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py --server.port 8513
 ```
 
 ### What the UI shows

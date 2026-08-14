@@ -110,7 +110,7 @@ class TestParser:
 
     def test_serve_defaults(self):
         args = cli.build_parser().parse_args(["serve"])
-        assert args.port == 8501
+        assert args.port == 8512
         assert args.host == "127.0.0.1"
 
     def test_serve_rejects_non_loopback_host(self):

@@ -1,5 +1,10 @@
 # Upgrade Summary — v0.1 → v0.2
 
+> **Current main:** The Streamlit UI now defaults to `127.0.0.1:8512`. This
+> applies to the Windows launcher, `nl2sql-agent serve`, and direct Streamlit
+> launches using the repository configuration. Existing `--port` overrides
+> remain supported.
+
 > **v0.5.0 addendum:** Agnes AI is available as a fixed-endpoint hosted
 > provider with the strictly allow-listed `agnes-2.5-flash` model. Set
 > `AGNES_API_KEY` (or `NL2SQL_AGNES_API_KEY`) and select `agnes` in the CLI or

@@ -119,7 +119,7 @@ Files a new contributor should learn first (in practical reading order):
 
 | File/Directory Path | Primary Responsibility | Key Classes/Functions | Important Configs/Variables |
 |---|---|---|---|
-| `Launch NL2SQL Agent.cmd` | Windows double-click startup | checks `uv`, then runs `nl2sql-agent serve` | locked environment, loopback port 8501, visible logs |
+| `Launch NL2SQL Agent.cmd` | Windows double-click startup | checks `uv`, then runs `nl2sql-agent serve` | locked environment, loopback port 8512, visible logs |
 | `pyproject.toml` | Packaging, dependencies, scripts, lint/type/test config | `[project.scripts] nl2sql-agent` | `requires-python`, direct dependencies, transitive constraints, Ruff/ty/Pytest settings |
 | `src/nl2sql_agent/cli.py` | CLI entrypoint for ask/config/serve/eval | `main`, `cmd_ask`, `cmd_eval`, `cmd_config`, `cmd_serve` | Provider/model overrides, eval threshold, report and cost options |
 | `src/nl2sql_agent/ui/streamlit_app.py` | Approval-first multipage Streamlit orchestration | `main`, `_resolve_database`, `_build_agent` | Chat context, temporary upload workspace, pending SQL, active database context |
@@ -510,7 +510,7 @@ uv run nl2sql-agent config
 #### Serve command wrapper (invokes Streamlit via CLI)
 
 ```bash
-uv run nl2sql-agent serve --host 127.0.0.1 --port 8501
+uv run nl2sql-agent serve --host 127.0.0.1 --port 8512
 ```
 
 #### Run the result and safety corpus

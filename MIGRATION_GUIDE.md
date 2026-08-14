@@ -74,10 +74,12 @@ Not available.
 uv run nl2sql-agent ask "How many employees are in Engineering?"
 uv run nl2sql-agent ask --show-sql --provider openai --model gpt-5.6-luna "Total salary?"
 uv run nl2sql-agent config           # show resolved configuration
-uv run nl2sql-agent serve --port 8501 # launch the UI
+uv run nl2sql-agent serve --port 8512 # launch the UI
 ```
 
 On Windows, `Launch NL2SQL Agent.cmd` is the equivalent double-click entrypoint.
+The launcher and `nl2sql-agent serve` now default to `127.0.0.1:8512`.
+Pass `--port` explicitly when another local port is required.
 
 ---
 
