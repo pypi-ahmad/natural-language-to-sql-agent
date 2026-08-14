@@ -1,9 +1,0 @@
-{
-  "nodes": [
-    {"id":"pipeline:.github/workflows/ci.yml","type":"pipeline","name":"ci.yml","filePath":".github/workflows/ci.yml","summary":"GitHub Actions verification workflow that synchronizes the locked environment, runs quality checks and tests, audits dependencies, and builds the package on pushes and pull requests.","tags":["ci-cd","testing","security","build-system"],"complexity":"simple"}
-  ],
-  "edges": [
-    {"source":"pipeline:.github/workflows/ci.yml","target":"file:tests/unit/test_agent.py","type":"triggers","direction":"forward","weight":0.6},
-    {"source":"pipeline:.github/workflows/ci.yml","target":"config:pyproject.toml","type":"triggers","direction":"forward","weight":0.6}
-  ]
-}

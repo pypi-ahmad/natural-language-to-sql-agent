@@ -1,7 +1,7 @@
 {
   "version": "1.0.0",
-  "gitCommitHash": "324ed470a375aea02fc013d52deb6a6246d3588d",
-  "generatedAt": "2026-08-14T12:52:41.803Z",
+  "gitCommitHash": "d17ad6017e71c5374fa100d78dff91bdaa7490e7",
+  "generatedAt": "2026-08-14T13:25:26.148Z",
   "files": {
     ".code-review-graph/graph.db": {
       "filePath": ".code-review-graph/graph.db",
@@ -15,12 +15,12 @@
     },
     ".codegraph/codegraph.db": {
       "filePath": ".codegraph/codegraph.db",
-      "contentHash": "4eefa7977f43e962240a1474524c7072e78d9f71ea09d07441a87eb88426a627",
+      "contentHash": "3c6d224a71a994dde18293581081a27737d4ac312fe2abb7d0354400bfd5b356",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 10634,
+      "totalLines": 10714,
       "hasStructuralAnalysis": false
     },
     ".github/dependabot.yml": {
@@ -45,7 +45,7 @@
     },
     ".pre-commit-config.yaml": {
       "filePath": ".pre-commit-config.yaml",
-      "contentHash": "3638b08335f530e24f019de6d2466f647efc19ab33c53959c3a5678dd7c1111f",
+      "contentHash": "53d9bebb09634ca5054e06c419464ded960341dba930e91f0f9a8590ff407093",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -65,7 +65,7 @@
     },
     ".secrets.baseline": {
       "filePath": ".secrets.baseline",
-      "contentHash": "9d7bdcea8b739e346f962e9f2e21302b522b91950826a11d8a1a0c737a5b6b53",
+      "contentHash": "6f278303d526a24437452744701146e35aec79542190f8d71f912a771f0df12a",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -85,22 +85,22 @@
     },
     "ARCHITECTURE.md": {
       "filePath": "ARCHITECTURE.md",
-      "contentHash": "94ecf778fcb5bd9dfbf5b3378b10fe1b760b7fa6663a01db209b32146932438f",
+      "contentHash": "b4b195b1582ab4b2afe81e89e89f24e36dd0aec479dd7701c19ab0816f13526d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 322,
+      "totalLines": 324,
       "hasStructuralAnalysis": true
     },
     "CHANGELOG.md": {
       "filePath": "CHANGELOG.md",
-      "contentHash": "3e13b99f61f572f9d0eaa3ec4f53a4652358ffa319228fd45107119d5d6eca59",
+      "contentHash": "1e90bb7a30291db7ad2a70a411785c01756c4eff61dfec3ef3de3243a378fbf2",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 218,
+      "totalLines": 240,
       "hasStructuralAnalysis": true
     },
     "CODE_OF_CONDUCT.md": {
@@ -135,37 +135,37 @@
     },
     "MIGRATION_GUIDE.md": {
       "filePath": "MIGRATION_GUIDE.md",
-      "contentHash": "83e6e0e8c975ddb4a5fdaf284db0651bd23d204c721fbffde59b6eac56179918",
+      "contentHash": "b1fc84723baf1f7934930ebad35cfe54a737857d18b2a6f420bf76a7fc6ead3a",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 240,
+      "totalLines": 242,
       "hasStructuralAnalysis": true
     },
     "README.md": {
       "filePath": "README.md",
-      "contentHash": "5de8183432ff2d1f1590777de352e71ef6683117ac61fb53298682dae1f60137",
+      "contentHash": "3362ce1cc3630b08cdb3859b7478eb770722e97da85f3c58a0901755b0ca1d14",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 662,
+      "totalLines": 667,
       "hasStructuralAnalysis": true
     },
     "RELEASE_NOTES.md": {
       "filePath": "RELEASE_NOTES.md",
-      "contentHash": "cc23b00ece581ef0062ae846f869f490d6059a47d677e0c6b6112da628cdac2f",
+      "contentHash": "cfed464d75596d5c8ad335ef1611393fe9dbff153814f65cfb09ec751c2380ee",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 132,
+      "totalLines": 148,
       "hasStructuralAnalysis": true
     },
     "SECURITY.md": {
       "filePath": "SECURITY.md",
-      "contentHash": "fcbe0424fba9a9b066723fe7f311ae89bbde686a63561e4cab62d22636e0ac00",
+      "contentHash": "359b915bfa42078a9d36f4c01302fca3b4b8917272309d40e9d060bcf534fe23",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -175,27 +175,27 @@
     },
     "UPGRADE_SUMMARY.md": {
       "filePath": "UPGRADE_SUMMARY.md",
-      "contentHash": "5835910aa61c577b00b344c4065e9c39e74e01badf0840ba48d409752945ebf5",
+      "contentHash": "e702db44570943265cbc2afec56dd2766618ea56adb4df2cd4028c075ffaf9ec",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 215,
+      "totalLines": 223,
       "hasStructuralAnalysis": true
     },
     "ZERO_TO_HERO_STUDY_HANDBOOK.md": {
       "filePath": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
-      "contentHash": "85b22bdf16c659a3f26125e539415b4adf8549ef024a3d68e24f66683b7e2893",
+      "contentHash": "b195566244635507f523476556dd11a3d438b839a69bf3eadc6949e0a1ec604c",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 650,
+      "totalLines": 656,
       "hasStructuralAnalysis": true
     },
     "architecture-diagram.html": {
       "filePath": "architecture-diagram.html",
-      "contentHash": "e07c36d2fbbec7a285fa5128b8f1c22bf3d1fb8a55fcc01b8d77db6dceaf2677",
+      "contentHash": "b6606ec4bfb9ecefd05ffb7f521851cda1af2372457256cb12fdb91664d611cc",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -205,7 +205,7 @@
     },
     "architecture-diagram.json": {
       "filePath": "architecture-diagram.json",
-      "contentHash": "74207344fccc334a5c05e28771ab2af9fd805452b92f00b11accdb317e7f5512",
+      "contentHash": "50acefff43e4824a3471eaf79a9265834ea2a603ee2d448ca6301f84e9517b52",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -215,17 +215,17 @@
     },
     "graphify-out/.graphify_labels.json": {
       "filePath": "graphify-out/.graphify_labels.json",
-      "contentHash": "e3c6d2cb9d6c7de4a37f9e7f50abddde763fb561e4f967d275aa49512e6fcaa7",
+      "contentHash": "7f5c9e86ab811d769b54ef85e61b18ee25ab093e6b9ec2623e3f1c0c26ecd41d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 1,
+      "totalLines": 63,
       "hasStructuralAnalysis": true
     },
     "graphify-out/.graphify_labels.json.sig": {
       "filePath": "graphify-out/.graphify_labels.json.sig",
-      "contentHash": "7060fea412ca471d6a909bf71ac44612eb0a4fb640e76b96dc89de27dd1fce5c",
+      "contentHash": "05fb35366a70eefc8c60fd30519ec35bde7dc86b22d72e8b1167f9ac521dff0e",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -245,7 +245,7 @@
     },
     "graphify-out/.graphify_root": {
       "filePath": "graphify-out/.graphify_root",
-      "contentHash": "3ce378cf573cd998f81eb1b765a31f0429ae7fa0173d9eb00f0fc493dae2bddb",
+      "contentHash": "cdb4ee2aea69cc6a83331bbe96dc2caa9a299d21329efb0336fc02a82e1839a8",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -255,12 +255,12 @@
     },
     "graphify-out/GRAPH_REPORT.md": {
       "filePath": "graphify-out/GRAPH_REPORT.md",
-      "contentHash": "5b7a4bbc5eab117025e35ec88074324015fa39c7e8e78d79b6150f5e34519461",
+      "contentHash": "1b625239a0d456cc3d1f3ee69f503621577d729b72f1f1ce9e26b3b20e453a99",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 304,
+      "totalLines": 283,
       "hasStructuralAnalysis": true
     },
     "graphify-out/cost.json": {
@@ -275,7 +275,7 @@
     },
     "graphify-out/graph.html": {
       "filePath": "graphify-out/graph.html",
-      "contentHash": "ddca87dc8c55191a2dea50abd3d2ad059add2d3f105487821941c8c816b75490",
+      "contentHash": "de777850860a7f520fbad37978772190b2f46261910e67a3c4fc7e7b726d8ec4",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -285,27 +285,27 @@
     },
     "graphify-out/graph.json": {
       "filePath": "graphify-out/graph.json",
-      "contentHash": "151ed15d19668862ce13747da09838c69f6402bf00ccb58ea7bd04884b4bef26",
+      "contentHash": "da9ade42a2bb3a1b12fbb2a12eb11c952bf9168f04c06c669c68a86044ccff4a",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 30382,
+      "totalLines": 30778,
       "hasStructuralAnalysis": true
     },
     "graphify-out/manifest.json": {
       "filePath": "graphify-out/manifest.json",
-      "contentHash": "d41ee8e11699f4a9dc7ed79e996c1e52c257cbe4d6ff52437d20baa780eab61d",
+      "contentHash": "51cde3032bf750376957be0742eed0843c4179c6de0ff5fa105174632d7bcfe9",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 732,
+      "totalLines": 467,
       "hasStructuralAnalysis": true
     },
     "pyproject.toml": {
       "filePath": "pyproject.toml",
-      "contentHash": "55b889396f4e539e4c144cd644a29535baec86bcff5e1d9d2e2fac1b0243e754",
+      "contentHash": "8d540d2ad5f362ae5ca06e6c59860e634122ef8176f2b77fa9ef77ed5a136f56",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -578,7 +578,7 @@
     },
     "src/nl2sql_agent/cli.py": {
       "filePath": "src/nl2sql_agent/cli.py",
-      "contentHash": "de52294768b4ea0ed5ae24fa5e02ba893726fce55862e87726ee6d33dbbae8ed",
+      "contentHash": "18996505b6ef2d4fd6fe8f67792d41d3696bae1f49ce8b9a684789c11c0a927b",
       "functions": [
         {
           "name": "_pass_rate",
@@ -598,7 +598,7 @@
           ],
           "returnType": "NL2SQLAgent",
           "exported": true,
-          "lineCount": 32
+          "lineCount": 34
         },
         {
           "name": "cmd_ask",
@@ -616,7 +616,7 @@
           ],
           "returnType": "int",
           "exported": true,
-          "lineCount": 15
+          "lineCount": 16
         },
         {
           "name": "cmd_serve",
@@ -757,7 +757,7 @@
         "build_parser",
         "main"
       ],
-      "totalLines": 219,
+      "totalLines": 222,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/config/__init__.py": {
@@ -787,7 +787,7 @@
     },
     "src/nl2sql_agent/config/settings.py": {
       "filePath": "src/nl2sql_agent/config/settings.py",
-      "contentHash": "43feca354256ec803832799280634a344405e4b716756fb7a29e54737980fee9",
+      "contentHash": "35cc2922a523e940bc916204d2177a1c46f42da3d7aea1fa4dd9a41a382930ac",
       "functions": [
         {
           "name": "supported_models_for",
@@ -838,7 +838,7 @@
           ],
           "returnType": "str | None",
           "exported": true,
-          "lineCount": 10
+          "lineCount": 11
         },
         {
           "name": "env_var_value",
@@ -871,6 +871,7 @@
             "anthropic_api_key",
             "hf_token",
             "xai_api_key",
+            "agnes_api_key",
             "db_path",
             "db_seed",
             "db_max_rows",
@@ -906,7 +907,7 @@
             "state_path"
           ],
           "exported": true,
-          "lineCount": 201
+          "lineCount": 206
         }
       ],
       "imports": [
@@ -974,7 +975,7 @@
         "env_var_for",
         "env_var_value"
       ],
-      "totalLines": 304,
+      "totalLines": 311,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/db/__init__.py": {
@@ -1735,7 +1736,7 @@
     },
     "src/nl2sql_agent/llm/factory.py": {
       "filePath": "src/nl2sql_agent/llm/factory.py",
-      "contentHash": "9831a7b6724a003f405eb0eb6776291a179aeaf9599bc1204565be2d9c8e3584",
+      "contentHash": "95e31d67790827238ea1092465be683c4381a163282beb04d954cb2425fdd3ab",
       "functions": [
         {
           "name": "build_chat_model",
@@ -1748,7 +1749,7 @@
           ],
           "returnType": "BaseChatModel",
           "exported": true,
-          "lineCount": 57
+          "lineCount": 59
         },
         {
           "name": "_normalize_provider",
@@ -1814,6 +1815,15 @@
           "lineCount": 10
         },
         {
+          "name": "_build_agnes",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatOpenAI",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
           "name": "_build_openai_compatible",
           "params": [
             "api_key",
@@ -1833,7 +1843,7 @@
           ],
           "returnType": "Iterable[str]",
           "exported": true,
-          "lineCount": 10
+          "lineCount": 11
         },
         {
           "name": "list_models",
@@ -1913,17 +1923,18 @@
         "_build_anthropic",
         "_build_huggingface",
         "_build_xai",
+        "_build_agnes",
         "_build_openai_compatible",
         "fallback_models",
         "list_models",
         "_list_ollama"
       ],
-      "totalLines": 284,
+      "totalLines": 307,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/llm/pricing.py": {
       "filePath": "src/nl2sql_agent/llm/pricing.py",
-      "contentHash": "d628d3b6a52608347aacf02b226e2e91ff00b50a9e46347c7f784d692da3db12",
+      "contentHash": "3e8a835cd047033623ea4a56280a98984249b41d0b143380fdfc956f065c8b2b",
       "functions": [
         {
           "name": "_d",
@@ -2118,7 +2129,7 @@
         "calculate_cost",
         "estimate_model_cost"
       ],
-      "totalLines": 303,
+      "totalLines": 316,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/persistence.py": {
@@ -2696,7 +2707,7 @@
     },
     "src/nl2sql_agent/ui/components.py": {
       "filePath": "src/nl2sql_agent/ui/components.py",
-      "contentHash": "a5cdd5b43073d6f8991f4e25f5ad79a6bb704fd0250ac810892e6cfacf7dd2e0",
+      "contentHash": "b571be61b9b2c0a56ae60a6eb57dd013025b5aa4621389f2de5867cb3c8cd43f",
       "functions": [
         {
           "name": "render_sidebar",
@@ -2706,7 +2717,7 @@
           ],
           "returnType": "dict[str, Any]",
           "exported": true,
-          "lineCount": 101
+          "lineCount": 103
         },
         {
           "name": "_default_models",
@@ -2801,7 +2812,7 @@
         "render_run_steps",
         "render_run_result"
       ],
-      "totalLines": 267,
+      "totalLines": 269,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/ui/database_upload.py": {
@@ -2876,7 +2887,7 @@
     },
     "src/nl2sql_agent/ui/pages.py": {
       "filePath": "src/nl2sql_agent/ui/pages.py",
-      "contentHash": "cb78bdb955a49fd88c8c9ef019400f995f2e84c29fa64c7f2961e93b954a9683",
+      "contentHash": "20262da4aebf6bc9bcda1c89d6e1d51dd0055c7683660e247ce6453c1a2e05b3",
       "functions": [
         {
           "name": "_store",
@@ -2897,7 +2908,7 @@
           "params": [],
           "returnType": "None",
           "exported": true,
-          "lineCount": 71
+          "lineCount": 72
         },
         {
           "name": "insights_page",
@@ -3017,12 +3028,12 @@
         "_rules_from_editor",
         "pricing_page"
       ],
-      "totalLines": 366,
+      "totalLines": 367,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/ui/streamlit_app.py": {
       "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "contentHash": "e1941e08f0f2fb26cf09e2eea4b857d2caf4721f559777f4e38e57074669135b",
+      "contentHash": "1d286cfc64bc969796836b555ab113642b9d1a1fb216bc664bcb30ea53c6c414",
       "functions": [
         {
           "name": "_init_session_state",
@@ -3063,7 +3074,7 @@
           ],
           "returnType": "Settings",
           "exported": true,
-          "lineCount": 21
+          "lineCount": 23
         },
         {
           "name": "_resolve_database",
@@ -3305,7 +3316,7 @@
         "_chat_page",
         "main"
       ],
-      "totalLines": 646,
+      "totalLines": 648,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/utils/__init__.py": {
@@ -3684,7 +3695,7 @@
     },
     "tests/integration/test_ollama_live.py": {
       "filePath": "tests/integration/test_ollama_live.py",
-      "contentHash": "ae8aa197dcbd9b5431170585a12135f299b5cd29f5b49e830e58970f746c49fc",
+      "contentHash": "212023e62efb576de403d80634e1a1d0982664b369e3dd7306614c3be8afa966",
       "functions": [
         {
           "name": "_ollama_alive",
@@ -3710,6 +3721,14 @@
           "returnType": "Settings",
           "exported": true,
           "lineCount": 9
+        },
+        {
+          "name": "live_llm",
+          "params": [
+            "live_settings"
+          ],
+          "exported": true,
+          "lineCount": 8
         }
       ],
       "classes": [
@@ -3722,10 +3741,16 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 36
+          "lineCount": 34
         }
       ],
       "imports": [
+        {
+          "source": "asyncio",
+          "specifiers": [
+            "asyncio"
+          ]
+        },
         {
           "source": "os",
           "specifiers": [
@@ -3776,9 +3801,10 @@
         "_ollama_alive",
         "ollama_model",
         "live_settings",
+        "live_llm",
         "TestOllamaIntegration"
       ],
-      "totalLines": 98,
+      "totalLines": 108,
       "hasStructuralAnalysis": true
     },
     "tests/unit/__init__.py": {
@@ -4064,7 +4090,7 @@
     },
     "tests/unit/test_cli.py": {
       "filePath": "tests/unit/test_cli.py",
-      "contentHash": "06154d3fb1cec2206457d61cc8b31e18936913760646ccdb5aefc9be10e188bc",
+      "contentHash": "2b163d0951087f246951865e300aa9ec20ad664574831593ecbf3dd3607eb4a9",
       "functions": [],
       "classes": [
         {
@@ -4087,7 +4113,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 32
+          "lineCount": 35
         },
         {
           "name": "TestParser",
@@ -4147,7 +4173,7 @@
         "TestParser",
         "TestEvalCommand"
       ],
-      "totalLines": 192,
+      "totalLines": 195,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_database.py": {
@@ -4379,7 +4405,7 @@
     },
     "tests/unit/test_llm_factory.py": {
       "filePath": "tests/unit/test_llm_factory.py",
-      "contentHash": "75cc20826656bd7747de15f862e5eb17dc12bf68db7e95f100d52eeb2af6a030",
+      "contentHash": "56c59a29f538f3fb74cde3d95623cce4486c7d6a13b1d17248cbfe584e53f166",
       "functions": [],
       "classes": [
         {
@@ -4390,11 +4416,12 @@
             "test_gemini",
             "test_anthropic",
             "test_huggingface",
-            "test_xai"
+            "test_xai",
+            "test_agnes"
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 21
+          "lineCount": 24
         },
         {
           "name": "TestListModels",
@@ -4406,11 +4433,12 @@
             "test_anthropic_uses_curated_list",
             "test_huggingface_uses_curated_default",
             "test_xai_uses_approved_list",
+            "test_agnes_uses_approved_list",
             "test_unknown_provider_returns_empty"
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 48
+          "lineCount": 51
         },
         {
           "name": "TestBuildChatModel",
@@ -4422,6 +4450,8 @@
             "test_huggingface_without_key_raises",
             "test_huggingface_uses_direct_router",
             "test_xai_uses_direct_api",
+            "test_agnes_without_key_raises",
+            "test_agnes_uses_documented_chat_thinking",
             "test_gemini_uses_medium_thinking_without_sampling",
             "test_anthropic_uses_medium_adaptive_thinking_without_sampling",
             "test_gemini_without_key_raises",
@@ -4432,7 +4462,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 172
+          "lineCount": 202
         }
       ],
       "imports": [
@@ -4472,7 +4502,7 @@
         "TestListModels",
         "TestBuildChatModel"
       ],
-      "totalLines": 263,
+      "totalLines": 299,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_logging.py": {
@@ -4555,7 +4585,7 @@
     },
     "tests/unit/test_persistence.py": {
       "filePath": "tests/unit/test_persistence.py",
-      "contentHash": "326387bf091de5c596afd2231b7b27ca59dda2e1c1eccb365ebebf0c766fa23c",
+      "contentHash": "6888449dd1e776a2fd8da1a436d073ed9c3291316fd286d1ebf05ccabee3c8f4",
       "functions": [
         {
           "name": "store",
@@ -4667,7 +4697,7 @@
     },
     "tests/unit/test_postgres.py": {
       "filePath": "tests/unit/test_postgres.py",
-      "contentHash": "6f31da6ddbf052159d61840a71674ff532733ef4c58c696368a4255db65f0c34",
+      "contentHash": "ab9bc295a56b2028f52c4cf4e22531516bcd0e08a2f6bfd748535586f8807dd4",
       "functions": [
         {
           "name": "_cursor",
@@ -4747,7 +4777,7 @@
     },
     "tests/unit/test_pricing.py": {
       "filePath": "tests/unit/test_pricing.py",
-      "contentHash": "d5d5ca3e62dac9c69e88028cc86e6ba91c4eda0bf1e5fd32a07ea7ab2302796a",
+      "contentHash": "ccab795ecd42bbef4d9c1451ebaf3f7abe45a0ca0f264409c86a5960b4eb9cfa",
       "functions": [
         {
           "name": "test_estimates_standard_model_cost_from_reported_tokens",
@@ -4759,13 +4789,19 @@
           "name": "test_catalog_contains_every_priced_hosted_model",
           "params": [],
           "exported": true,
-          "lineCount": 12
+          "lineCount": 13
         },
         {
           "name": "test_unpriced_model_has_no_cost_estimate",
           "params": [],
           "exported": true,
           "lineCount": 2
+        },
+        {
+          "name": "test_agnes_current_promotional_cost_is_zero",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
         },
         {
           "name": "_rule",
@@ -4843,6 +4879,7 @@
         "test_estimates_standard_model_cost_from_reported_tokens",
         "test_catalog_contains_every_priced_hosted_model",
         "test_unpriced_model_has_no_cost_estimate",
+        "test_agnes_current_promotional_cost_is_zero",
         "_rule",
         "test_cache_read_tokens_use_cache_rate",
         "test_batch_and_fast_rates_require_actual_request_mode",
@@ -4850,7 +4887,7 @@
         "test_long_context_threshold_is_strictly_greater_than",
         "test_effective_window_end_is_exclusive"
       ],
-      "totalLines": 106,
+      "totalLines": 115,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_prompts.py": {
@@ -4897,7 +4934,7 @@
     },
     "tests/unit/test_settings.py": {
       "filePath": "tests/unit/test_settings.py",
-      "contentHash": "a4b4906180099212da3cc7b4f9cfaa87c20f8d5d89f92798d74113473644d20e",
+      "contentHash": "f502fda604d7f02ff58e08552af0a01a910d107530ae0a1c34550cd2c7e626be",
       "functions": [],
       "classes": [
         {
@@ -4925,7 +4962,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 187
+          "lineCount": 199
         },
         {
           "name": "TestEnvVar",
@@ -4935,7 +4972,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 15
+          "lineCount": 16
         }
       ],
       "imports": [
@@ -4974,7 +5011,7 @@
         "TestSettings",
         "TestEnvVar"
       ],
-      "totalLines": 225,
+      "totalLines": 238,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_sql_validator.py": {
@@ -5231,8 +5268,14 @@
     },
     "tests/unit/test_ui_app.py": {
       "filePath": "tests/unit/test_ui_app.py",
-      "contentHash": "961d9b6629b3e12e3fe8a60837e501787d049c1ae7c38fc2b9e3643d8ea66466",
+      "contentHash": "1210b1e3703b8c2e7f86f3376b50d95d79fc59fa18176ba09690bfd3cb5508c8",
       "functions": [
+        {
+          "name": "test_runtime_settings_assigns_agnes_key",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
         {
           "name": "test_main_app_renders_chat_navigation",
           "params": [
@@ -5268,20 +5311,28 @@
         {
           "source": "nl2sql_agent.config",
           "specifiers": [
+            "Settings",
             "reset_settings_cache"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.ui.streamlit_app",
+          "specifiers": [
+            "_runtime_settings"
           ]
         }
       ],
       "exports": [
+        "test_runtime_settings_assigns_agnes_key",
         "test_main_app_renders_chat_navigation",
         "test_pricing_page_renders_editor_and_disabled_budgets"
       ],
-      "totalLines": 38,
+      "totalLines": 52,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_ui_components.py": {
       "filePath": "tests/unit/test_ui_components.py",
-      "contentHash": "ce4d0e4f65cdaa041ee5f5f064fa974012f1408c0c793c087b6a3ea192ec7ea8",
+      "contentHash": "df116df323df875994656093c0cc80dee0917e148ba05102183314d6a7dd56f6",
       "functions": [
         {
           "name": "_sidebar_app",
@@ -5294,7 +5345,7 @@
           "name": "test_sidebar_shows_only_approved_cloud_models",
           "params": [],
           "exported": true,
-          "lineCount": 14
+          "lineCount": 18
         },
         {
           "name": "test_sidebar_accepts_custom_hugging_face_model",
@@ -5324,7 +5375,7 @@
         "test_sidebar_accepts_custom_hugging_face_model",
         "test_run_result_shows_token_usage_and_estimated_cost"
       ],
-      "totalLines": 59,
+      "totalLines": 63,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_upload.py": {

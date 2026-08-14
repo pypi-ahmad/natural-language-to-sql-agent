@@ -9,7 +9,7 @@
     "visual_preset": "blueprint",
     "repository": {
       "url": "https://github.com/pypi-ahmad/natural-language-to-sql-agent",
-      "revision": "324ed470a375aea02fc013d52deb6a6246d3588d"
+      "revision": "d17ad6017e71c5374fa100d78dff91bdaa7490e7"
     },
     "views": [
       {"id": "request", "label": "Approval-first request", "focus": ["user", "clients", "agent", "guardian", "databases"], "note": "Natural language becomes reviewed, guarded SQL before either database executes it."},
@@ -24,7 +24,7 @@
     {"id": "agent", "type": "backend", "label": "LangGraph Agent", "sublabel": "schema → writer → guardian → executor → summary", "pos": [530, 310], "size": [230, 110], "sources": [{"path": "src/nl2sql_agent/agent/workflow.py", "label": "Workflow"}]},
     {"id": "guardian", "type": "security", "label": "SQL Guardian", "sublabel": "AST policy · physical-table allowlist · LIMIT", "pos": [830, 320], "size": [220, 90], "sources": [{"path": "src/nl2sql_agent/security/sql_validator.py", "label": "Validator"}]},
     {"id": "databases", "type": "database", "label": "Read-only Databases", "sublabel": "SQLite mode=ro · PostgreSQL verified transaction", "pos": [1120, 310], "size": [250, 110], "sources": [{"path": "src/nl2sql_agent/db/database.py", "label": "Backend contract"}]},
-    {"id": "providers", "type": "external", "label": "Model Providers", "sublabel": "Ollama · HF · OpenAI · Anthropic · Gemini · xAI", "pos": [530, 90], "size": [230, 90], "sources": [{"path": "src/nl2sql_agent/llm/factory.py", "label": "Factory"}]},
+    {"id": "providers", "type": "external", "label": "Model Providers", "sublabel": "Ollama · HF · OpenAI · Anthropic · Gemini · xAI · Agnes", "pos": [530, 90], "size": [230, 90], "sources": [{"path": "src/nl2sql_agent/llm/factory.py", "label": "Factory"}]},
     {"id": "state", "type": "database", "label": "Local State Store", "sublabel": "Sessions · approved SQL · usage · pricing · metrics", "pos": [530, 590], "size": [230, 100]},
     {"id": "pricing", "type": "backend", "label": "Pricing Engine", "sublabel": "Effective dates · cache · batch · fast · long context", "pos": [830, 590], "size": [220, 100], "sources": [{"path": "src/nl2sql_agent/llm/pricing.py", "label": "Pricing"}]}
   ],
