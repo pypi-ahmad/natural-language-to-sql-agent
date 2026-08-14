@@ -33,15 +33,15 @@ dependencies = [
     # Native SDKs used by provider integrations
     "ollama>=0.6.2,<1",
     "openai>=2.54,<3",
-    "google-genai>=1.75,<2",
+    "google-genai>=2.17.0,<3",
     # UI
     "streamlit>=1.61.1,<2",
     # Config, validation, logging
-    "pydantic>=2.11.7,<3",
-    "pydantic-settings>=2.10.1,<3",
+    "pydantic>=2.13.4,<3",
+    "pydantic-settings>=2.15.0,<3",
     "loguru>=0.7.3,<0.8",
     # SQL safety
-    "sqlglot>=27.16.0,<28",
+    "sqlglot>=30.15.0,<31",
 ]
 
 [project.scripts]
@@ -156,7 +156,7 @@ dev = [
     { include-group = "security" },
 ]
 lint = [
-    "ruff>=0.13,<0.14",
+    "ruff>=0.16.1,<0.17",
     "ty>=0.0.71,<0.1",
 ]
 security = [
@@ -165,5 +165,5 @@ security = [
 ]
 test = [
     "pytest>=9.1.1,<10",
-    "pytest-cov>=6.2.1,<7",
+    "pytest-cov>=7.1.0,<8",
 ]
