@@ -83,6 +83,7 @@ class TestConfigCommand:
         monkeypatch.setenv("OPENAI_API_KEY", "super-secret-value")
         monkeypatch.setenv("HF_TOKEN", "hf-super-secret")
         monkeypatch.setenv("XAI_API_KEY", "xai-super-secret")
+        monkeypatch.setenv("AGNES_API_KEY", "agnes-super-secret")
         from nl2sql_agent.config import reset_settings_cache
 
         reset_settings_cache()
@@ -91,9 +92,11 @@ class TestConfigCommand:
         assert "super-secret-value" not in out
         assert "hf-super-secret" not in out
         assert "xai-super-secret" not in out
+        assert "agnes-super-secret" not in out
         assert json.loads(out)["openai_api_key"] == "***"
         assert json.loads(out)["hf_token"] == "***"
         assert json.loads(out)["xai_api_key"] == "***"
+        assert json.loads(out)["agnes_api_key"] == "***"
 
 
 class TestParser:

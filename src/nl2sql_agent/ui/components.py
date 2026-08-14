@@ -21,6 +21,7 @@ def render_sidebar(
         "anthropic",
         "gemini",
         "xai",
+        "agnes",
     ),
 ) -> dict[str, Any]:
     """Render the sidebar and return the user's selections.
@@ -47,6 +48,7 @@ def render_sidebar(
         "anthropic": "Anthropic",
         "gemini": "Gemini",
         "xai": "xAI",
+        "agnes": "Agnes AI",
     }
     provider_labels = {p: display_names[p] for p in providers}
     default_idx = providers.index("ollama") if "ollama" in providers else 0

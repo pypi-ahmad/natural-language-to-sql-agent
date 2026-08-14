@@ -6,7 +6,21 @@ from pathlib import Path
 
 from streamlit.testing.v1 import AppTest
 
-from nl2sql_agent.config import reset_settings_cache
+from nl2sql_agent.config import Settings, reset_settings_cache
+from nl2sql_agent.ui.streamlit_app import _runtime_settings
+
+
+def test_runtime_settings_assigns_agnes_key():
+    settings = Settings(_env_file=None)
+    runtime = _runtime_settings(
+        settings,
+        provider="agnes",
+        model="agnes-2.5-flash",
+        api_key="agnes-test",  # pragma: allowlist secret
+    )
+    assert runtime.provider == "agnes"
+    assert runtime.model == "agnes-2.5-flash"
+    assert runtime.agnes_api_key == "agnes-test"  # pragma: allowlist secret
 
 
 def test_main_app_renders_chat_navigation(tmp_path, monkeypatch):

@@ -194,12 +194,14 @@ def build_chat_model(settings, *, provider=None, model=None) -> BaseChatModel:
 
 It returns a LangChain `BaseChatModel`. The agent doesn't care which
 one it gets — it only ever calls `.invoke(messages)`. The supported adapters
-are Ollama, Hugging Face, OpenAI, Anthropic, Gemini, and xAI. Hugging Face and
-xAI reuse the existing OpenAI-compatible LangChain client against fixed direct
-endpoints, so they do not require provider-specific SDKs.
+are Ollama, Hugging Face, OpenAI, Anthropic, Gemini, xAI, and Agnes AI. Hugging
+Face, xAI, and Agnes reuse the existing OpenAI-compatible LangChain client
+against fixed direct endpoints, so they do not require provider-specific SDKs.
 
-Hosted providers run at medium reasoning effort. OpenAI, Anthropic, Gemini,
-and xAI use strict model allow-lists; Hugging Face accepts validated
+OpenAI, Anthropic, Gemini, xAI, and Hugging Face use the configured
+medium-reasoning path. Agnes uses its documented Chat Completions Thinking
+flag, which is boolean rather than an effort level. All except Hugging Face use
+strict model allow-lists; Hugging Face accepts validated
 `namespace/model[:routing-policy]` IDs. Only Ollama performs live model
 discovery. Provider defaults and approved choices live with `Settings`, so the
 factory, CLI, and UI cannot drift.

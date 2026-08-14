@@ -27,9 +27,9 @@ Uploads are capped at 50 MB in both application validation and Streamlit server
 configuration. The UI and CLI are single-user, loopback-only tools. Operators
 configure `NL2SQL_OLLAMA_BASE_URL`; browser users cannot edit it. Plain HTTP is
 accepted only for loopback endpoints, while remote endpoints require HTTPS.
-Hugging Face and xAI use fixed HTTPS API roots. Custom Hugging Face values are
-model repository identifiers, not editable endpoint URLs, and are validated
-before requests are constructed.
+Hugging Face, xAI, and Agnes AI use fixed HTTPS API roots. Custom Hugging Face
+values are model repository identifiers, not editable endpoint URLs, and are
+validated before requests are constructed.
 
 The local state database stores messages, pending approvals, approved SQL,
 bounded plans/metrics, usage, and immutable pricing snapshots. It explicitly

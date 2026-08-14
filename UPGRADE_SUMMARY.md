@@ -1,5 +1,13 @@
 # Upgrade Summary — v0.1 → v0.2
 
+> **v0.5.0 addendum:** Agnes AI is available as a fixed-endpoint hosted
+> provider with the strictly allow-listed `agnes-2.5-flash` model. Set
+> `AGNES_API_KEY` (or `NL2SQL_AGNES_API_KEY`) and select `agnes` in the CLI or
+> UI. Requests use Agnes's documented boolean Thinking mode. The local pricing
+> catalog seeds the current $0/$0 promotion and records the $0.03/$0.15
+> standard rates in its notes. No dependency or state-schema migration is
+> required.
+
 > **v0.4.0 addendum:** SQLite remains the default, while an opt-in PostgreSQL
 > backend now enforces a verified read-only, non-privileged, single-schema
 > connection. The Streamlit UI has Chat, Costs, Sessions, Insights, and Pricing

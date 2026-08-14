@@ -212,7 +212,9 @@ their coverage is in `tests/unit/` organized by module.
 - The Streamlit chat UX conceptually (input box, history, status
   indicator, SQL preview).
 - The multi-provider design. Current main supports Ollama, Hugging Face,
-  OpenAI, Anthropic, Gemini, and xAI; hosted models use medium reasoning.
+  OpenAI, Anthropic, Gemini, xAI, and Agnes AI. Agnes uses its documented
+  boolean Thinking mode; the other hosted reasoning integrations use medium
+  effort.
 - Public outputs (Markdown answers, raw rows, error messages).
 
 If your v0.1 scripts imported the agent and asked questions, they will

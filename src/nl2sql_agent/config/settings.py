@@ -16,7 +16,7 @@ from urllib.parse import urlsplit
 from pydantic import AliasChoices, Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
-Provider = Literal["ollama", "huggingface", "openai", "anthropic", "gemini", "xai"]
+Provider = Literal["ollama", "huggingface", "openai", "anthropic", "gemini", "xai", "agnes"]
 
 _PROVIDER_MODELS: dict[Provider, tuple[str, ...]] = {
     "ollama": (
@@ -31,6 +31,7 @@ _PROVIDER_MODELS: dict[Provider, tuple[str, ...]] = {
     "anthropic": ("claude-sonnet-5",),
     "gemini": ("gemini-3.7-flash", "gemini-3.5-flash-lite"),
     "xai": ("grok-4.6",),
+    "agnes": ("agnes-2.5-flash",),
 }
 _HUGGING_FACE_MODEL_ID = re.compile(
     r"[A-Za-z0-9][A-Za-z0-9._-]*/[A-Za-z0-9][A-Za-z0-9._-]*"
@@ -113,6 +114,10 @@ class Settings(BaseSettings):
     xai_api_key: str | None = Field(
         default=None,
         validation_alias=AliasChoices("xai_api_key", "NL2SQL_XAI_API_KEY"),
+    )
+    agnes_api_key: str | None = Field(
+        default=None,
+        validation_alias=AliasChoices("agnes_api_key", "NL2SQL_AGNES_API_KEY"),
     )
 
     # ---- Database ----
@@ -268,6 +273,7 @@ class Settings(BaseSettings):
             "anthropic": self.anthropic_api_key,
             "huggingface": self.hf_token,
             "xai": self.xai_api_key,
+            "agnes": self.agnes_api_key,
         }.get(provider)
 
 
@@ -294,6 +300,7 @@ def env_var_for(provider: Provider) -> str | None:
         "anthropic": "ANTHROPIC_API_KEY",
         "huggingface": "HF_TOKEN",
         "xai": "XAI_API_KEY",
+        "agnes": "AGNES_API_KEY",
     }.get(provider)
 
 

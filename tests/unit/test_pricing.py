@@ -32,11 +32,20 @@ def test_catalog_contains_every_priced_hosted_model():
         "gpt-5.6-luna": (0.20, 1.20),
         "gpt-5.6-terra": (2.00, 12.00),
         "grok-4.6": (2.00, 6.00),
+        "agnes-2.5-flash": (0.00, 0.00),
     }
 
 
 def test_unpriced_model_has_no_cost_estimate():
     assert estimate_model_cost("openai/gpt-oss-120b:fastest", 1_000, 500) is None
+
+
+def test_agnes_current_promotional_cost_is_zero():
+    result = calculate_cost(
+        _rule("agnes-2.5-flash"),
+        [UsageRecord("writer", 1_000_000, 1_000_000)],
+    )
+    assert result.total_cost == Decimal("0E-12")
 
 
 def _rule(model: str):

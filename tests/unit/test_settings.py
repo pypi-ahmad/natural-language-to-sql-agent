@@ -44,6 +44,7 @@ class TestSettings:
             "ANTHROPIC_API_KEY",
             "HF_TOKEN",
             "XAI_API_KEY",
+            "AGNES_API_KEY",
         ):
             monkeypatch.delenv(var, raising=False)
         reset_settings_cache()
@@ -64,6 +65,7 @@ class TestSettings:
         assert s.query_warn_duration_ms == 1000
         assert s.hf_token is None
         assert s.xai_api_key is None
+        assert s.agnes_api_key is None
 
     def test_env_override(self, monkeypatch):
         monkeypatch.setenv("NL2SQL_PROVIDER", "openai")
@@ -87,6 +89,7 @@ class TestSettings:
             ("gemini", "gemini-3.7-flash"),
             ("xai", "grok-4.6"),
             ("huggingface", "openai/gpt-oss-120b:fastest"),
+            ("agnes", "agnes-2.5-flash"),
         ],
     )
     def test_provider_uses_its_default_model_when_model_is_omitted(self, provider, expected):
@@ -100,6 +103,7 @@ class TestSettings:
             ("gemini", "gemini-2.0-flash"),
             ("xai", "grok-4.5"),
             ("huggingface", "not-a-repository-id"),
+            ("agnes", "agnes-2.0-flash"),
         ],
     )
     def test_rejects_unapproved_cloud_model(self, provider, model):
@@ -155,12 +159,14 @@ class TestSettings:
             anthropic_api_key="k3",  # pragma: allowlist secret
             hf_token="k4",
             xai_api_key="k5",  # pragma: allowlist secret
+            agnes_api_key="k6",  # pragma: allowlist secret
         )
         assert s.api_key_for("openai") == "k1"
         assert s.api_key_for("gemini") == "k2"
         assert s.api_key_for("anthropic") == "k3"
         assert s.api_key_for("huggingface") == "k4"
         assert s.api_key_for("xai") == "k5"
+        assert s.api_key_for("agnes") == "k6"
         assert s.api_key_for("ollama") is None
 
     def test_cloud_model_catalog(self):
@@ -171,23 +177,29 @@ class TestSettings:
             "gemini-3.5-flash-lite",
         )
         assert supported_models_for("xai") == ("grok-4.6",)
+        assert supported_models_for("agnes") == ("agnes-2.5-flash",)
         assert default_model_for("huggingface") == "openai/gpt-oss-120b:fastest"
 
     def test_standard_cloud_key_environment_variables(self, monkeypatch):
         monkeypatch.setenv("HF_TOKEN", "hf-secret")
         monkeypatch.setenv("XAI_API_KEY", "xai-secret")
+        monkeypatch.setenv("AGNES_API_KEY", "agnes-secret")
         settings = Settings(_env_file=None)
         assert settings.hf_token == "hf-secret"
         assert settings.xai_api_key == "xai-secret"  # pragma: allowlist secret
+        assert settings.agnes_api_key == "agnes-secret"  # pragma: allowlist secret
 
     def test_prefixed_cloud_key_environment_variables(self, monkeypatch):
         monkeypatch.delenv("HF_TOKEN", raising=False)
         monkeypatch.delenv("XAI_API_KEY", raising=False)
+        monkeypatch.delenv("AGNES_API_KEY", raising=False)
         monkeypatch.setenv("NL2SQL_HF_TOKEN", "hf-prefixed")
         monkeypatch.setenv("NL2SQL_XAI_API_KEY", "xai-prefixed")
+        monkeypatch.setenv("NL2SQL_AGNES_API_KEY", "agnes-prefixed")
         settings = Settings(_env_file=None)
         assert settings.hf_token == "hf-prefixed"
         assert settings.xai_api_key == "xai-prefixed"  # pragma: allowlist secret
+        assert settings.agnes_api_key == "agnes-prefixed"  # pragma: allowlist secret
 
     def test_settings_is_singleton(self, monkeypatch):
         for v in ("NL2SQL_PROVIDER", "NL2SQL_MODEL"):
@@ -214,6 +226,7 @@ class TestEnvVar:
         assert env_var_for("anthropic") == "ANTHROPIC_API_KEY"
         assert env_var_for("huggingface") == "HF_TOKEN"
         assert env_var_for("xai") == "XAI_API_KEY"
+        assert env_var_for("agnes") == "AGNES_API_KEY"
         assert env_var_for("ollama") is None
 
     def test_env_var_value(self, monkeypatch):

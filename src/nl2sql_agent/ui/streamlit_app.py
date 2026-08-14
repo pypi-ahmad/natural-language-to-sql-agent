@@ -90,6 +90,8 @@ def _runtime_settings(
         runtime.hf_token = api_key
     elif provider == "xai":
         runtime.xai_api_key = api_key
+    elif provider == "agnes":
+        runtime.agnes_api_key = api_key
     return runtime
 
 

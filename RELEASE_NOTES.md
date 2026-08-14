@@ -1,5 +1,21 @@
 # Release Notes
 
+## v0.5.0 — 2026-08-14
+
+This release adds Agnes AI as the seventh model provider, with the single
+approved `agnes-2.5-flash` model. It uses Agnes's fixed OpenAI-compatible API
+Hub endpoint and documented Chat Completions Thinking flag, reads
+`AGNES_API_KEY` (or `NL2SQL_AGNES_API_KEY`), and appears throughout the CLI,
+Streamlit provider selector, and saved-session restoration flow.
+
+The local pricing catalog now includes Agnes's documented current $0 input and
+output promotion while retaining its $0.03/$0.15 standard rates in the rule
+notes. Existing state databases receive the new rule automatically. No new
+runtime dependency or state-schema migration is required.
+
+Upgrade with `uv sync --locked --all-groups`. Existing providers, public agent
+APIs, databases, saved sessions, and pricing snapshots remain compatible.
+
 ## v0.4.0 — 2026-08-14
 
 This release adds a five-view Streamlit workspace: Chat, Costs, Sessions,

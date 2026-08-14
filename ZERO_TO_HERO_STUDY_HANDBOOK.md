@@ -16,7 +16,7 @@ Primary use cases in this repo:
 
 1. Local analytics assistant over SQLite (`company.db` by default) or a restricted PostgreSQL schema.
 2. Safe text-to-SQL experimentation with policy controls (joins, subqueries, aggregates, CTE).
-3. Multi-provider runtime where Ollama is default and Hugging Face, OpenAI, Anthropic, Gemini, and xAI are optional.
+3. Multi-provider runtime where Ollama is default and Hugging Face, OpenAI, Anthropic, Gemini, xAI, and Agnes AI are optional.
 4. Approval-first analysis of session-scoped uploaded SQLite databases.
 5. Result-based model evaluation across accuracy, safety, latency, retries, and token usage.
 
@@ -135,7 +135,7 @@ Files a new contributor should learn first (in practical reading order):
 | `src/nl2sql_agent/evaluation/runner.py` | Result and safety evaluation | `EvalCase`, `EvaluationRunner`, `EvaluationReport` | Reference result comparison, threshold metrics, integrity digest |
 | `src/nl2sql_agent/utils/audit.py` | Privacy-preserving JSONL audit | `AuditLogger`, `redact_sql`, `hash_text` | Hashed questions, literal-redacted SQL |
 | `src/nl2sql_agent/db/seed.py` | Demo seed data | `SEED_DEPARTMENTS`, `SEED_EMPLOYEES` | Department/employee tuples loaded via `INSERT OR IGNORE` |
-| `src/nl2sql_agent/llm/factory.py` | Provider-specific model building and model listing | `build_chat_model`, `list_models`, `fallback_models`, `_build_*`, `_list_ollama`, `LLMProviderError` | Six providers; medium hosted reasoning; Ollama-only live discovery |
+| `src/nl2sql_agent/llm/factory.py` | Provider-specific model building and model listing | `build_chat_model`, `list_models`, `fallback_models`, `_build_*`, `_list_ollama`, `LLMProviderError` | Seven providers; documented hosted reasoning modes; Ollama-only live discovery |
 | `src/nl2sql_agent/llm/pricing.py` | Per-call hosted-model pricing | `PricingRule`, `UsageRecord`, `calculate_cost` | Effective dates, cache/batch/fast rates, long-context thresholds, exact decimal arithmetic |
 | `src/nl2sql_agent/config/settings.py` | Central runtime config and model policy | `Settings`, `default_model_for`, `supported_models_for`, `validate_model_for`, `env_var_for` | `env_prefix="NL2SQL_"`, provider/model allow-lists, credentials, DB/SQL/log fields |
 | `src/nl2sql_agent/prompts/templates.py` | Prompt templates and formatting helpers | `SQL_WRITER_SYSTEM`, `SQL_WRITER_USER`, `SUMMARIZER_SYSTEM`, `SUMMARIZER_USER`, `error_section`, `format_data` | Prompt placeholders `{schema}`, `{question}`, `{error_section}`, `{sql}`, `{data}`, `{error}` |
@@ -195,7 +195,7 @@ QueryResult(
 ```python
 {
   "data_source": str,             # "Demo" | "Upload"
-  "provider": Provider,           # ollama | huggingface | openai | anthropic | gemini | xai
+  "provider": Provider,           # ollama | huggingface | openai | anthropic | gemini | xai | agnes
   "model": str | None,
   "api_key": str | None,
 }
@@ -480,7 +480,9 @@ Hosted requests use medium reasoning. OpenAI allows only `gpt-5.6-luna` and
 `gpt-5.6-terra`; Anthropic allows `claude-sonnet-5`; Gemini allows
 `gemini-3.7-flash` and `gemini-3.5-flash-lite`; xAI allows `grok-4.6`.
 Hugging Face accepts `namespace/model[:routing-policy]` through its direct
-router and defaults to `openai/gpt-oss-120b:fastest`.
+router and defaults to `openai/gpt-oss-120b:fastest`. Agnes allows only
+`agnes-2.5-flash` and uses its documented boolean Chat Completions Thinking
+flag rather than a low/medium/high effort value.
 
 ### 4.4 Typical run commands
 
@@ -613,6 +615,10 @@ Current behavior:
 
 8. Exercise 8 outline:
    `Provider` includes `xai`; `env_var_for()` maps `XAI_API_KEY`; `_build_xai()` targets the fixed HTTPS endpoint with medium reasoning; the sidebar exposes only `grok-4.6`.
+
+   The same trace for Agnes is `Provider` → `AGNES_API_KEY` → `_build_agnes()`
+   → fixed API Hub endpoint with Chat Completions Thinking →
+   `agnes-2.5-flash` in the sidebar.
 
 9. Exercise 9 outline:
    `execute_prepared()` replaces the candidate with the edited SQL, calls

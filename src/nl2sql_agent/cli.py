@@ -67,6 +67,8 @@ def _build_agent(
             settings.hf_token = api_key
         elif settings.provider == "xai":
             settings.xai_api_key = api_key
+        elif settings.provider == "agnes":
+            settings.agnes_api_key = api_key
     try:
         llm = build_chat_model(settings)
     except LLMProviderError as exc:
@@ -98,6 +100,7 @@ def cmd_config(args: argparse.Namespace) -> int:
         "anthropic_api_key",
         "hf_token",
         "xai_api_key",
+        "agnes_api_key",
         "postgres_dsn",
     ):
         if payload.get(field):

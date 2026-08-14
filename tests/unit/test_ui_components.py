@@ -18,11 +18,15 @@ def test_sidebar_shows_only_approved_cloud_models():
         "Anthropic",
         "Gemini",
         "xAI",
+        "Agnes AI",
     ]
 
     app.selectbox[0].select("OpenAI").run()
     assert app.selectbox[1].options == ["gpt-5.6-luna", "gpt-5.6-terra"]
     assert len(app.button) == 0
+
+    app.selectbox[0].select("Agnes AI").run()
+    assert app.selectbox[1].options == ["agnes-2.5-flash"]
 
 
 def test_sidebar_accepts_custom_hugging_face_model():

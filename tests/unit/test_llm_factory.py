@@ -37,6 +37,9 @@ class TestFallbackModels:
     def test_xai(self):
         assert tuple(fallback_models("xai")) == ("grok-4.6",)
 
+    def test_agnes(self):
+        assert tuple(fallback_models("agnes")) == ("agnes-2.5-flash",)
+
 
 class TestListModels:
     def test_ollama_no_connection_returns_empty(self):
@@ -77,6 +80,9 @@ class TestListModels:
 
     def test_xai_uses_approved_list(self):
         assert list_models("xai") == ["grok-4.6"]
+
+    def test_agnes_uses_approved_list(self):
+        assert list_models("agnes") == ["agnes-2.5-flash"]
 
     def test_unknown_provider_returns_empty(self):
         # list_models accepts only the four we know; unknown should be safe.
@@ -179,6 +185,36 @@ class TestBuildChatModel:
         assert kwargs["base_url"] == "https://api.x.ai/v1"
         assert kwargs["reasoning"] == {"effort": "medium"}
         assert kwargs["use_responses_api"] is True
+
+    def test_agnes_without_key_raises(self):
+        settings = Settings(
+            _env_file=None,
+            provider="agnes",
+            model="agnes-2.5-flash",
+        )
+        with pytest.raises(LLMProviderError, match="AGNES_API_KEY"):
+            build_chat_model(settings)
+
+    def test_agnes_uses_documented_chat_thinking(self):
+        settings = Settings(
+            _env_file=None,
+            provider="agnes",
+            model="agnes-2.5-flash",
+            agnes_api_key="agnes-test",  # pragma: allowlist secret
+        )
+        with patch("langchain_openai.ChatOpenAI") as mock_cls:
+            mock_cls.return_value = MagicMock()
+            build_chat_model(settings)
+        _, kwargs = mock_cls.call_args
+        assert kwargs["api_key"] == "agnes-test"  # pragma: allowlist secret
+        assert kwargs["base_url"] == "https://apihub.agnes-ai.com/v1"
+        assert kwargs["model"] == "agnes-2.5-flash"
+        assert kwargs["use_responses_api"] is False
+        assert kwargs["extra_body"] == {
+            "max_tokens": settings.llm_max_tokens,
+            "chat_template_kwargs": {"enable_thinking": True},
+        }
+        assert "reasoning" not in kwargs
 
     def test_gemini_uses_medium_thinking_without_sampling(self):
         settings = Settings(

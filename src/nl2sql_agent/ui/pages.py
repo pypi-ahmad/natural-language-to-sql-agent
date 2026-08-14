@@ -140,6 +140,7 @@ def sessions_page() -> None:
                 "anthropic": "Anthropic",
                 "gemini": "Gemini",
                 "xai": "xAI",
+                "agnes": "Agnes AI",
             }.get(selected.provider, "Ollama")
             st.session_state[f"model_{selected.provider}"] = selected.model
             st.success("Session loaded. Open the Chat tab to continue.")

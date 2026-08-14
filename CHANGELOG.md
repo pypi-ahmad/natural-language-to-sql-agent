@@ -7,6 +7,28 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.0] — 2026-08-14
+
+### Added
+
+- Direct Agnes AI support for the strictly allow-listed `agnes-2.5-flash`
+  model through its fixed OpenAI-compatible API Hub endpoint.
+- `AGNES_API_KEY` and `NL2SQL_AGNES_API_KEY` configuration, CLI/UI selection,
+  saved-session restoration, and redacted configuration output.
+- Effective-dated Agnes pricing seeded at the documented current promotional
+  $0/$0 rate, with the $0.03/$0.15 standard rate retained in the rule notes.
+
+### Changed
+
+- Agnes requests use the provider's documented Chat Completions Thinking flag
+  instead of an unsupported OpenAI-style effort value.
+- Version advanced to 0.5.0 without adding a provider-specific dependency.
+
+### Security
+
+- The Agnes endpoint is fixed to HTTPS and credentials remain process/session
+  only; they are excluded from logs, saved sessions, and configuration output.
+
 ## [0.4.0] — 2026-08-14
 
 ### Added

@@ -98,6 +98,8 @@ def build_chat_model(
         return _build_huggingface(cfg, **common)
     if resolved_provider == "xai":
         return _build_xai(cfg, **common)
+    if resolved_provider == "agnes":
+        return _build_agnes(cfg, **common)
 
     raise LLMProviderError(f"Unsupported provider: {resolved_provider}")
 
@@ -107,7 +109,7 @@ def _normalize_provider(provider: str | Provider | None) -> Provider:
     if provider is None:
         return get_settings().provider
     p = provider.lower() if isinstance(provider, str) else provider
-    if p in ("ollama", "huggingface", "openai", "anthropic", "gemini", "xai"):
+    if p in ("ollama", "huggingface", "openai", "anthropic", "gemini", "xai", "agnes"):
         return p  # type: ignore[return-value]
     raise LLMProviderError(f"Unsupported provider: {provider}")
 
@@ -188,6 +190,25 @@ def _build_xai(cfg: Settings, **common: Any) -> ChatOpenAI:
     )
 
 
+def _build_agnes(cfg: Settings, **common: Any) -> ChatOpenAI:
+    if not cfg.agnes_api_key:
+        raise LLMProviderError("AGNES_API_KEY is required for provider=agnes")
+    from langchain_openai import ChatOpenAI
+
+    return ChatOpenAI(
+        api_key=cfg.agnes_api_key,
+        base_url="https://apihub.agnes-ai.com/v1",
+        model=common["model"],
+        temperature=common["temperature"],
+        timeout=common["timeout"],
+        use_responses_api=False,
+        extra_body={
+            "max_tokens": common["max_tokens"],
+            "chat_template_kwargs": {"enable_thinking": True},
+        },
+    )
+
+
 def _build_openai_compatible(
     *,
     api_key: str,
@@ -218,6 +239,7 @@ OPENAI_FALLBACK_MODELS = supported_models_for("openai")
 ANTHROPIC_FALLBACK_MODELS = supported_models_for("anthropic")
 GEMINI_FALLBACK_MODELS = supported_models_for("gemini")
 XAI_FALLBACK_MODELS = supported_models_for("xai")
+AGNES_FALLBACK_MODELS = supported_models_for("agnes")
 
 
 def fallback_models(provider: Provider) -> Iterable[str]:
@@ -229,6 +251,7 @@ def fallback_models(provider: Provider) -> Iterable[str]:
         "anthropic": ANTHROPIC_FALLBACK_MODELS,
         "gemini": GEMINI_FALLBACK_MODELS,
         "xai": XAI_FALLBACK_MODELS,
+        "agnes": AGNES_FALLBACK_MODELS,
     }[provider]
 
 

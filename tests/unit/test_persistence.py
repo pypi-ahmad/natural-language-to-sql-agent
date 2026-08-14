@@ -28,8 +28,8 @@ def test_store_initializes_idempotently_and_seeds_pricing(tmp_path):
     path = tmp_path / "state.sqlite3"
     first = StateStore(path)
     second = StateStore(path)
-    assert len(first.list_pricing_rules()) == 6
-    assert len(second.list_pricing_rules()) == 6
+    assert len(first.list_pricing_rules()) == 7
+    assert len(second.list_pricing_rules()) == 7
 
 
 def test_saved_messages_exclude_raw_results_and_csv(store):

@@ -4,10 +4,10 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Type checker: ty](https://img.shields.io/badge/type%20checker-ty-blue.svg)](https://docs.astral.sh/ty/)
-[![Tests: 306 passing](https://img.shields.io/badge/tests-306_passing-brightgreen.svg)](#testing)
+[![Tests: 317 passing](https://img.shields.io/badge/tests-317_passing-brightgreen.svg)](#testing)
 
 > Turn natural-language questions into safe, auditable SQL against SQLite or
-> PostgreSQL. Use a local Ollama model or one of five hosted providers, review
+> PostgreSQL. Use a local Ollama model or one of six hosted providers, review
 > every generated query, and track sessions, plans, runtime, and estimated cost.
 
 ---
@@ -49,7 +49,7 @@ The system is composed of five cooperating pieces:
 | **Configuration** | `nl2sql_agent.config` | Single source of truth for runtime settings, loaded from env vars, `.env`, or code. |
 | **Database** | `nl2sql_agent.db` | Read-only SQLite and PostgreSQL backends with normalized plans and metrics. |
 | **Safety** | `nl2sql_agent.security` | AST-based SQL validation using `sqlglot` — allow-lists, not deny-lists. |
-| **LLM factory** | `nl2sql_agent.llm` | Multi-provider construction for Ollama, Hugging Face, OpenAI, Anthropic, Gemini, and xAI. |
+| **LLM factory** | `nl2sql_agent.llm` | Multi-provider construction for Ollama, Hugging Face, OpenAI, Anthropic, Gemini, xAI, and Agnes AI. |
 | **Agent** | `nl2sql_agent.agent` | LangGraph workflow: schema → write → guard → execute → summarize. |
 | **Prompts** | `nl2sql_agent.prompts` | Versioned, single-source prompt templates. |
 | **UI** | `nl2sql_agent.ui` | Streamlit Chat, Costs, Sessions, Insights, and Pricing views. |
@@ -203,7 +203,7 @@ uv run nl2sql-agent config
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `NL2SQL_PROVIDER` | `ollama` | One of `ollama`, `huggingface`, `openai`, `anthropic`, `gemini`, `xai`. |
+| `NL2SQL_PROVIDER` | `ollama` | One of `ollama`, `huggingface`, `openai`, `anthropic`, `gemini`, `xai`, `agnes`. |
 | `NL2SQL_MODEL` | `phi4-mini:3.8b` | Model identifier for the chosen provider. |
 | `NL2SQL_OLLAMA_BASE_URL` | `http://localhost:11434` | Operator-only endpoint. HTTP is loopback-only; remote endpoints require HTTPS. |
 | `NL2SQL_OLLAMA_KEEP_ALIVE` | `5m` | How long Ollama keeps the model loaded. |
@@ -212,6 +212,7 @@ uv run nl2sql-agent config
 | `ANTHROPIC_API_KEY` | — | Required when `NL2SQL_PROVIDER=anthropic`. |
 | `HF_TOKEN` | — | Required when `NL2SQL_PROVIDER=huggingface`; `NL2SQL_HF_TOKEN` is also accepted. |
 | `XAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=xai`; `NL2SQL_XAI_API_KEY` is also accepted. |
+| `AGNES_API_KEY` | — | Required when `NL2SQL_PROVIDER=agnes`; `NL2SQL_AGNES_API_KEY` is also accepted. |
 | `NL2SQL_DB_PATH` | `company.db` | Path to the SQLite database file. |
 | `NL2SQL_DB_BACKEND` | `sqlite` | CLI database backend: `sqlite` or `postgres`. |
 | `NL2SQL_POSTGRES_DSN` | — | Operator-only PostgreSQL DSN. Never shown or saved by the UI. |
@@ -223,7 +224,7 @@ uv run nl2sql-agent config
 | `NL2SQL_DB_MAX_VM_STEPS` | `5000000` | SQLite virtual-machine step limit. |
 | `NL2SQL_DB_UPLOAD_MAX_MB` | `50` | Maximum database upload size in the UI. |
 | `NL2SQL_MAX_RETRIES` | `3` | SQL rewrite attempts after a failed execution. |
-| `NL2SQL_LLM_TEMPERATURE` | `0.0` | Ollama sampling temperature; hosted reasoning models use medium effort. |
+| `NL2SQL_LLM_TEMPERATURE` | `0.0` | Ollama/Agnes sampling temperature; other hosted reasoning models use medium effort. |
 | `NL2SQL_LLM_MAX_TOKENS` | `1024` | Max output tokens per LLM call. |
 | `NL2SQL_SQL_ALLOW_SUBQUERIES` | `true` | Allow nested SELECT. |
 | `NL2SQL_SQL_ALLOW_JOINS` | `true` | Allow JOIN clauses. |
@@ -274,11 +275,14 @@ persists the DSN. The packaged `eval` corpus remains SQLite-only.
 | **Anthropic** | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | Adaptive thinking at medium effort. |
 | **Gemini** | `GOOGLE_API_KEY` | `gemini-3.7-flash` | Also supports `gemini-3.5-flash-lite`; medium thinking. |
 | **xAI** | `XAI_API_KEY` | `grok-4.6` | Direct xAI API at medium reasoning effort. |
+| **Agnes AI** | `AGNES_API_KEY` | `agnes-2.5-flash` | Fixed Agnes API Hub endpoint; documented Chat Completions Thinking mode. |
 
 The hosted allow-lists are enforced in settings, CLI overrides, and the model
 factory. Hugging Face remains intentionally flexible, but its custom model ID
 must use the documented repository form and support medium reasoning through
-the Responses API. Ollama model names remain unrestricted.
+the Responses API. Agnes uses the provider's documented boolean Thinking flag,
+not an invented low/medium/high effort value. Ollama model names remain
+unrestricted. See the [Agnes 2.5 Flash API reference](https://agnes-ai.com/en/docs/agnes-25-flash).
 
 ### UI cost estimates
 
@@ -298,6 +302,7 @@ rules have UTC effective windows and are editable from the Pricing view.
 | GPT-5.6 Luna | $0.20 | $1.20 | Prompt-cache reads are $0.02. |
 | GPT-5.6 Terra | $2.00 | $12.00 | Rates double above 272k input tokens. |
 | Grok 4.6 | $2.00 | $6.00 | Fast mode or prompts above 200k use $4 / $12. |
+| Agnes 2.5 Flash | $0.00 | $0.00 | Current promotion; documented standard rate is $0.03 / $0.15. |
 
 The seeded catalog is local configuration, not a provider billing feed. Edits
 take effect on the next run without a restart; historical runs retain an
@@ -476,8 +481,8 @@ metadata only for selected tables reduced median retrieval from 3.060 ms to
 2.224 ms for 10 tables (27%) and from 25.410 ms to 14.911 ms for 120 tables
 (41%) on the development machine; results vary by hardware.
 
-The project ships with **306 offline tests** plus live integration tests
-that exercises the agent end-to-end against a real local Ollama.
+The project ships with **317 tests**, including an offline suite and opt-in
+live integration tests for external providers.
 
 ```bash
 # Unit tests (no external services needed)
@@ -544,7 +549,7 @@ common entry points:
 - `nl2sql_agent.config.get_settings()` — singleton accessor for the
   `Settings` instance.
 - `nl2sql_agent.llm.build_chat_model(settings, *, provider, model, ...)` —
-  build any of the six supported provider integrations.
+  build any of the seven supported provider integrations.
 - `nl2sql_agent.security.validate_sql(sql, policy=None)` — validate a
   SQL string and return the parsed `Select` nodes; pass `dialect="postgres"`
   and `allowed_schema` for PostgreSQL.
@@ -563,7 +568,7 @@ common entry points:
 
 ```bash
 uv run python -c "import nl2sql_agent; print(nl2sql_agent.__version__)"
-# → 0.4.0
+# → 0.5.0
 
 uv run nl2sql-agent config | python -m json.tool | head -20
 ```

@@ -121,6 +121,19 @@ def _d(value: str) -> Decimal:
 
 DEFAULT_PRICING_RULES: tuple[PricingRule, ...] = (
     PricingRule(
+        "agnes-2.5-flash-20260814",
+        "agnes-2.5-flash",
+        "Agnes 2.5 Flash",
+        SEED_EFFECTIVE_AT,
+        None,
+        _d("0.00"),
+        _d("0.00"),
+        notes=(
+            "Current promotional rate; documented standard pricing is "
+            "$0.03 input / $0.15 output per million tokens."
+        ),
+    ),
+    PricingRule(
         "claude-sonnet-5-20260814",
         "claude-sonnet-5",
         "Sonnet 5",
