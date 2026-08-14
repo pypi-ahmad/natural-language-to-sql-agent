@@ -5,11 +5,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/nl2sql_agent/agent/__init__.py",
-      "summary": "Re-exports agent state and workflow types as the agent package API.",
+      "summary": "Re-exports the NL2SQL workflow's state and public agent class.",
       "tags": [
-        "python",
-        "package",
-        "barrel"
+        "agent",
+        "exports",
+        "package-api"
       ],
       "complexity": "simple"
     },
@@ -18,11 +18,11 @@
       "type": "file",
       "name": "state.py",
       "filePath": "src/nl2sql_agent/agent/state.py",
-      "summary": "Defines the state contract that carries NL2SQL workflow inputs, outputs, and execution metadata.",
+      "summary": "Defines the typed state contract passed through the LangGraph SQL-generation and execution workflow.",
       "tags": [
-        "python",
-        "service",
-        "application"
+        "agent",
+        "state-model",
+        "langgraph"
       ],
       "complexity": "moderate"
     },
@@ -33,13 +33,13 @@
       "filePath": "src/nl2sql_agent/agent/state.py",
       "lineRange": [
         13,
-        71
+        83
       ],
-      "summary": "Typed state contract used throughout the agent workflow.",
+      "summary": "Encapsulates workflow behavior as AgentState.",
       "tags": [
-        "python",
-        "data-model",
-        "configuration"
+        "class",
+        "workflow",
+        "data-model"
       ],
       "complexity": "moderate"
     },
@@ -48,11 +48,11 @@
       "type": "file",
       "name": "workflow.py",
       "filePath": "src/nl2sql_agent/agent/workflow.py",
-      "summary": "Implements the LangGraph-based NL2SQL workflow from schema discovery through policy checks, execution, and summarization.",
+      "summary": "Coordinates schema retrieval, SQL generation, security checks, preflight plans, approved execution, summarization, usage capture, and audit logging.",
       "tags": [
-        "python",
-        "service",
-        "application"
+        "agent",
+        "workflow",
+        "langgraph"
       ],
       "complexity": "complex"
     },
@@ -62,14 +62,14 @@
       "name": "NodeTrace",
       "filePath": "src/nl2sql_agent/agent/workflow.py",
       "lineRange": [
-        48,
-        53
+        56,
+        61
       ],
-      "summary": "Records a workflow-node execution trace.",
+      "summary": "Encapsulates workflow behavior as NodeTrace.",
       "tags": [
-        "python",
         "class",
-        "service"
+        "workflow",
+        "data-model"
       ],
       "complexity": "simple"
     },
@@ -79,14 +79,14 @@
       "name": "NL2SQLAgent",
       "filePath": "src/nl2sql_agent/agent/workflow.py",
       "lineRange": [
-        56,
-        544
+        64,
+        628
       ],
-      "summary": "Coordinates schema retrieval, SQL generation, policy validation, execution, and response summarization.",
+      "summary": "Encapsulates workflow behavior as NL2SQLAgent.",
       "tags": [
-        "python",
         "class",
-        "service"
+        "workflow",
+        "data-model"
       ],
       "complexity": "complex"
     },
@@ -95,11 +95,11 @@
       "type": "file",
       "name": "__init__.py",
       "filePath": "src/nl2sql_agent/prompts/__init__.py",
-      "summary": "Re-exports prompt templates and formatting helpers.",
+      "summary": "Re-exports SQL-writing and result-summarization prompt templates.",
       "tags": [
-        "python",
-        "package",
-        "barrel"
+        "prompts",
+        "exports",
+        "package-api"
       ],
       "complexity": "simple"
     },
@@ -108,13 +108,30 @@
       "type": "file",
       "name": "templates.py",
       "filePath": "src/nl2sql_agent/prompts/templates.py",
-      "summary": "Defines system prompt templates and helpers for errors and tabular data formatting.",
+      "summary": "Defines dialect-aware SQL generation instructions plus compact error and result-formatting prompt helpers.",
       "tags": [
-        "python",
-        "service",
-        "application"
+        "prompts",
+        "sql-generation",
+        "templates"
       ],
       "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/prompts/templates.py:sql_writer_system",
+      "type": "function",
+      "name": "sql_writer_system",
+      "filePath": "src/nl2sql_agent/prompts/templates.py",
+      "lineRange": [
+        29,
+        43
+      ],
+      "summary": "Implements sql_writer_system for the workflow responsibilities of this module.",
+      "tags": [
+        "function",
+        "workflow",
+        "implementation"
+      ],
+      "complexity": "simple"
     },
     {
       "id": "function:src/nl2sql_agent/prompts/templates.py:error_section",
@@ -122,14 +139,14 @@
       "name": "error_section",
       "filePath": "src/nl2sql_agent/prompts/templates.py",
       "lineRange": [
-        69,
-        75
+        86,
+        92
       ],
-      "summary": "Formats optional error context for prompt templates.",
+      "summary": "Implements error_section for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -139,14 +156,14 @@
       "name": "format_data",
       "filePath": "src/nl2sql_agent/prompts/templates.py",
       "lineRange": [
-        78,
-        85
+        95,
+        102
       ],
-      "summary": "Formats query data for insertion into a prompt.",
+      "summary": "Implements format_data for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     }
@@ -171,7 +188,7 @@
       "target": "class:src/nl2sql_agent/agent/state.py:AgentState",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/agent/state.py",
@@ -185,7 +202,7 @@
       "target": "class:src/nl2sql_agent/agent/workflow.py:NodeTrace",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/agent/workflow.py",
@@ -199,7 +216,7 @@
       "target": "class:src/nl2sql_agent/agent/workflow.py:NL2SQLAgent",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/agent/workflow.py",
@@ -225,6 +242,13 @@
     {
       "source": "file:src/nl2sql_agent/agent/workflow.py",
       "target": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/llm/pricing.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
@@ -259,10 +283,24 @@
     },
     {
       "source": "file:src/nl2sql_agent/prompts/templates.py",
+      "target": "function:src/nl2sql_agent/prompts/templates.py:sql_writer_system",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/templates.py",
+      "target": "function:src/nl2sql_agent/prompts/templates.py:sql_writer_system",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/templates.py",
       "target": "function:src/nl2sql_agent/prompts/templates.py:error_section",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/prompts/templates.py",
@@ -276,7 +314,7 @@
       "target": "function:src/nl2sql_agent/prompts/templates.py:format_data",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/prompts/templates.py",

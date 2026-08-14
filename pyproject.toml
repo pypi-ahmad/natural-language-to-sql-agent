@@ -1,6 +1,6 @@
 [project]
 name = "nl2sql-agent"
-version = "0.3.1"
+version = "0.4.0"
 description = "Production-grade natural-language to SQL data analyst agent with local and cloud LLM support"
 readme = "README.md"
 requires-python = ">=3.12.10,<3.13"
@@ -42,6 +42,7 @@ dependencies = [
     "loguru>=0.7.3,<0.8",
     # SQL safety
     "sqlglot>=27.16.0,<28",
+    "psycopg[binary]>=3.2,<4",
 ]
 
 [project.scripts]
@@ -134,6 +135,7 @@ omit = [
     "*/tests/*",
     "*/__main__.py",
     "*/ui/streamlit_app.py",
+    "*/ui/pages.py",
 ]
 
 [tool.coverage.report]

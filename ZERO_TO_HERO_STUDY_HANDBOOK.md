@@ -10,11 +10,11 @@ How to use this handbook:
 
 ### 1.1 What this project does
 
-`nl2sql-agent` is a local-first natural-language-to-SQL system. A user asks a plain-English question (CLI or Streamlit UI), the agent generates SQL, validates it for safety, runs it on SQLite, and returns a natural-language answer plus SQL/result context.
+`nl2sql-agent` is a local-first natural-language-to-SQL system. A user asks a plain-English question (CLI or Streamlit UI), the agent generates SQL, validates it for safety, runs it on read-only SQLite or operator-configured PostgreSQL, and returns a natural-language answer plus SQL/result context.
 
 Primary use cases in this repo:
 
-1. Local analytics assistant over a small SQLite database (`company.db` by default).
+1. Local analytics assistant over SQLite (`company.db` by default) or a restricted PostgreSQL schema.
 2. Safe text-to-SQL experimentation with policy controls (joins, subqueries, aggregates, CTE).
 3. Multi-provider runtime where Ollama is default and Hugging Face, OpenAI, Anthropic, Gemini, and xAI are optional.
 4. Approval-first analysis of session-scoped uploaded SQLite databases.
@@ -122,18 +122,21 @@ Files a new contributor should learn first (in practical reading order):
 | `Launch NL2SQL Agent.cmd` | Windows double-click startup | checks `uv`, then runs `nl2sql-agent serve` | locked environment, loopback port 8501, visible logs |
 | `pyproject.toml` | Packaging, dependencies, scripts, lint/type/test config | `[project.scripts] nl2sql-agent` | `requires-python`, direct dependencies, transitive constraints, Ruff/ty/Pytest settings |
 | `src/nl2sql_agent/cli.py` | CLI entrypoint for ask/config/serve/eval | `main`, `cmd_ask`, `cmd_eval`, `cmd_config`, `cmd_serve` | Provider/model overrides, eval threshold, report and cost options |
-| `src/nl2sql_agent/ui/streamlit_app.py` | Approval-first Streamlit orchestration | `main`, `_resolve_database`, `_build_agent` | Session messages, temporary upload workspace, pending SQL, active database context |
-| `src/nl2sql_agent/ui/components.py` | UI widgets and result rendering | `render_sidebar`, `render_chat_history`, `render_run_result` | Database source, provider/model, results, traces, CSV download |
+| `src/nl2sql_agent/ui/streamlit_app.py` | Approval-first multipage Streamlit orchestration | `main`, `_resolve_database`, `_build_agent` | Chat context, temporary upload workspace, pending SQL, active database context |
+| `src/nl2sql_agent/ui/components.py` | UI widgets and result rendering | `render_sidebar`, `render_chat_history`, `render_run_result` | Database source, provider/model, results, traces, plans, metrics, CSV download |
+| `src/nl2sql_agent/ui/pages.py` | Costs, Sessions, Insights, and Pricing views | `render_costs_page`, `render_sessions_page`, `render_insights_page`, `render_pricing_page` | Dashboards, saved-session management, rule editing, budgets |
+| `src/nl2sql_agent/persistence.py` | Versioned local state database | `StateStore` | Allowlisted messages, approved SQL, usage, price snapshots, plans, metrics; never raw results or secrets |
 | `src/nl2sql_agent/ui/database_upload.py` | Untrusted upload validation/storage | `validate_sqlite_upload`, `save_sqlite_upload` | Extension, size, SQLite header, content digest |
 | `src/nl2sql_agent/agent/workflow.py` | Full and two-phase workflow routing | `NL2SQLAgent`, `prepare`, `stream_prepare`, `execute_prepared`, `run`, `stream` | Run ID, allowlist, SQL safety, retries, traces, token usage |
 | `src/nl2sql_agent/agent/state.py` | Typed workflow contract | `AgentState` | Fields for schema, SQL, retries, raw rows, columns, row_count |
 | `src/nl2sql_agent/security/sql_validator.py` | SQL AST validation and executable preparation | `SQLPolicy`, `validate_sql`, `prepare_sql`, `referenced_tables` | Feature toggles, structural limits, table allowlist, enforced LIMIT |
-| `src/nl2sql_agent/db/database.py` | Read-only SQLite schema/query layer | `Database`, `QueryResult`, `list_tables`, `get_schema_text`, `preflight`, `execute` | Timeout, VM steps, row limit, single-pass schema ranking, selected-table metadata, sample rows |
+| `src/nl2sql_agent/db/database.py` | Read-only SQLite schema/query layer | `Database`, `QueryResult`, `list_tables`, `get_schema_text`, `preflight`, `execute` | Timeout, VM steps, row limit, normalized plans/metrics, schema ranking |
+| `src/nl2sql_agent/db/postgres.py` | Strict read-only PostgreSQL layer | `PostgresDatabase` | Restricted role verification, one-schema introspection, timeouts, JSON plans |
 | `src/nl2sql_agent/evaluation/runner.py` | Result and safety evaluation | `EvalCase`, `EvaluationRunner`, `EvaluationReport` | Reference result comparison, threshold metrics, integrity digest |
 | `src/nl2sql_agent/utils/audit.py` | Privacy-preserving JSONL audit | `AuditLogger`, `redact_sql`, `hash_text` | Hashed questions, literal-redacted SQL |
 | `src/nl2sql_agent/db/seed.py` | Demo seed data | `SEED_DEPARTMENTS`, `SEED_EMPLOYEES` | Department/employee tuples loaded via `INSERT OR IGNORE` |
 | `src/nl2sql_agent/llm/factory.py` | Provider-specific model building and model listing | `build_chat_model`, `list_models`, `fallback_models`, `_build_*`, `_list_ollama`, `LLMProviderError` | Six providers; medium hosted reasoning; Ollama-only live discovery |
-| `src/nl2sql_agent/llm/pricing.py` | Hosted-model UI cost estimates | `ModelPricing`, `MODEL_PRICING`, `estimate_model_cost` | Fixed input/output USD rates per 1M tokens; standard-rate calculation only |
+| `src/nl2sql_agent/llm/pricing.py` | Per-call hosted-model pricing | `PricingRule`, `UsageRecord`, `calculate_cost` | Effective dates, cache/batch/fast rates, long-context thresholds, exact decimal arithmetic |
 | `src/nl2sql_agent/config/settings.py` | Central runtime config and model policy | `Settings`, `default_model_for`, `supported_models_for`, `validate_model_for`, `env_var_for` | `env_prefix="NL2SQL_"`, provider/model allow-lists, credentials, DB/SQL/log fields |
 | `src/nl2sql_agent/prompts/templates.py` | Prompt templates and formatting helpers | `SQL_WRITER_SYSTEM`, `SQL_WRITER_USER`, `SUMMARIZER_SYSTEM`, `SUMMARIZER_USER`, `error_section`, `format_data` | Prompt placeholders `{schema}`, `{question}`, `{error_section}`, `{sql}`, `{data}`, `{error}` |
 | `src/nl2sql_agent/utils/text.py` | SQL/text normalization utilities | `strip_sql_fences`, `truncate` | Regex constants `_SQL_FENCE_RE`, `_LEADING_SQL_TOKEN_RE` |
@@ -249,17 +252,17 @@ Output shape:
 
 Entrypoint chain:
 
-1. `streamlit_app.main()` configures page, logging, and per-tab state.
-2. `render_sidebar()` selects Demo/Upload and the model provider.
+1. `streamlit_app.main()` configures logging, local state, and five native pages.
+2. `render_sidebar()` selects Demo/Upload/PostgreSQL and the model provider.
 3. Uploads are validated, stored under a content digest, and opened read-only.
 4. The user selects allowed tables and whether uploaded sample rows may enter prompts.
 5. `agent.stream_prepare(user_query)` emits schema, writer, and guardian updates.
 6. Safe SQL is stored as `pending_query` and shown in an editable text area.
 7. Run calls `agent.execute_prepared(...)`, which validates the edited SQL again.
-8. The result, SQL, CSV, stage trace, selected model, and token usage are stored
-   in session history.
-9. `render_run_result()` combines the token counts with `MODEL_PRICING` and
-   shows the standard-rate estimate when the selected model is priced.
+8. Current result rows and CSV remain in memory. The state store persists only
+   messages, approved SQL, context, usage/cost snapshots, and bounded metrics.
+9. `render_run_result()` prices each provider-reported model call with the
+   effective local rule and shows plan/runtime warnings.
 
 Short code fragment from real path:
 
@@ -276,12 +279,12 @@ Input shape:
 
 Output shape:
 - Editable SQL preview, answer, dataframe, CSV, stage timings, token counts,
-  and an estimated hosted-model cost.
+  normalized plan/metrics, warnings, and an estimated hosted-model cost.
 
-The estimate is `(input_tokens × input_price + output_tokens × output_price) /
-1,000,000`. The catalog is a fixed snapshot. Aggregate usage cannot determine
-cache hits, batch pricing, fast mode, or whether an individual call crossed a
-long-context threshold, so those adjustments are explained but not applied.
+Each model call records provider-reported input/output/cache usage. The
+effective local rule applies its actual request mode and long-context threshold,
+then freezes a price snapshot with the approved run. Estimates remain local
+guidance rather than provider invoices.
 
 ### 3.4 Flow C: Agent internals (LangGraph node-by-node)
 
@@ -622,10 +625,11 @@ Current behavior:
     to match; ordered cases still require the requested row order.
 
 11. Exercise 11 outline:
-    `write_sql()` and `summarize()` merge provider usage metadata into
-    `AgentState.token_usage`; session history preserves the selected model and
-    counts; `render_run_result()` calls `estimate_model_cost()`. Unknown Ollama
-    or custom Hugging Face models return `None`, so the UI shows unavailable.
+    `write_sql()` and `summarize()` retain per-call provider usage in
+    `AgentState.usage_records`; `calculate_cost()` selects the effective rule
+    and actual mode for each call, including cache and long-context adjustments.
+    Approved runs freeze the price snapshot. Unknown Ollama or custom Hugging
+    Face models remain unpriced until a matching rule is configured.
 
 ## Verification Checklist
 

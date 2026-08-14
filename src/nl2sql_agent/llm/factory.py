@@ -262,7 +262,10 @@ def _list_ollama(base_url: str) -> list[str]:
 
     try:
         client = ollama.Client(host=base_url)
-        info = client.list()
+        try:
+            info = client.list()
+        finally:
+            client.close()
     except Exception as exc:
         # Fall back to the sync ``ollama.list()`` which uses the default URL.
         logger.debug(

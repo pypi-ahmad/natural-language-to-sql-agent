@@ -55,4 +55,4 @@ render_run_result(
         "Estimated cost",
     ]
     assert [metric.value for metric in app.metric] == ["1,000", "500", "$0.000800"]
-    assert "fast-mode, and long-context adjustments are not applied" in app.caption[-1].value
+    assert "Compatibility estimate uses standard rates" in app.caption[-1].value

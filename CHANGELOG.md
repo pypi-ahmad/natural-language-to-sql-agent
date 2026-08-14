@@ -7,6 +7,38 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.4.0] — 2026-08-14
+
+### Added
+
+- Five-view Streamlit interface: Chat, Costs, Sessions, Insights, and Pricing.
+- Local saved sessions with reopen, rename, delete, pending approvals, and
+  approved-query history; raw rows, CSV payloads, uploads, schemas, keys, and
+  DSNs are excluded from persistence.
+- Effective-dated editable pricing with cache-read/cache-creation, batch,
+  fast-mode, and per-call long-context rates plus immutable run snapshots.
+- Session/model cost dashboards, privacy-safe CSV export, and optional
+  non-blocking budget alerts at 80% and 100%.
+- Strictly read-only PostgreSQL backend with a single configured schema,
+  non-privileged role checks, transaction verification, and timeouts.
+- Normalized SQLite/PostgreSQL plans, runtime/work-unit metrics, trends, and
+  configurable full-scan, row, planner-cost, and latency warnings.
+
+### Changed
+
+- SQL prompts, parsing, canonicalization, audit redaction, and table
+  authorization are dialect-aware.
+- Provider usage is retained per actual model call so pricing no longer assumes
+  all calls are standard, uncached, or short-context.
+- Version advanced to 0.4.0 and Psycopg 3 is now a runtime dependency.
+
+### Security
+
+- PostgreSQL rejects superuser, BYPASSRLS, CREATEDB, and CREATEROLE roles and
+  blocks cross-schema references, `SELECT INTO`, row locks, unsafe functions,
+  and `EXPLAIN ANALYZE` execution paths.
+- Ollama discovery now closes its HTTP client deterministically.
+
 ## [0.3.1] — 2026-08-14
 
 ### Fixed

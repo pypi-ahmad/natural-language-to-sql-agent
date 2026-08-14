@@ -7,6 +7,7 @@ from .templates import (
     SUMMARIZER_USER,
     error_section,
     format_data,
+    sql_writer_system,
 )
 
 __all__ = [
@@ -16,4 +17,5 @@ __all__ = [
     "SUMMARIZER_USER",
     "error_section",
     "format_data",
+    "sql_writer_system",
 ]

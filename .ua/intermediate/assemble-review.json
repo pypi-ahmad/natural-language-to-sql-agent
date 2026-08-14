@@ -6,9 +6,9 @@
   "typesRemapped": 0,
   "complexityRemapped": 0,
   "notes": [
-    "All 239 batch nodes are present in the assembled graph; all 97 scanned files have one file-level graph node.",
-    "Verified all 40 non-self deterministic imports from scan-result.json. Each is a forward imports edge with weight 0.7.",
-    "The scanner's sole self-import, src/nl2sql_agent/utils/logging.py to itself, remains intentionally absent because self-referencing edges are invalid.",
-    "Integrity checks found no missing node fields, duplicate IDs or edges, dangling edges, unknown node types, or unknown complexity values."
+    "The 11 current batch files contain 284 nodes and 391 edges; the assembled graph preserves all of them.",
+    "All 95 scanned files are represented by node filePath values in the assembled graph.",
+    "All 53 import-map entries were checked: 52 valid cross-file imports are present as forward imports edges with weight 0.7. The remaining entry maps src/nl2sql_agent/utils/logging.py to itself even though the source imports only the standard-library logging module; its invalid self-edge remains intentionally absent.",
+    "The merge report contains no mechanical corrections or unfixable items. Integrity checks found no missing node fields, duplicate IDs or edges, dangling edges, unknown node types, or invalid complexity values."
   ]
 }

@@ -13,6 +13,7 @@ from ..llm.pricing import MODEL_PRICING, estimate_model_cost
 
 def render_sidebar(
     *,
+    postgres_enabled: bool = False,
     providers: Iterable[Provider] = (
         "ollama",
         "huggingface",
@@ -29,9 +30,12 @@ def render_sidebar(
     providers = list(providers)
     st.sidebar.title("Agent settings")
 
+    data_sources = ["Demo", "Upload"]
+    if postgres_enabled:
+        data_sources.append("PostgreSQL")
     data_source = st.sidebar.segmented_control(
         "Database",
-        options=["Demo", "Upload"],
+        options=data_sources,
         default="Demo",
         key="data_source",
     )
@@ -50,6 +54,7 @@ def render_sidebar(
         "LLM provider",
         options=[provider_labels[p] for p in providers],
         index=default_idx,
+        key="provider_selector",
         help="Local Ollama is the default and works without any API key.",
     )
     provider: Provider = next(p for p, label in provider_labels.items() if label == selected_label)
@@ -129,6 +134,11 @@ def render_chat_history() -> None:
                     run_id=str(msg.get("run_id", "result")),
                     model=str(msg.get("model", "")),
                     token_usage=dict(msg.get("token_usage", {})),
+                    cost_breakdown=dict(msg.get("cost_breakdown", {})),
+                    query_plan=dict(msg.get("query_plan", {})),
+                    query_metrics=dict(msg.get("query_metrics", {})),
+                    warnings=list(msg.get("warnings", [])),
+                    result_not_stored=bool(msg.get("result_not_stored", False)),
                 )
             else:
                 st.markdown(msg["content"])
@@ -151,6 +161,11 @@ def render_run_result(
     run_id: str = "result",
     model: str = "",
     token_usage: dict[str, int] | None = None,
+    cost_breakdown: dict[str, object] | None = None,
+    query_plan: dict[str, object] | None = None,
+    query_metrics: dict[str, object] | None = None,
+    warnings: list[str] | None = None,
+    result_not_stored: bool = False,
 ) -> None:
     """Render the final answer, plus SQL and a small data preview."""
     if error:
@@ -160,7 +175,12 @@ def render_run_result(
     if token_usage:
         input_tokens = max(int(token_usage.get("input_tokens", 0)), 0)
         output_tokens = max(int(token_usage.get("output_tokens", 0)), 0)
-        estimated_cost = estimate_model_cost(model, input_tokens, output_tokens)
+        raw_total = (cost_breakdown or {}).get("total_cost")
+        estimated_cost = (
+            float(str(raw_total))
+            if raw_total is not None
+            else estimate_model_cost(model, input_tokens, output_tokens)
+        )
         with st.container(horizontal=True):
             st.metric("Input tokens", f"{input_tokens:,}", border=True)
             st.metric("Output tokens", f"{output_tokens:,}", border=True)
@@ -170,17 +190,23 @@ def render_run_result(
                 border=True,
             )
         pricing = MODEL_PRICING.get(model)
-        if pricing is not None:
+        if cost_breakdown and cost_breakdown.get("pricing_rule_id"):
+            st.caption(
+                f"Calculated from actual provider usage with pricing rule "
+                f"{cost_breakdown['pricing_rule_id']}. Historical estimates keep this snapshot."
+            )
+        elif pricing is not None:
             st.caption(
                 f"{pricing.display_name}: ${pricing.input_price:.2f} input / "
                 f"${pricing.output_price:.2f} output per 1M tokens. {pricing.details} "
-                "Estimate uses standard rates; cache, batch, fast-mode, and long-context "
-                "adjustments are not applied."
+                "Compatibility estimate uses standard rates."
             )
         else:
             st.caption("No API pricing was supplied for this model.")
     with st.expander("SQL used", icon=":material/code:"):
         st.code(sql_query or "(no SQL generated)", language="sql")
+    if result_not_stored:
+        st.caption("Raw results were not stored; rerun against the connected database.")
     if columns and raw_rows is not None:
         try:
             import pandas as pd
@@ -202,6 +228,34 @@ def render_run_result(
                     )
         except ImportError:  # pragma: no cover - pandas is in dev only
             st.caption("(install pandas to preview raw results)")
+    if warnings:
+        for warning in warnings:
+            st.warning(warning, icon=":material/warning:")
+    if query_plan or query_metrics:
+        with st.expander("Query insights", icon=":material/monitoring:"):
+            metrics = query_metrics or {}
+            with st.container(horizontal=True):
+                if metrics.get("duration_ms") is not None:
+                    st.metric(
+                        "Runtime", f"{float(str(metrics['duration_ms'])):,.1f} ms", border=True
+                    )
+                if metrics.get("work_units") is not None:
+                    st.metric(
+                        "SQLite VM steps", f"{int(str(metrics['work_units'])):,}", border=True
+                    )
+                if metrics.get("row_count") is not None:
+                    st.metric("Rows", f"{int(str(metrics['row_count'])):,}", border=True)
+            plan = query_plan or {}
+            if plan.get("estimated_rows") is not None:
+                st.caption(f"Estimated rows: {int(str(plan['estimated_rows'])):,}")
+            if plan.get("estimated_total_cost") is not None:
+                st.caption(
+                    "PostgreSQL planner cost: "
+                    f"{float(str(plan['estimated_total_cost'])):,.1f} (planner units, not USD)"
+                )
+            nodes = plan.get("nodes")
+            if isinstance(nodes, list) and nodes:
+                st.dataframe(nodes, hide_index=True)
     if trace:
         with st.expander("Run stages", icon=":material/query_stats:"):
             for item in trace:

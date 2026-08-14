@@ -28,14 +28,22 @@ from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
 from ..config import Settings, get_settings
-from ..db import Database
+from ..db import (
+    Database,
+    DatabaseBackend,
+    DatabaseError,
+    PostgresDatabase,
+    QueryPlan,
+    QueryResult,
+)
+from ..llm.pricing import UsageRecord
 from ..prompts import (
-    SQL_WRITER_SYSTEM,
     SQL_WRITER_USER,
     SUMMARIZER_SYSTEM,
     SUMMARIZER_USER,
     error_section,
     format_data,
+    sql_writer_system,
 )
 from ..security import SQLPolicy, SQLValidationError, prepare_sql
 from ..utils import AuditLogger, get_logger, hash_text, strip_sql_fences
@@ -66,22 +74,35 @@ class NL2SQLAgent:
         llm: BaseChatModel,
         *,
         settings: Settings | None = None,
-        database: Database | None = None,
+        database: DatabaseBackend | None = None,
         allowed_tables: Collection[str] | None = None,
         include_sample_values: bool | None = None,
         db_fingerprint: str | None = None,
     ) -> None:
         self.llm = llm
         self.settings = settings or get_settings()
-        managed_demo = database is None
-        self.db = database or Database(
-            self.settings.db_path,
-            timeout_seconds=self.settings.db_query_timeout_seconds,
-            max_rows=self.settings.db_max_rows,
-            max_vm_steps=self.settings.db_max_vm_steps,
-        )
+        managed_demo = database is None and self.settings.db_backend == "sqlite"
+        if database is not None:
+            self.db = database
+        elif self.settings.db_backend == "postgres":
+            if self.settings.postgres_dsn is None:  # validated by Settings
+                raise ValueError("PostgreSQL DSN is not configured")
+            self.db = PostgresDatabase(
+                self.settings.postgres_dsn.get_secret_value(),
+                schema=self.settings.postgres_schema,
+                timeout_seconds=self.settings.db_query_timeout_seconds,
+                lock_timeout_seconds=self.settings.db_lock_timeout_seconds,
+                max_rows=self.settings.db_max_rows,
+            )
+        else:
+            self.db = Database(
+                self.settings.db_path,
+                timeout_seconds=self.settings.db_query_timeout_seconds,
+                max_rows=self.settings.db_max_rows,
+                max_vm_steps=self.settings.db_max_vm_steps,
+            )
         if managed_demo:
-            self.db.ensure_schema(seed=self.settings.db_seed)
+            cast(Database, self.db).ensure_schema(seed=self.settings.db_seed)
         available_tables = self.db.list_tables()
         self.allowed_tables = frozenset(
             available_tables if allowed_tables is None else allowed_tables
@@ -92,12 +113,11 @@ class NL2SQLAgent:
         self.include_sample_values = (
             managed_demo if include_sample_values is None else include_sample_values
         )
-        self.db_fingerprint = db_fingerprint or (
-            "demo" if managed_demo else hash_text(str(self.db.path.resolve()))
-        )
+        self.db_fingerprint = db_fingerprint or ("demo" if managed_demo else self.db.fingerprint)
         self.audit = AuditLogger(
             self.settings.audit_path,
             enabled=self.settings.audit_enabled,
+            dialect=self.db.dialect,
         )
         self.policy = SQLPolicy(
             allow_subqueries=self.settings.sql_allow_subqueries,
@@ -110,8 +130,8 @@ class NL2SQLAgent:
             max_ctes=self.settings.sql_max_ctes,
         )
         logger.info(
-            "Agent ready: provider model in use, db={db}, max_retries={r}",
-            db=str(self.settings.db_path),
+            "Agent ready: provider model in use, db_kind={db}, max_retries={r}",
+            db=self.db.kind,
             r=self.settings.max_retries,
         )
 
@@ -147,7 +167,7 @@ class NL2SQLAgent:
         )
         response = self.llm.invoke(
             [
-                {"role": "system", "content": SQL_WRITER_SYSTEM},
+                {"role": "system", "content": sql_writer_system(self.db.dialect)},
                 {"role": "user", "content": prompt},
             ]
         )
@@ -155,6 +175,7 @@ class NL2SQLAgent:
         sql = strip_sql_fences(str(raw_sql))
         retry = int(state.get("retry_count", 0)) + 1
         logger.info("writer attempt={n} sql_hash={sql_hash}", n=retry, sql_hash=hash_text(sql))
+        usage, records = self._merge_usage(state, response, stage="writer")
         return {
             "sql_query": sql,
             "retry_count": retry,
@@ -162,7 +183,8 @@ class NL2SQLAgent:
             "error": "",
             "sql_unsafe_reason": "",
             "result": "",
-            "token_usage": self._merge_usage(state, response),
+            "token_usage": usage,
+            "usage_records": records,
             "trace": self._append_trace(state, "writer", started, f"SQL attempt {retry}"),
         }
 
@@ -175,9 +197,13 @@ class NL2SQLAgent:
                 sql,
                 self.policy,
                 allowed_tables=self.allowed_tables,
+                dialect=self.db.dialect,
+                allowed_schema=(
+                    self.settings.postgres_schema if self.db.dialect == "postgres" else None
+                ),
             )
-            self.db.preflight(prepared.sql)
-        except (SQLValidationError, sqlite3.Error) as exc:
+            plan = self.db.preflight(prepared.sql)
+        except (SQLValidationError, sqlite3.Error, DatabaseError) as exc:
             category = "validation" if isinstance(exc, SQLValidationError) else "preflight"
             logger.warning("Guardian blocked SQL category={category}", category=category)
             self._write_audit(
@@ -205,6 +231,8 @@ class NL2SQLAgent:
             "sql_safe": True,
             "error": "",
             "sql_unsafe_reason": "",
+            "query_plan": plan.to_dict(),
+            "warnings": self._plan_warnings(plan),
             "trace": self._append_trace(state, "guardian", started, "Validated and prepared"),
         }
 
@@ -213,8 +241,8 @@ class NL2SQLAgent:
         started = time.perf_counter()
         sql = state.get("sql_query", "")
         try:
-            qr = self.db.execute(sql)
-        except sqlite3.Error as exc:
+            qr = cast(QueryResult, self.db.execute(sql))
+        except (sqlite3.Error, DatabaseError) as exc:
             logger.warning("SQL execution failed type={kind}", kind=exc.__class__.__name__)
             self._write_audit(
                 state,
@@ -261,6 +289,18 @@ class NL2SQLAgent:
             truncated=qr.truncated,
             duration_ms=self._duration_ms(started),
         )
+        warnings = list(state.get("warnings", []))
+        if qr.metrics.duration_ms >= self.settings.query_warn_duration_ms > 0:
+            warnings.append(f"Slow query: {qr.metrics.duration_ms:.1f} ms")
+        if (
+            qr.metrics.work_units is not None
+            and qr.metrics.work_units >= self.settings.query_warn_sqlite_vm_steps > 0
+        ):
+            warnings.append(f"High SQLite work: {qr.metrics.work_units:,} VM steps")
+        if qr.truncated:
+            warnings.append(f"Results truncated at {self.settings.db_max_rows:,} rows")
+        metrics = qr.metrics.to_dict()
+        metrics["warnings"] = warnings
         return {
             "error": "",
             "result": qr.to_markdown(),
@@ -269,6 +309,8 @@ class NL2SQLAgent:
             "row_count": qr.row_count,
             "csv_data": qr.to_csv(),
             "truncated": qr.truncated,
+            "query_metrics": metrics,
+            "warnings": warnings,
             "trace": self._append_trace(
                 state, "executor", started, f"Returned {qr.row_count} rows"
             ),
@@ -307,11 +349,12 @@ class NL2SQLAgent:
         if not answer:
             answer = self._fallback_answer(state, None)
 
-        usage = self._merge_usage(state, response)
+        usage, records = self._merge_usage(state, response, stage="summarizer")
         return {
             "final_answer": answer,
             "result": answer,
             "token_usage": usage,
+            "usage_records": records,
             "trace": self._append_trace(state, "summarizer", started, "Answer composed"),
         }
 
@@ -501,6 +544,10 @@ class NL2SQLAgent:
             "error": "",
             "trace": [],
             "token_usage": {},
+            "usage_records": [],
+            "warnings": [],
+            "provider": self.settings.provider,
+            "model": self.settings.model,
             "allowed_tables": sorted(self.allowed_tables),
         }
 
@@ -520,16 +567,53 @@ class NL2SQLAgent:
         return trace
 
     @staticmethod
-    def _merge_usage(state: AgentState, response: object) -> dict[str, int]:
+    def _merge_usage(
+        state: AgentState,
+        response: object,
+        *,
+        stage: str,
+    ) -> tuple[dict[str, int], list[dict[str, object]]]:
         current = dict(state.get("token_usage", {}))
+        records = list(state.get("usage_records", []))
         reported = getattr(response, "usage_metadata", None)
         if not isinstance(reported, dict):
-            return current
+            return current, records
         for key in ("input_tokens", "output_tokens", "total_tokens"):
             value = reported.get(key)
             if isinstance(value, int):
                 current[key] = current.get(key, 0) + value
-        return current
+        details = reported.get("input_token_details", {})
+        if not isinstance(details, dict):
+            details = {}
+        record = UsageRecord(
+            stage=stage,
+            input_tokens=max(int(reported.get("input_tokens", 0)), 0),
+            output_tokens=max(int(reported.get("output_tokens", 0)), 0),
+            cache_read_tokens=max(
+                int(details.get("cache_read", details.get("cache_read_tokens", 0))), 0
+            ),
+            cache_creation_tokens=max(
+                int(details.get("cache_creation", details.get("cache_creation_tokens", 0))), 0
+            ),
+        )
+        records.append(record.to_dict())
+        return current, records
+
+    def _plan_warnings(self, plan: QueryPlan) -> list[str]:
+        warnings: list[str] = []
+        if self.settings.query_warn_full_scan:
+            warnings.extend(plan.warnings)
+        if (
+            plan.estimated_rows is not None
+            and plan.estimated_rows >= self.settings.query_warn_estimated_rows > 0
+        ):
+            warnings.append(f"Large estimate: {plan.estimated_rows:,} rows")
+        if (
+            plan.estimated_total_cost is not None
+            and plan.estimated_total_cost >= self.settings.query_warn_postgres_cost > 0
+        ):
+            warnings.append(f"High PostgreSQL planner cost: {plan.estimated_total_cost:,.1f}")
+        return list(dict.fromkeys(warnings))
 
     def _write_audit(self, state: AgentState, event: str, **fields: Any) -> None:
         self.audit.write(

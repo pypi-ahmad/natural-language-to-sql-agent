@@ -24,6 +24,9 @@ def _reset_settings(monkeypatch: pytest.MonkeyPatch) -> None:
         "OPENAI_API_KEY",
         "GOOGLE_API_KEY",
         "ANTHROPIC_API_KEY",
+        "NL2SQL_DB_BACKEND",
+        "NL2SQL_POSTGRES_DSN",
+        "NL2SQL_STATE_PATH",
     ):
         monkeypatch.delenv(var, raising=False)
     yield

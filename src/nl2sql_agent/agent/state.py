@@ -60,6 +60,18 @@ class AgentState(TypedDict, total=False):
     """Operational stage timings; never model chain-of-thought."""
     token_usage: dict[str, int]
     """Input, output, and total token counts when providers report them."""
+    usage_records: list[dict[str, object]]
+    """Per-call provider usage used for cache, mode, and long-context pricing."""
+    provider: str
+    model: str
+    cost_breakdown: dict[str, object]
+    """Immutable estimated-cost snapshot calculated for this run."""
+    query_plan: dict[str, object]
+    """Normalized non-executing database plan."""
+    query_metrics: dict[str, object]
+    """Execution duration, work units, row count, and truncation state."""
+    warnings: list[str]
+    """Plan, runtime, and cost warnings suitable for display."""
     csv_data: str
     """RFC 4180 CSV for the latest successful result."""
     truncated: bool

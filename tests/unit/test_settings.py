@@ -58,6 +58,10 @@ class TestSettings:
         assert s.schema_max_tables == 8
         assert s.sql_max_joins == 8
         assert s.audit_enabled is True
+        assert s.db_backend == "sqlite"
+        assert s.postgres_dsn is None
+        assert s.postgres_schema == "public"
+        assert s.query_warn_duration_ms == 1000
         assert s.hf_token is None
         assert s.xai_api_key is None
 
@@ -126,6 +130,23 @@ class TestSettings:
         reset_settings_cache()
         with pytest.raises(ValueError):
             get_settings()
+
+    def test_postgres_backend_requires_operator_dsn(self):
+        with pytest.raises(ValidationError, match="POSTGRES_DSN"):
+            Settings(_env_file=None, db_backend="postgres")
+
+    def test_postgres_dsn_is_secret_and_schema_is_validated(self):
+        settings = Settings(
+            _env_file=None,
+            db_backend="postgres",
+            postgres_dsn="postgresql://reader:secret@db/app",  # pragma: allowlist secret
+            postgres_schema="analytics",
+        )
+        assert settings.postgres_dsn is not None
+        assert settings.postgres_dsn.get_secret_value().endswith("@db/app")
+        assert "secret" not in str(settings.postgres_dsn)
+        with pytest.raises(ValidationError, match="schema"):
+            Settings(_env_file=None, postgres_schema="unsafe;drop")
 
     def test_api_key_for(self, monkeypatch):
         s = Settings(

@@ -3,179 +3,48 @@
   "diagram_type": "architecture",
   "meta": {
     "title": "NL2SQL Agent Architecture",
-    "subtitle": "Approval-first natural language to read-only SQLite with explicit safety boundaries",
+    "subtitle": "Approval-first SQL with persistent costs, plans, and strictly read-only databases",
     "output": "architecture-diagram.html",
     "quality_profile": "showcase",
     "visual_preset": "blueprint",
     "repository": {
       "url": "https://github.com/pypi-ahmad/natural-language-to-sql-agent",
-      "revision": "3b4ee4915d0801524742ee1c3281616d0496e94c"
+      "revision": "324ed470a375aea02fc013d52deb6a6246d3588d"
     },
     "views": [
-      {
-        "id": "query-path",
-        "label": "Approved query path",
-        "focus": ["user", "streamlit", "agent", "guardian", "sqlite"],
-        "note": "A user reviews generated SQL before scope-aware validation and read-only execution."
-      },
-      {
-        "id": "model-path",
-        "label": "Model integration",
-        "focus": ["agent", "llm-factory", "providers"],
-        "note": "The workflow uses one provider-neutral boundary with fixed hosted catalogs and Ollama discovery."
-      },
-      {
-        "id": "assurance-path",
-        "label": "Assurance and evaluation",
-        "focus": ["cli", "evaluation", "agent", "audit"],
-        "note": "CLI evaluation scores results and safety while audits retain sanitized operational evidence."
-      }
-    ]
+      {"id": "request", "label": "Approval-first request", "focus": ["user", "clients", "agent", "guardian", "databases"], "note": "Natural language becomes reviewed, guarded SQL before either database executes it."},
+      {"id": "model", "label": "Model calls and cost", "focus": ["agent", "providers", "state"], "note": "Per-call usage is priced with effective rules and saved as immutable run snapshots."},
+      {"id": "safety", "label": "Safety boundaries", "focus": ["guardian", "databases"], "note": "AST policy, table authorization, read-only connections, limits, plans, and redacted audit events."}
+    ],
+    "viewBox": [1440, 820]
   },
   "components": [
-    {
-      "id": "user",
-      "type": "external",
-      "label": "Analyst",
-      "sublabel": "Browser or terminal",
-      "pos": [40, 290],
-      "size": [130, 64]
-    },
-    {
-      "id": "streamlit",
-      "type": "frontend",
-      "label": "Streamlit UI",
-      "sublabel": "Upload, scope, review, approve",
-      "tag": "loopback only",
-      "pos": [230, 250],
-      "size": [160, 78],
-      "sources": [{"path": "src/nl2sql_agent/ui/streamlit_app.py", "label": "UI orchestration"}]
-    },
-    {
-      "id": "cli",
-      "type": "frontend",
-      "label": "CLI",
-      "sublabel": "ask, eval, serve, config",
-      "pos": [230, 390],
-      "size": [160, 68],
-      "sources": [{"path": "src/nl2sql_agent/cli.py", "label": "Commands"}]
-    },
-    {
-      "id": "settings",
-      "type": "backend",
-      "label": "Settings",
-      "sublabel": "Environment-backed policy",
-      "pos": [455, 55],
-      "size": [160, 68],
-      "sources": [{"path": "src/nl2sql_agent/config/settings.py", "label": "Configuration"}]
-    },
-    {
-      "id": "agent",
-      "type": "backend",
-      "label": "LangGraph Agent",
-      "sublabel": "schema → writer → approval",
-      "tag": "retry bounded",
-      "pos": [455, 250],
-      "size": [170, 78],
-      "sources": [{"path": "src/nl2sql_agent/agent/workflow.py", "label": "Workflow"}]
-    },
-    {
-      "id": "evaluation",
-      "type": "backend",
-      "label": "Evaluation Runner",
-      "sublabel": "result and safety scoring",
-      "pos": [455, 430],
-      "size": [170, 68]
-    },
-    {
-      "id": "llm-factory",
-      "type": "backend",
-      "label": "LLM Factory",
-      "sublabel": "Provider-neutral chat model",
-      "pos": [700, 105],
-      "size": [180, 72],
-      "sources": [{"path": "src/nl2sql_agent/llm/factory.py", "label": "Providers"}]
-    },
-    {
-      "id": "guardian",
-      "type": "security",
-      "label": "SQL Guardian",
-      "sublabel": "AST, table scope, limits",
-      "tag": "preflight",
-      "pos": [700, 275],
-      "size": [180, 78],
-      "sources": [{"path": "src/nl2sql_agent/security/sql_validator.py", "label": "SQL policy"}]
-    },
-    {
-      "id": "audit",
-      "type": "database",
-      "label": "Audit JSONL",
-      "sublabel": "Hashes and redacted SQL",
-      "pos": [700, 455],
-      "size": [180, 68]
-    },
-    {
-      "id": "providers",
-      "type": "external",
-      "label": "LLM Providers",
-      "sublabel": "Ollama / HF / OpenAI / Claude / Gemini / xAI",
-      "pos": [960, 105],
-      "size": [190, 72]
-    },
-    {
-      "id": "sqlite",
-      "type": "database",
-      "label": "SQLite",
-      "sublabel": "Read-only query connection",
-      "tag": "VM + row caps",
-      "pos": [960, 275],
-      "size": [190, 78],
-      "sources": [{"path": "src/nl2sql_agent/db/database.py", "label": "Database boundary"}]
-    }
+    {"id": "user", "type": "external", "label": "Operator", "sublabel": "Question + SQL approval", "pos": [40, 330], "size": [150, 70]},
+    {"id": "clients", "type": "frontend", "label": "CLI / Streamlit", "sublabel": "Chat · Costs · Sessions · Insights · Pricing", "pos": [250, 320], "size": [210, 90], "sources": [{"path": "src/nl2sql_agent/ui/streamlit_app.py", "label": "UI entrypoint"}, {"path": "src/nl2sql_agent/cli.py", "label": "CLI"}]},
+    {"id": "agent", "type": "backend", "label": "LangGraph Agent", "sublabel": "schema → writer → guardian → executor → summary", "pos": [530, 310], "size": [230, 110], "sources": [{"path": "src/nl2sql_agent/agent/workflow.py", "label": "Workflow"}]},
+    {"id": "guardian", "type": "security", "label": "SQL Guardian", "sublabel": "AST policy · physical-table allowlist · LIMIT", "pos": [830, 320], "size": [220, 90], "sources": [{"path": "src/nl2sql_agent/security/sql_validator.py", "label": "Validator"}]},
+    {"id": "databases", "type": "database", "label": "Read-only Databases", "sublabel": "SQLite mode=ro · PostgreSQL verified transaction", "pos": [1120, 310], "size": [250, 110], "sources": [{"path": "src/nl2sql_agent/db/database.py", "label": "Backend contract"}]},
+    {"id": "providers", "type": "external", "label": "Model Providers", "sublabel": "Ollama · HF · OpenAI · Anthropic · Gemini · xAI", "pos": [530, 90], "size": [230, 90], "sources": [{"path": "src/nl2sql_agent/llm/factory.py", "label": "Factory"}]},
+    {"id": "state", "type": "database", "label": "Local State Store", "sublabel": "Sessions · approved SQL · usage · pricing · metrics", "pos": [530, 590], "size": [230, 100]},
+    {"id": "pricing", "type": "backend", "label": "Pricing Engine", "sublabel": "Effective dates · cache · batch · fast · long context", "pos": [830, 590], "size": [220, 100], "sources": [{"path": "src/nl2sql_agent/llm/pricing.py", "label": "Pricing"}]}
   ],
   "boundaries": [
-    {
-      "kind": "region",
-      "label": "Local single-user application",
-      "wraps": ["streamlit", "cli", "settings", "agent", "evaluation", "llm-factory", "guardian", "audit", "sqlite"],
-      "pad": 24
-    },
-    {
-      "kind": "security-group",
-      "label": "Untrusted SQL boundary",
-      "wraps": ["guardian", "sqlite"],
-      "pad": 18
-    }
+    {"kind": "region", "label": "Local single-user application", "wraps": ["clients", "agent", "guardian", "state", "pricing"], "pad": 24},
+    {"kind": "security-group", "label": "Untrusted SQL boundary", "wraps": ["guardian", "databases"], "pad": 18}
   ],
   "connections": [
-    {"id": "user-ui", "from": "user", "to": "streamlit", "variant": "emphasis"},
-    {"id": "user-cli", "from": "user", "to": "cli", "variant": "dashed"},
-    {"id": "ui-agent", "from": "streamlit", "to": "agent", "variant": "emphasis"},
-    {"id": "cli-agent", "from": "cli", "to": "agent"},
-    {"id": "agent-guardian", "from": "agent", "to": "guardian", "label": "candidate SQL", "variant": "security"},
-    {"id": "guardian-sqlite", "from": "guardian", "to": "sqlite", "variant": "security"},
-    {"id": "agent-llm", "from": "agent", "to": "llm-factory", "label": "messages"},
-    {"id": "llm-providers", "from": "llm-factory", "to": "providers", "label": "chat API"},
-    {"id": "cli-eval", "from": "cli", "to": "evaluation", "label": "eval corpus", "variant": "dashed"},
-    {"id": "evaluation-agent", "from": "evaluation", "to": "agent", "variant": "dashed"},
-    {"id": "agent-audit", "from": "agent", "to": "audit", "label": "sanitized events"},
-    {"id": "settings-llm", "from": "settings", "to": "llm-factory", "variant": "dashed"}
+    {"id": "ask", "from": "user", "to": "clients", "variant": "emphasis"},
+    {"id": "prepare", "from": "clients", "to": "agent", "variant": "emphasis"},
+    {"id": "validate", "from": "agent", "to": "guardian", "variant": "security"},
+    {"id": "execute", "from": "guardian", "to": "databases", "variant": "security"},
+    {"id": "model-calls", "from": "agent", "to": "providers", "label": "chat + usage", "variant": "dashed"},
+    {"id": "save-session", "from": "clients", "to": "state", "label": "safe history", "variant": "dashed"},
+    {"id": "price-run", "from": "agent", "to": "pricing", "variant": "dashed"},
+    {"id": "store-cost", "from": "pricing", "to": "state", "variant": "dashed"}
   ],
   "cards": [
-    {
-      "dot": "cyan",
-      "title": "Primary path",
-      "items": ["Generate and preview SQL", "Explicit user approval", "Revalidate immediately before execution"]
-    },
-    {
-      "dot": "rose",
-      "title": "Safety boundary",
-      "items": ["Single SELECT AST policy", "Physical-table authorization", "Read-only SQLite with bounded work"]
-    },
-    {
-      "dot": "emerald",
-      "title": "Operational evidence",
-      "items": ["Literal-redacted SQL", "Hashed questions", "Result-based safety evaluation"]
-    }
+    {"dot": "rose", "title": "Safety", "items": ["Edited SQL is revalidated before execution", "PostgreSQL requires a non-privileged read-only role", "Plans never use EXPLAIN ANALYZE"]},
+    {"dot": "cyan", "title": "Persistence", "items": ["Raw rows, CSV, uploads, schemas, keys, and DSNs are never saved", "Approved runs freeze pricing snapshots"]},
+    {"dot": "emerald", "title": "Observability", "items": ["Session/model cost dashboards", "Runtime trends and configurable expensive-query warnings"]}
   ]
 }

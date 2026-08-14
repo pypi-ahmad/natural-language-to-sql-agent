@@ -44,6 +44,18 @@ DANGEROUS_FUNCTIONS: Final[frozenset[str]] = frozenset(
         "edit",
         "shell",
         "system",
+        "dblink",
+        "dblink_connect",
+        "lo_export",
+        "lo_import",
+        "pg_advisory_lock",
+        "pg_advisory_lock_shared",
+        "pg_read_binary_file",
+        "pg_read_file",
+        "pg_sleep",
+        "pg_stat_file",
+        "pg_ls_dir",
+        "set_config",
     }
 )
 
@@ -82,7 +94,7 @@ class PreparedSQL:
     tables: frozenset[str]
 
 
-def parse_sql(sql: str) -> list[exp.Expression]:
+def parse_sql(sql: str, *, dialect: str = "sqlite") -> list[exp.Expression]:
     """Parse ``sql`` into a list of statements using sqlglot.
 
     Empty / whitespace-only input returns an empty list. Parse errors are
@@ -91,7 +103,7 @@ def parse_sql(sql: str) -> list[exp.Expression]:
     if not sql or not sql.strip():
         raise SQLValidationError("SQL is empty")
     try:
-        statements: list[exp.Expression | None] = sqlglot.parse(sql, dialect="sqlite")
+        statements: list[exp.Expression | None] = sqlglot.parse(sql, dialect=dialect)
     except sqlglot.errors.ParseError as exc:
         raise SQLValidationError(f"SQL is not valid: {exc}") from exc
 
@@ -162,7 +174,13 @@ def _function_name(func: exp.Func) -> str:
     return ""
 
 
-def validate_sql(sql: str, policy: SQLPolicy | None = None) -> list[exp.Select]:
+def validate_sql(
+    sql: str,
+    policy: SQLPolicy | None = None,
+    *,
+    dialect: str = "sqlite",
+    allowed_schema: str | None = None,
+) -> list[exp.Select]:
     """Validate that ``sql`` is safe to execute under ``policy``.
 
     Returns the list of top-level SELECTs in the SQL (caller can use them
@@ -171,7 +189,33 @@ def validate_sql(sql: str, policy: SQLPolicy | None = None) -> list[exp.Select]:
     Raises :class:`SQLValidationError` on any violation. The exception
     message is suitable for direct display in the UI.
     """
-    return _validate_statements(parse_sql(sql), policy or SQLPolicy())
+    statements = parse_sql(sql, dialect=dialect)
+    selects = _validate_statements(statements, policy or SQLPolicy())
+    _validate_schema_and_locks(statements[0], allowed_schema=allowed_schema, dialect=dialect)
+    return selects
+
+
+def _validate_schema_and_locks(
+    top: exp.Expression,
+    *,
+    allowed_schema: str | None,
+    dialect: str,
+) -> None:
+    """Enforce backend-specific read-only and schema boundaries."""
+    if dialect != "postgres":
+        return
+    for table in top.find_all(exp.Table):
+        catalog = table.catalog
+        schema = table.db
+        if catalog:
+            raise SQLValidationError("Cross-database table references are not allowed.")
+        if schema and allowed_schema and schema.casefold() != allowed_schema.casefold():
+            raise SQLValidationError(f"Schema '{schema}' is not allowed for this query.")
+    if any(True for _ in top.find_all(exp.Into)):
+        raise SQLValidationError("SELECT INTO is not allowed.")
+    rendered = top.sql(dialect=dialect)
+    if re.search(r"\bFOR\s+(?:UPDATE|SHARE|NO\s+KEY\s+UPDATE|KEY\s+SHARE)\b", rendered, re.I):
+        raise SQLValidationError("Row-locking SELECT clauses are not allowed.")
 
 
 def _validate_statements(
@@ -273,13 +317,13 @@ def _check_select(sel: exp.Select, policy: SQLPolicy) -> None:
             )
 
 
-def referenced_tables(sql: str) -> set[str]:
+def referenced_tables(sql: str, *, dialect: str = "sqlite") -> set[str]:
     """Return the set of table names referenced in ``sql``.
 
     Used by the executor's pre-flight check to confirm that every referenced
     table actually exists in the database.
     """
-    return _referenced_tables(parse_sql(sql))
+    return _referenced_tables(parse_sql(sql, dialect=dialect))
 
 
 def _referenced_tables(statements: list[exp.Expression]) -> set[str]:
@@ -298,12 +342,15 @@ def prepare_sql(
     policy: SQLPolicy | None = None,
     *,
     allowed_tables: Collection[str] | None = None,
+    dialect: str = "sqlite",
+    allowed_schema: str | None = None,
 ) -> PreparedSQL:
     """Validate, authorize, and canonicalize one executable SELECT."""
     policy = policy or SQLPolicy()
-    statements = parse_sql(sql)
+    statements = parse_sql(sql, dialect=dialect)
     _validate_statements(statements, policy)
     top = statements[0]
+    _validate_schema_and_locks(top, allowed_schema=allowed_schema, dialect=dialect)
     tables = _referenced_tables(statements)
 
     if allowed_tables is not None:
@@ -327,6 +374,6 @@ def prepare_sql(
             )
 
     return PreparedSQL(
-        sql=top.sql(dialect="sqlite"),
+        sql=top.sql(dialect=dialect),
         tables=frozenset(tables),
     )

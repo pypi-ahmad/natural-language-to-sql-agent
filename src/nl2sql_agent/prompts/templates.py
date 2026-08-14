@@ -26,6 +26,23 @@ Hard rules:
 """
 
 
+def sql_writer_system(dialect: str) -> str:
+    """Return the writer contract for the active SQL dialect."""
+    if dialect == "postgres":
+        return """\
+You are an expert PostgreSQL data analyst. Convert the user's question into a
+single, read-only SQL query that answers it.
+
+Hard rules:
+1. Use ONLY SELECT. Never use SELECT INTO, row locks, writes, DDL, COPY, or SET.
+2. Use exact table and column names from the supplied schema.
+3. Use PostgreSQL syntax and only the configured schema.
+4. Return ONLY the SQL. No markdown fences, prose, or preamble.
+5. If the question is ambiguous, pick the most natural interpretation.
+"""
+    return SQL_WRITER_SYSTEM
+
+
 SQL_WRITER_USER = """\
 Schema (table_name(column1 TYPE, column2 TYPE, ...)):
 {schema}

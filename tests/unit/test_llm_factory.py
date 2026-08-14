@@ -57,6 +57,7 @@ class TestListModels:
             Client.return_value.list.return_value = info
             result = list_models("ollama", base_url="http://localhost:11434")
         assert "qwen3.5:4b" in result
+        Client.return_value.close.assert_called_once_with()
 
     def test_openai_uses_approved_list_without_key(self):
         assert list_models("openai", api_key=None) == ["gpt-5.6-luna", "gpt-5.6-terra"]

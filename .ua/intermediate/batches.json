@@ -1,13 +1,13 @@
 {
   "schemaVersion": 1,
   "algorithm": "louvain",
-  "totalFiles": 97,
-  "totalBatches": 12,
+  "totalFiles": 95,
+  "totalBatches": 11,
   "exportsByPath": {
+    ".code-review-graph/graph.db": [],
+    ".codegraph/codegraph.db": [],
     ".python-version": [],
     ".secrets.baseline": [],
-    ".ua/.trash-1786690338": [],
-    ".ua/.understandignore": [],
     "graphify-out/.graphify_labels.json.sig": [],
     "graphify-out/.graphify_python": [],
     "graphify-out/.graphify_root": [],
@@ -42,6 +42,13 @@
       "env_var_value"
     ],
     "src/nl2sql_agent/db/__init__.py": [],
+    "src/nl2sql_agent/db/base.py": [
+      "DatabaseError",
+      "QueryPlanNode",
+      "QueryPlan",
+      "QueryMetrics",
+      "DatabaseBackend"
+    ],
     "src/nl2sql_agent/db/database.py": [
       "QueryResult",
       "_fmt_cell",
@@ -52,6 +59,9 @@
       "render_table",
       "_quote_identifier",
       "_sample_cell"
+    ],
+    "src/nl2sql_agent/db/postgres.py": [
+      "PostgresDatabase"
     ],
     "src/nl2sql_agent/db/seed.py": [],
     "src/nl2sql_agent/evaluation/__init__.py": [],
@@ -86,8 +96,32 @@
       "list_models",
       "_list_ollama"
     ],
+    "src/nl2sql_agent/llm/pricing.py": [
+      "ModelPricing",
+      "UsageRecord",
+      "PricingRule",
+      "CostLine",
+      "CostBreakdown",
+      "PricingUnavailableError",
+      "_d",
+      "effective_pricing_rule",
+      "_mode_rates",
+      "calculate_cost",
+      "estimate_model_cost"
+    ],
+    "src/nl2sql_agent/persistence.py": [
+      "SavedSession",
+      "_utc_now",
+      "_json",
+      "_safe_mapping",
+      "title_from_question",
+      "_csv_cell",
+      "cost_rows_to_csv",
+      "StateStore"
+    ],
     "src/nl2sql_agent/prompts/__init__.py": [],
     "src/nl2sql_agent/prompts/templates.py": [
+      "sql_writer_system",
       "error_section",
       "format_data"
     ],
@@ -102,6 +136,7 @@
       "_uses_aggregate",
       "_function_name",
       "validate_sql",
+      "_validate_schema_and_locks",
       "_validate_statements",
       "_check_select",
       "referenced_tables",
@@ -122,14 +157,31 @@
       "validate_sqlite_upload",
       "save_sqlite_upload"
     ],
+    "src/nl2sql_agent/ui/pages.py": [
+      "_store",
+      "costs_page",
+      "sessions_page",
+      "insights_page",
+      "_rule_row",
+      "_optional_decimal",
+      "_parse_date",
+      "_rules_from_editor",
+      "pricing_page"
+    ],
     "src/nl2sql_agent/ui/streamlit_app.py": [
       "_init_session_state",
       "_demo_database",
+      "_state_store",
       "_runtime_settings",
       "_resolve_database",
       "_build_agent",
       "_history_message",
+      "_apply_cost",
+      "_budget_alerts",
+      "_persist_result",
+      "_ensure_session",
       "_stage_text",
+      "_chat_page",
       "main"
     ],
     "src/nl2sql_agent/utils/__init__.py": [],
@@ -175,7 +227,8 @@
       "TestHighLevelRun",
       "TestPreparedExecution",
       "TestWorkflowStructure",
-      "TestExecutionEdgeCases"
+      "TestExecutionEdgeCases",
+      "TestUsageAndInsights"
     ],
     "tests/unit/test_audit.py": [
       "test_hash_text_does_not_expose_input",
@@ -219,6 +272,36 @@
       "test_intercept_handler_for_stdlib",
       "test_multiple_configure_calls_safe"
     ],
+    "tests/unit/test_persistence.py": [
+      "store",
+      "_session",
+      "test_store_initializes_idempotently_and_seeds_pricing",
+      "test_saved_messages_exclude_raw_results_and_csv",
+      "test_pending_query_uses_explicit_allowlist",
+      "test_run_cost_and_metrics_are_aggregated",
+      "test_budget_preferences_default_disabled",
+      "test_pricing_overlap_is_rejected",
+      "test_cost_csv_excludes_prompts_and_neutralizes_formulas"
+    ],
+    "tests/unit/test_postgres.py": [
+      "_cursor",
+      "_safe_connection",
+      "test_connection_is_read_only_parameterized_and_rolled_back",
+      "test_privileged_postgres_role_is_rejected",
+      "test_preflight_uses_json_explain_without_analyze",
+      "test_fingerprint_never_contains_dsn"
+    ],
+    "tests/unit/test_pricing.py": [
+      "test_estimates_standard_model_cost_from_reported_tokens",
+      "test_catalog_contains_every_priced_hosted_model",
+      "test_unpriced_model_has_no_cost_estimate",
+      "_rule",
+      "test_cache_read_tokens_use_cache_rate",
+      "test_batch_and_fast_rates_require_actual_request_mode",
+      "test_long_context_is_applied_per_call_not_aggregate",
+      "test_long_context_threshold_is_strictly_greater_than",
+      "test_effective_window_end_is_exclusive"
+    ],
     "tests/unit/test_prompts.py": [
       "TestPrompts"
     ],
@@ -245,10 +328,15 @@
       "TestStripSqlFences",
       "TestTruncate"
     ],
+    "tests/unit/test_ui_app.py": [
+      "test_main_app_renders_chat_navigation",
+      "test_pricing_page_renders_editor_and_disabled_budgets"
+    ],
     "tests/unit/test_ui_components.py": [
       "_sidebar_app",
       "test_sidebar_shows_only_approved_cloud_models",
-      "test_sidebar_accepts_custom_hugging_face_model"
+      "test_sidebar_accepts_custom_hugging_face_model",
+      "test_run_result_shows_token_usage_and_estimated_cost"
     ],
     "tests/unit/test_upload.py": [
       "_sqlite_bytes",
@@ -265,154 +353,11 @@
       "batchIndex": 1,
       "files": [
         {
-          "path": "src/nl2sql_agent/config/__init__.py",
-          "language": "python",
-          "sizeLines": 25,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/config/settings.py",
-          "language": "python",
-          "sizeLines": 275,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/llm/__init__.py",
-          "language": "python",
-          "sizeLines": 27,
-          "fileCategory": "code"
-        },
-        {
           "path": "src/nl2sql_agent/llm/factory.py",
           "language": "python",
-          "sizeLines": 280,
+          "sizeLines": 283,
           "fileCategory": "code"
         },
-        {
-          "path": "src/nl2sql_agent/ui/__init__.py",
-          "language": "python",
-          "sizeLines": 17,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/ui/components.py",
-          "language": "python",
-          "sizeLines": 185,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/ui/database_upload.py",
-          "language": "python",
-          "sizeLines": 38,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/ui/streamlit_app.py",
-          "language": "python",
-          "sizeLines": 391,
-          "fileCategory": "code"
-        }
-      ],
-      "batchImportData": {
-        "src/nl2sql_agent/config/__init__.py": [
-          "src/nl2sql_agent/config/settings.py"
-        ],
-        "src/nl2sql_agent/config/settings.py": [],
-        "src/nl2sql_agent/llm/__init__.py": [
-          "src/nl2sql_agent/llm/factory.py"
-        ],
-        "src/nl2sql_agent/llm/factory.py": [
-          "src/nl2sql_agent/config/__init__.py",
-          "src/nl2sql_agent/utils/__init__.py"
-        ],
-        "src/nl2sql_agent/ui/__init__.py": [
-          "src/nl2sql_agent/ui/components.py",
-          "src/nl2sql_agent/ui/streamlit_app.py"
-        ],
-        "src/nl2sql_agent/ui/components.py": [
-          "src/nl2sql_agent/config/__init__.py"
-        ],
-        "src/nl2sql_agent/ui/database_upload.py": [],
-        "src/nl2sql_agent/ui/streamlit_app.py": [
-          "src/nl2sql_agent/agent/__init__.py",
-          "src/nl2sql_agent/config/__init__.py",
-          "src/nl2sql_agent/db/__init__.py",
-          "src/nl2sql_agent/llm/__init__.py",
-          "src/nl2sql_agent/ui/components.py",
-          "src/nl2sql_agent/ui/database_upload.py",
-          "src/nl2sql_agent/utils/__init__.py"
-        ]
-      },
-      "neighborMap": {
-        "src/nl2sql_agent/config/__init__.py": [
-          {
-            "path": "src/nl2sql_agent/agent/workflow.py",
-            "batchIndex": 3,
-            "symbols": [
-              "NodeTrace",
-              "NL2SQLAgent"
-            ]
-          },
-          {
-            "path": "src/nl2sql_agent/cli.py",
-            "batchIndex": 4,
-            "symbols": [
-              "_pass_rate",
-              "_build_agent",
-              "cmd_ask",
-              "cmd_config",
-              "cmd_serve",
-              "cmd_eval",
-              "build_parser",
-              "main"
-            ]
-          }
-        ],
-        "src/nl2sql_agent/llm/__init__.py": [
-          {
-            "path": "src/nl2sql_agent/cli.py",
-            "batchIndex": 4,
-            "symbols": [
-              "_pass_rate",
-              "_build_agent",
-              "cmd_ask",
-              "cmd_config",
-              "cmd_serve",
-              "cmd_eval",
-              "build_parser",
-              "main"
-            ]
-          }
-        ],
-        "src/nl2sql_agent/llm/factory.py": [
-          {
-            "path": "src/nl2sql_agent/utils/__init__.py",
-            "batchIndex": 2,
-            "symbols": []
-          }
-        ],
-        "src/nl2sql_agent/ui/streamlit_app.py": [
-          {
-            "path": "src/nl2sql_agent/agent/__init__.py",
-            "batchIndex": 3,
-            "symbols": []
-          },
-          {
-            "path": "src/nl2sql_agent/db/__init__.py",
-            "batchIndex": 5,
-            "symbols": []
-          },
-          {
-            "path": "src/nl2sql_agent/utils/__init__.py",
-            "batchIndex": 2,
-            "symbols": []
-          }
-        ]
-      }
-    },
-    {
-      "batchIndex": 2,
-      "files": [
         {
           "path": "src/nl2sql_agent/security/__init__.py",
           "language": "python",
@@ -422,7 +367,7 @@
         {
           "path": "src/nl2sql_agent/security/sql_validator.py",
           "language": "python",
-          "sizeLines": 332,
+          "sizeLines": 379,
           "fileCategory": "code"
         },
         {
@@ -434,7 +379,7 @@
         {
           "path": "src/nl2sql_agent/utils/audit.py",
           "language": "python",
-          "sizeLines": 78,
+          "sizeLines": 79,
           "fileCategory": "code"
         },
         {
@@ -451,6 +396,10 @@
         }
       ],
       "batchImportData": {
+        "src/nl2sql_agent/llm/factory.py": [
+          "src/nl2sql_agent/config/__init__.py",
+          "src/nl2sql_agent/utils/__init__.py"
+        ],
         "src/nl2sql_agent/security/__init__.py": [
           "src/nl2sql_agent/security/sql_validator.py"
         ],
@@ -471,6 +420,18 @@
         ]
       },
       "neighborMap": {
+        "src/nl2sql_agent/llm/factory.py": [
+          {
+            "path": "src/nl2sql_agent/config/__init__.py",
+            "batchIndex": 2,
+            "symbols": []
+          },
+          {
+            "path": "src/nl2sql_agent/llm/__init__.py",
+            "batchIndex": 5,
+            "symbols": []
+          }
+        ],
         "src/nl2sql_agent/security/__init__.py": [
           {
             "path": "src/nl2sql_agent/agent/workflow.py",
@@ -492,7 +453,7 @@
           },
           {
             "path": "src/nl2sql_agent/cli.py",
-            "batchIndex": 4,
+            "batchIndex": 6,
             "symbols": [
               "_pass_rate",
               "_build_agent",
@@ -506,7 +467,7 @@
           },
           {
             "path": "src/nl2sql_agent/db/database.py",
-            "batchIndex": 5,
+            "batchIndex": 4,
             "symbols": [
               "QueryResult",
               "_fmt_cell",
@@ -517,6 +478,118 @@
               "render_table",
               "_quote_identifier",
               "_sample_cell"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/ui/streamlit_app.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_init_session_state",
+              "_demo_database",
+              "_state_store",
+              "_runtime_settings",
+              "_resolve_database",
+              "_build_agent",
+              "_history_message",
+              "_apply_cost",
+              "_budget_alerts",
+              "_persist_result",
+              "_ensure_session",
+              "_stage_text",
+              "_chat_page",
+              "main"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 2,
+      "files": [
+        {
+          "path": "src/nl2sql_agent/config/__init__.py",
+          "language": "python",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/config/settings.py",
+          "language": "python",
+          "sizeLines": 303,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/ui/__init__.py",
+          "language": "python",
+          "sizeLines": 17,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/ui/components.py",
+          "language": "python",
+          "sizeLines": 266,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/ui/database_upload.py",
+          "language": "python",
+          "sizeLines": 38,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/ui/streamlit_app.py",
+          "language": "python",
+          "sizeLines": 645,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "src/nl2sql_agent/config/__init__.py": [
+          "src/nl2sql_agent/config/settings.py"
+        ],
+        "src/nl2sql_agent/config/settings.py": [],
+        "src/nl2sql_agent/ui/__init__.py": [
+          "src/nl2sql_agent/ui/components.py",
+          "src/nl2sql_agent/ui/streamlit_app.py"
+        ],
+        "src/nl2sql_agent/ui/components.py": [
+          "src/nl2sql_agent/config/__init__.py",
+          "src/nl2sql_agent/llm/pricing.py"
+        ],
+        "src/nl2sql_agent/ui/database_upload.py": [],
+        "src/nl2sql_agent/ui/streamlit_app.py": [
+          "src/nl2sql_agent/agent/__init__.py",
+          "src/nl2sql_agent/config/__init__.py",
+          "src/nl2sql_agent/db/__init__.py",
+          "src/nl2sql_agent/llm/__init__.py",
+          "src/nl2sql_agent/persistence.py",
+          "src/nl2sql_agent/ui/components.py",
+          "src/nl2sql_agent/ui/database_upload.py",
+          "src/nl2sql_agent/utils/__init__.py"
+        ]
+      },
+      "neighborMap": {
+        "src/nl2sql_agent/config/__init__.py": [
+          {
+            "path": "src/nl2sql_agent/agent/workflow.py",
+            "batchIndex": 3,
+            "symbols": [
+              "NodeTrace",
+              "NL2SQLAgent"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/cli.py",
+            "batchIndex": 6,
+            "symbols": [
+              "_pass_rate",
+              "_build_agent",
+              "cmd_ask",
+              "cmd_config",
+              "cmd_serve",
+              "cmd_eval",
+              "build_parser",
+              "main"
             ]
           },
           {
@@ -537,20 +610,61 @@
               "list_models",
               "_list_ollama"
             ]
+          }
+        ],
+        "src/nl2sql_agent/ui/components.py": [
+          {
+            "path": "src/nl2sql_agent/llm/pricing.py",
+            "batchIndex": 5,
+            "symbols": [
+              "ModelPricing",
+              "UsageRecord",
+              "PricingRule",
+              "CostLine",
+              "CostBreakdown",
+              "PricingUnavailableError",
+              "_d",
+              "effective_pricing_rule",
+              "_mode_rates",
+              "calculate_cost",
+              "estimate_model_cost"
+            ]
+          }
+        ],
+        "src/nl2sql_agent/ui/streamlit_app.py": [
+          {
+            "path": "src/nl2sql_agent/agent/__init__.py",
+            "batchIndex": 3,
+            "symbols": []
           },
           {
-            "path": "src/nl2sql_agent/ui/streamlit_app.py",
-            "batchIndex": 1,
+            "path": "src/nl2sql_agent/db/__init__.py",
+            "batchIndex": 4,
+            "symbols": []
+          },
+          {
+            "path": "src/nl2sql_agent/llm/__init__.py",
+            "batchIndex": 5,
+            "symbols": []
+          },
+          {
+            "path": "src/nl2sql_agent/persistence.py",
+            "batchIndex": 5,
             "symbols": [
-              "_init_session_state",
-              "_demo_database",
-              "_runtime_settings",
-              "_resolve_database",
-              "_build_agent",
-              "_history_message",
-              "_stage_text",
-              "main"
+              "SavedSession",
+              "_utc_now",
+              "_json",
+              "_safe_mapping",
+              "title_from_question",
+              "_csv_cell",
+              "cost_rows_to_csv",
+              "StateStore"
             ]
+          },
+          {
+            "path": "src/nl2sql_agent/utils/__init__.py",
+            "batchIndex": 1,
+            "symbols": []
           }
         ]
       }
@@ -567,25 +681,25 @@
         {
           "path": "src/nl2sql_agent/agent/state.py",
           "language": "python",
-          "sizeLines": 71,
+          "sizeLines": 83,
           "fileCategory": "code"
         },
         {
           "path": "src/nl2sql_agent/agent/workflow.py",
           "language": "python",
-          "sizeLines": 544,
+          "sizeLines": 628,
           "fileCategory": "code"
         },
         {
           "path": "src/nl2sql_agent/prompts/__init__.py",
           "language": "python",
-          "sizeLines": 19,
+          "sizeLines": 21,
           "fileCategory": "code"
         },
         {
           "path": "src/nl2sql_agent/prompts/templates.py",
           "language": "python",
-          "sizeLines": 85,
+          "sizeLines": 102,
           "fileCategory": "code"
         }
       ],
@@ -599,6 +713,7 @@
           "src/nl2sql_agent/agent/state.py",
           "src/nl2sql_agent/config/__init__.py",
           "src/nl2sql_agent/db/__init__.py",
+          "src/nl2sql_agent/llm/pricing.py",
           "src/nl2sql_agent/prompts/__init__.py",
           "src/nl2sql_agent/security/__init__.py",
           "src/nl2sql_agent/utils/__init__.py"
@@ -612,7 +727,7 @@
         "src/nl2sql_agent/agent/__init__.py": [
           {
             "path": "src/nl2sql_agent/cli.py",
-            "batchIndex": 4,
+            "batchIndex": 6,
             "symbols": [
               "_pass_rate",
               "_build_agent",
@@ -626,15 +741,21 @@
           },
           {
             "path": "src/nl2sql_agent/ui/streamlit_app.py",
-            "batchIndex": 1,
+            "batchIndex": 2,
             "symbols": [
               "_init_session_state",
               "_demo_database",
+              "_state_store",
               "_runtime_settings",
               "_resolve_database",
               "_build_agent",
               "_history_message",
+              "_apply_cost",
+              "_budget_alerts",
+              "_persist_result",
+              "_ensure_session",
               "_stage_text",
+              "_chat_page",
               "main"
             ]
           }
@@ -642,22 +763,39 @@
         "src/nl2sql_agent/agent/workflow.py": [
           {
             "path": "src/nl2sql_agent/config/__init__.py",
-            "batchIndex": 1,
+            "batchIndex": 2,
             "symbols": []
           },
           {
             "path": "src/nl2sql_agent/db/__init__.py",
-            "batchIndex": 5,
+            "batchIndex": 4,
             "symbols": []
           },
           {
+            "path": "src/nl2sql_agent/llm/pricing.py",
+            "batchIndex": 5,
+            "symbols": [
+              "ModelPricing",
+              "UsageRecord",
+              "PricingRule",
+              "CostLine",
+              "CostBreakdown",
+              "PricingUnavailableError",
+              "_d",
+              "effective_pricing_rule",
+              "_mode_rates",
+              "calculate_cost",
+              "estimate_model_cost"
+            ]
+          },
+          {
             "path": "src/nl2sql_agent/security/__init__.py",
-            "batchIndex": 2,
+            "batchIndex": 1,
             "symbols": []
           },
           {
             "path": "src/nl2sql_agent/utils/__init__.py",
-            "batchIndex": 2,
+            "batchIndex": 1,
             "symbols": []
           }
         ]
@@ -667,9 +805,262 @@
       "batchIndex": 4,
       "files": [
         {
+          "path": "src/nl2sql_agent/db/__init__.py",
+          "language": "python",
+          "sizeLines": 21,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/db/base.py",
+          "language": "python",
+          "sizeLines": 84,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/db/database.py",
+          "language": "python",
+          "sizeLines": 410,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/db/postgres.py",
+          "language": "python",
+          "sizeLines": 240,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/db/seed.py",
+          "language": "python",
+          "sizeLines": 25,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "src/nl2sql_agent/db/__init__.py": [
+          "src/nl2sql_agent/db/base.py",
+          "src/nl2sql_agent/db/database.py",
+          "src/nl2sql_agent/db/postgres.py",
+          "src/nl2sql_agent/db/seed.py"
+        ],
+        "src/nl2sql_agent/db/base.py": [],
+        "src/nl2sql_agent/db/database.py": [
+          "src/nl2sql_agent/db/base.py",
+          "src/nl2sql_agent/db/seed.py",
+          "src/nl2sql_agent/utils/__init__.py"
+        ],
+        "src/nl2sql_agent/db/postgres.py": [
+          "src/nl2sql_agent/db/base.py",
+          "src/nl2sql_agent/db/database.py"
+        ],
+        "src/nl2sql_agent/db/seed.py": []
+      },
+      "neighborMap": {
+        "src/nl2sql_agent/db/__init__.py": [
+          {
+            "path": "src/nl2sql_agent/agent/workflow.py",
+            "batchIndex": 3,
+            "symbols": [
+              "NodeTrace",
+              "NL2SQLAgent"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/evaluation/runner.py",
+            "batchIndex": 6,
+            "symbols": [
+              "AgentRunner",
+              "EvalCase",
+              "EvaluationCaseResult",
+              "EvaluationReport",
+              "load_cases",
+              "EvaluationRunner",
+              "_rate",
+              "_percentile",
+              "_rows_equal",
+              "_value_equal",
+              "_file_digest"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/ui/streamlit_app.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_init_session_state",
+              "_demo_database",
+              "_state_store",
+              "_runtime_settings",
+              "_resolve_database",
+              "_build_agent",
+              "_history_message",
+              "_apply_cost",
+              "_budget_alerts",
+              "_persist_result",
+              "_ensure_session",
+              "_stage_text",
+              "_chat_page",
+              "main"
+            ]
+          }
+        ],
+        "src/nl2sql_agent/db/database.py": [
+          {
+            "path": "src/nl2sql_agent/utils/__init__.py",
+            "batchIndex": 1,
+            "symbols": []
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 5,
+      "files": [
+        {
+          "path": "src/nl2sql_agent/llm/__init__.py",
+          "language": "python",
+          "sizeLines": 51,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/llm/pricing.py",
+          "language": "python",
+          "sizeLines": 302,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/persistence.py",
+          "language": "python",
+          "sizeLines": 622,
+          "fileCategory": "code"
+        },
+        {
+          "path": "src/nl2sql_agent/ui/pages.py",
+          "language": "python",
+          "sizeLines": 365,
+          "fileCategory": "code"
+        }
+      ],
+      "batchImportData": {
+        "src/nl2sql_agent/llm/__init__.py": [
+          "src/nl2sql_agent/llm/factory.py",
+          "src/nl2sql_agent/llm/pricing.py"
+        ],
+        "src/nl2sql_agent/llm/pricing.py": [],
+        "src/nl2sql_agent/persistence.py": [
+          "src/nl2sql_agent/llm/pricing.py"
+        ],
+        "src/nl2sql_agent/ui/pages.py": [
+          "src/nl2sql_agent/llm/__init__.py",
+          "src/nl2sql_agent/persistence.py"
+        ]
+      },
+      "neighborMap": {
+        "src/nl2sql_agent/llm/__init__.py": [
+          {
+            "path": "src/nl2sql_agent/llm/factory.py",
+            "batchIndex": 1,
+            "symbols": [
+              "LLMProviderError",
+              "build_chat_model",
+              "_normalize_provider",
+              "_build_ollama",
+              "_build_openai",
+              "_build_gemini",
+              "_build_anthropic",
+              "_build_huggingface",
+              "_build_xai",
+              "_build_openai_compatible",
+              "fallback_models",
+              "list_models",
+              "_list_ollama"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/cli.py",
+            "batchIndex": 6,
+            "symbols": [
+              "_pass_rate",
+              "_build_agent",
+              "cmd_ask",
+              "cmd_config",
+              "cmd_serve",
+              "cmd_eval",
+              "build_parser",
+              "main"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/ui/streamlit_app.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_init_session_state",
+              "_demo_database",
+              "_state_store",
+              "_runtime_settings",
+              "_resolve_database",
+              "_build_agent",
+              "_history_message",
+              "_apply_cost",
+              "_budget_alerts",
+              "_persist_result",
+              "_ensure_session",
+              "_stage_text",
+              "_chat_page",
+              "main"
+            ]
+          }
+        ],
+        "src/nl2sql_agent/llm/pricing.py": [
+          {
+            "path": "src/nl2sql_agent/agent/workflow.py",
+            "batchIndex": 3,
+            "symbols": [
+              "NodeTrace",
+              "NL2SQLAgent"
+            ]
+          },
+          {
+            "path": "src/nl2sql_agent/ui/components.py",
+            "batchIndex": 2,
+            "symbols": [
+              "render_sidebar",
+              "_default_models",
+              "render_chat_history",
+              "render_run_steps",
+              "render_run_result"
+            ]
+          }
+        ],
+        "src/nl2sql_agent/persistence.py": [
+          {
+            "path": "src/nl2sql_agent/ui/streamlit_app.py",
+            "batchIndex": 2,
+            "symbols": [
+              "_init_session_state",
+              "_demo_database",
+              "_state_store",
+              "_runtime_settings",
+              "_resolve_database",
+              "_build_agent",
+              "_history_message",
+              "_apply_cost",
+              "_budget_alerts",
+              "_persist_result",
+              "_ensure_session",
+              "_stage_text",
+              "_chat_page",
+              "main"
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "batchIndex": 6,
+      "files": [
+        {
           "path": "src/nl2sql_agent/cli.py",
           "language": "python",
-          "sizeLines": 211,
+          "sizeLines": 218,
           "fileCategory": "code"
         },
         {
@@ -709,115 +1100,31 @@
           },
           {
             "path": "src/nl2sql_agent/config/__init__.py",
-            "batchIndex": 1,
+            "batchIndex": 2,
             "symbols": []
           },
           {
             "path": "src/nl2sql_agent/llm/__init__.py",
-            "batchIndex": 1,
+            "batchIndex": 5,
             "symbols": []
           },
           {
             "path": "src/nl2sql_agent/utils/__init__.py",
-            "batchIndex": 2,
+            "batchIndex": 1,
             "symbols": []
           }
         ],
         "src/nl2sql_agent/evaluation/runner.py": [
           {
             "path": "src/nl2sql_agent/db/__init__.py",
-            "batchIndex": 5,
-            "symbols": []
-          }
-        ]
-      }
-    },
-    {
-      "batchIndex": 5,
-      "files": [
-        {
-          "path": "src/nl2sql_agent/db/__init__.py",
-          "language": "python",
-          "sizeLines": 13,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/db/database.py",
-          "language": "python",
-          "sizeLines": 366,
-          "fileCategory": "code"
-        },
-        {
-          "path": "src/nl2sql_agent/db/seed.py",
-          "language": "python",
-          "sizeLines": 25,
-          "fileCategory": "code"
-        }
-      ],
-      "batchImportData": {
-        "src/nl2sql_agent/db/__init__.py": [
-          "src/nl2sql_agent/db/database.py",
-          "src/nl2sql_agent/db/seed.py"
-        ],
-        "src/nl2sql_agent/db/database.py": [
-          "src/nl2sql_agent/db/seed.py",
-          "src/nl2sql_agent/utils/__init__.py"
-        ],
-        "src/nl2sql_agent/db/seed.py": []
-      },
-      "neighborMap": {
-        "src/nl2sql_agent/db/__init__.py": [
-          {
-            "path": "src/nl2sql_agent/agent/workflow.py",
-            "batchIndex": 3,
-            "symbols": [
-              "NodeTrace",
-              "NL2SQLAgent"
-            ]
-          },
-          {
-            "path": "src/nl2sql_agent/evaluation/runner.py",
             "batchIndex": 4,
-            "symbols": [
-              "AgentRunner",
-              "EvalCase",
-              "EvaluationCaseResult",
-              "EvaluationReport",
-              "load_cases",
-              "EvaluationRunner",
-              "_rate",
-              "_percentile",
-              "_rows_equal",
-              "_value_equal",
-              "_file_digest"
-            ]
-          },
-          {
-            "path": "src/nl2sql_agent/ui/streamlit_app.py",
-            "batchIndex": 1,
-            "symbols": [
-              "_init_session_state",
-              "_demo_database",
-              "_runtime_settings",
-              "_resolve_database",
-              "_build_agent",
-              "_history_message",
-              "_stage_text",
-              "main"
-            ]
-          }
-        ],
-        "src/nl2sql_agent/db/database.py": [
-          {
-            "path": "src/nl2sql_agent/utils/__init__.py",
-            "batchIndex": 2,
             "symbols": []
           }
         ]
       }
     },
     {
-      "batchIndex": 6,
+      "batchIndex": 7,
       "files": [
         {
           "path": ".github/workflows/ci.yml",
@@ -832,7 +1139,7 @@
       "neighborMap": {}
     },
     {
-      "batchIndex": 7,
+      "batchIndex": 8,
       "files": [
         {
           "path": ".pre-commit-config.yaml",
@@ -843,13 +1150,13 @@
         {
           "path": "ARCHITECTURE.md",
           "language": "markdown",
-          "sizeLines": 306,
+          "sizeLines": 321,
           "fileCategory": "docs"
         },
         {
           "path": "CHANGELOG.md",
           "language": "markdown",
-          "sizeLines": 173,
+          "sizeLines": 217,
           "fileCategory": "docs"
         },
         {
@@ -861,7 +1168,7 @@
         {
           "path": "DATASET.md",
           "language": "markdown",
-          "sizeLines": 37,
+          "sizeLines": 41,
           "fileCategory": "docs"
         },
         {
@@ -873,55 +1180,55 @@
         {
           "path": "MIGRATION_GUIDE.md",
           "language": "markdown",
-          "sizeLines": 226,
+          "sizeLines": 239,
           "fileCategory": "docs"
         },
         {
           "path": "README.md",
           "language": "markdown",
-          "sizeLines": 597,
+          "sizeLines": 661,
           "fileCategory": "docs"
         },
         {
           "path": "RELEASE_NOTES.md",
           "language": "markdown",
-          "sizeLines": 95,
+          "sizeLines": 131,
           "fileCategory": "docs"
         },
         {
           "path": "SECURITY.md",
           "language": "markdown",
-          "sizeLines": 53,
+          "sizeLines": 67,
           "fileCategory": "docs"
         },
         {
           "path": "UPGRADE_SUMMARY.md",
           "language": "markdown",
-          "sizeLines": 199,
+          "sizeLines": 214,
           "fileCategory": "docs"
         },
         {
           "path": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
           "language": "markdown",
-          "sizeLines": 628,
+          "sizeLines": 648,
           "fileCategory": "docs"
         },
         {
           "path": "architecture-diagram.html",
           "language": "html",
-          "sizeLines": 13236,
+          "sizeLines": 13177,
           "fileCategory": "markup"
         },
         {
           "path": "architecture-diagram.json",
           "language": "json",
-          "sizeLines": 181,
+          "sizeLines": 50,
           "fileCategory": "config"
         },
         {
           "path": "pyproject.toml",
           "language": "toml",
-          "sizeLines": 169,
+          "sizeLines": 171,
           "fileCategory": "config"
         }
       ],
@@ -945,54 +1252,30 @@
       "neighborMap": {}
     },
     {
-      "batchIndex": 8,
-      "files": [
-        {
-          "path": ".ua/config.json",
-          "language": "json",
-          "sizeLines": 3,
-          "fileCategory": "config"
-        },
-        {
-          "path": ".ua/fingerprints.json",
-          "language": "json",
-          "sizeLines": 3999,
-          "fileCategory": "config"
-        },
-        {
-          "path": ".ua/knowledge-graph.json",
-          "language": "json",
-          "sizeLines": 5931,
-          "fileCategory": "config"
-        },
-        {
-          "path": ".ua/meta.json",
-          "language": "json",
-          "sizeLines": 6,
-          "fileCategory": "config"
-        }
-      ],
-      "batchImportData": {
-        ".ua/config.json": [],
-        ".ua/fingerprints.json": [],
-        ".ua/knowledge-graph.json": [],
-        ".ua/meta.json": []
-      },
-      "neighborMap": {}
-    },
-    {
       "batchIndex": 9,
       "files": [
         {
           "path": "graphify-out/.graphify_analysis.json",
           "language": "json",
-          "sizeLines": 959,
+          "sizeLines": 1201,
           "fileCategory": "config"
         },
         {
           "path": "graphify-out/.graphify_ast.json",
           "language": "json",
-          "sizeLines": 6791,
+          "sizeLines": 28777,
+          "fileCategory": "config"
+        },
+        {
+          "path": "graphify-out/.graphify_cached.json",
+          "language": "json",
+          "sizeLines": 0,
+          "fileCategory": "config"
+        },
+        {
+          "path": "graphify-out/.graphify_chunk_01.json",
+          "language": "json",
+          "sizeLines": 79,
           "fileCategory": "config"
         },
         {
@@ -1004,13 +1287,7 @@
         {
           "path": "graphify-out/.graphify_extract.json",
           "language": "json",
-          "sizeLines": 0,
-          "fileCategory": "config"
-        },
-        {
-          "path": "graphify-out/.graphify_incremental.json",
-          "language": "json",
-          "sizeLines": 328,
+          "sizeLines": 29659,
           "fileCategory": "config"
         },
         {
@@ -1020,39 +1297,33 @@
           "fileCategory": "config"
         },
         {
-          "path": "graphify-out/.graphify_old.json",
-          "language": "json",
-          "sizeLines": 20978,
-          "fileCategory": "config"
-        },
-        {
           "path": "graphify-out/.graphify_semantic.json",
           "language": "json",
-          "sizeLines": 310,
+          "sizeLines": 889,
           "fileCategory": "config"
         },
         {
           "path": "graphify-out/.graphify_semantic_new.json",
           "language": "json",
-          "sizeLines": 38,
+          "sizeLines": 815,
           "fileCategory": "config"
         },
         {
           "path": "graphify-out/.graphify_uncached.txt",
           "language": "txt",
-          "sizeLines": 9,
+          "sizeLines": 11,
           "fileCategory": "docs"
         },
         {
           "path": "graphify-out/GRAPH_REPORT.md",
           "language": "markdown",
-          "sizeLines": 240,
+          "sizeLines": 283,
           "fileCategory": "docs"
         },
         {
           "path": "graphify-out/cost.json",
           "language": "json",
-          "sizeLines": 31,
+          "sizeLines": 37,
           "fileCategory": "config"
         },
         {
@@ -1064,24 +1335,24 @@
         {
           "path": "graphify-out/graph.json",
           "language": "json",
-          "sizeLines": 22644,
+          "sizeLines": 30114,
           "fileCategory": "config"
         },
         {
           "path": "graphify-out/manifest.json",
           "language": "json",
-          "sizeLines": 596,
+          "sizeLines": 736,
           "fileCategory": "config"
         }
       ],
       "batchImportData": {
         "graphify-out/.graphify_analysis.json": [],
         "graphify-out/.graphify_ast.json": [],
+        "graphify-out/.graphify_cached.json": [],
+        "graphify-out/.graphify_chunk_01.json": [],
         "graphify-out/.graphify_detect.json": [],
         "graphify-out/.graphify_extract.json": [],
-        "graphify-out/.graphify_incremental.json": [],
         "graphify-out/.graphify_labels.json": [],
-        "graphify-out/.graphify_old.json": [],
         "graphify-out/.graphify_semantic.json": [],
         "graphify-out/.graphify_semantic_new.json": [],
         "graphify-out/.graphify_uncached.txt": [],
@@ -1097,55 +1368,17 @@
       "batchIndex": 10,
       "files": [
         {
-          "path": "graphify-out/2026-08-14/.graphify_analysis.json",
-          "language": "json",
-          "sizeLines": 959,
-          "fileCategory": "config"
+          "path": ".code-review-graph/graph.db",
+          "language": "db",
+          "sizeLines": 7745,
+          "fileCategory": "code"
         },
         {
-          "path": "graphify-out/2026-08-14/.graphify_labels.json",
-          "language": "json",
-          "sizeLines": 39,
-          "fileCategory": "config"
+          "path": ".codegraph/codegraph.db",
+          "language": "db",
+          "sizeLines": 10444,
+          "fileCategory": "code"
         },
-        {
-          "path": "graphify-out/2026-08-14/GRAPH_REPORT.md",
-          "language": "markdown",
-          "sizeLines": 240,
-          "fileCategory": "docs"
-        },
-        {
-          "path": "graphify-out/2026-08-14/cost.json",
-          "language": "json",
-          "sizeLines": 31,
-          "fileCategory": "config"
-        },
-        {
-          "path": "graphify-out/2026-08-14/graph.json",
-          "language": "json",
-          "sizeLines": 21971,
-          "fileCategory": "config"
-        },
-        {
-          "path": "graphify-out/2026-08-14/manifest.json",
-          "language": "json",
-          "sizeLines": 596,
-          "fileCategory": "config"
-        }
-      ],
-      "batchImportData": {
-        "graphify-out/2026-08-14/.graphify_analysis.json": [],
-        "graphify-out/2026-08-14/.graphify_labels.json": [],
-        "graphify-out/2026-08-14/GRAPH_REPORT.md": [],
-        "graphify-out/2026-08-14/cost.json": [],
-        "graphify-out/2026-08-14/graph.json": [],
-        "graphify-out/2026-08-14/manifest.json": []
-      },
-      "neighborMap": {}
-    },
-    {
-      "batchIndex": 11,
-      "files": [
         {
           "path": ".github/dependabot.yml",
           "language": "yaml",
@@ -1161,31 +1394,13 @@
         {
           "path": ".secrets.baseline",
           "language": "baseline",
-          "sizeLines": 152,
+          "sizeLines": 165,
           "fileCategory": "code"
         },
         {
           "path": ".streamlit/config.toml",
           "language": "toml",
           "sizeLines": 2,
-          "fileCategory": "config"
-        },
-        {
-          "path": ".ua/.trash-1786690338",
-          "language": "unknown",
-          "sizeLines": 13,
-          "fileCategory": "code"
-        },
-        {
-          "path": ".ua/.understandignore",
-          "language": "unknown",
-          "sizeLines": 116,
-          "fileCategory": "code"
-        },
-        {
-          "path": ".ua/intermediate/scan-result.json",
-          "language": "json",
-          "sizeLines": 676,
           "fileCategory": "config"
         },
         {
@@ -1233,7 +1448,7 @@
         {
           "path": "tests/conftest.py",
           "language": "python",
-          "sizeLines": 95,
+          "sizeLines": 98,
           "fileCategory": "code"
         },
         {
@@ -1257,7 +1472,7 @@
         {
           "path": "tests/unit/test_agent.py",
           "language": "python",
-          "sizeLines": 398,
+          "sizeLines": 438,
           "fileCategory": "code"
         },
         {
@@ -1275,7 +1490,7 @@
         {
           "path": "tests/unit/test_database.py",
           "language": "python",
-          "sizeLines": 252,
+          "sizeLines": 259,
           "fileCategory": "code"
         },
         {
@@ -1287,7 +1502,7 @@
         {
           "path": "tests/unit/test_llm_factory.py",
           "language": "python",
-          "sizeLines": 261,
+          "sizeLines": 262,
           "fileCategory": "code"
         },
         {
@@ -1295,16 +1510,21 @@
           "language": "python",
           "sizeLines": 60,
           "fileCategory": "code"
+        },
+        {
+          "path": "tests/unit/test_persistence.py",
+          "language": "python",
+          "sizeLines": 154,
+          "fileCategory": "code"
         }
       ],
       "batchImportData": {
+        ".code-review-graph/graph.db": [],
+        ".codegraph/codegraph.db": [],
         ".github/dependabot.yml": [],
         ".python-version": [],
         ".secrets.baseline": [],
         ".streamlit/config.toml": [],
-        ".ua/.trash-1786690338": [],
-        ".ua/.understandignore": [],
-        ".ua/intermediate/scan-result.json": [],
         "graphify-out/.graphify_labels.json.sig": [],
         "graphify-out/.graphify_python": [],
         "graphify-out/.graphify_root": [],
@@ -1322,13 +1542,26 @@
         "tests/unit/test_database.py": [],
         "tests/unit/test_evaluation.py": [],
         "tests/unit/test_llm_factory.py": [],
-        "tests/unit/test_logging.py": []
+        "tests/unit/test_logging.py": [],
+        "tests/unit/test_persistence.py": []
       },
       "neighborMap": {}
     },
     {
-      "batchIndex": 12,
+      "batchIndex": 11,
       "files": [
+        {
+          "path": "tests/unit/test_postgres.py",
+          "language": "python",
+          "sizeLines": 102,
+          "fileCategory": "code"
+        },
+        {
+          "path": "tests/unit/test_pricing.py",
+          "language": "python",
+          "sizeLines": 105,
+          "fileCategory": "code"
+        },
         {
           "path": "tests/unit/test_prompts.py",
           "language": "python",
@@ -1338,13 +1571,13 @@
         {
           "path": "tests/unit/test_settings.py",
           "language": "python",
-          "sizeLines": 203,
+          "sizeLines": 224,
           "fileCategory": "code"
         },
         {
           "path": "tests/unit/test_sql_validator.py",
           "language": "python",
-          "sizeLines": 285,
+          "sizeLines": 321,
           "fileCategory": "code"
         },
         {
@@ -1354,9 +1587,15 @@
           "fileCategory": "code"
         },
         {
+          "path": "tests/unit/test_ui_app.py",
+          "language": "python",
+          "sizeLines": 37,
+          "fileCategory": "code"
+        },
+        {
           "path": "tests/unit/test_ui_components.py",
           "language": "python",
-          "sizeLines": 34,
+          "sizeLines": 58,
           "fileCategory": "code"
         },
         {
@@ -1367,10 +1606,13 @@
         }
       ],
       "batchImportData": {
+        "tests/unit/test_postgres.py": [],
+        "tests/unit/test_pricing.py": [],
         "tests/unit/test_prompts.py": [],
         "tests/unit/test_settings.py": [],
         "tests/unit/test_sql_validator.py": [],
         "tests/unit/test_text.py": [],
+        "tests/unit/test_ui_app.py": [],
         "tests/unit/test_ui_components.py": [],
         "tests/unit/test_upload.py": []
       },

@@ -4,6 +4,10 @@ The application includes two local datasets with different purposes.
 
 ## Demo SQLite database
 
+The packaged evaluation corpus and reference queries are SQLite-only. The
+optional PostgreSQL runtime backend is exercised separately and does not alter
+these deterministic fixtures.
+
 `Database.ensure_schema(seed=True)` creates `company.db` with four departments
 and ten employees from `src/nl2sql_agent/db/seed.py`. It is the default data
 source for the UI, CLI, examples, tests, and evaluation references.

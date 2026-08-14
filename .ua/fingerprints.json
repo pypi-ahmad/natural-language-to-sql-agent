@@ -1,8 +1,28 @@
 {
   "version": "1.0.0",
-  "gitCommitHash": "3b4ee4915d0801524742ee1c3281616d0496e94c",
-  "generatedAt": "2026-08-14T11:26:51.928Z",
+  "gitCommitHash": "324ed470a375aea02fc013d52deb6a6246d3588d",
+  "generatedAt": "2026-08-14T12:52:41.803Z",
   "files": {
+    ".code-review-graph/graph.db": {
+      "filePath": ".code-review-graph/graph.db",
+      "contentHash": "a6c541c354f09f1a802b5bf11afa5af0ec1d09765377332b7cf9d3e0f16a3222",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7746,
+      "hasStructuralAnalysis": false
+    },
+    ".codegraph/codegraph.db": {
+      "filePath": ".codegraph/codegraph.db",
+      "contentHash": "4eefa7977f43e962240a1474524c7072e78d9f71ea09d07441a87eb88426a627",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10634,
+      "hasStructuralAnalysis": false
+    },
     ".github/dependabot.yml": {
       "filePath": ".github/dependabot.yml",
       "contentHash": "09adf09b8515b5974aa509a6a1df6f24231f4f0b4d398228d6ef8d812b1e4db9",
@@ -25,7 +45,7 @@
     },
     ".pre-commit-config.yaml": {
       "filePath": ".pre-commit-config.yaml",
-      "contentHash": "622cc8fbb4365fadb6a8d70ea19214d4a95c96efec7729230ce4a4099b2b0ba2",
+      "contentHash": "3638b08335f530e24f019de6d2466f647efc19ab33c53959c3a5678dd7c1111f",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -45,12 +65,12 @@
     },
     ".secrets.baseline": {
       "filePath": ".secrets.baseline",
-      "contentHash": "1a41ffefce235de5d99c8be1d5d07811c88dca2ada58ac51ba470666611a0bac",
+      "contentHash": "9d7bdcea8b739e346f962e9f2e21302b522b91950826a11d8a1a0c737a5b6b53",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 157,
+      "totalLines": 166,
       "hasStructuralAnalysis": false
     },
     ".streamlit/config.toml": {
@@ -63,94 +83,24 @@
       "totalLines": 3,
       "hasStructuralAnalysis": true
     },
-    ".ua/.trash-1786690338": {
-      "filePath": ".ua/.trash-1786690338",
-      "contentHash": "352a6cfc88a6fbbe1853a04d441cd46a8778c1df4a24075e9982dd37be86c2f9",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 14,
-      "hasStructuralAnalysis": false
-    },
-    ".ua/.understandignore": {
-      "filePath": ".ua/.understandignore",
-      "contentHash": "a900444a9fbc9350f9a567b8bd971294f0d296b034a3840c533f8894ac914aa8",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 117,
-      "hasStructuralAnalysis": false
-    },
-    ".ua/config.json": {
-      "filePath": ".ua/config.json",
-      "contentHash": "08d37f20ea0af2233ae24f094723759f952381ecb6dd7f2aaa05ef96e95eae6b",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 4,
-      "hasStructuralAnalysis": true
-    },
-    ".ua/fingerprints.json": {
-      "filePath": ".ua/fingerprints.json",
-      "contentHash": "cab8a3c9177e601769f912437e45a67d40d5dab669ea6dcd02bbb4cab106ee5f",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 4000,
-      "hasStructuralAnalysis": true
-    },
-    ".ua/intermediate/scan-result.json": {
-      "filePath": ".ua/intermediate/scan-result.json",
-      "contentHash": "f3e8009a3b532b6992b63584c94de091e8c328ab45d29d5c031d24f0471fac53",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 773,
-      "hasStructuralAnalysis": true
-    },
-    ".ua/knowledge-graph.json": {
-      "filePath": ".ua/knowledge-graph.json",
-      "contentHash": "208aa3f42cfbe894f0160dec8f981d97138fb0010a503fb5415bd9cd062483d4",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 5930,
-      "hasStructuralAnalysis": true
-    },
-    ".ua/meta.json": {
-      "filePath": ".ua/meta.json",
-      "contentHash": "4836bc01a5ad2a456ba3a7753738786cca163f20f09803dff418cfbb60ae9998",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 7,
-      "hasStructuralAnalysis": true
-    },
     "ARCHITECTURE.md": {
       "filePath": "ARCHITECTURE.md",
-      "contentHash": "253683210b2f1c4a5f7bb6c8ef17a1958a643919240c08c0457060d9273451e9",
+      "contentHash": "94ecf778fcb5bd9dfbf5b3378b10fe1b760b7fa6663a01db209b32146932438f",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 307,
+      "totalLines": 322,
       "hasStructuralAnalysis": true
     },
     "CHANGELOG.md": {
       "filePath": "CHANGELOG.md",
-      "contentHash": "6f0c7d89fe6b7d0e17e6a7aa4e229cd12eeaa24fc13231dd2fa01b4e23d6f8d6",
+      "contentHash": "3e13b99f61f572f9d0eaa3ec4f53a4652358ffa319228fd45107119d5d6eca59",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 174,
+      "totalLines": 218,
       "hasStructuralAnalysis": true
     },
     "CODE_OF_CONDUCT.md": {
@@ -165,12 +115,12 @@
     },
     "DATASET.md": {
       "filePath": "DATASET.md",
-      "contentHash": "4b037a8d326db7ca5b69a58dc35fe530c34d32b313830c763790e406201881d0",
+      "contentHash": "1a9a5f8dc922deb142eb002fdda23bc77fc0082265e11e9f0d26d012e6b16a3e",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 38,
+      "totalLines": 42,
       "hasStructuralAnalysis": true
     },
     "Launch NL2SQL Agent.cmd": {
@@ -185,137 +135,87 @@
     },
     "MIGRATION_GUIDE.md": {
       "filePath": "MIGRATION_GUIDE.md",
-      "contentHash": "1ca84cec572c2535fe84da736fd5a48fd0d061c04245bb8bbc60e6d51bc68490",
+      "contentHash": "83e6e0e8c975ddb4a5fdaf284db0651bd23d204c721fbffde59b6eac56179918",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 227,
+      "totalLines": 240,
       "hasStructuralAnalysis": true
     },
     "README.md": {
       "filePath": "README.md",
-      "contentHash": "4a251e1fb1b756698b21148a64f0521c5f7288832c68457cbc581e9897e173db",
+      "contentHash": "5de8183432ff2d1f1590777de352e71ef6683117ac61fb53298682dae1f60137",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 598,
+      "totalLines": 662,
       "hasStructuralAnalysis": true
     },
     "RELEASE_NOTES.md": {
       "filePath": "RELEASE_NOTES.md",
-      "contentHash": "27ba8af14b69b6afcfff23e28290ac31f20228a5f4058d401d849c1c7443eb6c",
+      "contentHash": "cc23b00ece581ef0062ae846f869f490d6059a47d677e0c6b6112da628cdac2f",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 96,
+      "totalLines": 132,
       "hasStructuralAnalysis": true
     },
     "SECURITY.md": {
       "filePath": "SECURITY.md",
-      "contentHash": "98c4d288864985c7747743283a0fec06840e644029bf615c5f02608492f50e8e",
+      "contentHash": "fcbe0424fba9a9b066723fe7f311ae89bbde686a63561e4cab62d22636e0ac00",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 54,
+      "totalLines": 68,
       "hasStructuralAnalysis": true
     },
     "UPGRADE_SUMMARY.md": {
       "filePath": "UPGRADE_SUMMARY.md",
-      "contentHash": "4e9a661d229f385a0533de378ac1aeb44051654e9b0c1aaa522486563d257ae7",
+      "contentHash": "5835910aa61c577b00b344c4065e9c39e74e01badf0840ba48d409752945ebf5",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 200,
+      "totalLines": 215,
       "hasStructuralAnalysis": true
     },
     "ZERO_TO_HERO_STUDY_HANDBOOK.md": {
       "filePath": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
-      "contentHash": "acbc15ee9917112b66adac09a96899e07120a6d799b1420c73d76c28ea4f7746",
+      "contentHash": "85b22bdf16c659a3f26125e539415b4adf8549ef024a3d68e24f66683b7e2893",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 629,
+      "totalLines": 650,
       "hasStructuralAnalysis": true
     },
     "architecture-diagram.html": {
       "filePath": "architecture-diagram.html",
-      "contentHash": "7870eab0eb58787a703bf9c0f0984457d062f90cb44fad5deae8f48153a6da9d",
+      "contentHash": "e07c36d2fbbec7a285fa5128b8f1c22bf3d1fb8a55fcc01b8d77db6dceaf2677",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 13237,
+      "totalLines": 13178,
       "hasStructuralAnalysis": false
     },
     "architecture-diagram.json": {
       "filePath": "architecture-diagram.json",
-      "contentHash": "72679da2830344c806404d578cb590861b5f7746fac1a521659bda06179e1e1e",
+      "contentHash": "74207344fccc334a5c05e28771ab2af9fd805452b92f00b11accdb317e7f5512",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 182,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_analysis.json": {
-      "filePath": "graphify-out/.graphify_analysis.json",
-      "contentHash": "392f13deb6e9bf1f39e338a1291dac1e1b7c1bd103c1729eaf155182a739bdb3",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 960,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_ast.json": {
-      "filePath": "graphify-out/.graphify_ast.json",
-      "contentHash": "69659fcdf23cd85b34f40522fb00e3129178aa4095fe65ff6bbd97810caa3e07",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 6792,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_detect.json": {
-      "filePath": "graphify-out/.graphify_detect.json",
-      "contentHash": "66cd703c2c1919c5fdccb239fd284eb0fdd93f91c4acae8df81e2eec63489b0e",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 1,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_extract.json": {
-      "filePath": "graphify-out/.graphify_extract.json",
-      "contentHash": "6f09626bc289f9124e6764877375e7df963f5a7e10b2ebb28546da6d01efdb67",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 1,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_incremental.json": {
-      "filePath": "graphify-out/.graphify_incremental.json",
-      "contentHash": "93df6752190707e8ff34f90e75d1d261d8d3f4cbc118caeb362ed4209d73b623",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 329,
+      "totalLines": 51,
       "hasStructuralAnalysis": true
     },
     "graphify-out/.graphify_labels.json": {
       "filePath": "graphify-out/.graphify_labels.json",
-      "contentHash": "08c10cf863eb077291e89908e206203134ee5f497c7f38013a4491a6b76e44e0",
+      "contentHash": "e3c6d2cb9d6c7de4a37f9e7f50abddde763fb561e4f967d275aa49512e6fcaa7",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -332,16 +232,6 @@
       "exports": [],
       "totalLines": 1,
       "hasStructuralAnalysis": false
-    },
-    "graphify-out/.graphify_old.json": {
-      "filePath": "graphify-out/.graphify_old.json",
-      "contentHash": "8ad353c3558748b626ed89bf1aefa64e889d6197a4e8311607a2a375378ab492",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 20979,
-      "hasStructuralAnalysis": true
     },
     "graphify-out/.graphify_python": {
       "filePath": "graphify-out/.graphify_python",
@@ -363,119 +253,29 @@
       "totalLines": 1,
       "hasStructuralAnalysis": false
     },
-    "graphify-out/.graphify_semantic.json": {
-      "filePath": "graphify-out/.graphify_semantic.json",
-      "contentHash": "8363e4892c720bd7b16c203aaf62354179d3424b7aa5b24e794881cdfb894517",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 311,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_semantic_new.json": {
-      "filePath": "graphify-out/.graphify_semantic_new.json",
-      "contentHash": "451da9bada88616557b4304e0251a8e6ba1b4717bd4a99a006c6cb9492ee7e55",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 39,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/.graphify_uncached.txt": {
-      "filePath": "graphify-out/.graphify_uncached.txt",
-      "contentHash": "7e006f318272278cccf9dba88ddec3b33ff6fe719ea33b7f55e54828d7c4e482",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 10,
-      "hasStructuralAnalysis": false
-    },
-    "graphify-out/2026-08-14/.graphify_analysis.json": {
-      "filePath": "graphify-out/2026-08-14/.graphify_analysis.json",
-      "contentHash": "5d7d7878cb0c1448e91d659611fb4384f89e246e0a0e01772a8184b4f01125d0",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 960,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/2026-08-14/.graphify_labels.json": {
-      "filePath": "graphify-out/2026-08-14/.graphify_labels.json",
-      "contentHash": "5159ef83f3d938e9ea6bf5904aad02dec775285027dbb838eec9e044cc2cd912",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 40,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/2026-08-14/GRAPH_REPORT.md": {
-      "filePath": "graphify-out/2026-08-14/GRAPH_REPORT.md",
-      "contentHash": "899cc9797796a8339e560a48c03141d29fba196c8c7aba2e3d1ad7e14267c703",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 241,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/2026-08-14/cost.json": {
-      "filePath": "graphify-out/2026-08-14/cost.json",
-      "contentHash": "47f330545f2f5da33761aa8eed8536892c2ae36135cc16df9176c534e80757e4",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 32,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/2026-08-14/graph.json": {
-      "filePath": "graphify-out/2026-08-14/graph.json",
-      "contentHash": "706ad367c401f7e0ed1c25d93d3aafa71af534295ccc2a89251d6f3084b46121",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 21972,
-      "hasStructuralAnalysis": true
-    },
-    "graphify-out/2026-08-14/manifest.json": {
-      "filePath": "graphify-out/2026-08-14/manifest.json",
-      "contentHash": "2753b731f175a64beeb79e35ad6222142cc57eb2b1d961ee554d0855ae157eb1",
-      "functions": [],
-      "classes": [],
-      "imports": [],
-      "exports": [],
-      "totalLines": 597,
-      "hasStructuralAnalysis": true
-    },
     "graphify-out/GRAPH_REPORT.md": {
       "filePath": "graphify-out/GRAPH_REPORT.md",
-      "contentHash": "899cc9797796a8339e560a48c03141d29fba196c8c7aba2e3d1ad7e14267c703",
+      "contentHash": "5b7a4bbc5eab117025e35ec88074324015fa39c7e8e78d79b6150f5e34519461",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 241,
+      "totalLines": 304,
       "hasStructuralAnalysis": true
     },
     "graphify-out/cost.json": {
       "filePath": "graphify-out/cost.json",
-      "contentHash": "47f330545f2f5da33761aa8eed8536892c2ae36135cc16df9176c534e80757e4",
+      "contentHash": "a165e05748e418e7bcccd7bf3fbe5ec3a326198701ad29c37ff3e6ee7fcbeb76",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 32,
+      "totalLines": 44,
       "hasStructuralAnalysis": true
     },
     "graphify-out/graph.html": {
       "filePath": "graphify-out/graph.html",
-      "contentHash": "2683442693a1cabab7bcfb31ffad647273842a04bfef4d575905a3a46c8329d5",
+      "contentHash": "ddca87dc8c55191a2dea50abd3d2ad059add2d3f105487821941c8c816b75490",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -485,37 +285,37 @@
     },
     "graphify-out/graph.json": {
       "filePath": "graphify-out/graph.json",
-      "contentHash": "57dd095c9aca6f9e3c5253bdee0b5ef85ff4db02d79d876b5c4ba98ae2043ea2",
+      "contentHash": "151ed15d19668862ce13747da09838c69f6402bf00ccb58ea7bd04884b4bef26",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 22645,
+      "totalLines": 30382,
       "hasStructuralAnalysis": true
     },
     "graphify-out/manifest.json": {
       "filePath": "graphify-out/manifest.json",
-      "contentHash": "2753b731f175a64beeb79e35ad6222142cc57eb2b1d961ee554d0855ae157eb1",
+      "contentHash": "d41ee8e11699f4a9dc7ed79e996c1e52c257cbe4d6ff52437d20baa780eab61d",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 597,
+      "totalLines": 732,
       "hasStructuralAnalysis": true
     },
     "pyproject.toml": {
       "filePath": "pyproject.toml",
-      "contentHash": "b0507c6554ee01d01fea387c7ea1275d95f92f76535649fd42eb99d42c142012",
+      "contentHash": "55b889396f4e539e4c144cd644a29535baec86bcff5e1d9d2e2fac1b0243e754",
       "functions": [],
       "classes": [],
       "imports": [],
       "exports": [],
-      "totalLines": 170,
+      "totalLines": 172,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/__init__.py": {
       "filePath": "src/nl2sql_agent/__init__.py",
-      "contentHash": "5c05f999726d64430be8481fe3810cbe5d8e6b3dd85801f8b5dda98b8c1b68d5",
+      "contentHash": "2e2067170753e0f617e0ee8e3016b1c951796135e03d2f87abf4d778288be1c5",
       "functions": [],
       "classes": [],
       "imports": [],
@@ -549,7 +349,7 @@
     },
     "src/nl2sql_agent/agent/state.py": {
       "filePath": "src/nl2sql_agent/agent/state.py",
-      "contentHash": "01e69d5af633e766e4cc84490e98083a80ff7f9bde8b3d673c8e78bb4f035f12",
+      "contentHash": "bc1c57ec1fe6eef4814d3095d508cf7cc49b59406d871c9902d1c113352e55b2",
       "functions": [],
       "classes": [
         {
@@ -572,12 +372,19 @@
             "allowed_tables",
             "trace",
             "token_usage",
+            "usage_records",
+            "provider",
+            "model",
+            "cost_breakdown",
+            "query_plan",
+            "query_metrics",
+            "warnings",
             "csv_data",
             "truncated",
             "final_answer"
           ],
           "exported": true,
-          "lineCount": 59
+          "lineCount": 71
         }
       ],
       "imports": [
@@ -591,12 +398,12 @@
       "exports": [
         "AgentState"
       ],
-      "totalLines": 72,
+      "totalLines": 84,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/agent/workflow.py": {
       "filePath": "src/nl2sql_agent/agent/workflow.py",
-      "contentHash": "c3fd5cb11284bd326b43a66f6a316b16d83380ee7b8e1bf9117b6adc6ad5ec31",
+      "contentHash": "2f740f43ed319e8e9018580275f310471cb633bbee18fc0d7d4d3aaafdd14d88",
       "functions": [],
       "classes": [
         {
@@ -634,11 +441,12 @@
             "_duration_ms",
             "_append_trace",
             "_merge_usage",
+            "_plan_warnings",
             "_write_audit"
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 489
+          "lineCount": 565
         }
       ],
       "imports": [
@@ -712,18 +520,29 @@
         {
           "source": "..db",
           "specifiers": [
-            "Database"
+            "Database",
+            "DatabaseBackend",
+            "DatabaseError",
+            "PostgresDatabase",
+            "QueryPlan",
+            "QueryResult"
+          ]
+        },
+        {
+          "source": "..llm.pricing",
+          "specifiers": [
+            "UsageRecord"
           ]
         },
         {
           "source": "..prompts",
           "specifiers": [
-            "SQL_WRITER_SYSTEM",
             "SQL_WRITER_USER",
             "SUMMARIZER_SYSTEM",
             "SUMMARIZER_USER",
             "error_section",
-            "format_data"
+            "format_data",
+            "sql_writer_system"
           ]
         },
         {
@@ -754,12 +573,12 @@
         "NodeTrace",
         "NL2SQLAgent"
       ],
-      "totalLines": 545,
+      "totalLines": 629,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/cli.py": {
       "filePath": "src/nl2sql_agent/cli.py",
-      "contentHash": "f1439d10f44665fa18987069ea75a949bd91e8fa206b7f613648d560cdc7d162",
+      "contentHash": "de52294768b4ea0ed5ae24fa5e02ba893726fce55862e87726ee6d33dbbae8ed",
       "functions": [
         {
           "name": "_pass_rate",
@@ -797,7 +616,7 @@
           ],
           "returnType": "int",
           "exported": true,
-          "lineCount": 14
+          "lineCount": 15
         },
         {
           "name": "cmd_serve",
@@ -815,7 +634,7 @@
           ],
           "returnType": "int",
           "exported": true,
-          "lineCount": 34
+          "lineCount": 40
         },
         {
           "name": "build_parser",
@@ -938,7 +757,7 @@
         "build_parser",
         "main"
       ],
-      "totalLines": 212,
+      "totalLines": 219,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/config/__init__.py": {
@@ -968,7 +787,7 @@
     },
     "src/nl2sql_agent/config/settings.py": {
       "filePath": "src/nl2sql_agent/config/settings.py",
-      "contentHash": "45c3f6dea3455120092932a4828f586c197e7099eff4a7610ff27758402580d4",
+      "contentHash": "43feca354256ec803832799280634a344405e4b716756fb7a29e54737980fee9",
       "functions": [
         {
           "name": "supported_models_for",
@@ -1038,6 +857,7 @@
             "_normalize_provider",
             "_validate_ollama_base_url",
             "_coerce_db_path",
+            "_validate_postgres_schema",
             "_validate_provider_model",
             "api_key_for"
           ],
@@ -1057,6 +877,10 @@
             "db_query_timeout_seconds",
             "db_max_vm_steps",
             "db_upload_max_mb",
+            "db_backend",
+            "postgres_dsn",
+            "postgres_schema",
+            "db_lock_timeout_seconds",
             "max_retries",
             "llm_temperature",
             "llm_max_tokens",
@@ -1069,14 +893,20 @@
             "sql_max_subqueries",
             "sql_max_ctes",
             "schema_max_tables",
+            "query_warn_duration_ms",
+            "query_warn_estimated_rows",
+            "query_warn_postgres_cost",
+            "query_warn_sqlite_vm_steps",
+            "query_warn_full_scan",
             "log_level",
             "log_json",
             "audit_enabled",
             "audit_path",
-            "project_root"
+            "project_root",
+            "state_path"
           ],
           "exported": true,
-          "lineCount": 173
+          "lineCount": 201
         }
       ],
       "imports": [
@@ -1121,6 +951,7 @@
           "specifiers": [
             "AliasChoices",
             "Field",
+            "SecretStr",
             "field_validator",
             "model_validator"
           ]
@@ -1143,15 +974,25 @@
         "env_var_for",
         "env_var_value"
       ],
-      "totalLines": 276,
+      "totalLines": 304,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/db/__init__.py": {
       "filePath": "src/nl2sql_agent/db/__init__.py",
-      "contentHash": "fb56525a7b0292520e18683f36359099cb34debde14c341bd4f866f98b542918",
+      "contentHash": "beff05a48cb3a1c2328f1e1ae91c1f2f13ce14fc52d12689b614dd6ad0b6f2c2",
       "functions": [],
       "classes": [],
       "imports": [
+        {
+          "source": ".base",
+          "specifiers": [
+            "DatabaseBackend",
+            "DatabaseError",
+            "QueryMetrics",
+            "QueryPlan",
+            "QueryPlanNode"
+          ]
+        },
         {
           "source": ".database",
           "specifiers": [
@@ -1159,6 +1000,12 @@
             "QueryResult",
             "render_table",
             "setup_db"
+          ]
+        },
+        {
+          "source": ".postgres",
+          "specifiers": [
+            "PostgresDatabase"
           ]
         },
         {
@@ -1170,12 +1017,112 @@
         }
       ],
       "exports": [],
-      "totalLines": 14,
+      "totalLines": 22,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/db/base.py": {
+      "filePath": "src/nl2sql_agent/db/base.py",
+      "contentHash": "a52cecd90df7f96e6865553e8d6c557644d35a7bde8a32117d22ac3cbd1d9ccc",
+      "functions": [],
+      "classes": [
+        {
+          "name": "DatabaseError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "QueryPlanNode",
+          "methods": [],
+          "properties": [
+            "operation",
+            "relation",
+            "detail",
+            "estimated_rows",
+            "total_cost"
+          ],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "QueryPlan",
+          "methods": [
+            "to_dict"
+          ],
+          "properties": [
+            "backend",
+            "nodes",
+            "estimated_rows",
+            "estimated_total_cost",
+            "full_scan_relations",
+            "warnings"
+          ],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "QueryMetrics",
+          "methods": [
+            "to_dict"
+          ],
+          "properties": [
+            "duration_ms",
+            "work_units",
+            "row_count",
+            "truncated",
+            "warnings"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "DatabaseBackend",
+          "methods": [
+            "kind",
+            "dialect",
+            "display_name",
+            "fingerprint",
+            "list_tables",
+            "get_schema_text",
+            "preflight",
+            "execute"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 29
+        }
+      ],
+      "imports": [
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "asdict",
+            "dataclass",
+            "field"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Protocol",
+            "runtime_checkable"
+          ]
+        }
+      ],
+      "exports": [
+        "DatabaseError",
+        "QueryPlanNode",
+        "QueryPlan",
+        "QueryMetrics",
+        "DatabaseBackend"
+      ],
+      "totalLines": 85,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/db/database.py": {
       "filePath": "src/nl2sql_agent/db/database.py",
-      "contentHash": "916690dfea15732491c7820e845203ec7c0eb7744e155637bd087e8661d86d4e",
+      "contentHash": "b6827d50ff24303f6ebf958a9ff7e410b5572d202156476611a66620b0645964",
       "functions": [
         {
           "name": "_fmt_cell",
@@ -1254,15 +1201,18 @@
             "columns",
             "rows",
             "row_count",
-            "truncated"
+            "truncated",
+            "metrics"
           ],
           "exported": true,
-          "lineCount": 32
+          "lineCount": 33
         },
         {
           "name": "Database",
           "methods": [
             "__init__",
+            "display_name",
+            "fingerprint",
             "connect",
             "_writable_connection",
             "ensure_schema",
@@ -1276,7 +1226,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 236
+          "lineCount": 278
         }
       ],
       "imports": [
@@ -1319,7 +1269,8 @@
         {
           "source": "dataclasses",
           "specifiers": [
-            "dataclass"
+            "dataclass",
+            "field"
           ]
         },
         {
@@ -1332,6 +1283,14 @@
           "source": "..utils",
           "specifiers": [
             "get_logger"
+          ]
+        },
+        {
+          "source": ".base",
+          "specifiers": [
+            "QueryMetrics",
+            "QueryPlan",
+            "QueryPlanNode"
           ]
         },
         {
@@ -1353,7 +1312,109 @@
         "_quote_identifier",
         "_sample_cell"
       ],
-      "totalLines": 367,
+      "totalLines": 411,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/db/postgres.py": {
+      "filePath": "src/nl2sql_agent/db/postgres.py",
+      "contentHash": "53836d9a813ee89d63f8acda04d54d48e93e74b86adb852e76ec60256acf08e9",
+      "functions": [],
+      "classes": [
+        {
+          "name": "PostgresDatabase",
+          "methods": [
+            "__init__",
+            "fingerprint",
+            "connect",
+            "list_tables",
+            "get_schema_text",
+            "_rank_tables",
+            "execute",
+            "preflight"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 221
+        }
+      ],
+      "imports": [
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterator"
+          ]
+        },
+        {
+          "source": "contextlib",
+          "specifiers": [
+            "contextmanager"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "LiteralString",
+            "cast"
+          ]
+        },
+        {
+          "source": "psycopg",
+          "specifiers": [
+            "psycopg"
+          ]
+        },
+        {
+          "source": "psycopg",
+          "specifiers": [
+            "psycopg_sql"
+          ]
+        },
+        {
+          "source": "psycopg.rows",
+          "specifiers": [
+            "dict_row"
+          ]
+        },
+        {
+          "source": ".base",
+          "specifiers": [
+            "DatabaseError",
+            "QueryMetrics",
+            "QueryPlan",
+            "QueryPlanNode"
+          ]
+        },
+        {
+          "source": ".database",
+          "specifiers": [
+            "QueryResult",
+            "_sample_cell"
+          ]
+        }
+      ],
+      "exports": [
+        "PostgresDatabase"
+      ],
+      "totalLines": 241,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/db/seed.py": {
@@ -1632,7 +1693,7 @@
     },
     "src/nl2sql_agent/llm/__init__.py": {
       "filePath": "src/nl2sql_agent/llm/__init__.py",
-      "contentHash": "3d05b9b3ef335cd9515030bc9da5a6d6e8b4afde7900ebcb02a96f4e186a807d",
+      "contentHash": "33557b06ce6f24a28e0e745ff34af50823560431c210dd55383ead1c55db764b",
       "functions": [],
       "classes": [],
       "imports": [
@@ -1650,15 +1711,31 @@
             "fallback_models",
             "list_models"
           ]
+        },
+        {
+          "source": ".pricing",
+          "specifiers": [
+            "DEFAULT_PRICING_RULES",
+            "MODEL_PRICING",
+            "CostBreakdown",
+            "ModelPricing",
+            "PricingRule",
+            "PricingUnavailableError",
+            "RequestMode",
+            "UsageRecord",
+            "calculate_cost",
+            "effective_pricing_rule",
+            "estimate_model_cost"
+          ]
         }
       ],
       "exports": [],
-      "totalLines": 28,
+      "totalLines": 52,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/llm/factory.py": {
       "filePath": "src/nl2sql_agent/llm/factory.py",
-      "contentHash": "5002dfa13839aa4f8dc8bc4e545c87bd0fbaa3cc51d9d9fa6bcd2b355bccddd7",
+      "contentHash": "9831a7b6724a003f405eb0eb6776291a179aeaf9599bc1204565be2d9c8e3584",
       "functions": [
         {
           "name": "build_chat_model",
@@ -1776,7 +1853,7 @@
           ],
           "returnType": "list[str]",
           "exported": true,
-          "lineCount": 21
+          "lineCount": 24
         }
       ],
       "classes": [
@@ -1841,12 +1918,436 @@
         "list_models",
         "_list_ollama"
       ],
-      "totalLines": 281,
+      "totalLines": 284,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/llm/pricing.py": {
+      "filePath": "src/nl2sql_agent/llm/pricing.py",
+      "contentHash": "d628d3b6a52608347aacf02b226e2e91ff00b50a9e46347c7f784d692da3db12",
+      "functions": [
+        {
+          "name": "_d",
+          "params": [
+            "value"
+          ],
+          "returnType": "Decimal",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "effective_pricing_rule",
+          "params": [
+            "rules",
+            "model",
+            "at"
+          ],
+          "returnType": "PricingRule | None",
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "_mode_rates",
+          "params": [
+            "rule",
+            "mode"
+          ],
+          "returnType": "tuple[Decimal, Decimal]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "calculate_cost",
+          "params": [
+            "rule",
+            "usage_records",
+            "calculated_at"
+          ],
+          "returnType": "CostBreakdown",
+          "exported": true,
+          "lineCount": 60
+        },
+        {
+          "name": "estimate_model_cost",
+          "params": [
+            "model",
+            "input_tokens",
+            "output_tokens"
+          ],
+          "returnType": "float | None",
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [
+        {
+          "name": "ModelPricing",
+          "methods": [],
+          "properties": [
+            "display_name",
+            "input_price",
+            "output_price",
+            "details"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "UsageRecord",
+          "methods": [
+            "to_dict"
+          ],
+          "properties": [
+            "stage",
+            "input_tokens",
+            "output_tokens",
+            "cache_read_tokens",
+            "cache_creation_tokens",
+            "request_mode"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "PricingRule",
+          "methods": [
+            "is_effective"
+          ],
+          "properties": [
+            "rule_id",
+            "model",
+            "display_name",
+            "effective_from",
+            "effective_to",
+            "standard_input",
+            "standard_output",
+            "cache_read_input",
+            "cache_creation_input",
+            "batch_input",
+            "batch_output",
+            "fast_input",
+            "fast_output",
+            "long_context_threshold",
+            "long_context_input",
+            "long_context_output",
+            "notes"
+          ],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "CostLine",
+          "methods": [],
+          "properties": [
+            "stage",
+            "request_mode",
+            "input_tokens",
+            "output_tokens",
+            "cache_read_tokens",
+            "cache_creation_tokens",
+            "input_rate",
+            "output_rate",
+            "cache_read_rate",
+            "cache_creation_rate",
+            "long_context",
+            "cost"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "CostBreakdown",
+          "methods": [
+            "to_dict"
+          ],
+          "properties": [
+            "model",
+            "pricing_rule_id",
+            "calculated_at",
+            "lines",
+            "total_cost"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "PricingUnavailableError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "asdict",
+            "dataclass"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime"
+          ]
+        },
+        {
+          "source": "decimal",
+          "specifiers": [
+            "Decimal"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Literal"
+          ]
+        }
+      ],
+      "exports": [
+        "ModelPricing",
+        "UsageRecord",
+        "PricingRule",
+        "CostLine",
+        "CostBreakdown",
+        "PricingUnavailableError",
+        "_d",
+        "effective_pricing_rule",
+        "_mode_rates",
+        "calculate_cost",
+        "estimate_model_cost"
+      ],
+      "totalLines": 303,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/persistence.py": {
+      "filePath": "src/nl2sql_agent/persistence.py",
+      "contentHash": "7f7d9d11785198f78c40b3faf1e91884b061f6de522bca77361bd7ef082ad0a2",
+      "functions": [
+        {
+          "name": "_utc_now",
+          "params": [],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_json",
+          "params": [
+            "value"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_safe_mapping",
+          "params": [
+            "value",
+            "fields"
+          ],
+          "returnType": "dict[str, Any]",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "title_from_question",
+          "params": [
+            "question"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_csv_cell",
+          "params": [
+            "value"
+          ],
+          "returnType": "object",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "cost_rows_to_csv",
+          "params": [
+            "rows"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 25
+        }
+      ],
+      "classes": [
+        {
+          "name": "SavedSession",
+          "methods": [],
+          "properties": [
+            "session_id",
+            "title",
+            "created_at",
+            "updated_at",
+            "database_kind",
+            "database_label",
+            "database_fingerprint",
+            "provider",
+            "model"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "StateStore",
+          "methods": [
+            "__init__",
+            "_connect",
+            "_initialize",
+            "_seed_pricing",
+            "_rule_values",
+            "create_session",
+            "list_sessions",
+            "get_session",
+            "rename_session",
+            "delete_session",
+            "append_message",
+            "load_messages",
+            "save_pending",
+            "load_pending",
+            "clear_pending",
+            "save_run",
+            "list_pricing_rules",
+            "_row_to_rule",
+            "replace_pricing_rules",
+            "_validate_rules",
+            "get_preference_decimal",
+            "set_preference_decimal",
+            "cost_rows",
+            "cost_total",
+            "runtime_rows"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 491
+        }
+      ],
+      "imports": [
+        {
+          "source": "csv",
+          "specifiers": [
+            "csv"
+          ]
+        },
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "sqlite3",
+          "specifiers": [
+            "sqlite3"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterable",
+            "Mapping"
+          ]
+        },
+        {
+          "source": "contextlib",
+          "specifiers": [
+            "contextmanager"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime"
+          ]
+        },
+        {
+          "source": "decimal",
+          "specifiers": [
+            "Decimal"
+          ]
+        },
+        {
+          "source": "itertools",
+          "specifiers": [
+            "pairwise"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "uuid",
+          "specifiers": [
+            "uuid4"
+          ]
+        },
+        {
+          "source": ".llm.pricing",
+          "specifiers": [
+            "DEFAULT_PRICING_RULES",
+            "PricingRule"
+          ]
+        }
+      ],
+      "exports": [
+        "SavedSession",
+        "_utc_now",
+        "_json",
+        "_safe_mapping",
+        "title_from_question",
+        "_csv_cell",
+        "cost_rows_to_csv",
+        "StateStore"
+      ],
+      "totalLines": 623,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/prompts/__init__.py": {
       "filePath": "src/nl2sql_agent/prompts/__init__.py",
-      "contentHash": "49fe0abd531a70654d6394f5e736b06d7225c566f565ff9bd9993d2e7f324978",
+      "contentHash": "117edd812a922da5e48a509de8be1d14e8808c2f3ff36c346bc59fe76dd2eea9",
       "functions": [],
       "classes": [],
       "imports": [
@@ -1858,18 +2359,28 @@
             "SUMMARIZER_SYSTEM",
             "SUMMARIZER_USER",
             "error_section",
-            "format_data"
+            "format_data",
+            "sql_writer_system"
           ]
         }
       ],
       "exports": [],
-      "totalLines": 20,
+      "totalLines": 22,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/prompts/templates.py": {
       "filePath": "src/nl2sql_agent/prompts/templates.py",
-      "contentHash": "886ac0a0dffa366f9a076ed48d5ea146f339179ce9c87ae254ed7231b52ac0b7",
+      "contentHash": "1236dac06e5dc7a8f4800da4753a459ec17240e5194ea56b0bdd41ae8962dba0",
       "functions": [
+        {
+          "name": "sql_writer_system",
+          "params": [
+            "dialect"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 15
+        },
         {
           "name": "error_section",
           "params": [
@@ -1892,10 +2403,11 @@
       "classes": [],
       "imports": [],
       "exports": [
+        "sql_writer_system",
         "error_section",
         "format_data"
       ],
-      "totalLines": 86,
+      "totalLines": 103,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/security/__init__.py": {
@@ -1924,12 +2436,13 @@
     },
     "src/nl2sql_agent/security/sql_validator.py": {
       "filePath": "src/nl2sql_agent/security/sql_validator.py",
-      "contentHash": "6d5557a0bb5b46d99939edc4a18b15886357df922cea7982c7f7657d36732fc4",
+      "contentHash": "f216aeac5c12050081251edac4600cd6d2910b0a87fffe6aeab65a13890293ab",
       "functions": [
         {
           "name": "parse_sql",
           "params": [
-            "sql"
+            "sql",
+            "dialect"
           ],
           "returnType": "list[exp.Expression]",
           "exported": true,
@@ -1975,11 +2488,24 @@
           "name": "validate_sql",
           "params": [
             "sql",
-            "policy"
+            "policy",
+            "dialect",
+            "allowed_schema"
           ],
           "returnType": "list[exp.Select]",
           "exported": true,
-          "lineCount": 10
+          "lineCount": 19
+        },
+        {
+          "name": "_validate_schema_and_locks",
+          "params": [
+            "top",
+            "allowed_schema",
+            "dialect"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 21
         },
         {
           "name": "_validate_statements",
@@ -2004,7 +2530,8 @@
         {
           "name": "referenced_tables",
           "params": [
-            "sql"
+            "sql",
+            "dialect"
           ],
           "returnType": "set[str]",
           "exported": true,
@@ -2024,11 +2551,13 @@
           "params": [
             "sql",
             "policy",
-            "allowed_tables"
+            "allowed_tables",
+            "dialect",
+            "allowed_schema"
           ],
           "returnType": "PreparedSQL",
           "exported": true,
-          "lineCount": 37
+          "lineCount": 40
         }
       ],
       "classes": [
@@ -2129,13 +2658,14 @@
         "_uses_aggregate",
         "_function_name",
         "validate_sql",
+        "_validate_schema_and_locks",
         "_validate_statements",
         "_check_select",
         "referenced_tables",
         "_referenced_tables",
         "prepare_sql"
       ],
-      "totalLines": 333,
+      "totalLines": 380,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/ui/__init__.py": {
@@ -2166,16 +2696,17 @@
     },
     "src/nl2sql_agent/ui/components.py": {
       "filePath": "src/nl2sql_agent/ui/components.py",
-      "contentHash": "315438ff94fb59559629f859025e3db4bca9cb04d736775f1fbbec8dfca52c67",
+      "contentHash": "a5cdd5b43073d6f8991f4e25f5ad79a6bb704fd0250ac810892e6cfacf7dd2e0",
       "functions": [
         {
           "name": "render_sidebar",
           "params": [
+            "postgres_enabled",
             "providers"
           ],
           "returnType": "dict[str, Any]",
           "exported": true,
-          "lineCount": 96
+          "lineCount": 101
         },
         {
           "name": "_default_models",
@@ -2191,7 +2722,7 @@
           "params": [],
           "returnType": "None",
           "exported": true,
-          "lineCount": 17
+          "lineCount": 24
         },
         {
           "name": "render_run_steps",
@@ -2212,11 +2743,18 @@
             "error",
             "csv_data",
             "trace",
-            "run_id"
+            "run_id",
+            "model",
+            "token_usage",
+            "cost_breakdown",
+            "query_plan",
+            "query_metrics",
+            "warnings",
+            "result_not_stored"
           ],
           "returnType": "None",
           "exported": true,
-          "lineCount": 47
+          "lineCount": 115
         }
       ],
       "classes": [],
@@ -2247,6 +2785,13 @@
             "env_var_value",
             "supported_models_for"
           ]
+        },
+        {
+          "source": "..llm.pricing",
+          "specifiers": [
+            "MODEL_PRICING",
+            "estimate_model_cost"
+          ]
         }
       ],
       "exports": [
@@ -2256,7 +2801,7 @@
         "render_run_steps",
         "render_run_result"
       ],
-      "totalLines": 186,
+      "totalLines": 267,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/ui/database_upload.py": {
@@ -2329,16 +2874,162 @@
       "totalLines": 39,
       "hasStructuralAnalysis": true
     },
+    "src/nl2sql_agent/ui/pages.py": {
+      "filePath": "src/nl2sql_agent/ui/pages.py",
+      "contentHash": "cb78bdb955a49fd88c8c9ef019400f995f2e84c29fa64c7f2961e93b954a9683",
+      "functions": [
+        {
+          "name": "_store",
+          "params": [],
+          "returnType": "StateStore",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "costs_page",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 75
+        },
+        {
+          "name": "sessions_page",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 71
+        },
+        {
+          "name": "insights_page",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 64
+        },
+        {
+          "name": "_rule_row",
+          "params": [
+            "rule"
+          ],
+          "returnType": "dict[str, object]",
+          "exported": true,
+          "lineCount": 26
+        },
+        {
+          "name": "_optional_decimal",
+          "params": [
+            "value"
+          ],
+          "returnType": "Decimal | None",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_parse_date",
+          "params": [
+            "value",
+            "required"
+          ],
+          "returnType": "datetime | None",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_rules_from_editor",
+          "params": [
+            "frame"
+          ],
+          "returnType": "list[PricingRule]",
+          "exported": true,
+          "lineCount": 36
+        },
+        {
+          "name": "pricing_page",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 43
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime",
+            "time"
+          ]
+        },
+        {
+          "source": "decimal",
+          "specifiers": [
+            "Decimal",
+            "InvalidOperation"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "cast"
+          ]
+        },
+        {
+          "source": "uuid",
+          "specifiers": [
+            "uuid4"
+          ]
+        },
+        {
+          "source": "pandas",
+          "specifiers": [
+            "pd"
+          ]
+        },
+        {
+          "source": "streamlit",
+          "specifiers": [
+            "st"
+          ]
+        },
+        {
+          "source": "..llm",
+          "specifiers": [
+            "PricingRule"
+          ]
+        },
+        {
+          "source": "..persistence",
+          "specifiers": [
+            "StateStore",
+            "cost_rows_to_csv"
+          ]
+        }
+      ],
+      "exports": [
+        "_store",
+        "costs_page",
+        "sessions_page",
+        "insights_page",
+        "_rule_row",
+        "_optional_decimal",
+        "_parse_date",
+        "_rules_from_editor",
+        "pricing_page"
+      ],
+      "totalLines": 366,
+      "hasStructuralAnalysis": true
+    },
     "src/nl2sql_agent/ui/streamlit_app.py": {
       "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "contentHash": "65d7b8a2b4abfc6e604ac4d863db3e1108d2855347594212a92ca430f982c152",
+      "contentHash": "e1941e08f0f2fb26cf09e2eea4b857d2caf4721f559777f4e38e57074669135b",
       "functions": [
         {
           "name": "_init_session_state",
           "params": [],
           "returnType": "None",
           "exported": true,
-          "lineCount": 6
+          "lineCount": 7
         },
         {
           "name": "_demo_database",
@@ -2352,6 +3043,15 @@
           "returnType": "Database",
           "exported": true,
           "lineCount": 15
+        },
+        {
+          "name": "_state_store",
+          "params": [
+            "path"
+          ],
+          "returnType": "StateStore",
+          "exported": true,
+          "lineCount": 2
         },
         {
           "name": "_runtime_settings",
@@ -2371,9 +3071,9 @@
             "settings",
             "data_source"
           ],
-          "returnType": "tuple[Database, str, str, bool] | None",
+          "returnType": "tuple[DatabaseBackend, str, str, bool] | None",
           "exported": true,
-          "lineCount": 48
+          "lineCount": 69
         },
         {
           "name": "_build_agent",
@@ -2391,11 +3091,64 @@
         {
           "name": "_history_message",
           "params": [
-            "state"
+            "state",
+            "model"
           ],
           "returnType": "dict[str, Any]",
           "exported": true,
-          "lineCount": 12
+          "lineCount": 21
+        },
+        {
+          "name": "_apply_cost",
+          "params": [
+            "state",
+            "model",
+            "store"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 33
+        },
+        {
+          "name": "_budget_alerts",
+          "params": [
+            "store",
+            "session_id",
+            "state"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "_persist_result",
+          "params": [
+            "store",
+            "session_id",
+            "state",
+            "provider",
+            "model",
+            "database",
+            "fingerprint"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "_ensure_session",
+          "params": [
+            "store",
+            "context",
+            "database",
+            "database_name",
+            "fingerprint",
+            "provider",
+            "model"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 27
         },
         {
           "name": "_stage_text",
@@ -2408,11 +3161,18 @@
           "lineCount": 10
         },
         {
+          "name": "_chat_page",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 259
+        },
+        {
           "name": "main",
           "params": [],
           "returnType": "None",
           "exported": true,
-          "lineCount": 216
+          "lineCount": 31
         }
       ],
       "classes": [],
@@ -2427,6 +3187,19 @@
           "source": "tempfile",
           "specifiers": [
             "tempfile"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime"
+          ]
+        },
+        {
+          "source": "decimal",
+          "specifiers": [
+            "Decimal"
           ]
         },
         {
@@ -2466,15 +3239,30 @@
         {
           "source": "nl2sql_agent.db",
           "specifiers": [
-            "Database"
+            "Database",
+            "DatabaseBackend",
+            "DatabaseError",
+            "PostgresDatabase"
           ]
         },
         {
           "source": "nl2sql_agent.llm",
           "specifiers": [
+            "DEFAULT_PRICING_RULES",
             "LLMProviderError",
+            "PricingUnavailableError",
+            "RequestMode",
+            "UsageRecord",
             "build_chat_model",
+            "calculate_cost",
+            "effective_pricing_rule",
             "list_models"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.persistence",
+          "specifiers": [
+            "StateStore"
           ]
         },
         {
@@ -2504,14 +3292,20 @@
       "exports": [
         "_init_session_state",
         "_demo_database",
+        "_state_store",
         "_runtime_settings",
         "_resolve_database",
         "_build_agent",
         "_history_message",
+        "_apply_cost",
+        "_budget_alerts",
+        "_persist_result",
+        "_ensure_session",
         "_stage_text",
+        "_chat_page",
         "main"
       ],
-      "totalLines": 392,
+      "totalLines": 646,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/utils/__init__.py": {
@@ -2549,7 +3343,7 @@
     },
     "src/nl2sql_agent/utils/audit.py": {
       "filePath": "src/nl2sql_agent/utils/audit.py",
-      "contentHash": "4e9e1c08b46e71cafd1eb1258c48a2d813ba6b9ab0427f7173cd62b4c56ce161",
+      "contentHash": "0df0bea4c2137cfc74b07fe22303a0121fa3d3edb64d4fcaabc950ad038dcb3c",
       "functions": [
         {
           "name": "hash_text",
@@ -2563,7 +3357,8 @@
         {
           "name": "redact_sql",
           "params": [
-            "sql"
+            "sql",
+            "dialect"
           ],
           "returnType": "str",
           "exported": true,
@@ -2579,7 +3374,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 31
+          "lineCount": 32
         }
       ],
       "imports": [
@@ -2638,7 +3433,7 @@
         "redact_sql",
         "AuditLogger"
       ],
-      "totalLines": 79,
+      "totalLines": 80,
       "hasStructuralAnalysis": true
     },
     "src/nl2sql_agent/utils/logging.py": {
@@ -2766,7 +3561,7 @@
     },
     "tests/conftest.py": {
       "filePath": "tests/conftest.py",
-      "contentHash": "e158af37c68d4da67a0f6626da21ee1abd8237ae841d54499da1eba38cf478c4",
+      "contentHash": "4b69635d5741497da5a5975048e49bfd6bed29b18f1f9dfb6dc7accfbdca0c12",
       "functions": [
         {
           "name": "_reset_settings",
@@ -2775,7 +3570,7 @@
           ],
           "returnType": "None",
           "exported": true,
-          "lineCount": 15
+          "lineCount": 18
         },
         {
           "name": "tmp_db_path",
@@ -2874,7 +3669,7 @@
         "make_state",
         "example_questions"
       ],
-      "totalLines": 96,
+      "totalLines": 99,
       "hasStructuralAnalysis": true
     },
     "tests/integration/__init__.py": {
@@ -2998,7 +3793,7 @@
     },
     "tests/unit/test_agent.py": {
       "filePath": "tests/unit/test_agent.py",
-      "contentHash": "25ce411b92c75822b374e373b71f162bfff47e22f6f1d4d5ac745f5b12020b33",
+      "contentHash": "a08cfd7dc8ebb8b477e37ae4fd820622ff4d62e51fa72aef960a4a5c280b3249",
       "functions": [
         {
           "name": "_make_agent",
@@ -3129,6 +3924,17 @@
           "properties": [],
           "exported": true,
           "lineCount": 32
+        },
+        {
+          "name": "TestUsageAndInsights",
+          "methods": [
+            "test_writer_records_per_call_cache_usage",
+            "test_guardian_returns_plan_and_scan_warning",
+            "test_executor_returns_runtime_metrics"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 38
         }
       ],
       "imports": [
@@ -3169,9 +3975,10 @@
         "TestHighLevelRun",
         "TestPreparedExecution",
         "TestWorkflowStructure",
-        "TestExecutionEdgeCases"
+        "TestExecutionEdgeCases",
+        "TestUsageAndInsights"
       ],
-      "totalLines": 399,
+      "totalLines": 439,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_audit.py": {
@@ -3345,7 +4152,7 @@
     },
     "tests/unit/test_database.py": {
       "filePath": "tests/unit/test_database.py",
-      "contentHash": "3fed026b1aefc2a20ced6ad590ca1620a0fc6eac5ee45b7f433b40f79222e7fb",
+      "contentHash": "0a66fe0b9950c77a3c94878df194e655e144b43593347802a89556e1029e58cb",
       "functions": [],
       "classes": [
         {
@@ -3393,12 +4200,13 @@
             "test_syntax_error_raises",
             "test_query_connection_is_read_only",
             "test_preflight_validates_columns_without_running_query",
+            "test_execution_records_runtime_and_work_units",
             "test_result_cap_sets_truncation_flag",
             "test_vm_step_budget_interrupts_expensive_query"
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 52
+          "lineCount": 59
         },
         {
           "name": "TestDatabaseSchema",
@@ -3473,7 +4281,7 @@
         "TestDatabaseExecute",
         "TestDatabaseSchema"
       ],
-      "totalLines": 253,
+      "totalLines": 260,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_evaluation.py": {
@@ -3571,7 +4379,7 @@
     },
     "tests/unit/test_llm_factory.py": {
       "filePath": "tests/unit/test_llm_factory.py",
-      "contentHash": "4af5ccfa80b7d3895258d017a0e6d99908f7ff066736b3d0a366ef672462d38c",
+      "contentHash": "75cc20826656bd7747de15f862e5eb17dc12bf68db7e95f100d52eeb2af6a030",
       "functions": [],
       "classes": [
         {
@@ -3602,7 +4410,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 47
+          "lineCount": 48
         },
         {
           "name": "TestBuildChatModel",
@@ -3664,7 +4472,7 @@
         "TestListModels",
         "TestBuildChatModel"
       ],
-      "totalLines": 262,
+      "totalLines": 263,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_logging.py": {
@@ -3745,6 +4553,306 @@
       "totalLines": 61,
       "hasStructuralAnalysis": true
     },
+    "tests/unit/test_persistence.py": {
+      "filePath": "tests/unit/test_persistence.py",
+      "contentHash": "326387bf091de5c596afd2231b7b27ca59dda2e1c1eccb365ebebf0c766fa23c",
+      "functions": [
+        {
+          "name": "store",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_session",
+          "params": [
+            "store"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "test_store_initializes_idempotently_and_seeds_pricing",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_saved_messages_exclude_raw_results_and_csv",
+          "params": [
+            "store"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "test_pending_query_uses_explicit_allowlist",
+          "params": [
+            "store"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_run_cost_and_metrics_are_aggregated",
+          "params": [
+            "store"
+          ],
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "test_budget_preferences_default_disabled",
+          "params": [
+            "store"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_pricing_overlap_is_rejected",
+          "params": [
+            "store"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_cost_csv_excludes_prompts_and_neutralizes_formulas",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "decimal",
+          "specifiers": [
+            "Decimal"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.persistence",
+          "specifiers": [
+            "StateStore",
+            "cost_rows_to_csv"
+          ]
+        }
+      ],
+      "exports": [
+        "store",
+        "_session",
+        "test_store_initializes_idempotently_and_seeds_pricing",
+        "test_saved_messages_exclude_raw_results_and_csv",
+        "test_pending_query_uses_explicit_allowlist",
+        "test_run_cost_and_metrics_are_aggregated",
+        "test_budget_preferences_default_disabled",
+        "test_pricing_overlap_is_rejected",
+        "test_cost_csv_excludes_prompts_and_neutralizes_formulas"
+      ],
+      "totalLines": 155,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_postgres.py": {
+      "filePath": "tests/unit/test_postgres.py",
+      "contentHash": "6f31da6ddbf052159d61840a71674ff532733ef4c58c696368a4255db65f0c34",
+      "functions": [
+        {
+          "name": "_cursor",
+          "params": [
+            "one",
+            "all_rows"
+          ],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_safe_connection",
+          "params": [
+            "final_cursor"
+          ],
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "test_connection_is_read_only_parameterized_and_rolled_back",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_privileged_postgres_role_is_rejected",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "test_preflight_uses_json_explain_without_analyze",
+          "params": [],
+          "exported": true,
+          "lineCount": 20
+        },
+        {
+          "name": "test_fingerprint_never_contains_dsn",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "MagicMock",
+            "patch"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.db",
+          "specifiers": [
+            "DatabaseError",
+            "PostgresDatabase"
+          ]
+        }
+      ],
+      "exports": [
+        "_cursor",
+        "_safe_connection",
+        "test_connection_is_read_only_parameterized_and_rolled_back",
+        "test_privileged_postgres_role_is_rejected",
+        "test_preflight_uses_json_explain_without_analyze",
+        "test_fingerprint_never_contains_dsn"
+      ],
+      "totalLines": 103,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_pricing.py": {
+      "filePath": "tests/unit/test_pricing.py",
+      "contentHash": "d5d5ca3e62dac9c69e88028cc86e6ba91c4eda0bf1e5fd32a07ea7ab2302796a",
+      "functions": [
+        {
+          "name": "test_estimates_standard_model_cost_from_reported_tokens",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_catalog_contains_every_priced_hosted_model",
+          "params": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_unpriced_model_has_no_cost_estimate",
+          "params": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_rule",
+          "params": [
+            "model"
+          ],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "test_cache_read_tokens_use_cache_rate",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_batch_and_fast_rates_require_actual_request_mode",
+          "params": [],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_long_context_is_applied_per_call_not_aggregate",
+          "params": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_long_context_threshold_is_strictly_greater_than",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_effective_window_end_is_exclusive",
+          "params": [],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime"
+          ]
+        },
+        {
+          "source": "decimal",
+          "specifiers": [
+            "Decimal"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.llm.pricing",
+          "specifiers": [
+            "DEFAULT_PRICING_RULES",
+            "MODEL_PRICING",
+            "UsageRecord",
+            "calculate_cost",
+            "effective_pricing_rule",
+            "estimate_model_cost"
+          ]
+        }
+      ],
+      "exports": [
+        "test_estimates_standard_model_cost_from_reported_tokens",
+        "test_catalog_contains_every_priced_hosted_model",
+        "test_unpriced_model_has_no_cost_estimate",
+        "_rule",
+        "test_cache_read_tokens_use_cache_rate",
+        "test_batch_and_fast_rates_require_actual_request_mode",
+        "test_long_context_is_applied_per_call_not_aggregate",
+        "test_long_context_threshold_is_strictly_greater_than",
+        "test_effective_window_end_is_exclusive"
+      ],
+      "totalLines": 106,
+      "hasStructuralAnalysis": true
+    },
     "tests/unit/test_prompts.py": {
       "filePath": "tests/unit/test_prompts.py",
       "contentHash": "b5ab9e6edfaceca784f0e5b3840871c5afe8e5e1cd616d51d4ac6b71f3c993c1",
@@ -3789,7 +4897,7 @@
     },
     "tests/unit/test_settings.py": {
       "filePath": "tests/unit/test_settings.py",
-      "contentHash": "bb045ec6baddc664c9b50f4fb6b1fba66bb6d61182a14056add2c23e4a202f1e",
+      "contentHash": "a4b4906180099212da3cc7b4f9cfaa87c20f8d5d89f92798d74113473644d20e",
       "functions": [],
       "classes": [
         {
@@ -3806,6 +4914,8 @@
             "test_db_path_coerced_from_string",
             "test_model_must_not_be_empty",
             "test_max_retries_bounded",
+            "test_postgres_backend_requires_operator_dsn",
+            "test_postgres_dsn_is_secret_and_schema_is_validated",
             "test_api_key_for",
             "test_cloud_model_catalog",
             "test_standard_cloud_key_environment_variables",
@@ -3815,7 +4925,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 166
+          "lineCount": 187
         },
         {
           "name": "TestEnvVar",
@@ -3864,12 +4974,12 @@
         "TestSettings",
         "TestEnvVar"
       ],
-      "totalLines": 204,
+      "totalLines": 225,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_sql_validator.py": {
       "filePath": "tests/unit/test_sql_validator.py",
-      "contentHash": "18e5aa90dcd18654fa4e5013102ee3a1dede367769d3797fb09d6e251af779b6",
+      "contentHash": "76b4f97325a1160cc6e0b5c08cdf5f6fff8aeef75df308274c13e49259c2e668",
       "functions": [],
       "classes": [
         {
@@ -4002,6 +5112,9 @@
           "name": "TestPrepareSql",
           "methods": [
             "test_parses_query_once",
+            "test_postgres_read_only_escape_hatches_are_rejected",
+            "test_postgres_cross_schema_reference_is_rejected",
+            "test_postgres_configured_schema_is_allowed",
             "test_rejects_disallowed_table",
             "test_rejects_physical_table_hidden_by_same_named_cte",
             "test_allows_cte_over_an_authorized_table",
@@ -4010,7 +5123,7 @@
           ],
           "properties": [],
           "exported": true,
-          "lineCount": 45
+          "lineCount": 81
         }
       ],
       "imports": [
@@ -4060,7 +5173,7 @@
         "TestParseSql",
         "TestPrepareSql"
       ],
-      "totalLines": 286,
+      "totalLines": 322,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_text.py": {
@@ -4116,9 +5229,59 @@
       "totalLines": 62,
       "hasStructuralAnalysis": true
     },
+    "tests/unit/test_ui_app.py": {
+      "filePath": "tests/unit/test_ui_app.py",
+      "contentHash": "961d9b6629b3e12e3fe8a60837e501787d049c1ae7c38fc2b9e3643d8ea66466",
+      "functions": [
+        {
+          "name": "test_main_app_renders_chat_navigation",
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_pricing_page_renders_editor_and_disabled_budgets",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 14
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "streamlit.testing.v1",
+          "specifiers": [
+            "AppTest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.config",
+          "specifiers": [
+            "reset_settings_cache"
+          ]
+        }
+      ],
+      "exports": [
+        "test_main_app_renders_chat_navigation",
+        "test_pricing_page_renders_editor_and_disabled_budgets"
+      ],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
     "tests/unit/test_ui_components.py": {
       "filePath": "tests/unit/test_ui_components.py",
-      "contentHash": "fe6e2b3eda41ddb0b5b41afa7a2aaaf52db62880b65eaefb40bd8c73164f28cf",
+      "contentHash": "ce4d0e4f65cdaa041ee5f5f064fa974012f1408c0c793c087b6a3ea192ec7ea8",
       "functions": [
         {
           "name": "_sidebar_app",
@@ -4138,6 +5301,12 @@
           "params": [],
           "exported": true,
           "lineCount": 7
+        },
+        {
+          "name": "test_run_result_shows_token_usage_and_estimated_cost",
+          "params": [],
+          "exported": true,
+          "lineCount": 22
         }
       ],
       "classes": [],
@@ -4152,9 +5321,10 @@
       "exports": [
         "_sidebar_app",
         "test_sidebar_shows_only_approved_cloud_models",
-        "test_sidebar_accepts_custom_hugging_face_model"
+        "test_sidebar_accepts_custom_hugging_face_model",
+        "test_run_result_shows_token_usage_and_estimated_cost"
       ],
-      "totalLines": 35,
+      "totalLines": 59,
       "hasStructuralAnalysis": true
     },
     "tests/unit/test_upload.py": {

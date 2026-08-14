@@ -396,3 +396,43 @@ class TestExecutionEdgeCases:
         )
         assert result["error"] == ""
         assert result["sql_unsafe_reason"] == ""
+
+
+class TestUsageAndInsights:
+    def test_writer_records_per_call_cache_usage(self, seeded_db):
+        llm = MagicMock()
+        response = MagicMock()
+        response.content = "SELECT * FROM employees"
+        response.usage_metadata = {
+            "input_tokens": 1000,
+            "output_tokens": 100,
+            "total_tokens": 1100,
+            "input_token_details": {"cache_read": 400, "cache_creation": 50},
+        }
+        llm.invoke.return_value = response
+        result = _make_agent(seeded_db, llm).write_sql({"usage_records": []})
+        assert result["token_usage"]["input_tokens"] == 1000
+        assert result["usage_records"] == [
+            {
+                "stage": "writer",
+                "input_tokens": 1000,
+                "output_tokens": 100,
+                "cache_read_tokens": 400,
+                "cache_creation_tokens": 50,
+                "request_mode": "standard",
+            }
+        ]
+
+    def test_guardian_returns_plan_and_scan_warning(self, seeded_db, mock_llm):
+        result = _make_agent(seeded_db, mock_llm).check_security(
+            {"run_id": "r1", "question": "all", "sql_query": "SELECT * FROM employees"}
+        )
+        assert result["query_plan"]["backend"] == "sqlite"
+        assert any("Full table scan" in warning for warning in result["warnings"])
+
+    def test_executor_returns_runtime_metrics(self, seeded_db, mock_llm):
+        result = _make_agent(seeded_db, mock_llm).execute_sql(
+            {"sql_query": "SELECT * FROM employees", "warnings": []}
+        )
+        assert result["query_metrics"]["duration_ms"] >= 0
+        assert result["query_metrics"]["row_count"] == 10

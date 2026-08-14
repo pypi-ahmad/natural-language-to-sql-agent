@@ -250,6 +250,42 @@ class TestPrepareSql:
             )
         parse.assert_called_once()
 
+    @pytest.mark.parametrize(
+        "sql",
+        [
+            "SELECT * INTO copied FROM employees",
+            "SELECT * FROM employees FOR UPDATE",
+            "SELECT pg_read_file('/etc/passwd')",
+            "SELECT pg_advisory_lock(1)",
+        ],
+    )
+    def test_postgres_read_only_escape_hatches_are_rejected(self, sql):
+        with pytest.raises(SQLValidationError):
+            prepare_sql(
+                sql,
+                allowed_tables={"employees"},
+                dialect="postgres",
+                allowed_schema="public",
+            )
+
+    def test_postgres_cross_schema_reference_is_rejected(self):
+        with pytest.raises(SQLValidationError, match="Schema"):
+            prepare_sql(
+                "SELECT * FROM private.employees",
+                allowed_tables={"employees"},
+                dialect="postgres",
+                allowed_schema="public",
+            )
+
+    def test_postgres_configured_schema_is_allowed(self):
+        prepared = prepare_sql(
+            "SELECT * FROM public.employees",
+            allowed_tables={"employees"},
+            dialect="postgres",
+            allowed_schema="public",
+        )
+        assert "public.employees" in prepared.sql
+
     def test_rejects_disallowed_table(self):
         with pytest.raises(SQLValidationError, match="not allowed"):
             prepare_sql("SELECT * FROM secrets", allowed_tables={"employees"})

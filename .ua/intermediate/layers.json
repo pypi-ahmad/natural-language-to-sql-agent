@@ -2,10 +2,8 @@
   {
     "id": "layer:agent-workflow",
     "name": "Agent Workflow",
-    "description": "LangGraph orchestration, prompt and evaluation assets, and the six-provider model-integration boundary that turn questions into governed SQL answers.",
+    "description": "LangGraph orchestration, prompt templates, evaluation assets, and package boundaries that turn questions into governed SQL answers.",
     "nodeIds": [
-      "file:src/nl2sql_agent/llm/__init__.py",
-      "file:src/nl2sql_agent/llm/factory.py",
       "file:src/nl2sql_agent/agent/__init__.py",
       "file:src/nl2sql_agent/agent/state.py",
       "file:src/nl2sql_agent/agent/workflow.py",
@@ -19,47 +17,61 @@
     ]
   },
   {
+    "id": "layer:model-integration-and-pricing",
+    "name": "Model Integration and Pricing",
+    "description": "Provider construction, model discovery, and usage-cost estimation that support the agent and pricing dashboards.",
+    "nodeIds": [
+      "file:src/nl2sql_agent/llm/factory.py",
+      "file:src/nl2sql_agent/llm/__init__.py",
+      "file:src/nl2sql_agent/llm/pricing.py"
+    ]
+  },
+  {
     "id": "layer:user-interfaces",
     "name": "User Interfaces",
-    "description": "The Streamlit interface, command-line interface, and Windows launcher that configure and start the NL2SQL agent for users.",
+    "description": "Streamlit application pages and components, the command-line interface, and the Windows launcher used to configure and run NL2SQL.",
     "nodeIds": [
       "file:src/nl2sql_agent/ui/__init__.py",
       "file:src/nl2sql_agent/ui/components.py",
       "file:src/nl2sql_agent/ui/database_upload.py",
       "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "file:src/nl2sql_agent/ui/pages.py",
       "file:src/nl2sql_agent/cli.py",
       "file:Launch NL2SQL Agent.cmd"
     ]
   },
   {
     "id": "layer:data-and-security",
-    "name": "Data and SQL Safety",
-    "description": "SQLite access, demo data, and SQL-policy enforcement that constrain and execute generated analytical queries.",
+    "name": "Data, Persistence and SQL Safety",
+    "description": "SQLite and PostgreSQL adapters, persistent state, demo data, uploads, and SQL-policy enforcement for safe query execution.",
     "nodeIds": [
       "file:src/nl2sql_agent/security/__init__.py",
       "file:src/nl2sql_agent/security/sql_validator.py",
       "file:src/nl2sql_agent/db/__init__.py",
+      "file:src/nl2sql_agent/db/base.py",
       "file:src/nl2sql_agent/db/database.py",
-      "file:src/nl2sql_agent/db/seed.py"
+      "file:src/nl2sql_agent/db/postgres.py",
+      "file:src/nl2sql_agent/db/seed.py",
+      "file:src/nl2sql_agent/persistence.py"
     ]
   },
   {
     "id": "layer:runtime-foundations",
     "name": "Runtime Foundations",
-    "description": "Validated settings plus shared audit, logging, and text utilities that support every execution path.",
+    "description": "Validated runtime settings plus shared audit, logging, and text utilities used across all application paths.",
     "nodeIds": [
-      "file:src/nl2sql_agent/config/__init__.py",
-      "file:src/nl2sql_agent/config/settings.py",
       "file:src/nl2sql_agent/utils/__init__.py",
       "file:src/nl2sql_agent/utils/audit.py",
       "file:src/nl2sql_agent/utils/logging.py",
-      "file:src/nl2sql_agent/utils/text.py"
+      "file:src/nl2sql_agent/utils/text.py",
+      "file:src/nl2sql_agent/config/__init__.py",
+      "file:src/nl2sql_agent/config/settings.py"
     ]
   },
   {
     "id": "layer:quality-assurance",
     "name": "Quality Assurance",
-    "description": "Pytest fixtures, unit tests, and live integration coverage for the agent, providers, data layer, and safeguards.",
+    "description": "Pytest fixtures and unit or integration coverage for workflows, persistence, PostgreSQL, pricing, interfaces, providers, and safeguards.",
     "nodeIds": [
       "file:tests/__init__.py",
       "file:tests/conftest.py",
@@ -73,10 +85,14 @@
       "file:tests/unit/test_evaluation.py",
       "file:tests/unit/test_llm_factory.py",
       "file:tests/unit/test_logging.py",
+      "file:tests/unit/test_persistence.py",
+      "file:tests/unit/test_postgres.py",
+      "file:tests/unit/test_pricing.py",
       "file:tests/unit/test_prompts.py",
       "file:tests/unit/test_settings.py",
       "file:tests/unit/test_sql_validator.py",
       "file:tests/unit/test_text.py",
+      "file:tests/unit/test_ui_app.py",
       "file:tests/unit/test_ui_components.py",
       "file:tests/unit/test_upload.py"
     ]
@@ -97,48 +113,37 @@
       "document:UPGRADE_SUMMARY.md",
       "document:ZERO_TO_HERO_STUDY_HANDBOOK.md",
       "document:graphify-out/.graphify_uncached.txt",
-      "document:graphify-out/GRAPH_REPORT.md",
-      "document:graphify-out/2026-08-14/GRAPH_REPORT.md"
+      "document:graphify-out/GRAPH_REPORT.md"
     ]
   },
   {
     "id": "layer:project-tooling",
     "name": "Project Tooling and Graph Assets",
-    "description": "Packaging, developer configuration, architecture visualization, and checked-in Understand Anything and Graphify analysis artifacts.",
+    "description": "Packaging, developer and UI configuration, architecture visualization, and checked-in Graphify, CodeGraph, and review-graph artifacts.",
     "nodeIds": [
       "config:.pre-commit-config.yaml",
       "file:architecture-diagram.html",
       "config:architecture-diagram.json",
       "config:pyproject.toml",
-      "config:.ua/config.json",
-      "config:.ua/fingerprints.json",
-      "config:.ua/knowledge-graph.json",
-      "config:.ua/meta.json",
       "config:graphify-out/.graphify_analysis.json",
       "config:graphify-out/.graphify_ast.json",
+      "config:graphify-out/.graphify_cached.json",
+      "config:graphify-out/.graphify_chunk_01.json",
       "config:graphify-out/.graphify_detect.json",
       "config:graphify-out/.graphify_extract.json",
-      "config:graphify-out/.graphify_incremental.json",
       "config:graphify-out/.graphify_labels.json",
-      "config:graphify-out/.graphify_old.json",
       "config:graphify-out/.graphify_semantic.json",
       "config:graphify-out/.graphify_semantic_new.json",
       "config:graphify-out/cost.json",
       "file:graphify-out/graph.html",
       "config:graphify-out/graph.json",
       "config:graphify-out/manifest.json",
-      "config:graphify-out/2026-08-14/.graphify_analysis.json",
-      "config:graphify-out/2026-08-14/.graphify_labels.json",
-      "config:graphify-out/2026-08-14/cost.json",
-      "config:graphify-out/2026-08-14/graph.json",
-      "config:graphify-out/2026-08-14/manifest.json",
+      "file:.code-review-graph/graph.db",
+      "file:.codegraph/codegraph.db",
       "config:.github/dependabot.yml",
       "file:.python-version",
       "file:.secrets.baseline",
       "config:.streamlit/config.toml",
-      "file:.ua/.trash-1786690338",
-      "file:.ua/.understandignore",
-      "config:.ua/intermediate/scan-result.json",
       "file:graphify-out/.graphify_labels.json.sig",
       "file:graphify-out/.graphify_python",
       "file:graphify-out/.graphify_root"

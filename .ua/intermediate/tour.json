@@ -2,71 +2,76 @@
   {
     "order": 1,
     "title": "Project Overview",
-    "description": "Begin with the README for the project's local-first purpose: turn business questions into safe, auditable SQLite queries. It also maps the configuration, model, workflow, safety, interface, and operational pieces that the rest of this tour follows.",
+    "description": "Start with the README to understand the local-first NL2SQL service, its supported database backends, and its approval-first operating model. It provides the roadmap for the provider, workflow, persistence, safety, and operational areas explored in the remaining steps.",
     "nodeIds": ["document:README.md"]
   },
   {
     "order": 2,
-    "title": "Windows Launcher",
-    "description": "For Windows users, the launcher checks for uv and starts the application through the project's locked environment. It is the most direct operational handoff from the setup guidance into the user-facing runtime.",
-    "nodeIds": ["file:Launch NL2SQL Agent.cmd"],
-    "languageLesson": "A Windows command launcher is deliberately thin: it delegates dependency resolution and process execution to uv so the application environment stays consistent with development and CI."
+    "title": "Ways to Run",
+    "description": "The CLI serves scripts and CI, while the Streamlit application provides the interactive multipage experience. Both interfaces converge on the same application layers, so the choice changes the presentation rather than the safety or execution contract.",
+    "nodeIds": ["file:src/nl2sql_agent/cli.py", "file:src/nl2sql_agent/ui/streamlit_app.py", "file:Launch NL2SQL Agent.cmd"]
   },
   {
     "order": 3,
-    "title": "Command-Line Entry",
-    "description": "The CLI is the primary programmatic entry point for asking questions, inspecting resolved settings, launching Streamlit, and running evaluations. Its dependency path leads into the agent, settings, provider, auditing, and evaluation layers without coupling callers to their implementation details.",
-    "nodeIds": ["file:src/nl2sql_agent/cli.py"]
+    "title": "Runtime Configuration",
+    "description": "Validated settings collect provider, database, persistence, and query-warning options before work begins. This boundary keeps sensitive connection and credential configuration out of the UI and workflow code that consume it.",
+    "nodeIds": ["file:src/nl2sql_agent/config/settings.py", "config:pyproject.toml"],
+    "languageLesson": "Typed settings centralize environment parsing and validation so incorrect configuration fails at startup rather than in the middle of a generated-query workflow."
   },
   {
     "order": 4,
-    "title": "Interactive Interface",
-    "description": "The Streamlit application provides the conversational path alongside the CLI: it collects configuration, chooses a database, builds the agent, streams progress, and displays results. Reading it after the CLI makes clear that both interfaces reuse the same governed execution core.",
-    "nodeIds": ["file:src/nl2sql_agent/ui/streamlit_app.py", "file:src/nl2sql_agent/ui/components.py"]
+    "title": "Providers and Pricing",
+    "description": "The model factory selects and constructs chat models across local Ollama and five hosted providers, while the pricing module estimates usage cost. Keeping provider behavior and cost rules together gives the interfaces a consistent catalog for selection, budgeting, and later reporting.",
+    "nodeIds": ["file:src/nl2sql_agent/llm/factory.py", "file:src/nl2sql_agent/llm/pricing.py"]
   },
   {
     "order": 5,
-    "title": "Validated Settings",
-    "description": "Runtime settings normalize provider credentials, database limits, and environment inputs before any model or database action occurs. This shared foundation gives the CLI and UI from the previous steps a single, validated configuration contract.",
-    "nodeIds": ["file:src/nl2sql_agent/config/settings.py", "config:pyproject.toml"],
-    "languageLesson": "Typed Python settings move environment parsing and validation to the boundary, preventing invalid configuration from becoming a late workflow failure."
-  },
-  {
-    "order": 6,
-    "title": "Provider Catalog",
-    "description": "The model factory encapsulates provider-specific construction and curated model discovery for local Ollama plus Hugging Face, OpenAI, Anthropic, Gemini, and xAI. Keeping this catalog behind one factory lets the workflow depend on a chat-model capability rather than on any provider SDK.",
-    "nodeIds": ["file:src/nl2sql_agent/llm/factory.py", "file:src/nl2sql_agent/prompts/templates.py"]
-  },
-  {
-    "order": 7,
-    "title": "Agent Workflow",
-    "description": "The LangGraph workflow turns a question into an answer through schema discovery, SQL drafting, safety checks, execution, repair, summarization, and auditing. It is the central coordinator that connects the interfaces, settings, providers, prompts, database, and guardrail layers introduced so far.",
+    "title": "Approval-First Workflow",
+    "description": "The workflow coordinates schema retrieval, SQL generation, validation, preflight planning, approved execution, summarization, usage capture, and auditing. Its typed state makes the generated query and its approval status explicit, preventing an interface action from bypassing the governed path.",
     "nodeIds": ["file:src/nl2sql_agent/agent/workflow.py", "file:src/nl2sql_agent/agent/state.py", "document:ARCHITECTURE.md"]
   },
   {
-    "order": 8,
-    "title": "SQL Safety Boundary",
-    "description": "Generated SQL is parsed and validated against read-only policy limits before it can reach the database. This is the project's central trust boundary: LLM output remains untrusted input until a structural allow-list has approved it.",
+    "order": 6,
+    "title": "SQL Policy Gate",
+    "description": "Before either database backend sees model output, the SQL validator parses, bounds, normalizes, and checks it against policy. This is the central trust boundary: generated SQL is untrusted until it has passed structural checks and produced an approved prepared query.",
     "nodeIds": ["file:src/nl2sql_agent/security/sql_validator.py", "document:SECURITY.md"],
-    "languageLesson": "An SQL AST exposes statement structure for validation, which is more reliable than matching keywords in generated text and supports deny-by-default policy decisions."
+    "languageLesson": "AST-based validation examines SQL structure instead of relying on keyword filters, which supports allow-lists, single-statement rules, table restrictions, and backend-specific escape-hatch blocking."
+  },
+  {
+    "order": 7,
+    "title": "SQLite and PostgreSQL",
+    "description": "The backend protocol gives the workflow a shared query-plan and runtime-metrics contract, then concrete SQLite and PostgreSQL adapters enforce backend-specific read-only safeguards. SQLite handles the local demo path, while PostgreSQL verifies role and transaction safety before introspection, planning, or execution.",
+    "nodeIds": ["file:src/nl2sql_agent/db/base.py", "file:src/nl2sql_agent/db/database.py", "file:src/nl2sql_agent/db/postgres.py"]
+  },
+  {
+    "order": 8,
+    "title": "Sessions and Privacy",
+    "description": "The persistence layer stores local sessions, pending approvals, safe messages, pricing rules, costs, and run metrics while deliberately excluding raw result payloads where appropriate. Privacy-aware audit logging complements it by hashing questions and redacting SQL literals before durable records are written.",
+    "nodeIds": ["file:src/nl2sql_agent/persistence.py", "file:src/nl2sql_agent/utils/audit.py"]
   },
   {
     "order": 9,
-    "title": "SQLite Data Layer",
-    "description": "The database layer initializes the demo schema, supplies schema context, executes bounded approved queries, and renders results. It turns the policy-approved request from Step 8 into data while keeping SQLite and connection-management concerns out of the workflow and interfaces.",
-    "nodeIds": ["file:src/nl2sql_agent/db/database.py", "file:src/nl2sql_agent/db/seed.py", "document:DATASET.md"]
+    "title": "Costs and Insights",
+    "description": "The Streamlit page layer turns saved state into actionable views: session resume, cost totals and exports, effective-dated pricing and budget alerts, query-runtime trends, plan warnings, and recent runs. This makes the operational effects of provider choice and approved execution visible after the workflow completes.",
+    "nodeIds": ["file:src/nl2sql_agent/ui/pages.py", "file:src/nl2sql_agent/ui/components.py"]
   },
   {
     "order": 10,
-    "title": "Evidence and Evaluation",
-    "description": "Structured auditing redacts SQL while retaining stable evidence of what happened, and the evaluation runner measures answer quality, safety, latency, and token use. Together they make the workflow observable and give provider or prompt changes a repeatable quality gate.",
-    "nodeIds": ["file:src/nl2sql_agent/utils/audit.py", "file:src/nl2sql_agent/evaluation/runner.py", "file:tests/unit/test_agent.py"]
+    "title": "Evaluation Evidence",
+    "description": "The evaluation runner executes the JSONL corpus and measures result quality, safety, latency, usage, cost, and database immutability. It provides a repeatable evidence loop for changing prompts, providers, pricing, or backend behavior without relying only on manual UI checks.",
+    "nodeIds": ["file:src/nl2sql_agent/evaluation/runner.py", "file:src/nl2sql_agent/evaluation/data/demo.jsonl", "document:DATASET.md"]
   },
   {
     "order": 11,
-    "title": "Continuous Quality",
-    "description": "The CI workflow installs locked dependencies, checks formatting and types, runs tests and dependency auditing, builds the package, and smoke-tests the wheel. Local pre-commit hooks bring a focused subset of those protections into the developer loop before changes reach continuous integration.",
-    "nodeIds": ["pipeline:.github/workflows/ci.yml", "config:.pre-commit-config.yaml"],
-    "languageLesson": "GitHub Actions model automation as triggered workflows containing jobs and ordered steps, while pre-commit hooks provide a faster local feedback loop for compatible checks."
+    "title": "Safety Test Suite",
+    "description": "Focused tests cover approval preparation, persistence privacy, PostgreSQL role and plan hardening, provider pricing, and parser-backed SQL policy enforcement. Together they protect the assumptions made in the preceding layers as the application evolves.",
+    "nodeIds": ["file:tests/unit/test_agent.py", "file:tests/unit/test_persistence.py", "file:tests/unit/test_postgres.py", "file:tests/unit/test_sql_validator.py"]
+  },
+  {
+    "order": 12,
+    "title": "Delivery and Change",
+    "description": "The CI workflow synchronizes the locked environment, runs quality and security checks, tests, audits dependencies, and builds the package. Release and migration documentation then explain how the approval, persistence, pricing, PostgreSQL, and insight capabilities change for users over time.",
+    "nodeIds": ["pipeline:.github/workflows/ci.yml", "config:.pre-commit-config.yaml", "document:RELEASE_NOTES.md", "document:MIGRATION_GUIDE.md"],
+    "languageLesson": "GitHub Actions arrange automated checks into triggered workflows, jobs, and ordered steps; local pre-commit hooks bring selected checks closer to the developer feedback loop."
   }
 ]

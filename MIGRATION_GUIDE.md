@@ -13,6 +13,12 @@ in **how the project is installed, configured, and extended**.
 > authorization, formula-safe CSV export, and generic database errors.
 > Redundant direct dependency declarations were removed; transitive security
 > floors are maintained through uv constraints and checked with `uv audit`.
+>
+> **v0.4 addendum:** SQLite remains the default. Set
+> `NL2SQL_DB_BACKEND=postgres`, `NL2SQL_POSTGRES_DSN`, and optionally
+> `NL2SQL_POSTGRES_SCHEMA` to use a least-privileged read-only PostgreSQL role.
+> The UI now has Chat, Costs, Sessions, Insights, and Pricing views. Local
+> saved history excludes result rows, uploads, schemas, keys, and DSNs.
 
 ---
 
@@ -175,7 +181,7 @@ Defaults to `company.db` in the current working directory.
 ### v0.2
 
 ```bash
-uv run pytest tests/unit -v          # 174 tests, fast
+uv run pytest tests/unit -v          # offline unit suite
 uv run pytest tests/integration -v   # live Ollama, requires service
 uv run pytest --cov=src/nl2sql_agent --cov-report=term-missing
 ```
@@ -224,6 +230,10 @@ result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
 Automation can continue using `run()` or `stream()` unchanged. The Streamlit
 UI uses the two-phase API so SQL can be reviewed before execution. Run the new
 result and safety corpus with `uv run nl2sql-agent eval`. Current main also
-shows provider-reported token counts and a fixed standard-rate cost estimate
-for approved hosted models after each UI run; local and custom models remain
-unpriced.
+records per-call provider usage and applies editable effective-dated pricing,
+including cache, batch, fast-mode, and long-context rates. Local and custom
+models remain unpriced until an applicable rule is configured.
+
+PostgreSQL is intentionally opt-in and the packaged evaluation corpus remains
+SQLite-only. Create the restricted role shown in `README.md`, configure its DSN
+outside the browser, and run `uv run nl2sql-agent ask ...` or open the UI.

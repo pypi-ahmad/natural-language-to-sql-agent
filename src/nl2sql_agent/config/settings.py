@@ -13,7 +13,7 @@ from pathlib import Path
 from typing import Literal
 from urllib.parse import urlsplit
 
-from pydantic import AliasChoices, Field, field_validator, model_validator
+from pydantic import AliasChoices, Field, SecretStr, field_validator, model_validator
 from pydantic_settings import BaseSettings, SettingsConfigDict
 
 Provider = Literal["ollama", "huggingface", "openai", "anthropic", "gemini", "xai"]
@@ -147,6 +147,16 @@ class Settings(BaseSettings):
         le=50,
         description="Maximum SQLite upload size accepted by the UI.",
     )
+    db_backend: Literal["sqlite", "postgres"] = Field(
+        default="sqlite",
+        description="Database backend used by CLI commands.",
+    )
+    postgres_dsn: SecretStr | None = Field(
+        default=None,
+        description="Operator-configured PostgreSQL connection string.",
+    )
+    postgres_schema: str = Field(default="public", min_length=1, max_length=63)
+    db_lock_timeout_seconds: float = Field(default=5.0, ge=0.1, le=60.0)
 
     # ---- Agent behavior ----
     max_retries: int = Field(
@@ -171,6 +181,11 @@ class Settings(BaseSettings):
     sql_max_subqueries: int = Field(default=8, ge=0, le=64)
     sql_max_ctes: int = Field(default=8, ge=0, le=64)
     schema_max_tables: int = Field(default=8, ge=1, le=100)
+    query_warn_duration_ms: float = Field(default=1000.0, ge=0)
+    query_warn_estimated_rows: int = Field(default=100_000, ge=0)
+    query_warn_postgres_cost: float = Field(default=10_000.0, ge=0)
+    query_warn_sqlite_vm_steps: int = Field(default=1_000_000, ge=0)
+    query_warn_full_scan: bool = True
 
     # ---- Observability ----
     log_level: Literal["TRACE", "DEBUG", "INFO", "WARNING", "ERROR", "CRITICAL"] = "INFO"
@@ -190,6 +205,10 @@ class Settings(BaseSettings):
     # ---- Paths ----
     project_root: Path = Field(
         default_factory=lambda: Path(__file__).resolve().parents[2],
+    )
+    state_path: Path = Field(
+        default_factory=lambda: Path.home() / ".nl2sql-agent" / "state.sqlite3",
+        description="Local saved-session, pricing, and insights database.",
     )
 
     @field_validator("provider", mode="before")
@@ -217,18 +236,27 @@ class Settings(BaseSettings):
             raise ValueError("remote Ollama endpoints must use HTTPS")
         return value.rstrip("/")
 
-    @field_validator("db_path", "audit_path", mode="before")
+    @field_validator("db_path", "audit_path", "state_path", mode="before")
     @classmethod
     def _coerce_db_path(cls, v: object) -> object:
         if isinstance(v, str):
             return Path(v)
         return v
 
+    @field_validator("postgres_schema")
+    @classmethod
+    def _validate_postgres_schema(cls, value: str) -> str:
+        if not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_$]*", value):
+            raise ValueError("PostgreSQL schema must be an unquoted identifier")
+        return value
+
     @model_validator(mode="after")
     def _validate_provider_model(self) -> Settings:
         if "model" not in self.model_fields_set and self.provider != "ollama":
             self.model = default_model_for(self.provider)
         self.model = validate_model_for(self.provider, self.model)
+        if self.db_backend == "postgres" and self.postgres_dsn is None:
+            raise ValueError("NL2SQL_POSTGRES_DSN is required for the PostgreSQL backend")
         return self
 
     def api_key_for(self, provider: Provider) -> str | None:

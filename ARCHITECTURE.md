@@ -17,6 +17,7 @@ provider, add a new safety rule, swap the database) or who want to
    - `llm` — LLM client construction
    - `prompts` — prompt templates
    - `agent` — orchestration
+   - `persistence` — local sessions, pricing, and run summaries
    - `ui` — Streamlit presentation
    - `utils` — shared helpers (logging, text)
 
@@ -87,6 +88,7 @@ updates from nodes can be merged by LangGraph without `KeyError`.
 ```
 (run_id, question, schema, allowed_tables, sql_query, sql_safe, error,
  retry_count, max_retries, raw_rows, columns, row_count, trace,
+ usage_records, cost_breakdown, query_plan, query_metrics, warnings,
  token_usage, final_answer)
 ```
 
@@ -124,8 +126,10 @@ database file digest is unchanged.
 
 The Streamlit client uses the two-phase path. Upload bytes are checked for an
 allowed extension, size, and SQLite header, then stored under their SHA-256 in
-a session-owned temporary directory. Changing the database, allowed tables, or
-sample-value policy invalidates pending SQL and clears cross-database history.
+a session-owned temporary directory. Changing the database, provider, or model
+starts a new saved context; changing the allowlist invalidates pending SQL.
+Saved history retains messages, approved SQL, pricing snapshots, and bounded
+metrics, but never raw rows, CSV payloads, uploads, schemas, keys, or DSNs.
 
 ---
 
@@ -133,15 +137,18 @@ sample-value policy invalidates pending SQL and clears cross-database history.
 
 ### The five layers
 
-1. **Read-only connection.** Query connections use SQLite URI `mode=ro`,
-   `query_only`, disabled extension loading, and `trusted_schema=OFF`.
+1. **Read-only connection.** SQLite uses URI `mode=ro`, `query_only`, disabled
+   extension loading, and `trusted_schema=OFF`. PostgreSQL uses a
+   non-autocommit read-only transaction, verifies `transaction_read_only`, and
+   rejects privileged roles before queries are accepted.
 2. **Driver constraint.** `sqlite3.Cursor.execute()` refuses to
    execute multi-statement input. So `SELECT 1; DROP TABLE x` already
    raises `ProgrammingError` at the driver level.
 3. **AST validation.** The `validate_sql()` function parses the SQL
    with `sqlglot` and rejects:
    - Anything that isn't a single SELECT (or UNION thereof).
-   - Dangerous functions (allow-list of file I/O / shell functions).
+   - Dangerous file, configuration, sleep, dblink, advisory-lock, and
+     large-object functions.
    - Forbidden keywords as a paranoid fallback (CREATE, PRAGMA, etc.).
 4. **Configurable policy.** Joins, subqueries, aggregates, CTEs, and
    UNION can each be turned off via the `SQLPolicy` object. The
@@ -149,8 +156,9 @@ sample-value policy invalidates pending SQL and clears cross-database history.
 5. **Authorization and resource bounds.** Scope-aware traversal checks physical
    tables against the allowlist while treating CTE aliases as derived sources;
    a same-named CTE cannot hide an unauthorized physical table.
-   `EXPLAIN QUERY PLAN` runs before execution. Serialized LIMIT clauses,
-   elapsed-time checks, and VM-step checks bound resource use.
+   SQLite uses `EXPLAIN QUERY PLAN`, elapsed-time and VM-step guards;
+   PostgreSQL uses non-executing JSON `EXPLAIN`, statement/lock timeouts, and a
+   configured single-schema boundary. Serialized LIMIT clauses bound rows.
 
 `prepare_sql()` parses each candidate once and reuses that AST for policy
 validation, physical-table discovery, authorization, and executable LIMIT
@@ -244,12 +252,16 @@ The agent's workflow emits structured events:
 Set `NL2SQL_LOG_LEVEL=DEBUG` for verbose output, or
 `NL2SQL_LOG_JSON=true` for structured logging.
 
-LLM responses also contribute provider-reported input and output token counts
-to `AgentState.token_usage`. The Streamlit result renderer combines those
-counts with the fixed six-model catalog in `llm/pricing.py` and displays a
-per-run standard-rate estimate. The calculation is presentation-only: it is
-not written to the audit log and does not infer cache, batch, fast-mode, or
-per-call long-context adjustments from aggregate usage.
+Each LLM call contributes provider-reported input, output, cache-read, and
+cache-creation usage. Effective-dated rules price each call using its actual
+mode and long-context threshold. The local state store keeps immutable pricing
+snapshots with approved runs, enabling session/model totals, budget alerts,
+CSV export, and historical reproducibility. It stores no prompts, result rows,
+credentials, DSNs, or provider billing records and is not an invoice.
+
+Database execution also emits normalized plan and runtime metrics. The UI
+shows trends and threshold warnings without running `EXPLAIN ANALYZE`; this
+keeps planning read-only and avoids executing a query twice.
 
 ---
 
@@ -297,17 +309,13 @@ To extend the system, follow these recipes:
 2. `graph.add_node("<name>", self.<method>)`.
 3. Wire edges with `add_edge` or `add_conditional_edges`.
 
-### Swap the database engine
+### Add a database engine
 
-1. Create a new module `src/nl2sql_agent/db/<engine>.py` exposing a
-   `Database`-like class with the same interface.
-2. In `NL2SQLAgent.__init__`, pick the engine based on a new
-   `Settings.db_engine` field.
+1. Create `src/nl2sql_agent/db/<engine>.py` implementing `DatabaseBackend`.
+2. Select it from `Settings.db_backend` in the workflow and UI.
 3. Add tests under `tests/unit/test_db_<engine>.py`.
 
-### Add conversation memory
+### Extend saved sessions
 
-LangGraph has a `MemorySaver` checkpointing feature. Wrap
-`workflow.compile(checkpointer=MemorySaver())` in
-`NL2SQLAgent.get_workflow()`. The agent's `AgentState` is already
-serializable.
+Add a versioned migration to `StateStore`, persist only explicitly allowed
+fields, and keep database content and credentials outside the state database.

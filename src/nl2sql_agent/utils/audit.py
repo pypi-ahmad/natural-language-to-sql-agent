@@ -31,16 +31,16 @@ def hash_text(value: str) -> str:
     return hashlib.sha256(value.encode("utf-8")).hexdigest()
 
 
-def redact_sql(sql: str) -> str:
+def redact_sql(sql: str, *, dialect: str = "sqlite") -> str:
     """Remove literal values from parseable SQL, or retain only a digest."""
     try:
-        statements = sqlglot.parse(sql, dialect="sqlite")
+        statements = sqlglot.parse(sql, dialect=dialect)
         if len(statements) != 1 or statements[0] is None:
             raise ValueError("not one statement")
         redacted = statements[0].transform(
             lambda node: exp.Placeholder() if isinstance(node, exp.Literal) else node
         )
-        return redacted.sql(dialect="sqlite", comments=False)
+        return redacted.sql(dialect=dialect, comments=False)
     except (sqlglot.errors.ParseError, ValueError):
         return f"<unparseable:{hash_text(sql)}>"
 
@@ -48,9 +48,10 @@ def redact_sql(sql: str) -> str:
 class AuditLogger:
     """Write sanitized operational events to a local JSONL file."""
 
-    def __init__(self, path: str | Path, *, enabled: bool = True) -> None:
+    def __init__(self, path: str | Path, *, enabled: bool = True, dialect: str = "sqlite") -> None:
         self.path = Path(path)
         self.enabled = enabled
+        self.dialect = dialect
 
     def write(self, *, event: str, run_id: str, **fields: Any) -> None:
         if not self.enabled:
@@ -66,7 +67,7 @@ class AuditLogger:
             payload["question_length"] = len(question)
         sql = fields.pop("sql", None)
         if isinstance(sql, str):
-            payload["sql"] = redact_sql(sql)
+            payload["sql"] = redact_sql(sql, dialect=self.dialect)
         unsupported = fields.keys() - _ALLOWED_FIELDS
         if unsupported:
             raise ValueError(f"unsupported audit fields: {', '.join(sorted(unsupported))}")

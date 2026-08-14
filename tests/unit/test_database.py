@@ -170,9 +170,16 @@ class TestDatabaseExecute:
             seeded_db.execute("DELETE FROM employees")
 
     def test_preflight_validates_columns_without_running_query(self, seeded_db):
-        seeded_db.preflight("SELECT name FROM employees")
+        plan = seeded_db.preflight("SELECT name FROM employees")
+        assert plan.backend == "sqlite"
+        assert plan.nodes
         with pytest.raises(sqlite3.OperationalError, match="no such column"):
             seeded_db.preflight("SELECT missing FROM employees")
+
+    def test_execution_records_runtime_and_work_units(self, seeded_db):
+        result = seeded_db.execute("SELECT name FROM employees")
+        assert result.metrics.duration_ms >= 0
+        assert result.metrics.work_units is not None
 
     def test_result_cap_sets_truncation_flag(self, tmp_db_path):
         db = Database(tmp_db_path, max_rows=2)

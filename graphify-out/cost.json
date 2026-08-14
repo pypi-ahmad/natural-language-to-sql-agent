@@ -25,6 +25,18 @@
       "output_tokens": 0,
       "files": 85,
       "measurement_note": "Semantic extraction was fully served from cache; no new host-agent or Gemini usage."
+    },
+    {
+      "date": "2026-08-14T12:38:46.389607+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 95
+    },
+    {
+      "date": "2026-08-14T12:52:34.522523+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 94
     }
   ],
   "total_input_tokens": 0,

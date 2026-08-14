@@ -1,5 +1,29 @@
 # Release Notes
 
+## v0.4.0 — 2026-08-14
+
+This release adds a five-view Streamlit workspace: Chat, Costs, Sessions,
+Insights, and Pricing. Conversations, pending approvals, approved SQL, usage,
+pricing snapshots, and bounded plan/runtime metadata can be reopened from a
+local state database; result rows, CSV payloads, uploads, schemas, credentials,
+and DSNs are deliberately not saved.
+
+Pricing is editable and effective-dated, with cache, batch, fast-mode, and
+per-call long-context rates. Dashboards show session/month totals, model and
+daily breakdowns, disabled-by-default 80%/100% budget alerts, and a
+privacy-safe CSV export.
+
+PostgreSQL is now an opt-in backend. It requires a least-privileged role,
+verifies read-only transactions, restricts access to one configured schema,
+uses parameterized metadata queries and timeouts, and never uses `EXPLAIN
+ANALYZE`. SQLite remains the default and the evaluation corpus remains
+SQLite-only. Both backends expose normalized plans, runtime trends, and
+configurable expensive-query warnings.
+
+Upgrade with `uv sync --locked --all-groups`. Existing SQLite configuration
+and the `run()`, `stream()`, `prepare()`, and `execute_prepared()` APIs remain
+compatible. See `README.md` for PostgreSQL role creation and new settings.
+
 ## v0.3.1 — 2026-08-14
 
 This patch makes the secrets hook deterministic across Windows development and

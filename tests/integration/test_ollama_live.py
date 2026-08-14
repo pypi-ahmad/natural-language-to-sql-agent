@@ -7,6 +7,7 @@ external service.
 
 from __future__ import annotations
 
+import asyncio
 import os
 from collections.abc import Iterator
 
@@ -59,19 +60,28 @@ def live_settings(tmp_path, monkeypatch, ollama_model) -> Settings:
     return get_settings()
 
 
+@pytest.fixture
+def live_llm(live_settings):
+    """Close both clients created eagerly by LangChain's Ollama adapter."""
+    llm = build_chat_model(live_settings)
+    try:
+        yield llm
+    finally:
+        llm._client.close()
+        asyncio.run(llm._async_client.close())
+
+
 class TestOllamaIntegration:
-    def test_count_employees(self, live_settings, tmp_path):
-        llm = build_chat_model(live_settings)
-        agent = NL2SQLAgent(llm, settings=live_settings)
+    def test_count_employees(self, live_settings, live_llm, tmp_path):
+        agent = NL2SQLAgent(live_llm, settings=live_settings)
         result = agent.run("How many employees are there?")
         assert "final_answer" in result
         assert result["error"] == ""
         # Should return 10 employees (the seed count)
         assert "10" in result.get("final_answer", "") or "10" in result.get("result", "")
 
-    def test_total_engineering_salary(self, live_settings, tmp_path):
-        llm = build_chat_model(live_settings)
-        agent = NL2SQLAgent(llm, settings=live_settings)
+    def test_total_engineering_salary(self, live_settings, live_llm, tmp_path):
+        agent = NL2SQLAgent(live_llm, settings=live_settings)
         result = agent.run("What is the total salary of all Engineering employees?")
         assert result["error"] == ""
         # Engineering = 101, has Alice(120k)+Charlie(115k)+Frank(142.5k) = 377.5k

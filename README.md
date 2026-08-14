@@ -4,11 +4,11 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Type checker: ty](https://img.shields.io/badge/type%20checker-ty-blue.svg)](https://docs.astral.sh/ty/)
-[![Tests: 264 passing](https://img.shields.io/badge/tests-264_passing-brightgreen.svg)](#testing)
+[![Tests: 306 passing](https://img.shields.io/badge/tests-306_passing-brightgreen.svg)](#testing)
 
-> Turn natural-language questions into safe, auditable SQL against a local
-> SQLite database — runs entirely on your machine using a local Ollama LLM,
-> with optional cloud providers for heavier workloads.
+> Turn natural-language questions into safe, auditable SQL against SQLite or
+> PostgreSQL. Use a local Ollama model or one of five hosted providers, review
+> every generated query, and track sessions, plans, runtime, and estimated cost.
 
 ---
 
@@ -47,12 +47,12 @@ The system is composed of five cooperating pieces:
 | Piece | Module | Responsibility |
 |---|---|---|
 | **Configuration** | `nl2sql_agent.config` | Single source of truth for runtime settings, loaded from env vars, `.env`, or code. |
-| **Database** | `nl2sql_agent.db` | Thin, type-safe wrapper around SQLite with context-managed connections. |
+| **Database** | `nl2sql_agent.db` | Read-only SQLite and PostgreSQL backends with normalized plans and metrics. |
 | **Safety** | `nl2sql_agent.security` | AST-based SQL validation using `sqlglot` — allow-lists, not deny-lists. |
 | **LLM factory** | `nl2sql_agent.llm` | Multi-provider construction for Ollama, Hugging Face, OpenAI, Anthropic, Gemini, and xAI. |
 | **Agent** | `nl2sql_agent.agent` | LangGraph workflow: schema → write → guard → execute → summarize. |
 | **Prompts** | `nl2sql_agent.prompts` | Versioned, single-source prompt templates. |
-| **UI** | `nl2sql_agent.ui` | Streamlit chat interface with live status and SQL preview. |
+| **UI** | `nl2sql_agent.ui` | Streamlit Chat, Costs, Sessions, Insights, and Pricing views. |
 | **CLI** | `nl2sql_agent.cli` | One-shot CLI for scripts and CI. |
 
 ---
@@ -69,7 +69,7 @@ The system is composed of five cooperating pieces:
   log, debug, and replace. There is a real state machine with retries.
 - **Pinned, reproducible, modern.** Python 3.12.10 and `uv`-managed direct
   dependencies, with security floors expressed as transitive constraints.
-- **Tested.** 264 offline tests plus opt-in live Ollama integration tests
+- **Tested.** A comprehensive offline suite plus opt-in live Ollama integration tests
   (config, db, security, prompts, agent, llm factory, text utilities).
 - **Observable.** Structured Loguru logging, request-friendly error
   contracts, JSON logging mode for log aggregators.
@@ -213,6 +213,10 @@ uv run nl2sql-agent config
 | `HF_TOKEN` | — | Required when `NL2SQL_PROVIDER=huggingface`; `NL2SQL_HF_TOKEN` is also accepted. |
 | `XAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=xai`; `NL2SQL_XAI_API_KEY` is also accepted. |
 | `NL2SQL_DB_PATH` | `company.db` | Path to the SQLite database file. |
+| `NL2SQL_DB_BACKEND` | `sqlite` | CLI database backend: `sqlite` or `postgres`. |
+| `NL2SQL_POSTGRES_DSN` | — | Operator-only PostgreSQL DSN. Never shown or saved by the UI. |
+| `NL2SQL_POSTGRES_SCHEMA` | `public` | Single PostgreSQL schema available to the guardian. |
+| `NL2SQL_DB_LOCK_TIMEOUT_SECONDS` | `5` | PostgreSQL lock timeout. |
 | `NL2SQL_DB_SEED` | `true` | Seed the database with sample data on first run. |
 | `NL2SQL_DB_MAX_ROWS` | `1000` | Cap on rows returned per query. |
 | `NL2SQL_DB_QUERY_TIMEOUT_SECONDS` | `15` | Per-query execution timeout. |
@@ -229,10 +233,34 @@ uv run nl2sql-agent config
 | `NL2SQL_SQL_MAX_SUBQUERIES` | `8` | Maximum nested subqueries per query. |
 | `NL2SQL_SQL_MAX_CTES` | `8` | Maximum CTEs per query. |
 | `NL2SQL_SCHEMA_MAX_TABLES` | `8` | Detailed schemas sent to the writer. |
+| `NL2SQL_STATE_PATH` | `~/.nl2sql-agent/state.sqlite3` | Local sessions, pricing, cost, plan, and metric store. |
+| `NL2SQL_QUERY_WARN_DURATION_MS` | `1000` | Runtime warning threshold. |
+| `NL2SQL_QUERY_WARN_ESTIMATED_ROWS` | `100000` | Planner row-estimate warning threshold. |
+| `NL2SQL_QUERY_WARN_POSTGRES_COST` | `10000` | PostgreSQL planner-cost warning threshold. |
+| `NL2SQL_QUERY_WARN_SQLITE_VM_STEPS` | `1000000` | SQLite VM-step warning threshold. |
 | `NL2SQL_LOG_LEVEL` | `INFO` | Loguru log level. |
 | `NL2SQL_LOG_JSON` | `false` | Emit JSON-formatted logs. |
 | `NL2SQL_AUDIT_ENABLED` | `true` | Write redacted operational audit events. |
 | `NL2SQL_AUDIT_PATH` | `logs/audit.jsonl` | Audit JSONL destination. |
+
+### PostgreSQL read-only role
+
+Use a dedicated role with only connection, schema usage, and table reads. Do
+not supply an owner or administrator account:
+
+```sql
+CREATE ROLE nl2sql_reader LOGIN PASSWORD '<set outside source control>';
+GRANT CONNECT ON DATABASE analytics TO nl2sql_reader;
+GRANT USAGE ON SCHEMA public TO nl2sql_reader;
+GRANT SELECT ON ALL TABLES IN SCHEMA public TO nl2sql_reader;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public
+  GRANT SELECT ON TABLES TO nl2sql_reader;
+```
+
+Then configure `NL2SQL_POSTGRES_DSN`, `NL2SQL_POSTGRES_SCHEMA`, and—for CLI
+`ask`—`NL2SQL_DB_BACKEND=postgres`. The Streamlit PostgreSQL source appears
+when the DSN is present. The app refuses elevated roles and never displays or
+persists the DSN. The packaged `eval` corpus remains SQLite-only.
 
 ---
 
@@ -254,8 +282,9 @@ the Responses API. Ollama model names remain unrestricted.
 
 ### UI cost estimates
 
-After each hosted-model run, the UI shows provider-reported input/output tokens
-and estimates the USD cost as:
+After each hosted-model run, the UI prices each actual model call from
+provider-reported input, output, cache-read, and cache-creation usage. Pricing
+rules have UTC effective windows and are editable from the Pricing view.
 
 ```text
 (input tokens × input rate + output tokens × output rate) / 1,000,000
@@ -270,10 +299,13 @@ and estimates the USD cost as:
 | GPT-5.6 Terra | $2.00 | $12.00 | Rates double above 272k input tokens. |
 | Grok 4.6 | $2.00 | $6.00 | Fast mode or prompts above 200k use $4 / $12. |
 
-This is a fixed pricing snapshot supplied with the app, not a live billing
-feed. Estimates use the standard rates because aggregated run usage does not
-identify cache hits, batch requests, fast mode, or an individual long-context
-call. Ollama and custom Hugging Face models show cost as unavailable.
+The seeded catalog is local configuration, not a provider billing feed. Edits
+take effect on the next run without a restart; historical runs retain an
+immutable rule snapshot. Cache, batch, fast-mode, and long-context prices are
+applied only when actual per-call usage identifies them. Normal interactive
+chat is standard mode. Missing or expired rules produce an unpriced warning.
+The Costs view provides session and monthly totals, model/daily charts,
+disabled-by-default budget alerts at 80% and 100%, and privacy-safe CSV export.
 
 The factory is in `nl2sql_agent.llm.factory.build_chat_model`. You can
 also call it directly from your own code:
@@ -319,16 +351,17 @@ output as untrusted generated code.
 
 **Five lines of defense:**
 
-1. **Read-only SQLite connection.** Demo setup uses a narrowly scoped
-   writable connection. Every query uses SQLite URI `mode=ro`,
-   `PRAGMA query_only=ON`, disabled extension loading, and an untrusted
-   schema policy.
+1. **Read-only database connection.** SQLite queries use URI `mode=ro`,
+   `query_only`, disabled extensions, and an untrusted-schema policy.
+   PostgreSQL uses non-autocommit read-only transactions, verified
+   `transaction_read_only`, statement/lock timeouts, a fixed search path, and
+   rejects superuser, BYPASSRLS, CREATEDB, or CREATEROLE roles.
 2. **AST-based validation.** Before any SQL reaches the database, it is
    parsed by `sqlglot` into an AST and checked:
    - Exactly one statement.
    - Top-level is `SELECT` (or `UNION`/`INTERSECT`/`EXCEPT`).
-   - No dangerous functions (`load_extension`, `readfile`, `writefile`,
-     `shell`, `system`, `edit`).
+   - No dangerous SQLite or PostgreSQL file, configuration, advisory-lock, or
+     sleep functions; no `SELECT INTO`, row locks, or cross-schema references.
    - No subqueries, joins, CTEs, or aggregates if disabled by policy.
    - Word-boundary scan for `DROP`, `DELETE`, `INSERT`, `UPDATE`, `ALTER`,
      `CREATE`, `REPLACE`, `TRUNCATE`, `GRANT`, `REVOKE`, `PRAGMA`,
@@ -337,9 +370,9 @@ output as untrusted generated code.
    with configurable feature toggles and JOIN/subquery/CTE count limits.
 4. **Row cap.** A hard cap (`NL2SQL_DB_MAX_ROWS`, default 1000) prevents
    `SELECT *` from returning millions of rows.
-5. **Execution budget.** A SQLite progress handler enforces elapsed-time
-   and virtual-machine-step limits. `EXPLAIN QUERY PLAN` validates table
-   and column references before execution.
+5. **Execution budget and preflight.** SQLite uses a VM-step/deadline guard and
+   `EXPLAIN QUERY PLAN`; PostgreSQL uses `EXPLAIN (FORMAT JSON, COSTS TRUE)`
+   without `ANALYZE`, so preflight never executes the query.
 
 Audit events contain hashes and literal-redacted SQL, never raw questions,
 result rows, database paths, sample values, or credentials.
@@ -363,17 +396,19 @@ uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py --server.port 8502
 
 ### What the UI shows
 
-- **Database source.** Use the seeded demo or upload one session-scoped
-  `.db`, `.sqlite`, or `.sqlite3` file. Uploaded databases are never seeded or
-  modified.
+- **Database source.** Use the seeded demo, a session-scoped SQLite upload, or
+  the operator-configured PostgreSQL DSN. Uploaded databases are never seeded
+  or modified.
 - **Schema controls.** Browse ordinary tables, authorize the tables available
   to SQL, and optionally expose bounded sample rows from uploads to the model.
 - **Approval flow.** Generation stops at an editable, validated SQL preview.
   Run explicitly to revalidate and execute it.
-- **History and export.** Each session retains answers, SQL, result rows,
-  operational stage timings, token usage, estimated hosted-model cost, and CSV
-  downloads. Formula-like CSV cells are neutralized before download. Clear
-  history from the sidebar.
+- **Saved sessions.** Reopen conversations, pending approvals, and approved
+  SQL. Questions, answers, safe metrics, and plans are saved locally; raw
+  result rows, CSV payloads, uploads, schemas, keys, and DSNs are not.
+- **Costs and insights.** Review session/model costs, budget warnings, runtime
+  trends, normalized SQLite/PostgreSQL plans, full scans, and expensive-query
+  warnings. Cost export excludes questions, answers, SQL, and results.
 - **Provider controls.** Pick one of the approved hosted models, enter a custom
   Hugging Face model ID, or refresh the live Ollama model list. Operators
   configure the Ollama endpoint; it is not editable in the browser.
@@ -441,7 +476,7 @@ metadata only for selected tables reduced median retrieval from 3.060 ms to
 2.224 ms for 10 tables (27%) and from 25.410 ms to 14.911 ms for 120 tables
 (41%) on the development machine; results vary by hardware.
 
-The project ships with **264 offline tests** plus live integration tests
+The project ships with **306 offline tests** plus live integration tests
 that exercises the agent end-to-end against a real local Ollama.
 
 ```bash
@@ -480,13 +515,14 @@ natural-language-to-sql-agent/
 │       ├── __init__.py
 │       ├── cli.py            # `nl2sql-agent` command-line entry point
 │       ├── config/           # Pydantic Settings
-│       ├── db/               # Database wrapper + seed data
+│       ├── db/               # SQLite/PostgreSQL backends + plans/metrics
 │       ├── security/         # AST-based SQL safety
 │       ├── llm/              # Multi-provider LLM factory
 │       ├── prompts/          # Versioned prompt templates
 │       ├── agent/            # LangGraph workflow + state
 │       ├── evaluation/       # Evaluation runner + packaged demo corpus
-│       ├── ui/               # Streamlit components + app
+│       ├── persistence.py    # Saved sessions, pricing, costs, and insights
+│       ├── ui/               # Multipage Streamlit components + app
 │       └── utils/            # Logging, redacted audit, text helpers
 └── tests/
     ├── conftest.py
@@ -510,9 +546,14 @@ common entry points:
 - `nl2sql_agent.llm.build_chat_model(settings, *, provider, model, ...)` —
   build any of the six supported provider integrations.
 - `nl2sql_agent.security.validate_sql(sql, policy=None)` — validate a
-  SQL string and return the parsed `Select` nodes.
+  SQL string and return the parsed `Select` nodes; pass `dialect="postgres"`
+  and `allowed_schema` for PostgreSQL.
 - `nl2sql_agent.db.Database(path, *, timeout_seconds, max_rows)` —
-  the database wrapper.
+  the SQLite wrapper. `PostgresDatabase(dsn, schema=...)` implements the same
+  backend contract. `QueryPlan`, `QueryMetrics`, and `QueryResult` expose
+  normalized observability data.
+- `nl2sql_agent.persistence.StateStore(path)` — persistent sessions, pricing
+  rules, run snapshots, dashboard aggregates, and preferences.
 
 ---
 
@@ -522,7 +563,7 @@ common entry points:
 
 ```bash
 uv run python -c "import nl2sql_agent; print(nl2sql_agent.__version__)"
-# → 0.3.1
+# → 0.4.0
 
 uv run nl2sql-agent config | python -m json.tool | head -20
 ```
@@ -598,9 +639,8 @@ Possible future work after the current unreleased changes:
 - **Optional schema embeddings** for databases where deterministic identifier
   ranking is insufficient.
 - **OpenTelemetry tracing** with one-line enablement.
-- **Additional database engines** (Postgres, MySQL) via the same AST
-  validator and a thin driver layer.
-- **Conversation memory** with PostgreSQL-backed checkpointing.
+- **Additional database engines** such as MySQL via the same backend contract.
+- **Optional encrypted multi-user session storage** for server deployments.
 - **WebSocket / FastAPI** backend instead of Streamlit for production
   multi-user deployments.
 

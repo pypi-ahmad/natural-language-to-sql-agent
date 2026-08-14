@@ -1,5 +1,15 @@
 # Upgrade Summary — v0.1 → v0.2
 
+> **v0.4.0 addendum:** SQLite remains the default, while an opt-in PostgreSQL
+> backend now enforces a verified read-only, non-privileged, single-schema
+> connection. The Streamlit UI has Chat, Costs, Sessions, Insights, and Pricing
+> views backed by a local versioned state database. It saves conversations,
+> pending approvals, approved SQL, usage, pricing snapshots, and bounded query
+> metrics—not result rows, uploads, schemas, keys, or DSNs. Pricing supports
+> effective dates, cache, batch, fast-mode, and long-context rates; budgets are
+> disabled until configured. Existing SQLite and public agent APIs remain
+> compatible. Run `uv sync --locked --all-groups` after upgrading.
+
 > v0.3.1 makes generated-diagram secret scanning consistent across Windows and
 > Linux CI; it does not change application behavior or migration steps.
 

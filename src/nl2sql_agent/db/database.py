@@ -15,10 +15,11 @@ import threading
 import time
 from collections.abc import Iterator
 from contextlib import contextmanager
-from dataclasses import dataclass
+from dataclasses import dataclass, field
 from pathlib import Path
 
 from ..utils import get_logger
+from .base import QueryMetrics, QueryPlan, QueryPlanNode
 from .seed import SEED_DEPARTMENTS, SEED_EMPLOYEES
 
 logger = get_logger(__name__)
@@ -49,6 +50,7 @@ class QueryResult:
     rows: tuple[tuple[object, ...], ...]
     row_count: int
     truncated: bool = False
+    metrics: QueryMetrics = field(default_factory=QueryMetrics)
 
     def to_markdown(self, *, max_rows: int = 100) -> str:
         """Render the result as a Markdown table."""
@@ -113,6 +115,21 @@ class Database:
         self.max_vm_steps = int(max_vm_steps)
         self._init_lock = threading.Lock()
         self._initialized = False
+
+    kind = "sqlite"
+    dialect = "sqlite"
+
+    @property
+    def display_name(self) -> str:
+        """Return a non-sensitive database label."""
+        return self.path.name
+
+    @property
+    def fingerprint(self) -> str:
+        """Return a stable identity without reading database contents."""
+        import hashlib
+
+        return hashlib.sha256(str(self.path.resolve()).encode()).hexdigest()
 
     # ---- Connection management ----
 
@@ -292,8 +309,9 @@ class Database:
         Enforces ``max_rows`` by appending ``LIMIT`` when missing. The
         caller is responsible for having validated ``sql`` for safety.
         """
+        started = time.perf_counter()
         with self.connect() as conn:
-            self._install_progress_guard(conn)
+            step_count = self._install_progress_guard(conn)
             cur = conn.execute(sql)
             cols = tuple(d[0] for d in cur.description) if cur.description else ()
             raw_rows = cur.fetchmany(self.max_rows + 1)
@@ -307,15 +325,40 @@ class Database:
                 rows=rows,
                 row_count=len(rows),
                 truncated=truncated,
+                metrics=QueryMetrics(
+                    duration_ms=round((time.perf_counter() - started) * 1000, 3),
+                    work_units=step_count(),
+                    row_count=len(rows),
+                    truncated=truncated,
+                ),
             )
 
-    def preflight(self, sql: str) -> None:
-        """Compile a query plan without executing the SELECT."""
+    def preflight(self, sql: str) -> QueryPlan:
+        """Compile and normalize a query plan without executing the SELECT."""
         with self.connect() as conn:
             self._install_progress_guard(conn)
-            conn.execute("EXPLAIN QUERY PLAN " + sql).fetchall()
+            rows = conn.execute("EXPLAIN QUERY PLAN " + sql).fetchall()
+        nodes: list[QueryPlanNode] = []
+        scans: list[str] = []
+        for row in rows:
+            detail = str(row[3])
+            operation = detail.split(maxsplit=1)[0] if detail else "PLAN"
+            relation = ""
+            match = re.search(r"\b(?:SCAN|SEARCH)\s+([\w.]+)", detail, re.IGNORECASE)
+            if match:
+                relation = match.group(1)
+            if operation.upper() == "SCAN" and "USING INDEX" not in detail.upper() and relation:
+                scans.append(relation)
+            nodes.append(QueryPlanNode(operation=operation, relation=relation, detail=detail))
+        warnings = tuple(f"Full table scan: {name}" for name in dict.fromkeys(scans))
+        return QueryPlan(
+            backend=self.kind,
+            nodes=tuple(nodes),
+            full_scan_relations=tuple(dict.fromkeys(scans)),
+            warnings=warnings,
+        )
 
-    def _install_progress_guard(self, conn: sqlite3.Connection) -> None:
+    def _install_progress_guard(self, conn: sqlite3.Connection):
         deadline = time.monotonic() + self.timeout_seconds
         steps = 0
         interval = 1000
@@ -326,6 +369,7 @@ class Database:
             return int(steps > self.max_vm_steps or time.monotonic() > deadline)
 
         conn.set_progress_handler(progress, interval)
+        return lambda: steps
 
 
 # ---- Module-level helpers ----------------------------------------------------

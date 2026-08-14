@@ -1,190 +1,15 @@
 {
   "nodes": [
     {
-      "id": "file:src/nl2sql_agent/config/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/nl2sql_agent/config/__init__.py",
-      "summary": "Re-exports configuration settings as the package-level configuration API.",
-      "tags": [
-        "python",
-        "package",
-        "barrel"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/nl2sql_agent/config/settings.py",
-      "type": "file",
-      "name": "settings.py",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "summary": "Defines validated runtime settings, provider model choices, environment helpers, and settings-cache access.",
-      "tags": [
-        "python",
-        "service",
-        "application"
-      ],
-      "complexity": "complex"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
-      "type": "function",
-      "name": "supported_models_for",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        41,
-        43
-      ],
-      "summary": "Returns the configured model names supported by a provider.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:default_model_for",
-      "type": "function",
-      "name": "default_model_for",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        46,
-        48
-      ],
-      "summary": "Returns the default model configured for a provider.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
-      "type": "function",
-      "name": "validate_model_for",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        51,
-        68
-      ],
-      "summary": "Validates that a selected model is allowed for its provider.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:get_settings",
-      "type": "function",
-      "name": "get_settings",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        247,
-        252
-      ],
-      "summary": "Returns the cached validated runtime settings.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
-      "type": "function",
-      "name": "reset_settings_cache",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        255,
-        257
-      ],
-      "summary": "Clears the cached runtime settings for tests or configuration changes.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:env_var_for",
-      "type": "function",
-      "name": "env_var_for",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        260,
-        269
-      ],
-      "summary": "Returns the environment-variable name associated with a setting field.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/config/settings.py:env_var_value",
-      "type": "function",
-      "name": "env_var_value",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        272,
-        275
-      ],
-      "summary": "Reads a setting value from its configured environment variable.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "class:src/nl2sql_agent/config/settings.py:Settings",
-      "type": "class",
-      "name": "Settings",
-      "filePath": "src/nl2sql_agent/config/settings.py",
-      "lineRange": [
-        71,
-        243
-      ],
-      "summary": "Validated Pydantic configuration model for providers, models, database limits, and security settings.",
-      "tags": [
-        "python",
-        "data-model",
-        "configuration"
-      ],
-      "complexity": "moderate"
-    },
-    {
-      "id": "file:src/nl2sql_agent/llm/__init__.py",
-      "type": "file",
-      "name": "__init__.py",
-      "filePath": "src/nl2sql_agent/llm/__init__.py",
-      "summary": "Re-exports LLM factory functions as the package-level model integration API.",
-      "tags": [
-        "python",
-        "package",
-        "barrel"
-      ],
-      "complexity": "simple"
-    },
-    {
       "id": "file:src/nl2sql_agent/llm/factory.py",
       "type": "file",
       "name": "factory.py",
       "filePath": "src/nl2sql_agent/llm/factory.py",
-      "summary": "Builds chat models across supported providers and lists available or fallback model choices.",
+      "summary": "Builds provider-specific LangChain chat models and model lists for Ollama, OpenAI, Gemini, Anthropic, Hugging Face, and xAI.",
       "tags": [
-        "python",
-        "service",
-        "application"
+        "llm",
+        "provider-factory",
+        "model-selection"
       ],
       "complexity": "complex"
     },
@@ -197,11 +22,11 @@
         46,
         102
       ],
-      "summary": "Creates a chat-model client for the selected provider and model.",
+      "summary": "Implements build_chat_model for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "workflow",
+        "implementation"
       ],
       "complexity": "moderate"
     },
@@ -214,11 +39,11 @@
         105,
         112
       ],
-      "summary": "Normalizes a provider identifier before dispatch.",
+      "summary": "Implements _normalize_provider for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -231,11 +56,11 @@
         115,
         124
       ],
-      "summary": "Implements  build ollama for the factory module.",
+      "summary": "Implements _build_ollama for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -248,11 +73,11 @@
         127,
         135
       ],
-      "summary": "Implements  build openai for the factory module.",
+      "summary": "Implements _build_openai for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -265,11 +90,11 @@
         138,
         149
       ],
-      "summary": "Implements  build gemini for the factory module.",
+      "summary": "Implements _build_gemini for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -282,11 +107,11 @@
         152,
         164
       ],
-      "summary": "Implements  build anthropic for the factory module.",
+      "summary": "Implements _build_anthropic for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -299,11 +124,11 @@
         167,
         176
       ],
-      "summary": "Implements  build huggingface for the factory module.",
+      "summary": "Implements _build_huggingface for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -316,11 +141,11 @@
         179,
         188
       ],
-      "summary": "Implements  build xai for the factory module.",
+      "summary": "Implements _build_xai for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -333,11 +158,11 @@
         191,
         209
       ],
-      "summary": "Implements  build openai compatible for the factory module.",
+      "summary": "Implements _build_openai_compatible for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -350,11 +175,11 @@
         223,
         232
       ],
-      "summary": "Returns fallback models available for a provider.",
+      "summary": "Implements fallback_models for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -367,11 +192,11 @@
         235,
         257
       ],
-      "summary": "Lists models for a provider with local discovery when applicable.",
+      "summary": "Implements list_models for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -382,13 +207,13 @@
       "filePath": "src/nl2sql_agent/llm/factory.py",
       "lineRange": [
         260,
-        280
+        283
       ],
-      "summary": "Discovers locally installed Ollama models.",
+      "summary": "Implements _list_ollama for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
@@ -401,489 +226,474 @@
         42,
         43
       ],
-      "summary": "Signals unsupported or unavailable LLM provider configuration.",
+      "summary": "Encapsulates workflow behavior as LLMProviderError.",
       "tags": [
-        "python",
         "class",
-        "service"
+        "workflow",
+        "data-model"
       ],
       "complexity": "simple"
     },
     {
-      "id": "file:src/nl2sql_agent/ui/__init__.py",
+      "id": "file:src/nl2sql_agent/security/__init__.py",
       "type": "file",
       "name": "__init__.py",
-      "filePath": "src/nl2sql_agent/ui/__init__.py",
-      "summary": "Re-exports user-interface helpers and the Streamlit application entry point.",
+      "filePath": "src/nl2sql_agent/security/__init__.py",
+      "summary": "Re-exports the SQL validation public API used to enforce the application's read-only query policy.",
       "tags": [
-        "python",
-        "package",
-        "barrel"
+        "security",
+        "exports",
+        "sql-validation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "file:src/nl2sql_agent/ui/components.py",
+      "id": "file:src/nl2sql_agent/security/sql_validator.py",
       "type": "file",
-      "name": "components.py",
-      "filePath": "src/nl2sql_agent/ui/components.py",
-      "summary": "Renders reusable Streamlit sidebar, chat-history, run-progress, and result components.",
+      "name": "sql_validator.py",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "summary": "Parses, validates, bounds, and normalizes generated SQL before it can reach a database backend.",
       "tags": [
-        "python",
-        "service",
-        "application"
+        "security",
+        "sql-validation",
+        "read-only"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "function",
+      "name": "parse_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        97,
+        114
+      ],
+      "summary": "Implements parse_sql for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "function",
+      "name": "_flatten_selects",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        117,
+        130
+      ],
+      "summary": "Implements _flatten_selects for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "function",
+      "name": "_is_aggregate_call",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        133,
+        145
+      ],
+      "summary": "Implements _is_aggregate_call for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "function",
+      "name": "_uses_aggregate",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        148,
+        156
+      ],
+      "summary": "Implements _uses_aggregate for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "function",
+      "name": "_function_name",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        159,
+        174
+      ],
+      "summary": "Implements _function_name for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "function",
+      "name": "validate_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        177,
+        195
+      ],
+      "summary": "Implements validate_sql for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_validate_schema_and_locks",
+      "type": "function",
+      "name": "_validate_schema_and_locks",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        198,
+        218
+      ],
+      "summary": "Implements _validate_schema_and_locks for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "function",
+      "name": "_validate_statements",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        221,
+        250
+      ],
+      "summary": "Implements _validate_statements for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "function",
+      "name": "_check_select",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        253,
+        317
+      ],
+      "summary": "Implements _check_select for the security responsibilities of this module.",
+      "tags": [
+        "function",
+        "security",
+        "implementation"
       ],
       "complexity": "moderate"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
       "type": "function",
-      "name": "render_sidebar",
-      "filePath": "src/nl2sql_agent/ui/components.py",
+      "name": "referenced_tables",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
       "lineRange": [
-        13,
-        108
+        320,
+        326
       ],
-      "summary": "Renders Streamlit controls for model and runtime configuration.",
+      "summary": "Implements referenced_tables for the security responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
-      ],
-      "complexity": "moderate"
-    },
-    {
-      "id": "function:src/nl2sql_agent/ui/components.py:_default_models",
-      "type": "function",
-      "name": "_default_models",
-      "filePath": "src/nl2sql_agent/ui/components.py",
-      "lineRange": [
-        111,
-        112
-      ],
-      "summary": "Implements  default models for the components module.",
-      "tags": [
-        "python",
-        "function",
-        "internal"
+        "security",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
       "type": "function",
-      "name": "render_chat_history",
-      "filePath": "src/nl2sql_agent/ui/components.py",
+      "name": "_referenced_tables",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
       "lineRange": [
-        115,
-        131
+        329,
+        337
       ],
-      "summary": "Renders prior user and assistant messages.",
+      "summary": "Implements _referenced_tables for the security responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "security",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
       "type": "function",
-      "name": "render_run_steps",
-      "filePath": "src/nl2sql_agent/ui/components.py",
+      "name": "prepare_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
       "lineRange": [
-        134,
-        136
+        340,
+        379
       ],
-      "summary": "Renders progress information for an agent run.",
+      "summary": "Implements prepare_sql for the security responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "security",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/components.py:render_run_result",
-      "type": "function",
-      "name": "render_run_result",
-      "filePath": "src/nl2sql_agent/ui/components.py",
-      "lineRange": [
-        139,
-        185
-      ],
-      "summary": "Renders the final answer, SQL, and result data.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "file:src/nl2sql_agent/ui/database_upload.py",
-      "type": "file",
-      "name": "database_upload.py",
-      "filePath": "src/nl2sql_agent/ui/database_upload.py",
-      "summary": "Validates and persists uploaded SQLite databases with extension, header, and metadata checks.",
-      "tags": [
-        "python",
-        "service",
-        "application"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
-      "type": "function",
-      "name": "validate_upload_metadata",
-      "filePath": "src/nl2sql_agent/ui/database_upload.py",
-      "lineRange": [
-        16,
-        21
-      ],
-      "summary": "Checks uploaded-file metadata against configured limits.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
-      "type": "function",
-      "name": "validate_sqlite_upload",
-      "filePath": "src/nl2sql_agent/ui/database_upload.py",
-      "lineRange": [
-        24,
-        29
-      ],
-      "summary": "Validates SQLite file name, content signature, and upload size.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
-      "type": "function",
-      "name": "save_sqlite_upload",
-      "filePath": "src/nl2sql_agent/ui/database_upload.py",
-      "lineRange": [
-        32,
-        38
-      ],
-      "summary": "Persists a validated SQLite upload under a content-derived name.",
-      "tags": [
-        "python",
-        "function",
-        "api"
-      ],
-      "complexity": "simple"
-    },
-    {
-      "id": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
       "type": "class",
-      "name": "SQLiteUploadError",
-      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "name": "SQLValidationError",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
       "lineRange": [
-        12,
-        13
+        33,
+        34
       ],
-      "summary": "Signals invalid SQLite upload metadata or content.",
+      "summary": "Encapsulates security behavior as SQLValidationError.",
       "tags": [
-        "python",
         "class",
-        "service"
+        "security",
+        "data-model"
       ],
       "complexity": "simple"
     },
     {
-      "id": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "class",
+      "name": "SQLPolicy",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        64,
+        86
+      ],
+      "summary": "Encapsulates security behavior as SQLPolicy.",
+      "tags": [
+        "class",
+        "security",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "class",
+      "name": "PreparedSQL",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        90,
+        94
+      ],
+      "summary": "Encapsulates security behavior as PreparedSQL.",
+      "tags": [
+        "class",
+        "security",
+        "data-model"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/__init__.py",
       "type": "file",
-      "name": "streamlit_app.py",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "summary": "Implements the Streamlit application flow for configuring, running, and displaying NL2SQL queries.",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/utils/__init__.py",
+      "summary": "Re-exports shared audit, logging, and text helpers for the rest of the application.",
       "tags": [
-        "streamlit",
-        "user-interface",
-        "entry-point"
-      ],
-      "complexity": "complex"
-    },
-    {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
-      "type": "function",
-      "name": "_init_session_state",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "lineRange": [
-        28,
-        33
-      ],
-      "summary": "Implements  init session state for the streamlit_app module.",
-      "tags": [
-        "python",
-        "function",
-        "internal"
+        "utility",
+        "exports",
+        "package-api"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
-      "type": "function",
-      "name": "_demo_database",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "lineRange": [
-        37,
-        51
-      ],
-      "summary": "Builds the demonstration SQLite database used by the UI.",
+      "id": "file:src/nl2sql_agent/utils/audit.py",
+      "type": "file",
+      "name": "audit.py",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "summary": "Provides privacy-aware audit logging that hashes user questions and redacts SQL literals before persistence.",
       "tags": [
-        "python",
+        "audit",
+        "privacy",
+        "logging"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "function",
+      "name": "hash_text",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "Implements hash_text for the workflow responsibilities of this module.",
+      "tags": [
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "id": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
       "type": "function",
-      "name": "_runtime_settings",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "name": "redact_sql",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
       "lineRange": [
-        54,
-        74
+        34,
+        45
       ],
-      "summary": "Creates runtime settings from Streamlit session values.",
+      "summary": "Implements redact_sql for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
-      "type": "function",
-      "name": "_resolve_database",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "id": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "class",
+      "name": "AuditLogger",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
       "lineRange": [
-        77,
-        124
+        48,
+        79
       ],
-      "summary": "Selects an uploaded or demonstration database for a session.",
+      "summary": "Encapsulates workflow behavior as AuditLogger.",
       "tags": [
-        "python",
-        "function",
-        "internal"
+        "class",
+        "workflow",
+        "data-model"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
-      "type": "function",
-      "name": "_build_agent",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "lineRange": [
-        127,
-        143
-      ],
-      "summary": "Builds the UI-configured NL2SQL agent.",
+      "id": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "file",
+      "name": "logging.py",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "summary": "Configures Loguru as the application's logging backend and exposes bound module loggers.",
       "tags": [
-        "python",
+        "logging",
+        "observability",
+        "configuration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "function",
+      "name": "configure_logging",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "lineRange": [
+        17,
+        73
+      ],
+      "summary": "Implements configure_logging for the workflow responsibilities of this module.",
+      "tags": [
         "function",
-        "internal"
+        "workflow",
+        "implementation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "function",
+      "name": "get_logger",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "lineRange": [
+        76,
+        80
+      ],
+      "summary": "Implements get_logger for the workflow responsibilities of this module.",
+      "tags": [
+        "function",
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
-      "type": "function",
-      "name": "_history_message",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
-      "lineRange": [
-        146,
-        157
-      ],
-      "summary": "Converts a run result into a displayable chat-history entry.",
+      "id": "file:src/nl2sql_agent/utils/text.py",
+      "type": "file",
+      "name": "text.py",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "summary": "Normalizes model-generated SQL fences and truncates text safely for display and prompts.",
       "tags": [
-        "python",
-        "function",
-        "internal"
+        "utility",
+        "text-processing",
+        "sql"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "id": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
       "type": "function",
-      "name": "_stage_text",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "name": "strip_sql_fences",
+      "filePath": "src/nl2sql_agent/utils/text.py",
       "lineRange": [
-        160,
-        169
+        22,
+        45
       ],
-      "summary": "Formats a workflow stage for progress display.",
+      "summary": "Implements strip_sql_fences for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "internal"
+        "workflow",
+        "implementation"
       ],
       "complexity": "simple"
     },
     {
-      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "id": "function:src/nl2sql_agent/utils/text.py:truncate",
       "type": "function",
-      "name": "main",
-      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "name": "truncate",
+      "filePath": "src/nl2sql_agent/utils/text.py",
       "lineRange": [
-        172,
-        387
+        48,
+        54
       ],
-      "summary": "Runs the Streamlit application entry point.",
+      "summary": "Implements truncate for the workflow responsibilities of this module.",
       "tags": [
-        "python",
         "function",
-        "api"
+        "workflow",
+        "implementation"
       ],
-      "complexity": "complex"
+      "complexity": "simple"
     }
   ],
   "edges": [
     {
-      "source": "file:src/nl2sql_agent/config/__init__.py",
-      "target": "file:src/nl2sql_agent/config/settings.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:default_model_for",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:default_model_for",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:get_settings",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:get_settings",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:env_var_for",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:env_var_for",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:env_var_value",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "function:src/nl2sql_agent/config/settings.py:env_var_value",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "class:src/nl2sql_agent/config/settings.py:Settings",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/config/settings.py",
-      "target": "class:src/nl2sql_agent/config/settings.py:Settings",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/llm/__init__.py",
-      "target": "file:src/nl2sql_agent/llm/factory.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
       "source": "file:src/nl2sql_agent/llm/factory.py",
       "target": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -897,7 +707,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -911,7 +721,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -925,7 +735,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -939,7 +749,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -953,7 +763,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -967,7 +777,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -981,7 +791,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -995,7 +805,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -1009,7 +819,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -1023,7 +833,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:list_models",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -1037,7 +847,7 @@
       "target": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -1051,7 +861,7 @@
       "target": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
       "source": "file:src/nl2sql_agent/llm/factory.py",
@@ -1075,309 +885,351 @@
       "weight": 0.7
     },
     {
-      "source": "file:src/nl2sql_agent/ui/__init__.py",
-      "target": "file:src/nl2sql_agent/ui/components.py",
+      "source": "file:src/nl2sql_agent/security/__init__.py",
+      "target": "file:src/nl2sql_agent/security/sql_validator.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7
     },
     {
-      "source": "file:src/nl2sql_agent/ui/__init__.py",
-      "target": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/components.py",
-      "target": "file:src/nl2sql_agent/config/__init__.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_schema_and_locks",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_schema_and_locks",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/database_upload.py",
-      "target": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
       "type": "contains",
       "direction": "forward",
-      "weight": 1.0
+      "weight": 1
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
       "type": "exports",
       "direction": "forward",
       "weight": 0.8
     },
     {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
-      "type": "contains",
-      "direction": "forward",
-      "weight": 1.0
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
-      "type": "exports",
-      "direction": "forward",
-      "weight": 0.8
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "file:src/nl2sql_agent/agent/__init__.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "file:src/nl2sql_agent/config/__init__.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "file:src/nl2sql_agent/db/__init__.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "file:src/nl2sql_agent/llm/__init__.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "file:src/nl2sql_agent/ui/components.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
-      "target": "file:src/nl2sql_agent/ui/database_upload.py",
-      "type": "imports",
-      "direction": "forward",
-      "weight": 0.7
-    },
-    {
-      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
       "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/audit.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/text.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
       "type": "imports",
       "direction": "forward",
       "weight": 0.7

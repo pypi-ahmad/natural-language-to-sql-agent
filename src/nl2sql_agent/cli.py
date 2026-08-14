@@ -98,6 +98,7 @@ def cmd_config(args: argparse.Namespace) -> int:
         "anthropic_api_key",
         "hf_token",
         "xai_api_key",
+        "postgres_dsn",
     ):
         if payload.get(field):
             payload[field] = "***"
@@ -140,26 +141,32 @@ def cmd_eval(args: argparse.Namespace) -> int:
             cases = load_cases(dataset)
     else:
         cases = load_cases(args.dataset)
+    if agent.db.kind != "sqlite":
+        print("error: the packaged evaluation corpus requires the SQLite backend", file=sys.stderr)
+        return 2
+    from .db import Database
+
     report = EvaluationRunner(
         agent,
-        agent.db,
+        cast(Database, agent.db),
         input_cost_per_million=args.input_cost_per_million,
         output_cost_per_million=args.output_cost_per_million,
-    ).run(cases)
+    )
+    completed = report.run(cases)
     output = args.output or Path("outputs/evals") / (
         datetime.now(UTC).strftime("%Y%m%dT%H%M%SZ") + ".json"
     )
     output.parent.mkdir(parents=True, exist_ok=True)
-    output.write_text(json.dumps(report.to_dict(), indent=2), encoding="utf-8")
+    output.write_text(json.dumps(completed.to_dict(), indent=2), encoding="utf-8")
     print(
-        f"cases={len(report.cases)} "
-        f"accuracy={report.result_accuracy:.1%} "
-        f"safety={report.safety_rate:.1%} "
-        f"execution={report.execution_rate:.1%} "
-        f"p95_ms={report.p95_latency_ms:.1f} "
+        f"cases={len(completed.cases)} "
+        f"accuracy={completed.result_accuracy:.1%} "
+        f"safety={completed.safety_rate:.1%} "
+        f"execution={completed.execution_rate:.1%} "
+        f"p95_ms={completed.p95_latency_ms:.1f} "
         f"report={output}"
     )
-    return 0 if report.passed(args.min_pass_rate) else 1
+    return 0 if completed.passed(args.min_pass_rate) else 1
 
 
 def build_parser() -> argparse.ArgumentParser:
