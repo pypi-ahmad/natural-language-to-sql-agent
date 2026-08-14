@@ -684,7 +684,7 @@ wheels = [
 
 [[package]]
 name = "nl2sql-agent"
-version = "0.5.0"
+version = "0.5.1"
 source = { editable = "." }
 dependencies = [
     { name = "google-genai" },

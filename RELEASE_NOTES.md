@@ -1,11 +1,14 @@
 # Release Notes
 
-## Current main — Unreleased
+## v0.5.1 — 2026-08-14
 
 The Streamlit UI now defaults to `127.0.0.1:8512` for the Windows launcher,
 the `nl2sql-agent serve` wrapper, and direct launches that use the checked-in
 `.streamlit/config.toml`. Explicit CLI or Streamlit port options still take
 precedence.
+
+This is a backward-compatible patch release. Existing `--port` overrides,
+provider configuration, saved sessions, and database settings are unchanged.
 
 ## v0.5.0 — 2026-08-14
 

@@ -568,7 +568,7 @@ common entry points:
 
 ```bash
 uv run python -c "import nl2sql_agent; print(nl2sql_agent.__version__)"
-# → 0.5.0
+# → 0.5.1
 
 uv run nl2sql-agent config | python -m json.tool | head -20
 ```

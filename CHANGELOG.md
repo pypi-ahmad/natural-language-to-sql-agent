@@ -7,10 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.1] — 2026-08-14
+
 ### Changed
 
 - The Streamlit UI now defaults to loopback port `8512` for both direct
   Streamlit launches and the `nl2sql-agent serve` wrapper.
+- Version advanced to 0.5.1 for this backward-compatible runtime-default fix.
 
 ## [0.5.0] — 2026-08-14
 

@@ -1,6 +1,6 @@
 # Upgrade Summary — v0.1 → v0.2
 
-> **Current main:** The Streamlit UI now defaults to `127.0.0.1:8512`. This
+> **v0.5.1 addendum:** The Streamlit UI now defaults to `127.0.0.1:8512`. This
 > applies to the Windows launcher, `nl2sql-agent serve`, and direct Streamlit
 > launches using the repository configuration. Existing `--port` overrides
 > remain supported.
