@@ -664,3 +664,5 @@ Possible future work after the current unreleased changes:
 ## 19. License
 
 [MIT](LICENSE).
+
+<p align="center">Made with ❤️ by Ahmad Mujtaba</p>
