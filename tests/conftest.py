@@ -19,8 +19,11 @@ def _reset_settings(monkeypatch: pytest.MonkeyPatch) -> None:
     reset_settings_cache()
     # Make sure no API keys are picked up from the environment.
     for var in (
-        "NL2SQL_PROVIDER", "NL2SQL_MODEL",
-        "OPENAI_API_KEY", "GOOGLE_API_KEY", "ANTHROPIC_API_KEY",
+        "NL2SQL_PROVIDER",
+        "NL2SQL_MODEL",
+        "OPENAI_API_KEY",
+        "GOOGLE_API_KEY",
+        "ANTHROPIC_API_KEY",
     ):
         monkeypatch.delenv(var, raising=False)
     yield

@@ -1,0 +1,23 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
+      - uses: astral-sh/setup-uv@e92bafb6253dcd438e0484186d7669ea7a8ca1cc # v6
+        with:
+          enable-cache: true
+      - run: uv sync --locked --all-groups
+      - run: uv run prek run --all-files
+      - run: uv run pytest --cov --cov-report=term-missing
+      - run: uv audit --locked
+      - run: uv build
+      - run: uv run --isolated --no-project --with dist/*.whl nl2sql-agent --help

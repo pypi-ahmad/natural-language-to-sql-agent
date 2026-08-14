@@ -1,0 +1,19 @@
+{
+  "nodes": [
+    {
+      "id": "pipeline:.github/workflows/ci.yml",
+      "type": "pipeline",
+      "name": "ci.yml",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "GitHub Actions workflow that installs locked dependencies, runs formatting and test checks, audits dependencies, builds the package, and smoke-tests the built wheel.",
+      "tags": [
+        "ci-cd",
+        "testing",
+        "security",
+        "build-system"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": []
+}

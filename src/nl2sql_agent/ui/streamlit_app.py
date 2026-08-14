@@ -1,160 +1,398 @@
-"""Streamlit entry point for the NL2SQL agent.
-
-Run with::
-
-    streamlit run src/nl2sql_agent/ui/streamlit_app.py
-
-or::
-
-    uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py
-"""
+"""Approval-first Streamlit interface for the NL2SQL agent."""
 
 from __future__ import annotations
 
+import sqlite3
+import tempfile
+from pathlib import Path
+from typing import Any, cast
+
 import streamlit as st
 
-from ..config import get_settings
-from ..llm import LLMProviderError, build_chat_model, list_models
-from ..utils import configure_logging, get_logger
-from .components import render_chat_history, render_run_result, render_sidebar
+from nl2sql_agent.agent import AgentState, NL2SQLAgent
+from nl2sql_agent.config import Provider, Settings, get_settings
+from nl2sql_agent.db import Database
+from nl2sql_agent.llm import LLMProviderError, build_chat_model, list_models
+from nl2sql_agent.ui.components import render_chat_history, render_sidebar
+from nl2sql_agent.ui.database_upload import (
+    SQLiteUploadError,
+    save_sqlite_upload,
+    validate_sqlite_upload,
+    validate_upload_metadata,
+)
+from nl2sql_agent.utils import configure_logging, get_logger
 
 logger = get_logger(__name__)
 
 
 def _init_session_state() -> None:
     st.session_state.setdefault("messages", [])
-    st.session_state.setdefault("ollama_base_url", "http://localhost:11434")
+    st.session_state.setdefault("pending_query", None)
+    st.session_state.setdefault("active_context", None)
+    if "upload_workspace" not in st.session_state:
+        st.session_state.upload_workspace = tempfile.TemporaryDirectory(prefix="nl2sql-upload-")
+
+
+@st.cache_resource
+def _demo_database(
+    path: str,
+    timeout_seconds: float,
+    max_rows: int,
+    max_vm_steps: int,
+    seed: bool,
+) -> Database:
+    db = Database(
+        path,
+        timeout_seconds=timeout_seconds,
+        max_rows=max_rows,
+        max_vm_steps=max_vm_steps,
+    )
+    db.ensure_schema(seed=seed)
+    return db
+
+
+def _runtime_settings(
+    settings: Settings,
+    *,
+    provider: Provider,
+    model: str,
+    api_key: str | None,
+) -> Settings:
+    runtime = settings.model_copy(deep=True)
+    runtime.provider = provider
+    runtime.model = model
+    if provider == "openai":
+        runtime.openai_api_key = api_key
+    elif provider == "gemini":
+        runtime.google_api_key = api_key
+    elif provider == "anthropic":
+        runtime.anthropic_api_key = api_key
+    elif provider == "huggingface":
+        runtime.hf_token = api_key
+    elif provider == "xai":
+        runtime.xai_api_key = api_key
+    return runtime
+
+
+def _resolve_database(
+    settings: Settings,
+    data_source: str,
+) -> tuple[Database, str, str, bool] | None:
+    if data_source == "Demo":
+        db = _demo_database(
+            str(settings.db_path),
+            settings.db_query_timeout_seconds,
+            settings.db_max_rows,
+            settings.db_max_vm_steps,
+            settings.db_seed,
+        )
+        return db, settings.db_path.name, "demo", True
+
+    uploaded = st.sidebar.file_uploader(
+        "SQLite database",
+        type=["db", "sqlite", "sqlite3"],
+        accept_multiple_files=False,
+        help="The file stays in this browser session and is queried read-only.",
+    )
+    if uploaded is None:
+        st.sidebar.info("Upload a SQLite database to continue.")
+        return None
+    try:
+        validate_upload_metadata(
+            uploaded.name,
+            size=uploaded.size,
+            max_mb=settings.db_upload_max_mb,
+        )
+        data = uploaded.getvalue()
+        digest = validate_sqlite_upload(
+            uploaded.name,
+            data,
+            max_mb=settings.db_upload_max_mb,
+        )
+        workspace = Path(st.session_state.upload_workspace.name)
+        path = save_sqlite_upload(workspace, data, digest)
+        db = Database(
+            path,
+            timeout_seconds=settings.db_query_timeout_seconds,
+            max_rows=settings.db_max_rows,
+            max_vm_steps=settings.db_max_vm_steps,
+        )
+        db.list_tables()
+    except (SQLiteUploadError, sqlite3.Error) as exc:
+        st.sidebar.error(str(exc), icon=":material/error:")
+        return None
+    return db, Path(uploaded.name).name, digest, False
+
+
+def _build_agent(
+    runtime: Settings,
+    database: Database,
+    *,
+    allowed_tables: list[str],
+    include_sample_values: bool,
+    fingerprint: str,
+) -> NL2SQLAgent:
+    llm = build_chat_model(settings=runtime)
+    return NL2SQLAgent(
+        llm,
+        settings=runtime,
+        database=database,
+        allowed_tables=allowed_tables,
+        include_sample_values=include_sample_values,
+        db_fingerprint=fingerprint,
+    )
+
+
+def _history_message(state: dict[str, Any], *, model: str) -> dict[str, Any]:
+    return {
+        "role": "assistant",
+        "content": str(state.get("final_answer", "")),
+        "sql": str(state.get("sql_query", "")),
+        "columns": list(state.get("columns", [])),
+        "raw_rows": list(state.get("raw_rows", [])),
+        "error": str(state.get("error", "")),
+        "csv_data": str(state.get("csv_data", "")),
+        "trace": list(state.get("trace", [])),
+        "run_id": str(state.get("run_id", "result")),
+        "model": model,
+        "token_usage": dict(state.get("token_usage", {})),
+    }
+
+
+def _stage_text(node: str, update: dict[str, Any]) -> str:
+    if node == "fetch_schema":
+        return "Relevant schema selected."
+    if node == "writer":
+        return f"SQL draft {update.get('retry_count', 1)} generated."
+    if node == "guardian" and update.get("error"):
+        return "SQL blocked; requesting a corrected draft."
+    if node == "guardian":
+        return "SQL validated and preflighted."
+    return node.replace("_", " ").capitalize()
 
 
 def main() -> None:
     settings = get_settings()
     configure_logging(level=settings.log_level, json=settings.log_json)
-
     st.set_page_config(
         page_title="NL2SQL Agent",
-        page_icon="",
+        page_icon=":material/database:",
         layout="wide",
     )
     _init_session_state()
-
     cfg = render_sidebar()
+    provider = cast(Provider, cfg["provider"])
+    model = str(cfg["model"])
+    api_key = cast(str | None, cfg["api_key"])
+    data_source = str(cfg["data_source"] or "Demo")
 
-    provider: str | None = cfg["provider"]
-    model: str | None = cfg["model"]
-    api_key: str | None = cfg["api_key"]
-    ollama_base_url: str | None = cfg["ollama_base_url"]
-
-    # Optionally refresh the model list when the user clicks the button.
     if st.session_state.pop(f"refresh_trigger_{provider}", False):
         with st.spinner(f"Fetching {provider} models…"):
             fetched = list_models(
-                provider,  # type: ignore[arg-type]
+                provider,
                 api_key=api_key,
-                base_url=ollama_base_url if provider == "ollama" else None,
+                base_url=settings.ollama_base_url if provider == "ollama" else None,
             )
         if fetched:
             st.session_state[f"models_{provider}"] = fetched
             st.sidebar.success(f"Found {len(fetched)} models.")
         else:
-            st.sidebar.warning("No models returned. Check connection / API key.")
+            st.sidebar.warning("No models returned. Check the connection or API key.")
 
-    st.title("Natural Language to SQL")
-    st.caption(
-        f"Provider: **{provider}** • Model: **{model}** • DB: `{settings.db_path}`"
+    resolved = _resolve_database(settings, data_source)
+    st.title("Natural language to SQL")
+    if resolved is None:
+        st.caption(f"Provider: **{provider}** · Model: **{model}**")
+        render_chat_history()
+        return
+    database, database_name, fingerprint, demo_samples = resolved
+    try:
+        tables = list(database.list_tables())
+    except sqlite3.Error:
+        st.error("The SQLite catalog could not be read.", icon=":material/error:")
+        return
+    if not tables:
+        st.error("The database has no ordinary user tables.", icon=":material/error:")
+        return
+
+    allowed_tables = st.sidebar.multiselect(
+        "Allowed tables",
+        options=tables,
+        default=tables,
+        key=f"allowed_{fingerprint}",
     )
+    include_sample_values = demo_samples
+    if data_source == "Upload":
+        include_sample_values = st.sidebar.toggle(
+            "Include sample rows in prompts",
+            value=False,
+            key=f"sample_{fingerprint}",
+            help="Off by default to avoid sending uploaded values to the model.",
+        )
+    else:
+        st.sidebar.caption("The demo includes bounded sample rows in prompts.")
+
+    context = (
+        fingerprint,
+        tuple(sorted(allowed_tables)),
+        include_sample_values,
+        provider,
+        model,
+    )
+    if st.session_state.active_context != context:
+        st.session_state.messages = []
+        st.session_state.pending_query = None
+        st.session_state.active_context = context
+
+    st.caption(f"Provider: **{provider}** · Model: **{model}** · Database: **{database_name}**")
+    schema_expander = st.expander(
+        "Database schema",
+        icon=":material/table_chart:",
+        on_change="rerun",
+    )
+    if schema_expander.open:
+        with schema_expander:
+            st.code(
+                database.get_schema_text(allowed_tables=set(allowed_tables)),
+                language="text",
+            )
+
+    with st.sidebar:
+        if st.button("Clear history", icon=":material/delete:", width="stretch"):
+            st.session_state.messages = []
+            st.session_state.pending_query = None
+            st.rerun()
 
     render_chat_history()
+    runtime = _runtime_settings(
+        settings,
+        provider=provider,
+        model=model,
+        api_key=api_key,
+    )
 
-    # Example questions (clickable)
-    st.markdown("##### Try a question")
-    cols = st.columns(3)
-    examples = [
-        "How many employees are in each department?",
-        "What is the total salary in Engineering?",
-        "Who is the highest-paid employee overall?",
-    ]
-    for col, ex in zip(cols, examples, strict=False):
-        if col.button(ex, key=f"ex_{ex[:10]}"):
-            st.session_state["pending_question"] = ex
+    pending = st.session_state.pending_query
+    if pending:
+        with st.chat_message("assistant"):
+            st.info(
+                "Review or edit the validated SQL, then run it.",
+                icon=":material/edit:",
+            )
+            edited_sql = st.text_area(
+                "SQL preview",
+                value=str(pending.get("sql_query", "")),
+                height=140,
+                key=f"sql_editor_{pending['run_id']}",
+            )
+            with st.container(horizontal=True):
+                run_clicked = st.button(
+                    "Run query",
+                    type="primary",
+                    icon=":material/play_arrow:",
+                )
+                cancel_clicked = st.button("Cancel", icon=":material/close:")
+            if cancel_clicked:
+                st.session_state.messages.append(
+                    {"role": "assistant", "content": "Query cancelled before execution."}
+                )
+                st.session_state.pending_query = None
+                st.rerun()
+            if run_clicked:
+                try:
+                    agent = _build_agent(
+                        runtime,
+                        database,
+                        allowed_tables=allowed_tables,
+                        include_sample_values=include_sample_values,
+                        fingerprint=fingerprint,
+                    )
+                    with st.status("Executing approved SQL…", expanded=True) as status:
+                        result = agent.execute_prepared(pending, sql_query=edited_sql)
+                        status.write("SQL revalidated immediately before execution.")
+                        status.update(label="Execution complete", state="complete")
+                except LLMProviderError as exc:
+                    st.error(str(exc), icon=":material/error:")
+                except Exception:
+                    logger.exception("Prepared query execution failed")
+                    st.error("The query could not be executed.", icon=":material/error:")
+                else:
+                    st.session_state.messages.append(_history_message(result, model=model))
+                    st.session_state.pending_query = None
+                    st.rerun()
 
-    user_query = st.chat_input("Ask about the data…")
-    pending = st.session_state.pop("pending_question", None)
-    if pending and not user_query:
-        user_query = pending
+    if not allowed_tables:
+        st.warning("Select at least one allowed table before asking a question.")
+        return
 
-    if not user_query:
+    selected_example = None
+    if not st.session_state.messages and data_source == "Demo" and not pending:
+        suggestions = {
+            "Employees by department": "How many employees are in each department?",
+            "Engineering salary": "What is the total salary in Engineering?",
+            "Highest paid": "Who is the highest-paid employee overall?",
+        }
+        selected_example = st.pills(
+            "Try asking",
+            options=list(suggestions),
+            label_visibility="collapsed",
+        )
+        if selected_example:
+            selected_example = suggestions[selected_example]
+
+    user_query = st.chat_input(
+        "Ask about the data…" if not pending else "Approve or cancel the pending SQL first",
+        disabled=bool(pending),
+    )
+    user_query = user_query or selected_example
+    if not user_query or pending:
         return
 
     st.session_state.messages.append({"role": "user", "content": user_query})
-    with st.chat_message("user"):
-        st.markdown(user_query)
+    try:
+        agent = _build_agent(
+            runtime,
+            database,
+            allowed_tables=allowed_tables,
+            include_sample_values=include_sample_values,
+            fingerprint=fingerprint,
+        )
+    except LLMProviderError as exc:
+        st.error(str(exc), icon=":material/error:")
+        return
 
+    final_state: AgentState = {
+        "question": user_query,
+        "trace": [],
+        "token_usage": {},
+    }
     with st.chat_message("assistant"):
-        status = st.status("Thinking…", expanded=True)
+        status = st.status("Preparing SQL…", expanded=True)
         try:
-            llm = build_chat_model(
-                settings=settings,
-                provider=provider,  # type: ignore[arg-type]
-                model=model,
+            for node_name, update in agent.stream_prepare(user_query):
+                final_state.update(cast(AgentState, update))
+                status.write(_stage_text(node_name, update))
+        except Exception:
+            logger.exception("SQL preparation failed")
+            status.update(label="Preparation failed", state="error")
+            if provider == "huggingface":
+                st.error(
+                    "SQL preparation failed. Verify that the Hugging Face model supports "
+                    "the Responses API and medium reasoning."
+                )
+            else:
+                st.error("SQL preparation failed. Check the provider connection.")
+            return
+        if final_state.get("error"):
+            final_state["final_answer"] = (
+                "The query was blocked before execution: " + final_state["error"]
             )
-        except LLMProviderError as exc:
-            status.update(label="Configuration error", state="error")
-            st.error(str(exc))
-            return
-
-        from ..agent import NL2SQLAgent
-
-        agent = NL2SQLAgent(llm, settings=settings)
-
-        try:
-            events = list(agent.stream(user_query))
-        except Exception as exc:
-            logger.exception("Agent run failed")
-            status.update(label="Run failed", state="error")
-            st.error(f"{exc.__class__.__name__}: {exc}")
-            return
-
-        final_state: dict[str, object] = {}
-        for node_name, update in events:
-            final_state.update(update)
-            if node_name == "fetch_schema":
-                status.write("Schema loaded.")
-            elif node_name == "writer":
-                sql = update.get("sql_query", "")
-                status.write(f"SQL drafted: `{sql[:120]}`")
-            elif node_name == "guardian":
-                if update.get("error"):
-                    status.write(f"Security: {update['error']}")
-                else:
-                    status.write("Security check passed.")
-            elif node_name == "executor":
-                if update.get("error"):
-                    status.write(f"Execution error: `{update['error']}`")
-                else:
-                    status.write(
-                        f"Returned {update.get('row_count', 0)} row(s)."
-                    )
-            elif node_name == "summarizer":
-                status.write("Final answer ready.")
-
-        status.update(label="Done", state="complete", expanded=False)
-
-        answer = str(final_state.get("final_answer") or "(no answer)")
-        render_run_result(
-            final_answer=answer,
-            sql_query=str(final_state.get("sql_query", "")),
-            columns=final_state.get("columns") or [],  # type: ignore[arg-type]
-            raw_rows=final_state.get("raw_rows") or [],  # type: ignore[arg-type]
-            error=str(final_state.get("error", "")),
-        )
-
-        st.session_state.messages.append(
-            {
-                "role": "assistant",
-                "content": answer,
-                "sql": final_state.get("sql_query", ""),
-            }
-        )
+            status.update(label="Query blocked", state="error", expanded=False)
+            blocked = dict(final_state)
+            st.session_state.messages.append(_history_message(blocked, model=model))
+        else:
+            status.update(label="SQL ready for review", state="complete", expanded=False)
+            st.session_state.pending_query = dict(final_state)
+    st.rerun()
 
 
 if __name__ == "__main__":  # pragma: no cover

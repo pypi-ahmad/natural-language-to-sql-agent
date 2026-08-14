@@ -1,0 +1,155 @@
+[
+  {
+    "id": "layer:agent-workflow",
+    "name": "Agent Workflow",
+    "description": "LangGraph orchestration, prompt and evaluation assets, and the six-provider model-integration boundary that turn questions into governed SQL answers.",
+    "nodeIds": [
+      "file:src/nl2sql_agent/llm/__init__.py",
+      "file:src/nl2sql_agent/llm/factory.py",
+      "file:src/nl2sql_agent/agent/__init__.py",
+      "file:src/nl2sql_agent/agent/state.py",
+      "file:src/nl2sql_agent/agent/workflow.py",
+      "file:src/nl2sql_agent/prompts/__init__.py",
+      "file:src/nl2sql_agent/prompts/templates.py",
+      "file:src/nl2sql_agent/evaluation/__init__.py",
+      "file:src/nl2sql_agent/evaluation/runner.py",
+      "file:src/nl2sql_agent/__init__.py",
+      "file:src/nl2sql_agent/evaluation/data/__init__.py",
+      "file:src/nl2sql_agent/evaluation/data/demo.jsonl"
+    ]
+  },
+  {
+    "id": "layer:user-interfaces",
+    "name": "User Interfaces",
+    "description": "The Streamlit interface, command-line interface, and Windows launcher that configure and start the NL2SQL agent for users.",
+    "nodeIds": [
+      "file:src/nl2sql_agent/ui/__init__.py",
+      "file:src/nl2sql_agent/ui/components.py",
+      "file:src/nl2sql_agent/ui/database_upload.py",
+      "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "file:src/nl2sql_agent/cli.py",
+      "file:Launch NL2SQL Agent.cmd"
+    ]
+  },
+  {
+    "id": "layer:data-and-security",
+    "name": "Data and SQL Safety",
+    "description": "SQLite access, demo data, and SQL-policy enforcement that constrain and execute generated analytical queries.",
+    "nodeIds": [
+      "file:src/nl2sql_agent/security/__init__.py",
+      "file:src/nl2sql_agent/security/sql_validator.py",
+      "file:src/nl2sql_agent/db/__init__.py",
+      "file:src/nl2sql_agent/db/database.py",
+      "file:src/nl2sql_agent/db/seed.py"
+    ]
+  },
+  {
+    "id": "layer:runtime-foundations",
+    "name": "Runtime Foundations",
+    "description": "Validated settings plus shared audit, logging, and text utilities that support every execution path.",
+    "nodeIds": [
+      "file:src/nl2sql_agent/config/__init__.py",
+      "file:src/nl2sql_agent/config/settings.py",
+      "file:src/nl2sql_agent/utils/__init__.py",
+      "file:src/nl2sql_agent/utils/audit.py",
+      "file:src/nl2sql_agent/utils/logging.py",
+      "file:src/nl2sql_agent/utils/text.py"
+    ]
+  },
+  {
+    "id": "layer:quality-assurance",
+    "name": "Quality Assurance",
+    "description": "Pytest fixtures, unit tests, and live integration coverage for the agent, providers, data layer, and safeguards.",
+    "nodeIds": [
+      "file:tests/__init__.py",
+      "file:tests/conftest.py",
+      "file:tests/integration/__init__.py",
+      "file:tests/integration/test_ollama_live.py",
+      "file:tests/unit/__init__.py",
+      "file:tests/unit/test_agent.py",
+      "file:tests/unit/test_audit.py",
+      "file:tests/unit/test_cli.py",
+      "file:tests/unit/test_database.py",
+      "file:tests/unit/test_evaluation.py",
+      "file:tests/unit/test_llm_factory.py",
+      "file:tests/unit/test_logging.py",
+      "file:tests/unit/test_prompts.py",
+      "file:tests/unit/test_settings.py",
+      "file:tests/unit/test_sql_validator.py",
+      "file:tests/unit/test_text.py",
+      "file:tests/unit/test_ui_components.py",
+      "file:tests/unit/test_upload.py"
+    ]
+  },
+  {
+    "id": "layer:documentation",
+    "name": "Documentation",
+    "description": "Architecture, operations, security, migration, provider, release, dataset, and learning documentation for the NL2SQL agent.",
+    "nodeIds": [
+      "document:ARCHITECTURE.md",
+      "document:CHANGELOG.md",
+      "document:CODE_OF_CONDUCT.md",
+      "document:DATASET.md",
+      "document:MIGRATION_GUIDE.md",
+      "document:README.md",
+      "document:RELEASE_NOTES.md",
+      "document:SECURITY.md",
+      "document:UPGRADE_SUMMARY.md",
+      "document:ZERO_TO_HERO_STUDY_HANDBOOK.md",
+      "document:graphify-out/.graphify_uncached.txt",
+      "document:graphify-out/GRAPH_REPORT.md",
+      "document:graphify-out/2026-08-14/GRAPH_REPORT.md"
+    ]
+  },
+  {
+    "id": "layer:project-tooling",
+    "name": "Project Tooling and Graph Assets",
+    "description": "Packaging, developer configuration, architecture visualization, and checked-in Understand Anything and Graphify analysis artifacts.",
+    "nodeIds": [
+      "config:.pre-commit-config.yaml",
+      "file:architecture-diagram.html",
+      "config:architecture-diagram.json",
+      "config:pyproject.toml",
+      "config:.ua/config.json",
+      "config:.ua/fingerprints.json",
+      "config:.ua/knowledge-graph.json",
+      "config:.ua/meta.json",
+      "config:graphify-out/.graphify_analysis.json",
+      "config:graphify-out/.graphify_ast.json",
+      "config:graphify-out/.graphify_detect.json",
+      "config:graphify-out/.graphify_extract.json",
+      "config:graphify-out/.graphify_incremental.json",
+      "config:graphify-out/.graphify_labels.json",
+      "config:graphify-out/.graphify_old.json",
+      "config:graphify-out/.graphify_semantic.json",
+      "config:graphify-out/.graphify_semantic_new.json",
+      "config:graphify-out/cost.json",
+      "file:graphify-out/graph.html",
+      "config:graphify-out/graph.json",
+      "config:graphify-out/manifest.json",
+      "config:graphify-out/2026-08-14/.graphify_analysis.json",
+      "config:graphify-out/2026-08-14/.graphify_labels.json",
+      "config:graphify-out/2026-08-14/cost.json",
+      "config:graphify-out/2026-08-14/graph.json",
+      "config:graphify-out/2026-08-14/manifest.json",
+      "config:.github/dependabot.yml",
+      "file:.python-version",
+      "file:.secrets.baseline",
+      "config:.streamlit/config.toml",
+      "file:.ua/.trash-1786690338",
+      "file:.ua/.understandignore",
+      "config:.ua/intermediate/scan-result.json",
+      "file:graphify-out/.graphify_labels.json.sig",
+      "file:graphify-out/.graphify_python",
+      "file:graphify-out/.graphify_root"
+    ]
+  },
+  {
+    "id": "layer:ci-cd",
+    "name": "CI/CD",
+    "description": "GitHub Actions automation that validates formatting, typing, tests, dependency security, builds, and package smoke tests.",
+    "nodeIds": [
+      "pipeline:.github/workflows/ci.yml"
+    ]
+  }
+]

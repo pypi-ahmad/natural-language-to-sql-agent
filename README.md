@@ -3,8 +3,8 @@
 [![Python 3.12](https://img.shields.io/badge/python-3.12.10-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
-[![Type checker: mypy](https://img.shields.io/badge/type%20checker-mypy-blue.svg)](http://mypy-lang.org/)
-[![Tests: 174 passing](https://img.shields.io/badge/tests-174_passing-brightgreen.svg)](#testing)
+[![Type checker: ty](https://img.shields.io/badge/type%20checker-ty-blue.svg)](https://docs.astral.sh/ty/)
+[![Tests: 264 passing](https://img.shields.io/badge/tests-264_passing-brightgreen.svg)](#testing)
 
 > Turn natural-language questions into safe, auditable SQL against a local
 > SQLite database — runs entirely on your machine using a local Ollama LLM,
@@ -49,7 +49,7 @@ The system is composed of five cooperating pieces:
 | **Configuration** | `nl2sql_agent.config` | Single source of truth for runtime settings, loaded from env vars, `.env`, or code. |
 | **Database** | `nl2sql_agent.db` | Thin, type-safe wrapper around SQLite with context-managed connections. |
 | **Safety** | `nl2sql_agent.security` | AST-based SQL validation using `sqlglot` — allow-lists, not deny-lists. |
-| **LLM factory** | `nl2sql_agent.llm` | Multi-provider chat-model construction (Ollama, OpenAI, Gemini, Anthropic). |
+| **LLM factory** | `nl2sql_agent.llm` | Multi-provider construction for Ollama, Hugging Face, OpenAI, Anthropic, Gemini, and xAI. |
 | **Agent** | `nl2sql_agent.agent` | LangGraph workflow: schema → write → guard → execute → summarize. |
 | **Prompts** | `nl2sql_agent.prompts` | Versioned, single-source prompt templates. |
 | **UI** | `nl2sql_agent.ui` | Streamlit chat interface with live status and SQL preview. |
@@ -67,9 +67,9 @@ The system is composed of five cooperating pieces:
   fooled by column names like `updated_at`.
 - **LangGraph, not magic.** Every step is an explicit node you can stream,
   log, debug, and replace. There is a real state machine with retries.
-- **Pinned, reproducible, modern.** Python 3.12.10, `uv`-managed, all
-  dependencies version-pinned in `pyproject.toml`.
-- **Tested.** 174 unit tests, >85% coverage on the core modules
+- **Pinned, reproducible, modern.** Python 3.12.10 and `uv`-managed direct
+  dependencies, with security floors expressed as transitive constraints.
+- **Tested.** 264 offline tests plus opt-in live Ollama integration tests
   (config, db, security, prompts, agent, llm factory, text utilities).
 - **Observable.** Structured Loguru logging, request-friendly error
   contracts, JSON logging mode for log aggregators.
@@ -80,18 +80,16 @@ The system is composed of five cooperating pieces:
 
 ### Prerequisites
 
-- Linux or macOS (or WSL on Windows)
+- Windows 11, Linux, or macOS
 - Python 3.12.10 — `uv` will install this for you
-- Ollama 0.5+ running locally (only required for the default provider)
+- Ollama 0.6.2+ running locally (only required for the default provider)
 
 ### Install
 
 ```bash
 git clone <this-repo>
 cd natural-language-to-sql-agent
-uv venv --python 3.12.10
-uv sync --extra dev
-uv pip install -e .
+uv sync --all-groups
 ```
 
 ### Pull a small local model
@@ -104,8 +102,14 @@ ollama pull qwen3.5:4b         # 3.4 GB — better quality, also fits
 
 ### Run the Streamlit UI
 
+On Windows, double-click `Launch NL2SQL Agent.cmd`. It starts the locked `uv`
+environment, opens the app on `127.0.0.1:8501`, and keeps a visible log window;
+press Ctrl+C there to stop it.
+
+The equivalent command on any platform is:
+
 ```bash
-uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py
+uv run nl2sql-agent serve
 ```
 
 Open http://localhost:8501, choose **Ollama** as the provider, pick
@@ -199,26 +203,36 @@ uv run nl2sql-agent config
 
 | Variable | Default | Purpose |
 |---|---|---|
-| `NL2SQL_PROVIDER` | `ollama` | One of `ollama`, `openai`, `gemini`, `anthropic`. |
+| `NL2SQL_PROVIDER` | `ollama` | One of `ollama`, `huggingface`, `openai`, `anthropic`, `gemini`, `xai`. |
 | `NL2SQL_MODEL` | `phi4-mini:3.8b` | Model identifier for the chosen provider. |
-| `NL2SQL_OLLAMA_BASE_URL` | `http://localhost:11434` | Ollama HTTP endpoint. |
+| `NL2SQL_OLLAMA_BASE_URL` | `http://localhost:11434` | Operator-only endpoint. HTTP is loopback-only; remote endpoints require HTTPS. |
 | `NL2SQL_OLLAMA_KEEP_ALIVE` | `5m` | How long Ollama keeps the model loaded. |
 | `OPENAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=openai`. |
 | `GOOGLE_API_KEY` | — | Required when `NL2SQL_PROVIDER=gemini`. |
 | `ANTHROPIC_API_KEY` | — | Required when `NL2SQL_PROVIDER=anthropic`. |
+| `HF_TOKEN` | — | Required when `NL2SQL_PROVIDER=huggingface`; `NL2SQL_HF_TOKEN` is also accepted. |
+| `XAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=xai`; `NL2SQL_XAI_API_KEY` is also accepted. |
 | `NL2SQL_DB_PATH` | `company.db` | Path to the SQLite database file. |
 | `NL2SQL_DB_SEED` | `true` | Seed the database with sample data on first run. |
 | `NL2SQL_DB_MAX_ROWS` | `1000` | Cap on rows returned per query. |
 | `NL2SQL_DB_QUERY_TIMEOUT_SECONDS` | `15` | Per-query execution timeout. |
+| `NL2SQL_DB_MAX_VM_STEPS` | `5000000` | SQLite virtual-machine step limit. |
+| `NL2SQL_DB_UPLOAD_MAX_MB` | `50` | Maximum database upload size in the UI. |
 | `NL2SQL_MAX_RETRIES` | `3` | SQL rewrite attempts after a failed execution. |
-| `NL2SQL_LLM_TEMPERATURE` | `0.0` | LLM sampling temperature. |
+| `NL2SQL_LLM_TEMPERATURE` | `0.0` | Ollama sampling temperature; hosted reasoning models use medium effort. |
 | `NL2SQL_LLM_MAX_TOKENS` | `1024` | Max output tokens per LLM call. |
 | `NL2SQL_SQL_ALLOW_SUBQUERIES` | `true` | Allow nested SELECT. |
 | `NL2SQL_SQL_ALLOW_JOINS` | `true` | Allow JOIN clauses. |
 | `NL2SQL_SQL_ALLOW_AGGREGATES` | `true` | Allow COUNT, SUM, AVG, etc. |
 | `NL2SQL_SQL_ALLOW_CTE` | `true` | Allow WITH ... AS. |
+| `NL2SQL_SQL_MAX_JOINS` | `8` | Maximum JOIN clauses per query. |
+| `NL2SQL_SQL_MAX_SUBQUERIES` | `8` | Maximum nested subqueries per query. |
+| `NL2SQL_SQL_MAX_CTES` | `8` | Maximum CTEs per query. |
+| `NL2SQL_SCHEMA_MAX_TABLES` | `8` | Detailed schemas sent to the writer. |
 | `NL2SQL_LOG_LEVEL` | `INFO` | Loguru log level. |
 | `NL2SQL_LOG_JSON` | `false` | Emit JSON-formatted logs. |
+| `NL2SQL_AUDIT_ENABLED` | `true` | Write redacted operational audit events. |
+| `NL2SQL_AUDIT_PATH` | `logs/audit.jsonl` | Audit JSONL destination. |
 
 ---
 
@@ -227,9 +241,39 @@ uv run nl2sql-agent config
 | Provider | Auth | Default model | Notes |
 |---|---|---|---|
 | **Ollama** | None | `phi4-mini:3.8b` | Local, private, no internet required. |
-| **OpenAI** | `OPENAI_API_KEY` | `gpt-4o-mini` | Cloud, fast. |
-| **Gemini** | `GOOGLE_API_KEY` | `gemini-1.5-flash` | Cloud, large context. |
-| **Anthropic** | `ANTHROPIC_API_KEY` | `claude-3-5-sonnet-latest` | Cloud, strong reasoning. |
+| **Hugging Face** | `HF_TOKEN` | `openai/gpt-oss-120b:fastest` | Direct HF router; accepts custom `namespace/model[:routing-policy]` IDs. |
+| **OpenAI** | `OPENAI_API_KEY` | `gpt-5.6-luna` | Only Luna and `gpt-5.6-terra`; Responses API at medium effort. |
+| **Anthropic** | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | Adaptive thinking at medium effort. |
+| **Gemini** | `GOOGLE_API_KEY` | `gemini-3.7-flash` | Also supports `gemini-3.5-flash-lite`; medium thinking. |
+| **xAI** | `XAI_API_KEY` | `grok-4.6` | Direct xAI API at medium reasoning effort. |
+
+The hosted allow-lists are enforced in settings, CLI overrides, and the model
+factory. Hugging Face remains intentionally flexible, but its custom model ID
+must use the documented repository form and support medium reasoning through
+the Responses API. Ollama model names remain unrestricted.
+
+### UI cost estimates
+
+After each hosted-model run, the UI shows provider-reported input/output tokens
+and estimates the USD cost as:
+
+```text
+(input tokens × input rate + output tokens × output rate) / 1,000,000
+```
+
+| Model | Input / 1M tokens | Output / 1M tokens | Pricing note |
+|---|---:|---:|---|
+| Sonnet 5 | $2.00 | $10.00 | Batch API receives a 50% discount. |
+| Gemini Flash 3.7 | $0.75 | $3.75 | Promotional rate through December 31, 2026. |
+| Gemini 3.5 Flash Lite | $0.30 | $2.50 | Batch rate is $0.15 / $1.25. |
+| GPT-5.6 Luna | $0.20 | $1.20 | Prompt-cache reads are $0.02. |
+| GPT-5.6 Terra | $2.00 | $12.00 | Rates double above 272k input tokens. |
+| Grok 4.6 | $2.00 | $6.00 | Fast mode or prompts above 200k use $4 / $12. |
+
+This is a fixed pricing snapshot supplied with the app, not a live billing
+feed. Estimates use the standard rates because aggregated run usage does not
+identify cache hits, batch requests, fast mode, or an individual long-context
+call. Ollama and custom Hugging Face models show cost as unavailable.
 
 The factory is in `nl2sql_agent.llm.factory.build_chat_model`. You can
 also call it directly from your own code:
@@ -275,10 +319,10 @@ output as untrusted generated code.
 
 **Five lines of defense:**
 
-1. **Read-only SQLite user.** The database is opened with
-   `isolation_level=None` (autocommit) and the executor uses
-   `cursor.execute()`, which **prevents multi-statement injection by
-   driver constraint**.
+1. **Read-only SQLite connection.** Demo setup uses a narrowly scoped
+   writable connection. Every query uses SQLite URI `mode=ro`,
+   `PRAGMA query_only=ON`, disabled extension loading, and an untrusted
+   schema policy.
 2. **AST-based validation.** Before any SQL reaches the database, it is
    parsed by `sqlglot` into an AST and checked:
    - Exactly one statement.
@@ -289,12 +333,16 @@ output as untrusted generated code.
    - Word-boundary scan for `DROP`, `DELETE`, `INSERT`, `UPDATE`, `ALTER`,
      `CREATE`, `REPLACE`, `TRUNCATE`, `GRANT`, `REVOKE`, `PRAGMA`,
      `ATTACH`, `DETACH`, `VACUUM`, `REINDEX`, `INSTALL`, `COPY`.
-3. **Configurable policy.** Each knob (subqueries, joins, aggregates,
-   CTEs, UNION) is a boolean. See the env vars above.
+3. **Configurable policy.** Queries are restricted to permitted tables,
+   with configurable feature toggles and JOIN/subquery/CTE count limits.
 4. **Row cap.** A hard cap (`NL2SQL_DB_MAX_ROWS`, default 1000) prevents
    `SELECT *` from returning millions of rows.
-5. **Per-query timeout.** `NL2SQL_DB_QUERY_TIMEOUT_SECONDS` (default 15s)
-   bounds the time the executor can spend on a single statement.
+5. **Execution budget.** A SQLite progress handler enforces elapsed-time
+   and virtual-machine-step limits. `EXPLAIN QUERY PLAN` validates table
+   and column references before execution.
+
+Audit events contain hashes and literal-redacted SQL, never raw questions,
+result rows, database paths, sample values, or credentials.
 
 The validator lives in `src/nl2sql_agent/security/sql_validator.py` and
 is fully tested in `tests/unit/test_sql_validator.py`.
@@ -302,6 +350,8 @@ is fully tested in `tests/unit/test_sql_validator.py`.
 ---
 
 ## 10. Running the UI
+
+On Windows, double-click `Launch NL2SQL Agent.cmd`. For terminal launches:
 
 ```bash
 # Default port 8501
@@ -313,11 +363,20 @@ uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py --server.port 8502
 
 ### What the UI shows
 
-- **Sidebar.** Provider picker, model list (with a refresh button),
-  Ollama base URL, API key input. Keys are never logged.
-- **Main panel.** Chat history (user + assistant turns), live
-  per-step status indicator, expandable SQL view, raw results table.
-- **Clickable example questions** for first-time users.
+- **Database source.** Use the seeded demo or upload one session-scoped
+  `.db`, `.sqlite`, or `.sqlite3` file. Uploaded databases are never seeded or
+  modified.
+- **Schema controls.** Browse ordinary tables, authorize the tables available
+  to SQL, and optionally expose bounded sample rows from uploads to the model.
+- **Approval flow.** Generation stops at an editable, validated SQL preview.
+  Run explicitly to revalidate and execute it.
+- **History and export.** Each session retains answers, SQL, result rows,
+  operational stage timings, token usage, estimated hosted-model cost, and CSV
+  downloads. Formula-like CSV cells are neutralized before download. Clear
+  history from the sidebar.
+- **Provider controls.** Pick one of the approved hosted models, enter a custom
+  Hugging Face model ID, or refresh the live Ollama model list. Operators
+  configure the Ollama endpoint; it is not editable in the browser.
 
 ### Programmatic access
 
@@ -332,13 +391,21 @@ result = agent.run("What is the average salary?")
 print(result["final_answer"])
 ```
 
+For approval-first applications, prepare without executing, optionally edit
+the SQL, then execute through the same guardian again:
+
+```python
+prepared = agent.prepare("What is the average salary?")
+result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
+```
+
 ---
 
 ## 11. CLI
 
 ```text
 $ uv run nl2sql-agent --help
-usage: nl2sql-agent [-h] {ask,config,serve} ...
+usage: nl2sql-agent [-h] {ask,config,serve,eval} ...
 
 $ uv run nl2sql-agent ask --help
 usage: nl2sql-agent ask [-h] [--provider PROVIDER] [--model MODEL]
@@ -354,13 +421,27 @@ $ uv run nl2sql-agent config
 
 $ uv run nl2sql-agent serve --help
 usage: nl2sql-agent serve [-h] [--port PORT] [--host HOST]
+
+$ uv run nl2sql-agent eval --min-pass-rate 0.8
+cases=15 accuracy=... safety=... execution=... p95_ms=... report=...
 ```
 
 ---
 
 ## 12. Testing
 
-The project ships with **174 unit tests** plus a live integration test
+SQL preparation has a parse-count regression test. On the documented complex
+CTE benchmark (2,000 calls), reuse of a single AST reduced preparation latency
+from 4.36 ms to 2.68 ms per call on the development machine; results vary by
+hardware.
+
+Schema-context retrieval also has single-pass ranking and connection-reuse
+regression tests. Reusing normalized identifiers and loading foreign-key
+metadata only for selected tables reduced median retrieval from 3.060 ms to
+2.224 ms for 10 tables (27%) and from 25.410 ms to 14.911 ms for 120 tables
+(41%) on the development machine; results vary by hardware.
+
+The project ships with **264 offline tests** plus live integration tests
 that exercises the agent end-to-end against a real local Ollama.
 
 ```bash
@@ -372,26 +453,14 @@ uv run pytest tests/unit --cov=src/nl2sql_agent --cov-report=term-missing
 
 # Integration test (requires local Ollama running)
 uv run pytest tests/integration -v
+
+# Result and safety evaluation (uses the configured provider)
+uv run nl2sql-agent eval --min-pass-rate 0.8
 ```
 
-**Coverage by module (unit tests only):**
-
-| Module | Coverage |
-|---|---|
-| `nl2sql_agent/__init__.py` | 100% |
-| `nl2sql_agent/agent/state.py` | 100% |
-| `nl2sql_agent/agent/workflow.py` | 93% |
-| `nl2sql_agent/config/settings.py` | 97% |
-| `nl2sql_agent/db/database.py` | 88% |
-| `nl2sql_agent/db/seed.py` | 100% |
-| `nl2sql_agent/llm/factory.py` | 79% |
-| `nl2sql_agent/prompts/templates.py` | 100% |
-| `nl2sql_agent/security/sql_validator.py` | 82% |
-| `nl2sql_agent/utils/logging.py` | 66% |
-| `nl2sql_agent/utils/text.py` | 100% |
-
-UI and CLI modules are exercised manually — Streamlit's runtime doesn't
-lend itself to unit testing.
+Upload handling, evaluation scoring, CLI parsing, and agent behavior are
+covered offline. A Streamlit `AppTest` smoke check verifies that the documented
+entrypoint renders without exceptions.
 
 ---
 
@@ -399,6 +468,7 @@ lend itself to unit testing.
 
 ```
 natural-language-to-sql-agent/
+├── Launch NL2SQL Agent.cmd  # Windows double-click launcher
 ├── pyproject.toml            # Single source of truth for deps + tool config
 ├── uv.lock                   # Reproducible lockfile
 ├── README.md                 # This file
@@ -415,8 +485,9 @@ natural-language-to-sql-agent/
 │       ├── llm/              # Multi-provider LLM factory
 │       ├── prompts/          # Versioned prompt templates
 │       ├── agent/            # LangGraph workflow + state
+│       ├── evaluation/       # Evaluation runner + packaged demo corpus
 │       ├── ui/               # Streamlit components + app
-│       └── utils/            # Logging, text helpers
+│       └── utils/            # Logging, redacted audit, text helpers
 └── tests/
     ├── conftest.py
     ├── unit/                 # Fast, no external services
@@ -430,13 +501,14 @@ natural-language-to-sql-agent/
 The full, type-annotated surface is discoverable in the source. The most
 common entry points:
 
-- `nl2sql_agent.NL2SQLAgent(llm, *, settings=None, database=None)`
-  — the workflow class. `agent.run(question)` and `agent.stream(question)`
-  are the two main methods.
+- `nl2sql_agent.NL2SQLAgent(llm, *, settings=None, database=None,
+  allowed_tables=None, include_sample_values=None)` — the workflow class.
+  `run()` and `stream()` remain end-to-end; `prepare()`, `stream_prepare()`,
+  and `execute_prepared()` support approval-first clients.
 - `nl2sql_agent.config.get_settings()` — singleton accessor for the
   `Settings` instance.
 - `nl2sql_agent.llm.build_chat_model(settings, *, provider, model, ...)` —
-  build any of the four supported chat models.
+  build any of the six supported provider integrations.
 - `nl2sql_agent.security.validate_sql(sql, policy=None)` — validate a
   SQL string and return the parsed `Select` nodes.
 - `nl2sql_agent.db.Database(path, *, timeout_seconds, max_rows)` —
@@ -450,7 +522,7 @@ common entry points:
 
 ```bash
 uv run python -c "import nl2sql_agent; print(nl2sql_agent.__version__)"
-# → 0.2.0
+# → 0.3.0
 
 uv run nl2sql-agent config | python -m json.tool | head -20
 ```
@@ -507,7 +579,7 @@ For most users, the differences are:
 | v0.1 | v0.2 |
 |---|---|
 | `app.py` and `backend.py` at the repo root | `src/nl2sql_agent/` package |
-| `pip install -r requirements.txt` | `uv sync --extra dev` |
+| `pip install -r requirements.txt` | `uv sync --all-groups` |
 | `python -m streamlit run app.py` | `uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py` |
 | `from backend import SQLAgent` | `from nl2sql_agent.agent import NL2SQLAgent` |
 | Keyword-regex SQL safety | AST-based SQL safety via `sqlglot` |
@@ -521,12 +593,12 @@ The 25 known issues from the v0.1 audit are all addressed in v0.2. See
 
 ## 17. Roadmap
 
-Items deliberately **not** in v0.2 but considered for v0.3:
+Possible future work after the current unreleased changes:
 
-- **Schema embeddings** (RAG-style schema retrieval) using
-  `qwen3-embedding:0.6b` for very large databases.
+- **Optional schema embeddings** for databases where deterministic identifier
+  ranking is insufficient.
 - **OpenTelemetry tracing** with one-line enablement.
-- **Multi-database support** (Postgres, MySQL) via the same AST
+- **Additional database engines** (Postgres, MySQL) via the same AST
   validator and a thin driver layer.
 - **Conversation memory** with PostgreSQL-backed checkpointing.
 - **WebSocket / FastAPI** backend instead of Streamlit for production
@@ -537,9 +609,9 @@ Items deliberately **not** in v0.2 but considered for v0.3:
 ## 18. Contributing
 
 1. Fork and clone.
-2. Create a virtualenv with `uv venv --python 3.12.10 && uv sync --extra dev`.
+2. Install the pinned Python and all development groups with `uv sync --all-groups`.
 3. Make your change. Add tests. Run `uv run ruff check src tests`,
-   `uv run mypy src/nl2sql_agent`, and `uv run pytest tests/unit`.
+   `uv run ty check src`, and `uv run pytest tests/unit`.
 4. Open a PR with a clear description.
 
 ---

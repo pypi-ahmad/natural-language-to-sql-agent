@@ -1,0 +1,492 @@
+{
+  "nodes": [
+    {
+      "id": "file:tests/unit/test_prompts.py",
+      "type": "file",
+      "name": "test_prompts.py",
+      "filePath": "tests/unit/test_prompts.py",
+      "summary": "Provides pytest coverage for prompts behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_prompts.py:TestPrompts",
+      "type": "class",
+      "name": "TestPrompts",
+      "filePath": "tests/unit/test_prompts.py",
+      "lineRange": [
+        14,
+        70
+      ],
+      "summary": "Groups pytest cases that verify prompts behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_settings.py",
+      "type": "file",
+      "name": "test_settings.py",
+      "filePath": "tests/unit/test_settings.py",
+      "summary": "Provides pytest coverage for settings behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_settings.py:TestSettings",
+      "type": "class",
+      "name": "TestSettings",
+      "filePath": "tests/unit/test_settings.py",
+      "lineRange": [
+        21,
+        186
+      ],
+      "summary": "Groups pytest cases that verify settings behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_settings.py:TestEnvVar",
+      "type": "class",
+      "name": "TestEnvVar",
+      "filePath": "tests/unit/test_settings.py",
+      "lineRange": [
+        189,
+        203
+      ],
+      "summary": "Groups pytest cases that verify env var behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_sql_validator.py",
+      "type": "file",
+      "name": "test_sql_validator.py",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "summary": "Provides pytest coverage for sql validator behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestDestructiveStatements",
+      "type": "class",
+      "name": "TestDestructiveStatements",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        42,
+        64
+      ],
+      "summary": "Groups pytest cases that verify destructive statements behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestMultiStatement",
+      "type": "class",
+      "name": "TestMultiStatement",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        67,
+        74
+      ],
+      "summary": "Groups pytest cases that verify multi statement behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestDangerousFunctions",
+      "type": "class",
+      "name": "TestDangerousFunctions",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        77,
+        93
+      ],
+      "summary": "Groups pytest cases that verify dangerous functions behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestSubqueries",
+      "type": "class",
+      "name": "TestSubqueries",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        96,
+        107
+      ],
+      "summary": "Groups pytest cases that verify subqueries behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestJoins",
+      "type": "class",
+      "name": "TestJoins",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        110,
+        137
+      ],
+      "summary": "Groups pytest cases that verify joins behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestCTE",
+      "type": "class",
+      "name": "TestCTE",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        140,
+        156
+      ],
+      "summary": "Groups pytest cases that verify c t e behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestUnion",
+      "type": "class",
+      "name": "TestUnion",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        159,
+        168
+      ],
+      "summary": "Groups pytest cases that verify union behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestEmptyAndInvalid",
+      "type": "class",
+      "name": "TestEmptyAndInvalid",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        186,
+        197
+      ],
+      "summary": "Groups pytest cases that verify empty and invalid behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestReferencedTables",
+      "type": "class",
+      "name": "TestReferencedTables",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        200,
+        227
+      ],
+      "summary": "Groups pytest cases that verify referenced tables behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestParseSql",
+      "type": "class",
+      "name": "TestParseSql",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        230,
+        238
+      ],
+      "summary": "Groups pytest cases that verify parse sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestPrepareSql",
+      "type": "class",
+      "name": "TestPrepareSql",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        241,
+        285
+      ],
+      "summary": "Groups pytest cases that verify prepare sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_text.py",
+      "type": "file",
+      "name": "test_text.py",
+      "filePath": "tests/unit/test_text.py",
+      "summary": "Provides pytest coverage for text behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_text.py:TestStripSqlFences",
+      "type": "class",
+      "name": "TestStripSqlFences",
+      "filePath": "tests/unit/test_text.py",
+      "lineRange": [
+        8,
+        41
+      ],
+      "summary": "Groups pytest cases that verify strip sql fences behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_text.py:TestTruncate",
+      "type": "class",
+      "name": "TestTruncate",
+      "filePath": "tests/unit/test_text.py",
+      "lineRange": [
+        44,
+        61
+      ],
+      "summary": "Groups pytest cases that verify truncate behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_ui_components.py",
+      "type": "file",
+      "name": "test_ui_components.py",
+      "filePath": "tests/unit/test_ui_components.py",
+      "summary": "Provides pytest coverage for ui components behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_ui_components.py:test_sidebar_shows_only_approved_cloud_models",
+      "type": "function",
+      "name": "test_sidebar_shows_only_approved_cloud_models",
+      "filePath": "tests/unit/test_ui_components.py",
+      "lineRange": [
+        12,
+        25
+      ],
+      "summary": "Verifies sidebar shows only approved cloud models behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_upload.py",
+      "type": "file",
+      "name": "test_upload.py",
+      "filePath": "tests/unit/test_upload.py",
+      "summary": "Provides pytest coverage for upload behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:tests/unit/test_prompts.py",
+      "target": "class:tests/unit/test_prompts.py:TestPrompts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_settings.py",
+      "target": "class:tests/unit/test_settings.py:TestSettings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_settings.py",
+      "target": "class:tests/unit/test_settings.py:TestEnvVar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestDestructiveStatements",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestMultiStatement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestDangerousFunctions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestSubqueries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestJoins",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestCTE",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestUnion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestEmptyAndInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestReferencedTables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestParseSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestPrepareSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_text.py",
+      "target": "class:tests/unit/test_text.py:TestStripSqlFences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_text.py",
+      "target": "class:tests/unit/test_text.py:TestTruncate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_ui_components.py",
+      "target": "function:tests/unit/test_ui_components.py:test_sidebar_shows_only_approved_cloud_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ]
+}

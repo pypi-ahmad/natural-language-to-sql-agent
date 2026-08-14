@@ -1,0 +1,32 @@
+{
+  "runs": [
+    {
+      "date": "2026-08-14T06:26:27.600967+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 48
+    },
+    {
+      "date": "2026-08-14T06:28:03.134112+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 49
+    },
+    {
+      "date": "2026-08-14T10:38:33.692778+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 85,
+      "measurement_note": "Host-agent semantic extraction usage was not exposed by this runtime; no estimate was invented."
+    },
+    {
+      "date": "2026-08-14T10:40:36.380895+00:00",
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "files": 85,
+      "measurement_note": "Semantic extraction was fully served from cache; no new host-agent or Gemini usage."
+    }
+  ],
+  "total_input_tokens": 0,
+  "total_output_tokens": 0
+}

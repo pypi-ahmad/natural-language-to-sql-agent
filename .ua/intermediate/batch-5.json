@@ -1,0 +1,356 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/db/__init__.py",
+      "summary": "Defines the public database-package API by re-exporting the SQLite wrapper, result model, setup helper, renderer, and demo seed data.",
+      "tags": [
+        "database",
+        "package-api",
+        "barrel",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/db/database.py",
+      "type": "file",
+      "name": "database.py",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "summary": "Implements hardened SQLite connection management, demo-schema setup, schema context generation, bounded query execution, and result rendering.",
+      "tags": [
+        "database",
+        "sqlite",
+        "security",
+        "query-execution"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/nl2sql_agent/db/seed.py",
+      "type": "file",
+      "name": "seed.py",
+      "filePath": "src/nl2sql_agent/db/seed.py",
+      "summary": "Provides deterministic department and employee tuples used to seed the demo company database.",
+      "tags": [
+        "database",
+        "seed-data",
+        "demo",
+        "fixtures"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/db/database.py:QueryResult",
+      "type": "class",
+      "name": "QueryResult",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        45,
+        76
+      ],
+      "summary": "Represents bounded database query results and renders them as Markdown or CSV.",
+      "tags": [
+        "database",
+        "result-model",
+        "rendering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/db/database.py:Database",
+      "type": "class",
+      "name": "Database",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        93,
+        328
+      ],
+      "summary": "Manages hardened SQLite access, schema discovery, query limits, preflight checks, and demo data lifecycle.",
+      "tags": [
+        "database",
+        "sqlite",
+        "security",
+        "query-execution"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_fmt_cell",
+      "type": "function",
+      "name": "_fmt_cell",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        79,
+        83
+      ],
+      "summary": "Escapes a value for safe Markdown-table rendering.",
+      "tags": [
+        "database",
+        "formatting",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_csv_cell",
+      "type": "function",
+      "name": "_csv_cell",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        86,
+        90
+      ],
+      "summary": "Neutralizes spreadsheet-formula prefixes while preparing CSV cells.",
+      "tags": [
+        "database",
+        "csv",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_list_tables",
+      "type": "function",
+      "name": "_list_tables",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        334,
+        341
+      ],
+      "summary": "Returns user tables from a SQLite connection.",
+      "tags": [
+        "database",
+        "sqlite",
+        "schema"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:setup_db",
+      "type": "function",
+      "name": "setup_db",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        344,
+        346
+      ],
+      "summary": "Creates a database wrapper and initializes its schema.",
+      "tags": [
+        "database",
+        "setup",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:render_table",
+      "type": "function",
+      "name": "render_table",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        349,
+        354
+      ],
+      "summary": "Renders rows and columns through the QueryResult Markdown formatter.",
+      "tags": [
+        "database",
+        "rendering",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_quote_identifier",
+      "type": "function",
+      "name": "_quote_identifier",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        357,
+        358
+      ],
+      "summary": "Quotes a SQLite identifier for dynamically constructed safe queries.",
+      "tags": [
+        "database",
+        "sql",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_sample_cell",
+      "type": "function",
+      "name": "_sample_cell",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        361,
+        366
+      ],
+      "summary": "Produces bounded display values for sampled schema rows.",
+      "tags": [
+        "database",
+        "formatting",
+        "utility"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/nl2sql_agent/db/__init__.py",
+      "target": "file:src/nl2sql_agent/db/database.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/__init__.py",
+      "target": "file:src/nl2sql_agent/db/seed.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "file:src/nl2sql_agent/db/seed.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:QueryResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:QueryResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:Database",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:Database",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_fmt_cell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_fmt_cell",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_csv_cell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_csv_cell",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_list_tables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_list_tables",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:setup_db",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:setup_db",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:render_table",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:render_table",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_quote_identifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_quote_identifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_sample_cell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_sample_cell",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

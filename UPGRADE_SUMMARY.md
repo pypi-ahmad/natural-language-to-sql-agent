@@ -1,7 +1,22 @@
 # Upgrade Summary — v0.1 → v0.2
 
+> v0.3.0 addendum: the repository now uses `uv_build`, PEP 735 groups,
+> Ruff, `ty`, `prek`, an 80% coverage gate, and an advisory-clean lock. The
+> remaining counts below are retained as the v0.2 migration snapshot. Current
+> SQL preparation also avoids two redundant parser passes per query, and
+> transitive security floors no longer appear as direct application imports.
+> Hosted inference now includes direct Hugging Face and xAI adapters, uses
+> medium reasoning, and has deterministic model choices outside Ollama. The
+> Streamlit result view now includes input/output tokens and fixed
+> standard-rate cost estimates for those approved hosted models.
+
 **Release date:** 2026-06-22
 **Type:** Major (architectural rewrite, public-API preserved)
+
+> **v0.3.0:** The v0.2 migration remains valid. This release
+> preserves `run()`, `stream()`, and `ask`, while adding two-phase preparation,
+> uploaded SQLite databases, stronger read-only controls, redacted auditing,
+> result-based evaluation, and a Windows `Launch NL2SQL Agent.cmd` entrypoint.
 
 ---
 
@@ -26,7 +41,7 @@ fundamentally more robust.
 | SQL safety | keyword regex | AST allow-list |
 | Dependency pinning | unpinned | pinned in `pyproject.toml` |
 | Lint configured | no | `ruff` (10 rule sets) |
-| Type check configured | no | `mypy --strict` |
+| Type check configured | no | `ty check` |
 | Logging | `print()` | `loguru` (JSON-capable) |
 | Configuration | hard-coded | `Pydantic Settings` + env vars |
 | Public Python API | `SQLAgent` | `NL2SQLAgent` |
@@ -167,7 +182,7 @@ fundamentally more robust.
 |---|---|
 | `uv run pytest tests/unit` | **174 passed** |
 | `uv run ruff check src tests` | **All checks passed** |
-| `uv run mypy src/nl2sql_agent` | **Success: no issues found** |
+| `uv run ty check src` | **Success: no issues found** |
 | `uv run nl2sql-agent config` | Valid JSON output |
 | Live Ollama end-to-end | All 4 production questions return correct answers; guardian blocks the destructive SQL |
 
@@ -176,7 +191,7 @@ fundamentally more robust.
 ## What you should do
 
 1. **Update your install.** Replace `pip install -r requirements.txt`
-   with `uv sync --extra dev`.
+   with `uv sync --all-groups`.
 2. **Update your run command.** Replace `streamlit run app.py` with
    `uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py`.
 3. **Optionally set env vars** in a `.env` file (see

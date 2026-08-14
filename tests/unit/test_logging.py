@@ -46,9 +46,7 @@ def test_intercept_handler_for_stdlib():
     stdlib = logging.getLogger("httpx")
     stdlib.info("httpx message")
     # No assertion: the handler must not raise.
-    assert any(
-        h.__class__.__name__ == "_InterceptHandler" for h in stdlib.handlers
-    )
+    assert any(h.__class__.__name__ == "_InterceptHandler" for h in stdlib.handlers)
 
 
 def test_multiple_configure_calls_safe(capsys):

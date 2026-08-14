@@ -5,6 +5,65 @@ All notable changes to this project will be documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
+## [Unreleased]
+
+## [0.3.0] — 2026-08-14
+
+### Added
+
+- Read-only SQLite query connections, table allowlists, deterministic schema
+  selection, query preflight checks, structural SQL limits, and redacted JSONL
+  audit events.
+- Two-phase `prepare()` / `execute_prepared()` APIs with streamed preparation
+  events, stage timings, token usage, and validation retries.
+- A 15-case result-based evaluation corpus and `nl2sql-agent eval` command with
+  JSON reports, threshold exit codes, safety, latency, retry, token, and cost
+  metrics.
+- Session-scoped SQLite uploads, schema browsing, table authorization,
+  approval-first editable SQL, operational stage timings, complete session
+  history, CSV downloads, and history reset controls in Streamlit.
+- Direct Hugging Face Inference Providers and xAI integrations, with custom
+  Hugging Face repository IDs and fixed medium reasoning effort.
+- A Windows `Launch NL2SQL Agent.cmd` file for double-click startup through
+  the locked `uv` environment.
+- Per-run input/output token metrics and standard-rate cost estimates in the
+  Streamlit UI for the six approved hosted models.
+
+### Fixed
+
+- SQL preparation now reuses one parsed AST for validation, physical-table
+  authorization, and LIMIT canonicalization. A 2,000-call benchmark improved
+  from 4.36 ms to 2.68 ms per call (about 39% lower latency).
+- Schema-context ranking now evaluates each identifier once, reuses its active
+  connection, and loads foreign-key metadata only for selected tables. Median
+  latency improved by 27% on 10 tables and 41% on 120 tables.
+- Scope-aware authorization now distinguishes CTE aliases from physical tables,
+  including same-name shadowing cases.
+- CSV formula injection, oversized upload materialization, editable provider
+  endpoints, non-loopback UI binding, exception-detail disclosure, and
+  unrestricted audit fields are now blocked.
+- Runtime and development dependencies were upgraded until `uv audit --locked`
+  reported zero known vulnerabilities and no adverse project statuses.
+- SQL row limits are now serialized into the statement that is actually
+  executed, and query timeouts now use SQLite progress interruption.
+- The documented direct Streamlit file entrypoint now uses import-safe absolute
+  package imports.
+- `nl2sql-agent config` now redacts configured provider API keys.
+
+### Changed
+
+- Removed redundant direct dependency declarations and the duplicate
+  `pip-audit` toolchain. Vulnerable transitive version floors are now uv
+  constraints, while CI continues to use `uv audit --locked`.
+- Simplified agent token accounting, summarizer response state, audit dispatch,
+  and evaluation database hashing without changing their public contracts.
+- Packaging now uses `uv_build`; development tooling uses PEP 735 dependency
+  groups, Ruff formatting/linting, `ty`, `prek`, and an 80% coverage gate.
+- The default evaluation corpus is package data, so installed wheels can run
+  `nl2sql-agent eval` without a source checkout.
+- Hosted model choices are deterministic and enforced across settings, CLI,
+  UI, and factory boundaries. Live model discovery remains Ollama-only.
+
 ## [0.2.0] — 2026-06-22
 
 ### Major release — production modernization

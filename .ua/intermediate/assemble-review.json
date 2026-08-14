@@ -1,0 +1,14 @@
+{
+  "fixedSectionOk": true,
+  "nodesRecovered": 0,
+  "edgesRestored": 0,
+  "crossBatchEdgesAdded": 0,
+  "typesRemapped": 0,
+  "complexityRemapped": 0,
+  "notes": [
+    "All 239 batch nodes are present in the assembled graph; all 97 scanned files have one file-level graph node.",
+    "Verified all 40 non-self deterministic imports from scan-result.json. Each is a forward imports edge with weight 0.7.",
+    "The scanner's sole self-import, src/nl2sql_agent/utils/logging.py to itself, remains intentionally absent because self-referencing edges are invalid.",
+    "Integrity checks found no missing node fields, duplicate IDs or edges, dangling edges, unknown node types, or unknown complexity values."
+  ]
+}

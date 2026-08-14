@@ -4,6 +4,16 @@ This guide covers the user-facing and developer-facing changes between
 v0.1 and v0.2. The behavior of the agent is unchanged; the changes are
 in **how the project is installed, configured, and extended**.
 
+> **Current `main`:** Existing `run()`, `stream()`, and `ask` callers remain
+> compatible. New optional capabilities include `prepare()` /
+> `execute_prepared()`, session-scoped SQLite uploads, table authorization,
+> hardened read-only execution, and `nl2sql-agent eval`.
+> Current `main` also enforces a 50 MB upload cap, loopback-only serving,
+> operator-only Ollama endpoint configuration, scope-aware physical-table
+> authorization, formula-safe CSV export, and generic database errors.
+> Redundant direct dependency declarations were removed; transitive security
+> floors are maintained through uv constraints and checked with `uv audit`.
+
 ---
 
 ## 1. Installation
@@ -20,7 +30,7 @@ pip install -r requirements.txt
 
 ```bash
 uv venv --python 3.12.10
-uv sync --extra dev
+uv sync --all-groups
 uv pip install -e .
 ```
 
@@ -56,10 +66,12 @@ Not available.
 
 ```bash
 uv run nl2sql-agent ask "How many employees are in Engineering?"
-uv run nl2sql-agent ask --show-sql --provider openai --model gpt-4o-mini "Total salary?"
+uv run nl2sql-agent ask --show-sql --provider openai --model gpt-5.6-luna "Total salary?"
 uv run nl2sql-agent config           # show resolved configuration
 uv run nl2sql-agent serve --port 8501 # launch the UI
 ```
+
+On Windows, `Launch NL2SQL Agent.cmd` is the equivalent double-click entrypoint.
 
 ---
 
@@ -179,10 +191,10 @@ their coverage is in `tests/unit/` organized by module.
 |---|---|---|
 | Dependency manager | `pip` + `requirements.txt` | `uv` + `pyproject.toml` |
 | Lint | none configured | `ruff check` (in `pyproject.toml`) |
-| Type check | none configured | `mypy` (in `pyproject.toml`) |
+| Type check | none configured | `ty` (in `pyproject.toml`) |
 | Coverage | `pytest-cov` (basic) | `pytest-cov` with branch + missing-line reporting |
 | Logging | `print()` | `loguru` (configurable, JSON-capable) |
-| Packaging | none | `hatchling` (`uv pip install -e .` works) |
+| Packaging | none | `uv_build` (`uv pip install -e .` works) |
 
 ---
 
@@ -193,8 +205,25 @@ their coverage is in `tests/unit/` organized by module.
   same seed data).
 - The Streamlit chat UX conceptually (input box, history, status
   indicator, SQL preview).
-- The supported LLM providers (Ollama, OpenAI, Gemini, Anthropic).
+- The multi-provider design. Current main supports Ollama, Hugging Face,
+  OpenAI, Anthropic, Gemini, and xAI; hosted models use medium reasoning.
 - Public outputs (Markdown answers, raw rows, error messages).
 
 If your v0.1 scripts imported the agent and asked questions, they will
 keep working with the v0.2 package after the import path is updated.
+
+---
+
+## 11. Using the current approval-first API
+
+```python
+prepared = agent.prepare("What is the total salary in Engineering?")
+result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
+```
+
+Automation can continue using `run()` or `stream()` unchanged. The Streamlit
+UI uses the two-phase API so SQL can be reviewed before execution. Run the new
+result and safety corpus with `uv run nl2sql-agent eval`. Current main also
+shows provider-reported token counts and a fixed standard-rate cost estimate
+for approved hosted models after each UI run; local and custom models remain
+unpriced.

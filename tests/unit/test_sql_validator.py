@@ -2,13 +2,17 @@
 
 from __future__ import annotations
 
+from unittest.mock import patch
+
 import pytest
+import sqlglot
 
 from nl2sql_agent.security import (
     DANGEROUS_FUNCTIONS,
     SQLPolicy,
     SQLValidationError,
     parse_sql,
+    prepare_sql,
     referenced_tables,
     validate_sql,
 )
@@ -116,6 +120,22 @@ class TestJoins:
             "SELECT a.*, b.* FROM employees a JOIN departments b ON a.dept_id = b.dept_id",
         )
 
+    def test_subquery_count_is_bounded(self):
+        with pytest.raises(SQLValidationError, match="at most 1 subquer"):
+            validate_sql(
+                "SELECT * FROM employees WHERE dept_id IN "
+                "(SELECT dept_id FROM departments WHERE dept_id IN "
+                "(SELECT dept_id FROM employees))",
+                policy=SQLPolicy(max_subqueries=1),
+            )
+
+    def test_join_count_is_bounded(self):
+        with pytest.raises(SQLValidationError, match="at most 1 JOIN"):
+            validate_sql(
+                "SELECT * FROM a JOIN b ON a.id=b.id JOIN c ON b.id=c.id",
+                policy=SQLPolicy(max_joins=1),
+            )
+
 
 class TestCTE:
     def test_cte_blocked_when_disallowed(self):
@@ -127,6 +147,13 @@ class TestCTE:
 
     def test_cte_allowed_by_default(self):
         validate_sql("WITH x AS (SELECT 1) SELECT * FROM x")
+
+    def test_cte_count_is_bounded(self):
+        with pytest.raises(SQLValidationError, match="at most 1 CTE"):
+            validate_sql(
+                "WITH x AS (SELECT 1), y AS (SELECT 2) SELECT * FROM x",
+                policy=SQLPolicy(max_ctes=1),
+            )
 
 
 class TestUnion:
@@ -184,6 +211,16 @@ class TestReferencedTables:
             "SELECT * FROM employees WHERE dept_id IN (SELECT dept_id FROM departments)",
         ) == {"employees", "departments"}
 
+    def test_cte_alias_is_not_a_database_table(self):
+        assert referenced_tables(
+            "WITH rich AS (SELECT * FROM employees) SELECT * FROM rich",
+        ) == {"employees"}
+
+    def test_cte_name_does_not_hide_same_named_physical_table(self):
+        assert referenced_tables(
+            "WITH secret AS (SELECT * FROM main.secret) SELECT * FROM secret",
+        ) == {"secret"}
+
     def test_invalid_sql_raises(self):
         # Truly malformed SQL raises SQLValidationError.
         with pytest.raises(SQLValidationError):
@@ -199,3 +236,50 @@ class TestParseSql:
     def test_empty(self):
         with pytest.raises(SQLValidationError):
             parse_sql("")
+
+
+class TestPrepareSql:
+    def test_parses_query_once(self):
+        with patch(
+            "nl2sql_agent.security.sql_validator.sqlglot.parse", wraps=sqlglot.parse
+        ) as parse:
+            prepare_sql(
+                "SELECT * FROM employees",
+                policy=SQLPolicy(max_limit=25),
+                allowed_tables={"employees"},
+            )
+        parse.assert_called_once()
+
+    def test_rejects_disallowed_table(self):
+        with pytest.raises(SQLValidationError, match="not allowed"):
+            prepare_sql("SELECT * FROM secrets", allowed_tables={"employees"})
+
+    def test_rejects_physical_table_hidden_by_same_named_cte(self):
+        with pytest.raises(SQLValidationError, match="secret"):
+            prepare_sql(
+                "WITH secret AS (SELECT * FROM main.secret) SELECT * FROM secret",
+                allowed_tables={"employees"},
+            )
+
+    def test_allows_cte_over_an_authorized_table(self):
+        prepared = prepare_sql(
+            "WITH staff AS (SELECT * FROM employees) SELECT * FROM staff",
+            allowed_tables={"employees"},
+        )
+        assert prepared.tables == frozenset({"employees"})
+
+    def test_adds_limit_to_executable_sql(self):
+        prepared = prepare_sql(
+            "SELECT * FROM employees",
+            policy=SQLPolicy(max_limit=25),
+            allowed_tables={"employees"},
+        )
+        assert "LIMIT 25" in prepared.sql.upper()
+        assert prepared.tables == frozenset({"employees"})
+
+    def test_clamps_existing_limit(self):
+        prepared = prepare_sql(
+            "SELECT * FROM employees LIMIT 500",
+            policy=SQLPolicy(max_limit=25),
+        )
+        assert "LIMIT 25" in prepared.sql.upper()

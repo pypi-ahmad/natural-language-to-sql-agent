@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "NL2SQL Agent Architecture",
+    "subtitle": "Approval-first natural language to read-only SQLite with explicit safety boundaries",
+    "output": "architecture-diagram.html",
+    "quality_profile": "showcase",
+    "visual_preset": "blueprint",
+    "repository": {
+      "url": "https://github.com/pypi-ahmad/natural-language-to-sql-agent",
+      "revision": "3b4ee4915d0801524742ee1c3281616d0496e94c"
+    },
+    "views": [
+      {
+        "id": "query-path",
+        "label": "Approved query path",
+        "focus": ["user", "streamlit", "agent", "guardian", "sqlite"],
+        "note": "A user reviews generated SQL before scope-aware validation and read-only execution."
+      },
+      {
+        "id": "model-path",
+        "label": "Model integration",
+        "focus": ["agent", "llm-factory", "providers"],
+        "note": "The workflow uses one provider-neutral boundary with fixed hosted catalogs and Ollama discovery."
+      },
+      {
+        "id": "assurance-path",
+        "label": "Assurance and evaluation",
+        "focus": ["cli", "evaluation", "agent", "audit"],
+        "note": "CLI evaluation scores results and safety while audits retain sanitized operational evidence."
+      }
+    ]
+  },
+  "components": [
+    {
+      "id": "user",
+      "type": "external",
+      "label": "Analyst",
+      "sublabel": "Browser or terminal",
+      "pos": [40, 290],
+      "size": [130, 64]
+    },
+    {
+      "id": "streamlit",
+      "type": "frontend",
+      "label": "Streamlit UI",
+      "sublabel": "Upload, scope, review, approve",
+      "tag": "loopback only",
+      "pos": [230, 250],
+      "size": [160, 78],
+      "sources": [{"path": "src/nl2sql_agent/ui/streamlit_app.py", "label": "UI orchestration"}]
+    },
+    {
+      "id": "cli",
+      "type": "frontend",
+      "label": "CLI",
+      "sublabel": "ask, eval, serve, config",
+      "pos": [230, 390],
+      "size": [160, 68],
+      "sources": [{"path": "src/nl2sql_agent/cli.py", "label": "Commands"}]
+    },
+    {
+      "id": "settings",
+      "type": "backend",
+      "label": "Settings",
+      "sublabel": "Environment-backed policy",
+      "pos": [455, 55],
+      "size": [160, 68],
+      "sources": [{"path": "src/nl2sql_agent/config/settings.py", "label": "Configuration"}]
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "LangGraph Agent",
+      "sublabel": "schema → writer → approval",
+      "tag": "retry bounded",
+      "pos": [455, 250],
+      "size": [170, 78],
+      "sources": [{"path": "src/nl2sql_agent/agent/workflow.py", "label": "Workflow"}]
+    },
+    {
+      "id": "evaluation",
+      "type": "backend",
+      "label": "Evaluation Runner",
+      "sublabel": "result and safety scoring",
+      "pos": [455, 430],
+      "size": [170, 68]
+    },
+    {
+      "id": "llm-factory",
+      "type": "backend",
+      "label": "LLM Factory",
+      "sublabel": "Provider-neutral chat model",
+      "pos": [700, 105],
+      "size": [180, 72],
+      "sources": [{"path": "src/nl2sql_agent/llm/factory.py", "label": "Providers"}]
+    },
+    {
+      "id": "guardian",
+      "type": "security",
+      "label": "SQL Guardian",
+      "sublabel": "AST, table scope, limits",
+      "tag": "preflight",
+      "pos": [700, 275],
+      "size": [180, 78],
+      "sources": [{"path": "src/nl2sql_agent/security/sql_validator.py", "label": "SQL policy"}]
+    },
+    {
+      "id": "audit",
+      "type": "database",
+      "label": "Audit JSONL",
+      "sublabel": "Hashes and redacted SQL",
+      "pos": [700, 455],
+      "size": [180, 68]
+    },
+    {
+      "id": "providers",
+      "type": "external",
+      "label": "LLM Providers",
+      "sublabel": "Ollama / HF / OpenAI / Claude / Gemini / xAI",
+      "pos": [960, 105],
+      "size": [190, 72]
+    },
+    {
+      "id": "sqlite",
+      "type": "database",
+      "label": "SQLite",
+      "sublabel": "Read-only query connection",
+      "tag": "VM + row caps",
+      "pos": [960, 275],
+      "size": [190, 78],
+      "sources": [{"path": "src/nl2sql_agent/db/database.py", "label": "Database boundary"}]
+    }
+  ],
+  "boundaries": [
+    {
+      "kind": "region",
+      "label": "Local single-user application",
+      "wraps": ["streamlit", "cli", "settings", "agent", "evaluation", "llm-factory", "guardian", "audit", "sqlite"],
+      "pad": 24
+    },
+    {
+      "kind": "security-group",
+      "label": "Untrusted SQL boundary",
+      "wraps": ["guardian", "sqlite"],
+      "pad": 18
+    }
+  ],
+  "connections": [
+    {"id": "user-ui", "from": "user", "to": "streamlit", "variant": "emphasis"},
+    {"id": "user-cli", "from": "user", "to": "cli", "variant": "dashed"},
+    {"id": "ui-agent", "from": "streamlit", "to": "agent", "variant": "emphasis"},
+    {"id": "cli-agent", "from": "cli", "to": "agent"},
+    {"id": "agent-guardian", "from": "agent", "to": "guardian", "label": "candidate SQL", "variant": "security"},
+    {"id": "guardian-sqlite", "from": "guardian", "to": "sqlite", "variant": "security"},
+    {"id": "agent-llm", "from": "agent", "to": "llm-factory", "label": "messages"},
+    {"id": "llm-providers", "from": "llm-factory", "to": "providers", "label": "chat API"},
+    {"id": "cli-eval", "from": "cli", "to": "evaluation", "label": "eval corpus", "variant": "dashed"},
+    {"id": "evaluation-agent", "from": "evaluation", "to": "agent", "variant": "dashed"},
+    {"id": "agent-audit", "from": "agent", "to": "audit", "label": "sanitized events"},
+    {"id": "settings-llm", "from": "settings", "to": "llm-factory", "variant": "dashed"}
+  ],
+  "cards": [
+    {
+      "dot": "cyan",
+      "title": "Primary path",
+      "items": ["Generate and preview SQL", "Explicit user approval", "Revalidate immediately before execution"]
+    },
+    {
+      "dot": "rose",
+      "title": "Safety boundary",
+      "items": ["Single SELECT AST policy", "Physical-table authorization", "Read-only SQLite with bounded work"]
+    },
+    {
+      "dot": "emerald",
+      "title": "Operational evidence",
+      "items": ["Literal-redacted SQL", "Hashed questions", "Result-based safety evaluation"]
+    }
+  ]
+}

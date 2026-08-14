@@ -85,8 +85,9 @@ The agent's state is a `TypedDict` with `total=False`, so partial
 updates from nodes can be merged by LangGraph without `KeyError`.
 
 ```
-(question, schema, sql_query, error, retry_count, max_retries,
- raw_rows, columns, row_count, final_answer)
+(run_id, question, schema, allowed_tables, sql_query, sql_safe, error,
+ retry_count, max_retries, raw_rows, columns, row_count, trace,
+ token_usage, final_answer)
 ```
 
 ### Lifecycle
@@ -100,7 +101,8 @@ writer
   ↓ (writes: sql_query, retry_count; clears: error, sql_unsafe_reason)
 guardian
   ├── safe → executor
-  └── unsafe → summarizer
+  ├── unsafe AND retry_count < max_retries → writer
+  └── unsafe AND retry_count >= max_retries → summarizer
 executor
   ├── ok → summarizer
   └── errored AND retry_count < max_retries → writer (with error in prompt)
@@ -110,26 +112,55 @@ summarizer
 END
 ```
 
+Approval-first clients use the same first three nodes through `prepare()` and
+stop after the guardian. `execute_prepared()` validates the possibly edited SQL
+again before calling the executor and summarizer. Existing `run()` and
+`stream()` retain their end-to-end behavior.
+
+The evaluation runner drives the compatible `run()` interface. It compares
+query results with read-only reference queries, scores malicious prompts by
+their blocked state, records timing/retry/token metrics, and verifies the
+database file digest is unchanged.
+
+The Streamlit client uses the two-phase path. Upload bytes are checked for an
+allowed extension, size, and SQLite header, then stored under their SHA-256 in
+a session-owned temporary directory. Changing the database, allowed tables, or
+sample-value policy invalidates pending SQL and clears cross-database history.
+
 ---
 
 ## 4. SQL safety in depth
 
-### The four layers
+### The five layers
 
-1. **Driver constraint.** `sqlite3.Cursor.execute()` refuses to
+1. **Read-only connection.** Query connections use SQLite URI `mode=ro`,
+   `query_only`, disabled extension loading, and `trusted_schema=OFF`.
+2. **Driver constraint.** `sqlite3.Cursor.execute()` refuses to
    execute multi-statement input. So `SELECT 1; DROP TABLE x` already
    raises `ProgrammingError` at the driver level.
-2. **AST validation.** The `validate_sql()` function parses the SQL
+3. **AST validation.** The `validate_sql()` function parses the SQL
    with `sqlglot` and rejects:
    - Anything that isn't a single SELECT (or UNION thereof).
    - Dangerous functions (allow-list of file I/O / shell functions).
    - Forbidden keywords as a paranoid fallback (CREATE, PRAGMA, etc.).
-3. **Configurable policy.** Joins, subqueries, aggregates, CTEs, and
+4. **Configurable policy.** Joins, subqueries, aggregates, CTEs, and
    UNION can each be turned off via the `SQLPolicy` object. The
    `Settings.sql_allow_*` flags propagate from environment variables.
-4. **Resource bounds.** `Database.max_rows` and
-   `Database.timeout_seconds` cap the result size and the execution
-   time.
+5. **Authorization and resource bounds.** Scope-aware traversal checks physical
+   tables against the allowlist while treating CTE aliases as derived sources;
+   a same-named CTE cannot hide an unauthorized physical table.
+   `EXPLAIN QUERY PLAN` runs before execution. Serialized LIMIT clauses,
+   elapsed-time checks, and VM-step checks bound resource use.
+
+`prepare_sql()` parses each candidate once and reuses that AST for policy
+validation, physical-table discovery, authorization, and executable LIMIT
+canonicalization. A unit guard prevents accidental reintroduction of repeated
+parsing on this latency-sensitive path.
+
+`get_schema_text()` uses one read-only connection, normalizes each identifier
+once while ranking tables, and fetches foreign-key metadata only for the tables
+selected for the prompt. Regression tests guard the single-pass ranking and
+connection reuse.
 
 ### Why AST over regex?
 
@@ -154,15 +185,26 @@ def build_chat_model(settings, *, provider=None, model=None) -> BaseChatModel:
 ```
 
 It returns a LangChain `BaseChatModel`. The agent doesn't care which
-one it gets — it only ever calls `.invoke(messages)`. To add a new
-provider:
+one it gets — it only ever calls `.invoke(messages)`. The supported adapters
+are Ollama, Hugging Face, OpenAI, Anthropic, Gemini, and xAI. Hugging Face and
+xAI reuse the existing OpenAI-compatible LangChain client against fixed direct
+endpoints, so they do not require provider-specific SDKs.
 
-1. Add the provider's `langchain_*` package to `pyproject.toml`.
+Hosted providers run at medium reasoning effort. OpenAI, Anthropic, Gemini,
+and xAI use strict model allow-lists; Hugging Face accepts validated
+`namespace/model[:routing-policy]` IDs. Only Ollama performs live model
+discovery. Provider defaults and approved choices live with `Settings`, so the
+factory, CLI, and UI cannot drift.
+
+To add another provider:
+
+1. Reuse an existing compatible LangChain client or add the smallest required
+   provider package.
 2. Add a private `_build_<provider>(cfg, **common)` function in
    `src/nl2sql_agent/llm/factory.py`.
-3. Add a fallback list in `factory.fallback_models`.
-4. Add a `list_<provider>` function for model discovery.
-5. Wire the provider name into `Settings.provider`.
+3. Add its approved/default model choices and credential environment name.
+4. Wire the provider name into `Settings.provider` and the sidebar.
+5. Add model discovery only when the provider genuinely requires it.
 
 That's it. No other module needs to change.
 
@@ -172,6 +214,15 @@ That's it. No other module needs to change.
 
 The project uses **Loguru** as a single logging backend, with
 optional JSON output for log aggregators.
+
+Runtime metadata lists only dependencies imported by the application.
+Security-only floors for transitive packages live in uv constraints, keeping
+the published dependency surface truthful without weakening lock-file audits.
+
+Audit JSONL accepts only a fixed operational-field allowlist. Questions are
+hashed, SQL literals are redacted, and exception detail is not returned to UI
+users. Uploads are capped at 50 MB before byte materialization; CSV exports
+neutralize spreadsheet formulas at the serialization boundary.
 
 ```python
 from nl2sql_agent.utils import configure_logging, get_logger
@@ -192,6 +243,13 @@ The agent's workflow emits structured events:
 
 Set `NL2SQL_LOG_LEVEL=DEBUG` for verbose output, or
 `NL2SQL_LOG_JSON=true` for structured logging.
+
+LLM responses also contribute provider-reported input and output token counts
+to `AgentState.token_usage`. The Streamlit result renderer combines those
+counts with the fixed six-model catalog in `llm/pricing.py` and displays a
+per-run standard-rate estimate. The calculation is presentation-only: it is
+not written to the audit log and does not infer cache, batch, fast-mode, or
+per-call long-context adjustments from aggregate usage.
 
 ---
 
@@ -218,13 +276,13 @@ To extend the system, follow these recipes:
 
 ### Add a new LLM provider
 
-1. Add `langchain_<provider>` to `pyproject.toml` dependencies.
+1. Reuse a compatible client or add the provider's minimal dependency.
 2. Add a `_<provider>` entry to `Provider` literal in
    `config/settings.py`.
 3. Add a `_build_<provider>` function in `llm/factory.py`.
-4. Add a fallback list and a `list_<provider>` function.
+4. Add its model policy and credential environment name.
 5. Update the `render_sidebar` in `ui/components.py` to include the
-   new provider.
+   new provider; add live discovery only when necessary.
 
 ### Add a new SQL safety rule
 

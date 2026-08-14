@@ -1,0 +1,772 @@
+{
+  "name": "nl2sql-agent",
+  "description": "Production-grade natural-language to SQL data analyst agent with local and cloud LLM support.",
+  "languages": [
+    "baseline",
+    "batch",
+    "html",
+    "json",
+    "jsonl",
+    "markdown",
+    "python",
+    "sig",
+    "toml",
+    "txt",
+    "unknown",
+    "yaml"
+  ],
+  "frameworks": [
+    "GitHub Actions",
+    "LangChain",
+    "LangGraph",
+    "Pydantic",
+    "Pytest",
+    "Streamlit"
+  ],
+  "files": [
+    {
+      "path": ".github/dependabot.yml",
+      "language": "yaml",
+      "sizeLines": 20,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".github/workflows/ci.yml",
+      "language": "yaml",
+      "sizeLines": 23,
+      "fileCategory": "infra"
+    },
+    {
+      "path": ".pre-commit-config.yaml",
+      "language": "yaml",
+      "sizeLines": 23,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".python-version",
+      "language": "unknown",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".secrets.baseline",
+      "language": "baseline",
+      "sizeLines": 152,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".streamlit/config.toml",
+      "language": "toml",
+      "sizeLines": 2,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".ua/.trash-1786690338",
+      "language": "unknown",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".ua/.understandignore",
+      "language": "unknown",
+      "sizeLines": 116,
+      "fileCategory": "code"
+    },
+    {
+      "path": ".ua/config.json",
+      "language": "json",
+      "sizeLines": 3,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".ua/fingerprints.json",
+      "language": "json",
+      "sizeLines": 3999,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".ua/intermediate/scan-result.json",
+      "language": "json",
+      "sizeLines": 676,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".ua/knowledge-graph.json",
+      "language": "json",
+      "sizeLines": 5931,
+      "fileCategory": "config"
+    },
+    {
+      "path": ".ua/meta.json",
+      "language": "json",
+      "sizeLines": 6,
+      "fileCategory": "config"
+    },
+    {
+      "path": "ARCHITECTURE.md",
+      "language": "markdown",
+      "sizeLines": 306,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "CHANGELOG.md",
+      "language": "markdown",
+      "sizeLines": 173,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "CODE_OF_CONDUCT.md",
+      "language": "markdown",
+      "sizeLines": 38,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "DATASET.md",
+      "language": "markdown",
+      "sizeLines": 37,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "Launch NL2SQL Agent.cmd",
+      "language": "batch",
+      "sizeLines": 21,
+      "fileCategory": "script"
+    },
+    {
+      "path": "MIGRATION_GUIDE.md",
+      "language": "markdown",
+      "sizeLines": 226,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "README.md",
+      "language": "markdown",
+      "sizeLines": 597,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "RELEASE_NOTES.md",
+      "language": "markdown",
+      "sizeLines": 95,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "SECURITY.md",
+      "language": "markdown",
+      "sizeLines": 53,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "UPGRADE_SUMMARY.md",
+      "language": "markdown",
+      "sizeLines": 199,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
+      "language": "markdown",
+      "sizeLines": 628,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "architecture-diagram.html",
+      "language": "html",
+      "sizeLines": 13236,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "architecture-diagram.json",
+      "language": "json",
+      "sizeLines": 181,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_analysis.json",
+      "language": "json",
+      "sizeLines": 959,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_ast.json",
+      "language": "json",
+      "sizeLines": 6791,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_detect.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_extract.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_incremental.json",
+      "language": "json",
+      "sizeLines": 328,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_labels.json",
+      "language": "json",
+      "sizeLines": 0,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_labels.json.sig",
+      "language": "sig",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "graphify-out/.graphify_old.json",
+      "language": "json",
+      "sizeLines": 20978,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_python",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "graphify-out/.graphify_root",
+      "language": "unknown",
+      "sizeLines": 0,
+      "fileCategory": "code"
+    },
+    {
+      "path": "graphify-out/.graphify_semantic.json",
+      "language": "json",
+      "sizeLines": 310,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_semantic_new.json",
+      "language": "json",
+      "sizeLines": 38,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/.graphify_uncached.txt",
+      "language": "txt",
+      "sizeLines": 9,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "graphify-out/2026-08-14/.graphify_analysis.json",
+      "language": "json",
+      "sizeLines": 959,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/2026-08-14/.graphify_labels.json",
+      "language": "json",
+      "sizeLines": 39,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/2026-08-14/GRAPH_REPORT.md",
+      "language": "markdown",
+      "sizeLines": 240,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "graphify-out/2026-08-14/cost.json",
+      "language": "json",
+      "sizeLines": 31,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/2026-08-14/graph.json",
+      "language": "json",
+      "sizeLines": 21971,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/2026-08-14/manifest.json",
+      "language": "json",
+      "sizeLines": 596,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/GRAPH_REPORT.md",
+      "language": "markdown",
+      "sizeLines": 240,
+      "fileCategory": "docs"
+    },
+    {
+      "path": "graphify-out/cost.json",
+      "language": "json",
+      "sizeLines": 31,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/graph.html",
+      "language": "html",
+      "sizeLines": 319,
+      "fileCategory": "markup"
+    },
+    {
+      "path": "graphify-out/graph.json",
+      "language": "json",
+      "sizeLines": 22644,
+      "fileCategory": "config"
+    },
+    {
+      "path": "graphify-out/manifest.json",
+      "language": "json",
+      "sizeLines": 596,
+      "fileCategory": "config"
+    },
+    {
+      "path": "pyproject.toml",
+      "language": "toml",
+      "sizeLines": 169,
+      "fileCategory": "config"
+    },
+    {
+      "path": "src/nl2sql_agent/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/agent/__init__.py",
+      "language": "python",
+      "sizeLines": 6,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/agent/state.py",
+      "language": "python",
+      "sizeLines": 71,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/agent/workflow.py",
+      "language": "python",
+      "sizeLines": 544,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/cli.py",
+      "language": "python",
+      "sizeLines": 211,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/config/__init__.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/config/settings.py",
+      "language": "python",
+      "sizeLines": 275,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/db/__init__.py",
+      "language": "python",
+      "sizeLines": 13,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/db/database.py",
+      "language": "python",
+      "sizeLines": 366,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/db/seed.py",
+      "language": "python",
+      "sizeLines": 25,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/evaluation/__init__.py",
+      "language": "python",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/evaluation/data/__init__.py",
+      "language": "python",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/evaluation/data/demo.jsonl",
+      "language": "jsonl",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/evaluation/runner.py",
+      "language": "python",
+      "sizeLines": 232,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/llm/__init__.py",
+      "language": "python",
+      "sizeLines": 27,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/llm/factory.py",
+      "language": "python",
+      "sizeLines": 280,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/prompts/__init__.py",
+      "language": "python",
+      "sizeLines": 19,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/prompts/templates.py",
+      "language": "python",
+      "sizeLines": 85,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/security/__init__.py",
+      "language": "python",
+      "sizeLines": 23,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/security/sql_validator.py",
+      "language": "python",
+      "sizeLines": 332,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/ui/__init__.py",
+      "language": "python",
+      "sizeLines": 17,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/ui/components.py",
+      "language": "python",
+      "sizeLines": 185,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/ui/database_upload.py",
+      "language": "python",
+      "sizeLines": 38,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/ui/streamlit_app.py",
+      "language": "python",
+      "sizeLines": 391,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/utils/__init__.py",
+      "language": "python",
+      "sizeLines": 15,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/utils/audit.py",
+      "language": "python",
+      "sizeLines": 78,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/utils/logging.py",
+      "language": "python",
+      "sizeLines": 80,
+      "fileCategory": "code"
+    },
+    {
+      "path": "src/nl2sql_agent/utils/text.py",
+      "language": "python",
+      "sizeLines": 54,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/__init__.py",
+      "language": "python",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/conftest.py",
+      "language": "python",
+      "sizeLines": 95,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/integration/__init__.py",
+      "language": "python",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/integration/test_ollama_live.py",
+      "language": "python",
+      "sizeLines": 97,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/__init__.py",
+      "language": "python",
+      "sizeLines": 1,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_agent.py",
+      "language": "python",
+      "sizeLines": 398,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_audit.py",
+      "language": "python",
+      "sizeLines": 57,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_cli.py",
+      "language": "python",
+      "sizeLines": 191,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_database.py",
+      "language": "python",
+      "sizeLines": 252,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_evaluation.py",
+      "language": "python",
+      "sizeLines": 125,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_llm_factory.py",
+      "language": "python",
+      "sizeLines": 261,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_logging.py",
+      "language": "python",
+      "sizeLines": 60,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_prompts.py",
+      "language": "python",
+      "sizeLines": 70,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_settings.py",
+      "language": "python",
+      "sizeLines": 203,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_sql_validator.py",
+      "language": "python",
+      "sizeLines": 285,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_text.py",
+      "language": "python",
+      "sizeLines": 61,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_ui_components.py",
+      "language": "python",
+      "sizeLines": 34,
+      "fileCategory": "code"
+    },
+    {
+      "path": "tests/unit/test_upload.py",
+      "language": "python",
+      "sizeLines": 58,
+      "fileCategory": "code"
+    }
+  ],
+  "totalFiles": 97,
+  "filteredByIgnore": 0,
+  "estimatedComplexity": "moderate",
+  "importMap": {
+    ".github/dependabot.yml": [],
+    ".github/workflows/ci.yml": [],
+    ".pre-commit-config.yaml": [],
+    ".python-version": [],
+    ".secrets.baseline": [],
+    ".streamlit/config.toml": [],
+    ".ua/.trash-1786690338": [],
+    ".ua/.understandignore": [],
+    ".ua/config.json": [],
+    ".ua/fingerprints.json": [],
+    ".ua/intermediate/scan-result.json": [],
+    ".ua/knowledge-graph.json": [],
+    ".ua/meta.json": [],
+    "ARCHITECTURE.md": [],
+    "CHANGELOG.md": [],
+    "CODE_OF_CONDUCT.md": [],
+    "DATASET.md": [],
+    "Launch NL2SQL Agent.cmd": [],
+    "MIGRATION_GUIDE.md": [],
+    "README.md": [],
+    "RELEASE_NOTES.md": [],
+    "SECURITY.md": [],
+    "UPGRADE_SUMMARY.md": [],
+    "ZERO_TO_HERO_STUDY_HANDBOOK.md": [],
+    "architecture-diagram.html": [],
+    "architecture-diagram.json": [],
+    "graphify-out/.graphify_analysis.json": [],
+    "graphify-out/.graphify_ast.json": [],
+    "graphify-out/.graphify_detect.json": [],
+    "graphify-out/.graphify_extract.json": [],
+    "graphify-out/.graphify_incremental.json": [],
+    "graphify-out/.graphify_labels.json": [],
+    "graphify-out/.graphify_labels.json.sig": [],
+    "graphify-out/.graphify_old.json": [],
+    "graphify-out/.graphify_python": [],
+    "graphify-out/.graphify_root": [],
+    "graphify-out/.graphify_semantic.json": [],
+    "graphify-out/.graphify_semantic_new.json": [],
+    "graphify-out/.graphify_uncached.txt": [],
+    "graphify-out/2026-08-14/.graphify_analysis.json": [],
+    "graphify-out/2026-08-14/.graphify_labels.json": [],
+    "graphify-out/2026-08-14/GRAPH_REPORT.md": [],
+    "graphify-out/2026-08-14/cost.json": [],
+    "graphify-out/2026-08-14/graph.json": [],
+    "graphify-out/2026-08-14/manifest.json": [],
+    "graphify-out/GRAPH_REPORT.md": [],
+    "graphify-out/cost.json": [],
+    "graphify-out/graph.html": [],
+    "graphify-out/graph.json": [],
+    "graphify-out/manifest.json": [],
+    "pyproject.toml": [],
+    "src/nl2sql_agent/__init__.py": [],
+    "src/nl2sql_agent/agent/__init__.py": [
+      "src/nl2sql_agent/agent/state.py",
+      "src/nl2sql_agent/agent/workflow.py"
+    ],
+    "src/nl2sql_agent/agent/state.py": [],
+    "src/nl2sql_agent/agent/workflow.py": [
+      "src/nl2sql_agent/agent/state.py",
+      "src/nl2sql_agent/config/__init__.py",
+      "src/nl2sql_agent/db/__init__.py",
+      "src/nl2sql_agent/prompts/__init__.py",
+      "src/nl2sql_agent/security/__init__.py",
+      "src/nl2sql_agent/utils/__init__.py"
+    ],
+    "src/nl2sql_agent/cli.py": [
+      "src/nl2sql_agent/agent/__init__.py",
+      "src/nl2sql_agent/config/__init__.py",
+      "src/nl2sql_agent/evaluation/__init__.py",
+      "src/nl2sql_agent/llm/__init__.py",
+      "src/nl2sql_agent/utils/__init__.py"
+    ],
+    "src/nl2sql_agent/config/__init__.py": [
+      "src/nl2sql_agent/config/settings.py"
+    ],
+    "src/nl2sql_agent/config/settings.py": [],
+    "src/nl2sql_agent/db/__init__.py": [
+      "src/nl2sql_agent/db/database.py",
+      "src/nl2sql_agent/db/seed.py"
+    ],
+    "src/nl2sql_agent/db/database.py": [
+      "src/nl2sql_agent/db/seed.py",
+      "src/nl2sql_agent/utils/__init__.py"
+    ],
+    "src/nl2sql_agent/db/seed.py": [],
+    "src/nl2sql_agent/evaluation/__init__.py": [
+      "src/nl2sql_agent/evaluation/runner.py"
+    ],
+    "src/nl2sql_agent/evaluation/data/__init__.py": [],
+    "src/nl2sql_agent/evaluation/data/demo.jsonl": [],
+    "src/nl2sql_agent/evaluation/runner.py": [
+      "src/nl2sql_agent/db/__init__.py"
+    ],
+    "src/nl2sql_agent/llm/__init__.py": [
+      "src/nl2sql_agent/llm/factory.py"
+    ],
+    "src/nl2sql_agent/llm/factory.py": [
+      "src/nl2sql_agent/config/__init__.py",
+      "src/nl2sql_agent/utils/__init__.py"
+    ],
+    "src/nl2sql_agent/prompts/__init__.py": [
+      "src/nl2sql_agent/prompts/templates.py"
+    ],
+    "src/nl2sql_agent/prompts/templates.py": [],
+    "src/nl2sql_agent/security/__init__.py": [
+      "src/nl2sql_agent/security/sql_validator.py"
+    ],
+    "src/nl2sql_agent/security/sql_validator.py": [
+      "src/nl2sql_agent/utils/__init__.py"
+    ],
+    "src/nl2sql_agent/ui/__init__.py": [
+      "src/nl2sql_agent/ui/components.py",
+      "src/nl2sql_agent/ui/streamlit_app.py"
+    ],
+    "src/nl2sql_agent/ui/components.py": [
+      "src/nl2sql_agent/config/__init__.py"
+    ],
+    "src/nl2sql_agent/ui/database_upload.py": [],
+    "src/nl2sql_agent/ui/streamlit_app.py": [
+      "src/nl2sql_agent/agent/__init__.py",
+      "src/nl2sql_agent/config/__init__.py",
+      "src/nl2sql_agent/db/__init__.py",
+      "src/nl2sql_agent/llm/__init__.py",
+      "src/nl2sql_agent/ui/components.py",
+      "src/nl2sql_agent/ui/database_upload.py",
+      "src/nl2sql_agent/utils/__init__.py"
+    ],
+    "src/nl2sql_agent/utils/__init__.py": [
+      "src/nl2sql_agent/utils/audit.py",
+      "src/nl2sql_agent/utils/logging.py",
+      "src/nl2sql_agent/utils/text.py"
+    ],
+    "src/nl2sql_agent/utils/audit.py": [],
+    "src/nl2sql_agent/utils/logging.py": [
+      "src/nl2sql_agent/utils/logging.py"
+    ],
+    "src/nl2sql_agent/utils/text.py": [
+      "src/nl2sql_agent/utils/logging.py"
+    ],
+    "tests/__init__.py": [],
+    "tests/conftest.py": [],
+    "tests/integration/__init__.py": [],
+    "tests/integration/test_ollama_live.py": [],
+    "tests/unit/__init__.py": [],
+    "tests/unit/test_agent.py": [],
+    "tests/unit/test_audit.py": [],
+    "tests/unit/test_cli.py": [],
+    "tests/unit/test_database.py": [],
+    "tests/unit/test_evaluation.py": [],
+    "tests/unit/test_llm_factory.py": [],
+    "tests/unit/test_logging.py": [],
+    "tests/unit/test_prompts.py": [],
+    "tests/unit/test_settings.py": [],
+    "tests/unit/test_sql_validator.py": [],
+    "tests/unit/test_text.py": [],
+    "tests/unit/test_ui_components.py": [],
+    "tests/unit/test_upload.py": []
+  }
+}

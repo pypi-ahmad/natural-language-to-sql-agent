@@ -6,7 +6,7 @@ from unittest.mock import MagicMock, patch
 
 import pytest
 
-from nl2sql_agent.config import get_settings, reset_settings_cache
+from nl2sql_agent.config import Settings, get_settings, reset_settings_cache
 from nl2sql_agent.llm import (
     LLMProviderError,
     build_chat_model,
@@ -20,13 +20,22 @@ class TestFallbackModels:
         assert "phi4-mini:3.8b" in fallback_models("ollama")
 
     def test_openai(self):
-        assert "gpt-4o" in fallback_models("openai")
+        assert tuple(fallback_models("openai")) == ("gpt-5.6-luna", "gpt-5.6-terra")
 
     def test_gemini(self):
-        assert "gemini-1.5-flash" in fallback_models("gemini")
+        assert tuple(fallback_models("gemini")) == (
+            "gemini-3.7-flash",
+            "gemini-3.5-flash-lite",
+        )
 
     def test_anthropic(self):
-        assert "claude-3-5-sonnet-latest" in fallback_models("anthropic")
+        assert tuple(fallback_models("anthropic")) == ("claude-sonnet-5",)
+
+    def test_huggingface(self):
+        assert tuple(fallback_models("huggingface")) == ("openai/gpt-oss-120b:fastest",)
+
+    def test_xai(self):
+        assert tuple(fallback_models("xai")) == ("grok-4.6",)
 
 
 class TestListModels:
@@ -49,15 +58,24 @@ class TestListModels:
             result = list_models("ollama", base_url="http://localhost:11434")
         assert "qwen3.5:4b" in result
 
-    def test_openai_without_key_returns_empty(self):
-        assert list_models("openai", api_key=None) == []
+    def test_openai_uses_approved_list_without_key(self):
+        assert list_models("openai", api_key=None) == ["gpt-5.6-luna", "gpt-5.6-terra"]
 
-    def test_gemini_without_key_returns_empty(self):
-        assert list_models("gemini", api_key=None) == []
+    def test_gemini_uses_approved_list_without_key(self):
+        assert list_models("gemini", api_key=None) == [
+            "gemini-3.7-flash",
+            "gemini-3.5-flash-lite",
+        ]
 
     def test_anthropic_uses_curated_list(self):
         result = list_models("anthropic")
-        assert "claude-3-5-sonnet-latest" in result
+        assert result == ["claude-sonnet-5"]
+
+    def test_huggingface_uses_curated_default(self):
+        assert list_models("huggingface") == ["openai/gpt-oss-120b:fastest"]
+
+    def test_xai_uses_approved_list(self):
+        assert list_models("xai") == ["grok-4.6"]
 
     def test_unknown_provider_returns_empty(self):
         # list_models accepts only the four we know; unknown should be safe.
@@ -89,6 +107,7 @@ class TestBuildChatModel:
         reset_settings_cache()
         s = get_settings()
         s.provider = "openai"
+        s.model = "gpt-5.6-luna"
         with pytest.raises(LLMProviderError, match="OPENAI_API_KEY"):
             build_chat_model(s)
 
@@ -99,13 +118,95 @@ class TestBuildChatModel:
         s = get_settings()
         s.provider = "openai"
         s.openai_api_key = "sk-test"
-        s.model = "gpt-4o-mini"
+        s.model = "gpt-5.6-luna"
         with patch("langchain_openai.ChatOpenAI") as mock_cls:
             mock_cls.return_value = MagicMock()
             build_chat_model(s)
         _, kwargs = mock_cls.call_args
         assert kwargs["api_key"] == "sk-test"
-        assert kwargs["model"] == "gpt-4o-mini"
+        assert kwargs["model"] == "gpt-5.6-luna"
+        assert kwargs["reasoning"] == {"effort": "medium"}
+        assert kwargs["use_responses_api"] is True
+        assert kwargs["max_completion_tokens"] == s.llm_max_tokens
+        assert "temperature" not in kwargs
+
+    def test_rejects_unapproved_openai_model(self):
+        settings = Settings(_env_file=None)
+        settings.provider = "openai"
+        settings.model = "gpt-4o"
+        settings.openai_api_key = "sk-test"
+        with pytest.raises(LLMProviderError, match="gpt-5.6-luna"):
+            build_chat_model(settings)
+
+    def test_huggingface_without_key_raises(self):
+        settings = Settings(
+            _env_file=None,
+            provider="huggingface",
+            model="openai/gpt-oss-120b:fastest",
+        )
+        with pytest.raises(LLMProviderError, match="HF_TOKEN"):
+            build_chat_model(settings)
+
+    def test_huggingface_uses_direct_router(self):
+        settings = Settings(
+            _env_file=None,
+            provider="huggingface",
+            model="Qwen/Qwen3-Coder-480B-A35B-Instruct:fastest",
+            hf_token="hf-test",
+        )
+        with patch("langchain_openai.ChatOpenAI") as mock_cls:
+            mock_cls.return_value = MagicMock()
+            build_chat_model(settings)
+        _, kwargs = mock_cls.call_args
+        assert kwargs["api_key"] == "hf-test"  # pragma: allowlist secret
+        assert kwargs["base_url"] == "https://router.huggingface.co/v1"
+        assert kwargs["reasoning"] == {"effort": "medium"}
+        assert kwargs["use_responses_api"] is True
+
+    def test_xai_uses_direct_api(self):
+        settings = Settings(
+            _env_file=None,
+            provider="xai",
+            model="grok-4.6",
+            xai_api_key="xai-test",  # pragma: allowlist secret
+        )
+        with patch("langchain_openai.ChatOpenAI") as mock_cls:
+            mock_cls.return_value = MagicMock()
+            build_chat_model(settings)
+        _, kwargs = mock_cls.call_args
+        assert kwargs["api_key"] == "xai-test"  # pragma: allowlist secret
+        assert kwargs["base_url"] == "https://api.x.ai/v1"
+        assert kwargs["reasoning"] == {"effort": "medium"}
+        assert kwargs["use_responses_api"] is True
+
+    def test_gemini_uses_medium_thinking_without_sampling(self):
+        settings = Settings(
+            _env_file=None,
+            provider="gemini",
+            model="gemini-3.7-flash",
+            google_api_key="google-test",  # pragma: allowlist secret
+        )
+        with patch("langchain_google_genai.ChatGoogleGenerativeAI") as mock_cls:
+            mock_cls.return_value = MagicMock()
+            build_chat_model(settings)
+        _, kwargs = mock_cls.call_args
+        assert kwargs["thinking_level"] == "medium"
+        assert "temperature" not in kwargs
+
+    def test_anthropic_uses_medium_adaptive_thinking_without_sampling(self):
+        settings = Settings(
+            _env_file=None,
+            provider="anthropic",
+            model="claude-sonnet-5",
+            anthropic_api_key="anthropic-test",  # pragma: allowlist secret
+        )
+        with patch("langchain_anthropic.ChatAnthropic") as mock_cls:
+            mock_cls.return_value = MagicMock()
+            build_chat_model(settings)
+        _, kwargs = mock_cls.call_args
+        assert kwargs["effort"] == "medium"
+        assert kwargs["thinking"] == {"type": "adaptive"}
+        assert "temperature" not in kwargs
 
     def test_gemini_without_key_raises(self, monkeypatch):
         for v in ("NL2SQL_PROVIDER", "GOOGLE_API_KEY"):
@@ -113,6 +214,7 @@ class TestBuildChatModel:
         reset_settings_cache()
         s = get_settings()
         s.provider = "gemini"
+        s.model = "gemini-3.7-flash"
         with pytest.raises(LLMProviderError, match="GOOGLE_API_KEY"):
             build_chat_model(s)
 
@@ -122,6 +224,7 @@ class TestBuildChatModel:
         reset_settings_cache()
         s = get_settings()
         s.provider = "anthropic"
+        s.model = "claude-sonnet-5"
         with pytest.raises(LLMProviderError, match="ANTHROPIC_API_KEY"):
             build_chat_model(s)
 

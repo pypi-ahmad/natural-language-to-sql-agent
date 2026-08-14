@@ -1,0 +1,784 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/nl2sql_agent/security/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/security/__init__.py",
+      "summary": "Re-exports SQL validation policy and parsing helpers as the security package API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/security/sql_validator.py",
+      "type": "file",
+      "name": "sql_validator.py",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "summary": "Parses SQL, enforces read-only policy limits, finds referenced tables, and produces executable prepared SQL.",
+      "tags": [
+        "sql",
+        "security",
+        "validation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "function",
+      "name": "parse_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        85,
+        102
+      ],
+      "summary": "Parses SQL text into SQLGlot expressions.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "function",
+      "name": "_flatten_selects",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        105,
+        118
+      ],
+      "summary": "Implements  flatten selects for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "function",
+      "name": "_is_aggregate_call",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        121,
+        133
+      ],
+      "summary": "Implements  is aggregate call for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "function",
+      "name": "_uses_aggregate",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        136,
+        144
+      ],
+      "summary": "Implements  uses aggregate for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "function",
+      "name": "_function_name",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        147,
+        162
+      ],
+      "summary": "Implements  function name for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "function",
+      "name": "validate_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        165,
+        174
+      ],
+      "summary": "Validates SQL against the configured read-only policy.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "function",
+      "name": "_validate_statements",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        177,
+        206
+      ],
+      "summary": "Applies policy validation to parsed SQL statements.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "function",
+      "name": "_check_select",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        209,
+        273
+      ],
+      "summary": "Checks a SELECT expression against policy limits.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
+      "type": "function",
+      "name": "referenced_tables",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        276,
+        282
+      ],
+      "summary": "Returns physical database tables referenced by valid SQL.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
+      "type": "function",
+      "name": "_referenced_tables",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        285,
+        293
+      ],
+      "summary": "Extracts table names while accounting for CTE aliases.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
+      "type": "function",
+      "name": "prepare_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        296,
+        332
+      ],
+      "summary": "Validates SQL, authorizes tables, and applies a result limit.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
+      "type": "class",
+      "name": "SQLValidationError",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        33,
+        34
+      ],
+      "summary": "Signals SQL that violates the configured policy.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "class",
+      "name": "SQLPolicy",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        52,
+        74
+      ],
+      "summary": "Defines allowed SQL operations, table restrictions, and query complexity limits.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "class",
+      "name": "PreparedSQL",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        78,
+        82
+      ],
+      "summary": "Represents validated executable SQL and its referenced tables.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/utils/__init__.py",
+      "summary": "Re-exports logging, audit, and text helpers as the utilities package API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/audit.py",
+      "type": "file",
+      "name": "audit.py",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "summary": "Provides privacy-preserving audit logging, including text hashing and SQL literal redaction.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "function",
+      "name": "hash_text",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "Computes a stable one-way hash for audit correlation.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "function",
+      "name": "redact_sql",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        34,
+        45
+      ],
+      "summary": "Removes SQL literal values before audit logging.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "class",
+      "name": "AuditLogger",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        48,
+        78
+      ],
+      "summary": "Writes allowlisted, redacted audit events to JSONL.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "file",
+      "name": "logging.py",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "summary": "Configures structured application logging and returns bound Loguru loggers.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "function",
+      "name": "configure_logging",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "lineRange": [
+        17,
+        73
+      ],
+      "summary": "Configures application logging, including structured and sink modes.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "function",
+      "name": "get_logger",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "lineRange": [
+        76,
+        80
+      ],
+      "summary": "Returns a bound application logger.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/text.py",
+      "type": "file",
+      "name": "text.py",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "summary": "Normalizes SQL-fenced model output and truncates display text safely.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "function",
+      "name": "strip_sql_fences",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "lineRange": [
+        22,
+        45
+      ],
+      "summary": "Removes Markdown fences and labels from model-generated SQL.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "function",
+      "name": "truncate",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "lineRange": [
+        48,
+        54
+      ],
+      "summary": "Shortens text to a maximum length with a suffix.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/nl2sql_agent/security/__init__.py",
+      "target": "file:src/nl2sql_agent/security/sql_validator.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/audit.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/text.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}
