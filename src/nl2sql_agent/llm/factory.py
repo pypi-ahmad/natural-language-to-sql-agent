@@ -2,15 +2,12 @@
 
 This module is the single source of truth for building LangChain chat
 models from a :class:`Settings` instance. It also exposes a small
-``list_models`` helper that queries the underlying SDK to enumerate
-available models per provider.
+``list_models`` helper that discovers local Ollama models and returns the
+approved catalog for hosted providers.
 
 Design notes:
 - We use ``langchain_ollama.ChatOllama`` (not the deprecated community
   import) per the current LangChain docs.
-- We keep native SDK imports optional so the package can be used without
-  installing every provider's SDK. ``list_models`` returns ``[]`` when
-  the SDK is not installed.
 - Failures during model listing are logged and surfaced as empty lists
   rather than exceptions, so a broken Ollama connection doesn't break
   the Streamlit sidebar.
@@ -23,7 +20,14 @@ from typing import TYPE_CHECKING, Any
 
 from langchain_core.language_models import BaseChatModel
 
-from ..config import Provider, Settings, get_settings
+from ..config import (
+    Provider,
+    Settings,
+    default_model_for,
+    get_settings,
+    supported_models_for,
+    validate_model_for,
+)
 from ..utils import get_logger
 
 if TYPE_CHECKING:
@@ -64,8 +68,14 @@ def build_chat_model(
             are missing.
     """
     cfg = settings or get_settings()
-    resolved_provider: Provider = _normalize_provider(provider)
+    resolved_provider = _normalize_provider(provider or cfg.provider)
+    if model is None and provider is not None and resolved_provider != cfg.provider:
+        model = default_model_for(resolved_provider)
     model = model or cfg.model
+    try:
+        model = validate_model_for(resolved_provider, model)
+    except ValueError as exc:
+        raise LLMProviderError(str(exc)) from exc
     temperature = cfg.llm_temperature if temperature is None else temperature
     max_tokens = cfg.llm_max_tokens if max_tokens is None else max_tokens
 
@@ -80,10 +90,14 @@ def build_chat_model(
         return _build_ollama(cfg, **common)
     if resolved_provider == "openai":
         return _build_openai(cfg, **common)
-    if resolved_provider == "gemini":
-        return _build_gemini(cfg, **common)
     if resolved_provider == "anthropic":
         return _build_anthropic(cfg, **common)
+    if resolved_provider == "gemini":
+        return _build_gemini(cfg, **common)
+    if resolved_provider == "huggingface":
+        return _build_huggingface(cfg, **common)
+    if resolved_provider == "xai":
+        return _build_xai(cfg, **common)
 
     raise LLMProviderError(f"Unsupported provider: {resolved_provider}")
 
@@ -93,7 +107,7 @@ def _normalize_provider(provider: str | Provider | None) -> Provider:
     if provider is None:
         return get_settings().provider
     p = provider.lower() if isinstance(provider, str) else provider
-    if p in ("ollama", "openai", "gemini", "anthropic"):
+    if p in ("ollama", "huggingface", "openai", "anthropic", "gemini", "xai"):
         return p  # type: ignore[return-value]
     raise LLMProviderError(f"Unsupported provider: {provider}")
 
@@ -113,14 +127,11 @@ def _build_ollama(cfg: Settings, **common: Any) -> ChatOllama:
 def _build_openai(cfg: Settings, **common: Any) -> ChatOpenAI:
     if not cfg.openai_api_key:
         raise LLMProviderError("OPENAI_API_KEY is required for provider=openai")
-    from langchain_openai import ChatOpenAI
-
-    return ChatOpenAI(
+    return _build_openai_compatible(
         api_key=cfg.openai_api_key,
-        model=common["model"],
-        temperature=common["temperature"],
-        max_tokens=common["max_tokens"],
-        timeout=common["timeout"],
+        model=str(common["model"]),
+        max_tokens=int(common["max_tokens"]),
+        timeout=float(common["timeout"]),
     )
 
 
@@ -130,11 +141,11 @@ def _build_gemini(cfg: Settings, **common: Any) -> ChatGoogleGenerativeAI:
     from langchain_google_genai import ChatGoogleGenerativeAI
 
     return ChatGoogleGenerativeAI(
-        google_api_key=cfg.google_api_key,
+        api_key=cfg.google_api_key,
         model=common["model"],
-        temperature=common["temperature"],
-        max_output_tokens=common["max_tokens"],
-        timeout=common["timeout"],
+        max_tokens=common["max_tokens"],
+        request_timeout=common["timeout"],
+        thinking_level="medium",
     )
 
 
@@ -146,57 +157,78 @@ def _build_anthropic(cfg: Settings, **common: Any) -> ChatAnthropic:
     return ChatAnthropic(  # type: ignore[call-arg]
         api_key=cfg.anthropic_api_key,
         model_name=common["model"],
-        temperature=common["temperature"],
         max_tokens=common["max_tokens"],
         timeout=common["timeout"],
+        thinking={"type": "adaptive"},
+        effort="medium",
+    )
+
+
+def _build_huggingface(cfg: Settings, **common: Any) -> ChatOpenAI:
+    if not cfg.hf_token:
+        raise LLMProviderError("HF_TOKEN is required for provider=huggingface")
+    return _build_openai_compatible(
+        api_key=cfg.hf_token,
+        model=str(common["model"]),
+        max_tokens=int(common["max_tokens"]),
+        timeout=float(common["timeout"]),
+        base_url="https://router.huggingface.co/v1",
+    )
+
+
+def _build_xai(cfg: Settings, **common: Any) -> ChatOpenAI:
+    if not cfg.xai_api_key:
+        raise LLMProviderError("XAI_API_KEY is required for provider=xai")
+    return _build_openai_compatible(
+        api_key=cfg.xai_api_key,
+        model=str(common["model"]),
+        max_tokens=int(common["max_tokens"]),
+        timeout=float(common["timeout"]),
+        base_url="https://api.x.ai/v1",
+    )
+
+
+def _build_openai_compatible(
+    *,
+    api_key: str,
+    model: str,
+    max_tokens: int,
+    timeout: float,
+    base_url: str | None = None,
+) -> ChatOpenAI:
+    from langchain_openai import ChatOpenAI
+
+    return ChatOpenAI(
+        api_key=api_key,
+        base_url=base_url,
+        model=model,
+        max_completion_tokens=max_tokens,
+        timeout=timeout,
+        reasoning={"effort": "medium"},
+        use_responses_api=True,
     )
 
 
 # ---- Model discovery --------------------------------------------------------
 
 
-# Curated fallback for providers that don't expose a public list-models endpoint.
-ANTHROPIC_FALLBACK_MODELS: tuple[str, ...] = (
-    "claude-3-5-sonnet-latest",
-    "claude-3-5-haiku-latest",
-    "claude-3-opus-latest",
-    "claude-3-7-sonnet-latest",
-    "claude-sonnet-4-5",
-    "claude-haiku-4-5",
-)
-
-OPENAI_FALLBACK_MODELS: tuple[str, ...] = (
-    "gpt-4o",
-    "gpt-4o-mini",
-    "gpt-4-turbo",
-    "gpt-3.5-turbo",
-    "o1",
-    "o1-mini",
-)
-
-GEMINI_FALLBACK_MODELS: tuple[str, ...] = (
-    "gemini-1.5-pro",
-    "gemini-1.5-flash",
-    "gemini-2.0-flash-exp",
-    "gemini-1.0-pro",
-)
-
-OLLAMA_FALLBACK_MODELS: tuple[str, ...] = (
-    "phi4-mini:3.8b",
-    "qwen3.5:4b",
-    "qwen3.5:2b",
-    "llama3.1",
-    "mistral",
-)
+OLLAMA_FALLBACK_MODELS = supported_models_for("ollama")
+HUGGINGFACE_FALLBACK_MODELS = supported_models_for("huggingface")
+OPENAI_FALLBACK_MODELS = supported_models_for("openai")
+ANTHROPIC_FALLBACK_MODELS = supported_models_for("anthropic")
+GEMINI_FALLBACK_MODELS = supported_models_for("gemini")
+XAI_FALLBACK_MODELS = supported_models_for("xai")
 
 
 def fallback_models(provider: Provider) -> Iterable[str]:
     """Hard-coded fallback list when the SDK call fails or is unavailable."""
     return {
         "ollama": OLLAMA_FALLBACK_MODELS,
+        "huggingface": HUGGINGFACE_FALLBACK_MODELS,
         "openai": OPENAI_FALLBACK_MODELS,
-        "gemini": GEMINI_FALLBACK_MODELS,
         "anthropic": ANTHROPIC_FALLBACK_MODELS,
+        "gemini": GEMINI_FALLBACK_MODELS,
+        "xai": XAI_FALLBACK_MODELS,
     }[provider]
 
 
@@ -208,21 +240,20 @@ def list_models(
 ) -> list[str]:
     """Discover available model IDs for ``provider``.
 
-    Returns an empty list on any error. Never raises. Use
-    :func:`fallback_models` if the list comes back empty.
+    Hosted providers return their approved choices without a network call.
+    Ollama returns an empty list on connection errors.
     """
     resolved: Provider = _normalize_provider(provider)
     try:
         if resolved == "ollama":
             return _list_ollama(base_url or "http://localhost:11434")
-        if resolved == "openai":
-            return _list_openai(api_key)
-        if resolved == "gemini":
-            return _list_gemini(api_key)
-        if resolved == "anthropic":
-            return list(ANTHROPIC_FALLBACK_MODELS)
+        return list(fallback_models(resolved))
     except Exception as exc:
-        logger.warning("list_models failed for {provider}: {err}", provider=resolved, err=exc)
+        logger.warning(
+            "list_models failed for {provider} type={kind}",
+            provider=resolved,
+            kind=exc.__class__.__name__,
+        )
     return []
 
 
@@ -234,7 +265,10 @@ def _list_ollama(base_url: str) -> list[str]:
         info = client.list()
     except Exception as exc:
         # Fall back to the sync ``ollama.list()`` which uses the default URL.
-        logger.debug("ollama.Client failed ({err}); falling back to ollama.list()", err=exc)
+        logger.debug(
+            "ollama.Client failed type={kind}; falling back to ollama.list()",
+            kind=exc.__class__.__name__,
+        )
         info = ollama.list()
 
     models: list[str] = []
@@ -244,31 +278,3 @@ def _list_ollama(base_url: str) -> list[str]:
         if name:
             models.append(name)
     return models
-
-
-def _list_openai(api_key: str | None) -> list[str]:
-    if not api_key:
-        return []
-    from openai import OpenAI
-
-    client = OpenAI(api_key=api_key)
-    ids = sorted(
-        (m.id for m in client.models.list() if "gpt" in m.id or m.id.startswith("o")),
-        reverse=True,
-    )
-    return list(ids)
-
-
-def _list_gemini(api_key: str | None) -> list[str]:
-    if not api_key:
-        return []
-    from google import genai
-
-    client = genai.Client(api_key=api_key)
-    out: list[str] = []
-    for m in client.models.list():
-        actions = getattr(m, "supported_actions", None) or []
-        if not actions or "generateContent" in actions:
-            name = m.name or ""
-            out.append(name.replace("models/", "", 1))
-    return out

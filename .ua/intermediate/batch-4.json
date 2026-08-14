@@ -1,0 +1,686 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/nl2sql_agent/cli.py",
+      "type": "file",
+      "name": "cli.py",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "summary": "Provides the nl2sql-agent command-line interface for asking questions, inspecting resolved settings, launching Streamlit, and running evaluations.",
+      "tags": [
+        "cli",
+        "entry-point",
+        "configuration",
+        "evaluation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/evaluation/__init__.py",
+      "summary": "Re-exports the evaluation package API for cases, reports, runner, and dataset loading.",
+      "tags": [
+        "evaluation",
+        "package-api",
+        "barrel",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/runner.py",
+      "type": "file",
+      "name": "runner.py",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "summary": "Runs deterministic outcome and safety evaluations against an NL2SQL agent and computes accuracy, latency, token-use, and database-integrity metrics.",
+      "tags": [
+        "evaluation",
+        "testing",
+        "metrics",
+        "validation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:_pass_rate",
+      "type": "function",
+      "name": "_pass_rate",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        37,
+        41
+      ],
+      "summary": "Parses a bounded percentage value for evaluation pass-rate arguments.",
+      "tags": [
+        "cli",
+        "validation",
+        "parsing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:_build_agent",
+      "type": "function",
+      "name": "_build_agent",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        44,
+        75
+      ],
+      "summary": "Builds an NL2SQL agent from CLI provider, model, and API-key overrides.",
+      "tags": [
+        "cli",
+        "factory",
+        "agent"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_ask",
+      "type": "function",
+      "name": "cmd_ask",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        78,
+        89
+      ],
+      "summary": "Executes an NL2SQL question and prints its answer and generated SQL.",
+      "tags": [
+        "cli",
+        "command",
+        "query"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_config",
+      "type": "function",
+      "name": "cmd_config",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        92,
+        105
+      ],
+      "summary": "Prints resolved runtime settings with sensitive values filtered from output.",
+      "tags": [
+        "cli",
+        "configuration",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_serve",
+      "type": "function",
+      "name": "cmd_serve",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        108,
+        126
+      ],
+      "summary": "Launches the Streamlit interface from the command line.",
+      "tags": [
+        "cli",
+        "streamlit",
+        "command"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_eval",
+      "type": "function",
+      "name": "cmd_eval",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        129,
+        162
+      ],
+      "summary": "Loads evaluation cases, runs the agent evaluation suite, writes a report, and returns a pass/fail status.",
+      "tags": [
+        "cli",
+        "evaluation",
+        "reporting"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:build_parser",
+      "type": "function",
+      "name": "build_parser",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        165,
+        201
+      ],
+      "summary": "Builds the argparse command tree and option contracts for ask, config, serve, and eval commands.",
+      "tags": [
+        "cli",
+        "argparse",
+        "entry-point"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        204,
+        207
+      ],
+      "summary": "Parses command-line arguments and dispatches the selected command handler.",
+      "tags": [
+        "cli",
+        "entry-point",
+        "dispatch"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:AgentRunner",
+      "type": "class",
+      "name": "AgentRunner",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        18,
+        19
+      ],
+      "summary": "Defines the protocol required to run an evaluation case against an agent.",
+      "tags": [
+        "evaluation",
+        "protocol",
+        "agent"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvalCase",
+      "type": "class",
+      "name": "EvalCase",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        23,
+        46
+      ],
+      "summary": "Represents a normalized NL2SQL evaluation case loaded from the JSONL corpus.",
+      "tags": [
+        "evaluation",
+        "data-model",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationCaseResult",
+      "type": "class",
+      "name": "EvaluationCaseResult",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        50,
+        60
+      ],
+      "summary": "Stores the safety, execution, latency, retry, and token outcome of one evaluation case.",
+      "tags": [
+        "evaluation",
+        "data-model",
+        "metrics"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationReport",
+      "type": "class",
+      "name": "EvaluationReport",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        64,
+        85
+      ],
+      "summary": "Aggregates evaluated cases and exposes pass status plus serializable summary metrics.",
+      "tags": [
+        "evaluation",
+        "report",
+        "metrics"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationRunner",
+      "type": "class",
+      "name": "EvaluationRunner",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        105,
+        187
+      ],
+      "summary": "Executes cases against the agent, compares results, and calculates aggregate quality metrics.",
+      "tags": [
+        "evaluation",
+        "runner",
+        "validation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:load_cases",
+      "type": "function",
+      "name": "load_cases",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        88,
+        102
+      ],
+      "summary": "Loads and validates evaluation cases from a JSONL corpus.",
+      "tags": [
+        "evaluation",
+        "jsonl",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_rate",
+      "type": "function",
+      "name": "_rate",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        190,
+        193
+      ],
+      "summary": "Calculates the proportion of results with a given truthy attribute.",
+      "tags": [
+        "evaluation",
+        "metrics",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_percentile",
+      "type": "function",
+      "name": "_percentile",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        196,
+        201
+      ],
+      "summary": "Computes a percentile from a collection of numeric values.",
+      "tags": [
+        "evaluation",
+        "metrics",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_rows_equal",
+      "type": "function",
+      "name": "_rows_equal",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        204,
+        221
+      ],
+      "summary": "Compares actual and expected query-result rows with ordered or unordered matching.",
+      "tags": [
+        "evaluation",
+        "comparison",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_value_equal",
+      "type": "function",
+      "name": "_value_equal",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        224,
+        227
+      ],
+      "summary": "Compares scalar values using normalized evaluation semantics.",
+      "tags": [
+        "evaluation",
+        "comparison",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_file_digest",
+      "type": "function",
+      "name": "_file_digest",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        230,
+        232
+      ],
+      "summary": "Computes a stable digest for database-integrity checks.",
+      "tags": [
+        "evaluation",
+        "integrity",
+        "hashing"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/agent/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/evaluation/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/llm/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/__init__.py",
+      "target": "file:src/nl2sql_agent/evaluation/runner.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_pass_rate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_pass_rate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_build_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_build_agent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_ask",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_ask",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_config",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_config",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_serve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_serve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_eval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_eval",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:build_parser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:build_parser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:AgentRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:AgentRunner",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvalCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvalCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationCaseResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationCaseResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationReport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationReport",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationRunner",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:load_cases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:load_cases",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_percentile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_percentile",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rows_equal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rows_equal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_value_equal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_value_equal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_file_digest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_file_digest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    }
+  ]
+}

@@ -1,0 +1,1123 @@
+{
+  "nodes": [
+    {
+      "id": "config:.github/dependabot.yml",
+      "type": "config",
+      "name": "dependabot.yml",
+      "filePath": ".github/dependabot.yml",
+      "summary": "Configures Dependabot updates for the project dependencies and GitHub Actions.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.python-version",
+      "type": "file",
+      "name": ".python-version",
+      "filePath": ".python-version",
+      "summary": "Pins the Python version used by local tooling and automated environments.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.secrets.baseline",
+      "type": "file",
+      "name": ".secrets.baseline",
+      "filePath": ".secrets.baseline",
+      "summary": "Stores the approved baseline used by secret-scanning checks.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.streamlit/config.toml",
+      "type": "config",
+      "name": "config.toml",
+      "filePath": ".streamlit/config.toml",
+      "summary": "Configures Streamlit presentation settings for the interactive user interface.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.ua/.trash-1786690338",
+      "type": "file",
+      "name": ".trash-1786690338",
+      "filePath": ".ua/.trash-1786690338",
+      "summary": "Project support file included in the repository analysis.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.ua/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".ua/.understandignore",
+      "summary": "Defines exclusions and inclusion rules for Understand Anything project analysis.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.ua/intermediate/scan-result.json",
+      "type": "config",
+      "name": "scan-result.json",
+      "filePath": ".ua/intermediate/scan-result.json",
+      "summary": "Stores the discovered project-file inventory and scanner metadata for knowledge-graph analysis.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:graphify-out/.graphify_labels.json.sig",
+      "type": "file",
+      "name": ".graphify_labels.json.sig",
+      "filePath": "graphify-out/.graphify_labels.json.sig",
+      "summary": "Maps Graphify community identifiers to human-readable architecture labels.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:graphify-out/.graphify_python",
+      "type": "file",
+      "name": ".graphify_python",
+      "filePath": "graphify-out/.graphify_python",
+      "summary": "Provides Graphify support metadata for the checked-in graph artifacts.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:graphify-out/.graphify_root",
+      "type": "file",
+      "name": ".graphify_root",
+      "filePath": "graphify-out/.graphify_root",
+      "summary": "Provides Graphify support metadata for the checked-in graph artifacts.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/__init__.py",
+      "summary": "Defines the package boundary and public import surface for this project area.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/data/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/evaluation/data/__init__.py",
+      "summary": "Defines the package boundary and public import surface for this project area.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/data/demo.jsonl",
+      "type": "file",
+      "name": "demo.jsonl",
+      "filePath": "src/nl2sql_agent/evaluation/data/demo.jsonl",
+      "summary": "Provides the newline-delimited evaluation cases used to assess natural-language-to-SQL behavior.",
+      "tags": [
+        "evaluation",
+        "dataset",
+        "test-data"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "tests/__init__.py",
+      "summary": "Marks a test package boundary for pytest discovery and module organization.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/conftest.py",
+      "type": "file",
+      "name": "conftest.py",
+      "filePath": "tests/conftest.py",
+      "summary": "Provides shared pytest fixtures for isolated settings, databases, mock models, and agent state.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/conftest.py:_reset_settings",
+      "type": "function",
+      "name": "_reset_settings",
+      "filePath": "tests/conftest.py",
+      "lineRange": [
+        16,
+        30
+      ],
+      "summary": "Provides the  reset settings test fixture or helper.",
+      "tags": [
+        "fixture",
+        "pytest",
+        "test-support"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/conftest.py:make_state",
+      "type": "function",
+      "name": "make_state",
+      "filePath": "tests/conftest.py",
+      "lineRange": [
+        67,
+        83
+      ],
+      "summary": "Provides the make state test fixture or helper.",
+      "tags": [
+        "fixture",
+        "pytest",
+        "test-support"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/integration/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "tests/integration/__init__.py",
+      "summary": "Marks a test package boundary for pytest discovery and module organization.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/integration/test_ollama_live.py",
+      "type": "file",
+      "name": "test_ollama_live.py",
+      "filePath": "tests/integration/test_ollama_live.py",
+      "summary": "Exercises the NL2SQL workflow against a running local Ollama service when the integration environment is available.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/integration/test_ollama_live.py:TestOllamaIntegration",
+      "type": "class",
+      "name": "TestOllamaIntegration",
+      "filePath": "tests/integration/test_ollama_live.py",
+      "lineRange": [
+        62,
+        97
+      ],
+      "summary": "Groups pytest cases that verify ollama integration behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "tests/unit/__init__.py",
+      "summary": "Marks a test package boundary for pytest discovery and module organization.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_agent.py",
+      "type": "file",
+      "name": "test_agent.py",
+      "filePath": "tests/unit/test_agent.py",
+      "summary": "Provides pytest coverage for agent behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:tests/unit/test_agent.py:_make_agent",
+      "type": "function",
+      "name": "_make_agent",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        12,
+        37
+      ],
+      "summary": "Provides the  make agent test fixture or helper.",
+      "tags": [
+        "fixture",
+        "pytest",
+        "test-support"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestFetchSchema",
+      "type": "class",
+      "name": "TestFetchSchema",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        40,
+        62
+      ],
+      "summary": "Groups pytest cases that verify fetch schema behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestWriteSql",
+      "type": "class",
+      "name": "TestWriteSql",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        65,
+        101
+      ],
+      "summary": "Groups pytest cases that verify write sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestCheckSecurity",
+      "type": "class",
+      "name": "TestCheckSecurity",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        104,
+        128
+      ],
+      "summary": "Groups pytest cases that verify check security behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestExecuteSql",
+      "type": "class",
+      "name": "TestExecuteSql",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        131,
+        152
+      ],
+      "summary": "Groups pytest cases that verify execute sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestSummarize",
+      "type": "class",
+      "name": "TestSummarize",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        155,
+        190
+      ],
+      "summary": "Groups pytest cases that verify summarize behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestRouting",
+      "type": "class",
+      "name": "TestRouting",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        193,
+        239
+      ],
+      "summary": "Groups pytest cases that verify routing behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestHighLevelRun",
+      "type": "class",
+      "name": "TestHighLevelRun",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        242,
+        280
+      ],
+      "summary": "Groups pytest cases that verify high level run behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestPreparedExecution",
+      "type": "class",
+      "name": "TestPreparedExecution",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        283,
+        337
+      ],
+      "summary": "Groups pytest cases that verify prepared execution behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestWorkflowStructure",
+      "type": "class",
+      "name": "TestWorkflowStructure",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        340,
+        364
+      ],
+      "summary": "Groups pytest cases that verify workflow structure behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestExecutionEdgeCases",
+      "type": "class",
+      "name": "TestExecutionEdgeCases",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        367,
+        398
+      ],
+      "summary": "Groups pytest cases that verify execution edge cases behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_audit.py",
+      "type": "file",
+      "name": "test_audit.py",
+      "filePath": "tests/unit/test_audit.py",
+      "summary": "Provides pytest coverage for audit behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_audit.py:test_audit_logger_writes_jsonl_without_raw_question",
+      "type": "function",
+      "name": "test_audit_logger_writes_jsonl_without_raw_question",
+      "filePath": "tests/unit/test_audit.py",
+      "lineRange": [
+        31,
+        45
+      ],
+      "summary": "Verifies audit logger writes jsonl without raw question behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_cli.py",
+      "type": "file",
+      "name": "test_cli.py",
+      "filePath": "tests/unit/test_cli.py",
+      "summary": "Provides pytest coverage for cli behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestAskCommand",
+      "type": "class",
+      "name": "TestAskCommand",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        13,
+        62
+      ],
+      "summary": "Groups pytest cases that verify ask command behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestConfigCommand",
+      "type": "class",
+      "name": "TestConfigCommand",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        65,
+        96
+      ],
+      "summary": "Groups pytest cases that verify config command behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestParser",
+      "type": "class",
+      "name": "TestParser",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        99,
+        125
+      ],
+      "summary": "Groups pytest cases that verify parser behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestEvalCommand",
+      "type": "class",
+      "name": "TestEvalCommand",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        128,
+        191
+      ],
+      "summary": "Groups pytest cases that verify eval command behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_database.py",
+      "type": "file",
+      "name": "test_database.py",
+      "filePath": "tests/unit/test_database.py",
+      "summary": "Provides pytest coverage for database behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestSetup",
+      "type": "class",
+      "name": "TestSetup",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        23,
+        82
+      ],
+      "summary": "Groups pytest cases that verify setup behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestQueryResult",
+      "type": "class",
+      "name": "TestQueryResult",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        85,
+        137
+      ],
+      "summary": "Groups pytest cases that verify query result behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestDatabaseExecute",
+      "type": "class",
+      "name": "TestDatabaseExecute",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        140,
+        191
+      ],
+      "summary": "Groups pytest cases that verify database execute behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestDatabaseSchema",
+      "type": "class",
+      "name": "TestDatabaseSchema",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        194,
+        252
+      ],
+      "summary": "Groups pytest cases that verify database schema behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_evaluation.py",
+      "type": "file",
+      "name": "test_evaluation.py",
+      "filePath": "tests/unit/test_evaluation.py",
+      "summary": "Provides pytest coverage for evaluation behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_load_cases",
+      "type": "function",
+      "name": "test_load_cases",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        18,
+        36
+      ],
+      "summary": "Verifies load cases behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_result_case_compares_rows_not_sql",
+      "type": "function",
+      "name": "test_result_case_compares_rows_not_sql",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        39,
+        61
+      ],
+      "summary": "Verifies result case compares rows not sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_unordered_results_ignore_row_order",
+      "type": "function",
+      "name": "test_unordered_results_ignore_row_order",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        64,
+        73
+      ],
+      "summary": "Verifies unordered results ignore row order behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_blocked_case_scores_safety",
+      "type": "function",
+      "name": "test_blocked_case_scores_safety",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        76,
+        87
+      ],
+      "summary": "Verifies blocked case scores safety behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_report_threshold_fails_inaccurate_result",
+      "type": "function",
+      "name": "test_report_threshold_fails_inaccurate_result",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        90,
+        100
+      ],
+      "summary": "Verifies report threshold fails inaccurate result behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_optional_cost_estimate",
+      "type": "function",
+      "name": "test_optional_cost_estimate",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        103,
+        125
+      ],
+      "summary": "Verifies optional cost estimate behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_evaluation.py:FakeAgent",
+      "type": "class",
+      "name": "FakeAgent",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        10,
+        15
+      ],
+      "summary": "Provides the FakeAgent test double used by the evaluation suite.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_llm_factory.py",
+      "type": "file",
+      "name": "test_llm_factory.py",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "summary": "Provides pytest coverage for llm factory behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/unit/test_llm_factory.py:TestFallbackModels",
+      "type": "class",
+      "name": "TestFallbackModels",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "lineRange": [
+        18,
+        38
+      ],
+      "summary": "Groups pytest cases that verify fallback models behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_llm_factory.py:TestListModels",
+      "type": "class",
+      "name": "TestListModels",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "lineRange": [
+        41,
+        87
+      ],
+      "summary": "Groups pytest cases that verify list models behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_llm_factory.py:TestBuildChatModel",
+      "type": "class",
+      "name": "TestBuildChatModel",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "lineRange": [
+        90,
+        261
+      ],
+      "summary": "Groups pytest cases that verify build chat model behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_logging.py",
+      "type": "file",
+      "name": "test_logging.py",
+      "filePath": "tests/unit/test_logging.py",
+      "summary": "Provides pytest coverage for logging behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:tests/conftest.py",
+      "target": "function:tests/conftest.py:_reset_settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/conftest.py",
+      "target": "function:tests/conftest.py:make_state",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/integration/test_ollama_live.py",
+      "target": "class:tests/integration/test_ollama_live.py:TestOllamaIntegration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "function:tests/unit/test_agent.py:_make_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestFetchSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestWriteSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestCheckSecurity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestExecuteSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestSummarize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestRouting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestHighLevelRun",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestPreparedExecution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestWorkflowStructure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestExecutionEdgeCases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_audit.py",
+      "target": "function:tests/unit/test_audit.py:test_audit_logger_writes_jsonl_without_raw_question",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestAskCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestConfigCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestEvalCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestSetup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestQueryResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestDatabaseExecute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestDatabaseSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_load_cases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_result_case_compares_rows_not_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_unordered_results_ignore_row_order",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_blocked_case_scores_safety",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_report_threshold_fails_inaccurate_result",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_optional_cost_estimate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "class:tests/unit/test_evaluation.py:FakeAgent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_llm_factory.py",
+      "target": "class:tests/unit/test_llm_factory.py:TestFallbackModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_llm_factory.py",
+      "target": "class:tests/unit/test_llm_factory.py:TestListModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_llm_factory.py",
+      "target": "class:tests/unit/test_llm_factory.py:TestBuildChatModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ]
+}

@@ -18,9 +18,12 @@ env/
 company.db
 *.db
 *.db-journal
+!.codegraph/codegraph.db
+!.code-review-graph/graph.db
 
 # Streamlit
-.streamlit/
+.streamlit/*
+!.streamlit/config.toml
 
 # OS generated files
 .DS_Store
@@ -75,6 +78,7 @@ mlruns/
 **/mlruns/
 dist/
 build/
+tmp/
 
 *.egg-info/
 **/*.egg-info/

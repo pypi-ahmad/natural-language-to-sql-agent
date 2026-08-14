@@ -6,6 +6,7 @@ from unittest.mock import MagicMock
 
 from nl2sql_agent.agent import AgentState, NL2SQLAgent
 from nl2sql_agent.security import SQLPolicy
+from nl2sql_agent.utils import AuditLogger
 
 
 def _make_agent(seeded_db, mock_llm, **policy_overrides) -> NL2SQLAgent:
@@ -22,9 +23,17 @@ def _make_agent(seeded_db, mock_llm, **policy_overrides) -> NL2SQLAgent:
         "allow_joins": settings.sql_allow_joins,
         "allow_aggregates": settings.sql_allow_aggregates,
         "allow_cte": settings.sql_allow_cte,
+        "max_limit": settings.db_max_rows,
+        "max_joins": settings.sql_max_joins,
+        "max_subqueries": settings.sql_max_subqueries,
+        "max_ctes": settings.sql_max_ctes,
     }
     base.update(policy_overrides)
     agent.policy = SQLPolicy(**base)
+    agent.allowed_tables = frozenset(seeded_db.list_tables())
+    agent.include_sample_values = False
+    agent.audit = AuditLogger("unused.jsonl", enabled=False)
+    agent.db_fingerprint = "test-db"
     return agent
 
 
@@ -35,6 +44,22 @@ class TestFetchSchema:
         assert "schema" in result
         assert "Table" in result["schema"]
         assert "employees" in result["schema"]
+
+    def test_injected_database_is_never_seeded(self, tmp_path, mock_llm):
+        import sqlite3
+
+        from nl2sql_agent.config import Settings
+        from nl2sql_agent.db import Database
+
+        path = tmp_path / "uploaded.sqlite"
+        with sqlite3.connect(path) as conn:
+            conn.execute("CREATE TABLE items(id INTEGER PRIMARY KEY, label TEXT)")
+        agent = NL2SQLAgent(
+            mock_llm,
+            settings=Settings(audit_enabled=False),
+            database=Database(path),
+        )
+        assert agent.db.list_tables() == ("items",)
 
 
 class TestWriteSql:
@@ -49,7 +74,9 @@ class TestWriteSql:
     def test_includes_error_in_retry(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
         state: AgentState = {
-            "question": "x", "schema": "", "error": "no such column",
+            "question": "x",
+            "schema": "",
+            "error": "no such column",
             "retry_count": 1,
         }
         agent.write_sql(state)
@@ -85,11 +112,28 @@ class TestCheckSecurity:
         result = agent.check_security({"sql_query": "DROP TABLE x"})
         assert "Forbidden" in result.get("error", "") or "SELECT" in result["error"]
 
+    def test_unknown_column_fails_preflight(self, seeded_db, mock_llm):
+        agent = _make_agent(seeded_db, mock_llm)
+        result = agent.check_security(
+            {"sql_query": "SELECT missing FROM employees", "run_id": "r1"}
+        )
+        assert result["sql_safe"] is False
+        assert "preflight" in result["error"].lower()
+
+    def test_disallowed_table_is_blocked(self, seeded_db, mock_llm):
+        agent = _make_agent(seeded_db, mock_llm)
+        agent.allowed_tables = frozenset({"departments"})
+        result = agent.check_security({"sql_query": "SELECT * FROM employees"})
+        assert result["sql_safe"] is False
+        assert "not allowed" in result["error"]
+
 
 class TestExecuteSql:
     def test_runs_safe_query(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
-        result = agent.execute_sql({"sql_query": "SELECT name FROM employees ORDER BY name LIMIT 1"})
+        result = agent.execute_sql(
+            {"sql_query": "SELECT name FROM employees ORDER BY name LIMIT 1"}
+        )
         assert result["error"] == ""
         assert "Alice" in result["result"]
         assert result["columns"] == ["name"]
@@ -98,7 +142,7 @@ class TestExecuteSql:
     def test_returns_error_on_bad_sql(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
         result = agent.execute_sql({"sql_query": "SELECT * FROM no_such_table"})
-        assert "no such table" in result["error"].lower()
+        assert result["error"] == "The database could not execute the query."
         assert result["result"] == ""
 
     def test_handles_empty_result(self, seeded_db, mock_llm):
@@ -112,7 +156,10 @@ class TestSummarize:
     def test_calls_llm(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
         state: AgentState = {
-            "question": "x", "sql_query": "SELECT 1", "result": "1", "error": "",
+            "question": "x",
+            "sql_query": "SELECT 1",
+            "result": "1",
+            "error": "",
         }
         result = agent.summarize_result(state)
         assert "final_answer" in result
@@ -123,7 +170,12 @@ class TestSummarize:
         response.content = ""
         mock_llm.invoke.return_value = response
         agent = _make_agent(seeded_db, mock_llm)
-        state: AgentState = {"question": "x", "sql_query": "SELECT 1", "result": "data", "error": ""}
+        state: AgentState = {
+            "question": "x",
+            "sql_query": "SELECT 1",
+            "result": "data",
+            "error": "",
+        }
         result = agent.summarize_result(state)
         assert "data" in result["final_answer"]
 
@@ -132,7 +184,10 @@ class TestSummarize:
         agent = _make_agent(seeded_db, mock_llm)
         state: AgentState = {"question": "x", "sql_query": "SELECT 1", "result": "", "error": "x"}
         result = agent.summarize_result(state)
-        assert "couldn't" in result["final_answer"].lower() or "could not" in result["final_answer"].lower()
+        assert (
+            "couldn't" in result["final_answer"].lower()
+            or "could not" in result["final_answer"].lower()
+        )
 
 
 class TestRouting:
@@ -140,26 +195,48 @@ class TestRouting:
         agent = _make_agent(seeded_db, mock_llm)
         assert agent.route_after_security({"error": ""}) == "executor"
 
-    def test_security_routes_to_summarize_on_error(self, seeded_db, mock_llm):
+    def test_security_routes_to_retry_on_error(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
-        assert agent.route_after_security({"error": "Forbidden"}) == "summarizer"
+        assert (
+            agent.route_after_security({"error": "Forbidden", "retry_count": 1, "max_retries": 3})
+            == "writer"
+        )
+
+    def test_security_routes_to_summarize_when_retries_exhausted(self, seeded_db, mock_llm):
+        agent = _make_agent(seeded_db, mock_llm)
+        assert (
+            agent.route_after_security({"error": "Forbidden", "retry_count": 3, "max_retries": 3})
+            == "summarizer"
+        )
 
     def test_execute_routes_to_retry_when_error(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
-        assert agent.route_after_execute({"error": "x", "retry_count": 0, "max_retries": 3}) == "writer"
+        assert (
+            agent.route_after_execute({"error": "x", "retry_count": 0, "max_retries": 3})
+            == "writer"
+        )
 
     def test_execute_routes_to_summarize_when_no_error(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
-        assert agent.route_after_execute({"error": "", "retry_count": 0, "max_retries": 3}) == "summarizer"
+        assert (
+            agent.route_after_execute({"error": "", "retry_count": 0, "max_retries": 3})
+            == "summarizer"
+        )
 
     def test_execute_stops_at_max_retries(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
-        assert agent.route_after_execute({"error": "x", "retry_count": 3, "max_retries": 3}) == "summarizer"
+        assert (
+            agent.route_after_execute({"error": "x", "retry_count": 3, "max_retries": 3})
+            == "summarizer"
+        )
 
     def test_execute_with_exhausted_retries_uses_state_max(self, seeded_db, mock_llm):
         agent = _make_agent(seeded_db, mock_llm)
         # State has explicit max_retries=1, retry_count=1 -> stop
-        assert agent.route_after_execute({"error": "x", "retry_count": 1, "max_retries": 1}) == "summarizer"
+        assert (
+            agent.route_after_execute({"error": "x", "retry_count": 1, "max_retries": 1})
+            == "summarizer"
+        )
 
 
 class TestHighLevelRun:
@@ -194,15 +271,70 @@ class TestHighLevelRun:
         from langchain_core.messages import AIMessage
 
         llm = MagicMock()
-        llm.invoke.side_effect = [
-            AIMessage(content="DROP TABLE employees"),
-            AIMessage(content="(recovered)"),
-        ]
+        llm.invoke.return_value = AIMessage(content="DROP TABLE employees")
         agent = _make_agent(seeded_db, llm)
-        result = agent.run("destroy data")
-        # Guardian blocks the DROP, summarizer gets a safety error.
-        assert "validation failed" in result.get("error", "").lower() or \
-               "forbidden" in result.get("error", "").lower()
+        result = agent.run("destroy data", max_retries=1)
+        assert (
+            "validation failed" in result.get("error", "").lower()
+            or "forbidden" in result.get("error", "").lower()
+        )
+
+
+class TestPreparedExecution:
+    def test_prepare_does_not_execute_query(self, seeded_db):
+        from langchain_core.messages import AIMessage
+
+        llm = MagicMock()
+        llm.return_value = AIMessage(content="SELECT name FROM employees")
+        llm.invoke.return_value = AIMessage(content="SELECT name FROM employees")
+        agent = _make_agent(seeded_db, llm)
+        prepared = agent.prepare("list names")
+        assert prepared["sql_safe"] is True
+        assert "raw_rows" not in prepared
+        assert prepared["sql_query"].upper().endswith("LIMIT 1000")
+
+    def test_execute_prepared_accepts_safe_edit(self, seeded_db):
+        from langchain_core.messages import AIMessage
+
+        llm = MagicMock()
+        llm.invoke.return_value = AIMessage(content="Two names")
+        agent = _make_agent(seeded_db, llm)
+        prepared: AgentState = {
+            "run_id": "r1",
+            "question": "list names",
+            "sql_query": "SELECT name FROM employees LIMIT 1",
+            "retry_count": 1,
+            "max_retries": 3,
+        }
+        result = agent.execute_prepared(
+            prepared,
+            sql_query="SELECT name FROM employees ORDER BY name LIMIT 2",
+        )
+        assert result["row_count"] == 2
+        assert result["raw_rows"][0] == ("Alice",)
+
+    def test_execute_prepared_rejects_dangerous_edit(self, seeded_db, mock_llm):
+        agent = _make_agent(seeded_db, mock_llm)
+        prepared: AgentState = {
+            "run_id": "r1",
+            "question": "list names",
+            "sql_query": "SELECT name FROM employees",
+            "retry_count": 1,
+            "max_retries": 3,
+        }
+        result = agent.execute_prepared(prepared, sql_query="DELETE FROM employees")
+        assert result["sql_safe"] is False
+        assert result["row_count"] == 0
+        assert seeded_db.execute("SELECT COUNT(*) FROM employees").rows == ((10,),)
+
+    def test_stream_prepare_stops_before_execution(self, seeded_db):
+        from langchain_core.messages import AIMessage
+
+        llm = MagicMock()
+        llm.invoke.return_value = AIMessage(content="SELECT 1")
+        agent = _make_agent(seeded_db, llm)
+        names = [name for name, _ in agent.stream_prepare("one")]
+        assert names == ["fetch_schema", "writer", "guardian"]
 
 
 class TestWorkflowStructure:

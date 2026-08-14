@@ -1,0 +1,9 @@
+{
+  "nodes": [
+    {"id":"config:.ua/config.json","type":"config","name":"config.json","filePath":".ua/config.json","summary":"Stores Understand Anything analysis configuration, including the selected output language and update settings.","tags":["configuration","generated-data","analysis","tooling"],"complexity":"simple"},
+    {"id":"config:.ua/fingerprints.json","type":"config","name":"fingerprints.json","filePath":".ua/fingerprints.json","summary":"Stores structural fingerprints used to compare repository changes and support incremental Understand Anything updates.","tags":["configuration","generated-data","fingerprints","analysis"],"complexity":"complex"},
+    {"id":"config:.ua/knowledge-graph.json","type":"config","name":"knowledge-graph.json","filePath":".ua/knowledge-graph.json","summary":"Stores the generated Understand Anything knowledge graph used to explore project components and relationships.","tags":["configuration","generated-data","knowledge-graph","analysis"],"complexity":"complex"},
+    {"id":"config:.ua/meta.json","type":"config","name":"meta.json","filePath":".ua/meta.json","summary":"Records metadata for the last Understand Anything analysis, including the analyzed commit and file count.","tags":["configuration","generated-data","metadata","analysis"],"complexity":"simple"}
+  ],
+  "edges": []
+}

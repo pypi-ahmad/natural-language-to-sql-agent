@@ -1,0 +1,1386 @@
+{
+  "nodes": [
+    {
+      "id": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/config/__init__.py",
+      "summary": "Re-exports configuration settings as the package-level configuration API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/config/settings.py",
+      "type": "file",
+      "name": "settings.py",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "summary": "Defines validated runtime settings, provider model choices, environment helpers, and settings-cache access.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
+      "type": "function",
+      "name": "supported_models_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        41,
+        43
+      ],
+      "summary": "Returns the configured model names supported by a provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:default_model_for",
+      "type": "function",
+      "name": "default_model_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        46,
+        48
+      ],
+      "summary": "Returns the default model configured for a provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
+      "type": "function",
+      "name": "validate_model_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        51,
+        68
+      ],
+      "summary": "Validates that a selected model is allowed for its provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:get_settings",
+      "type": "function",
+      "name": "get_settings",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        247,
+        252
+      ],
+      "summary": "Returns the cached validated runtime settings.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
+      "type": "function",
+      "name": "reset_settings_cache",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        255,
+        257
+      ],
+      "summary": "Clears the cached runtime settings for tests or configuration changes.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:env_var_for",
+      "type": "function",
+      "name": "env_var_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        260,
+        269
+      ],
+      "summary": "Returns the environment-variable name associated with a setting field.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:env_var_value",
+      "type": "function",
+      "name": "env_var_value",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        272,
+        275
+      ],
+      "summary": "Reads a setting value from its configured environment variable.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/config/settings.py:Settings",
+      "type": "class",
+      "name": "Settings",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        71,
+        243
+      ],
+      "summary": "Validated Pydantic configuration model for providers, models, database limits, and security settings.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/nl2sql_agent/llm/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/llm/__init__.py",
+      "summary": "Re-exports LLM factory functions as the package-level model integration API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/llm/factory.py",
+      "type": "file",
+      "name": "factory.py",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "summary": "Builds chat models across supported providers and lists available or fallback model choices.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
+      "type": "function",
+      "name": "build_chat_model",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        46,
+        102
+      ],
+      "summary": "Creates a chat-model client for the selected provider and model.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
+      "type": "function",
+      "name": "_normalize_provider",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        105,
+        112
+      ],
+      "summary": "Normalizes a provider identifier before dispatch.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
+      "type": "function",
+      "name": "_build_ollama",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        115,
+        124
+      ],
+      "summary": "Implements  build ollama for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
+      "type": "function",
+      "name": "_build_openai",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        127,
+        135
+      ],
+      "summary": "Implements  build openai for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
+      "type": "function",
+      "name": "_build_gemini",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        138,
+        149
+      ],
+      "summary": "Implements  build gemini for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
+      "type": "function",
+      "name": "_build_anthropic",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        152,
+        164
+      ],
+      "summary": "Implements  build anthropic for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
+      "type": "function",
+      "name": "_build_huggingface",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        167,
+        176
+      ],
+      "summary": "Implements  build huggingface for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
+      "type": "function",
+      "name": "_build_xai",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        179,
+        188
+      ],
+      "summary": "Implements  build xai for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
+      "type": "function",
+      "name": "_build_openai_compatible",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        191,
+        209
+      ],
+      "summary": "Implements  build openai compatible for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
+      "type": "function",
+      "name": "fallback_models",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        223,
+        232
+      ],
+      "summary": "Returns fallback models available for a provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:list_models",
+      "type": "function",
+      "name": "list_models",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        235,
+        257
+      ],
+      "summary": "Lists models for a provider with local discovery when applicable.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
+      "type": "function",
+      "name": "_list_ollama",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        260,
+        280
+      ],
+      "summary": "Discovers locally installed Ollama models.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
+      "type": "class",
+      "name": "LLMProviderError",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        42,
+        43
+      ],
+      "summary": "Signals unsupported or unavailable LLM provider configuration.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/ui/__init__.py",
+      "summary": "Re-exports user-interface helpers and the Streamlit application entry point.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/components.py",
+      "type": "file",
+      "name": "components.py",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "summary": "Renders reusable Streamlit sidebar, chat-history, run-progress, and result components.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "type": "function",
+      "name": "render_sidebar",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        13,
+        108
+      ],
+      "summary": "Renders Streamlit controls for model and runtime configuration.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "type": "function",
+      "name": "_default_models",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        111,
+        112
+      ],
+      "summary": "Implements  default models for the components module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "type": "function",
+      "name": "render_chat_history",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        115,
+        131
+      ],
+      "summary": "Renders prior user and assistant messages.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "type": "function",
+      "name": "render_run_steps",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        134,
+        136
+      ],
+      "summary": "Renders progress information for an agent run.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "type": "function",
+      "name": "render_run_result",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        139,
+        185
+      ],
+      "summary": "Renders the final answer, SQL, and result data.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/database_upload.py",
+      "type": "file",
+      "name": "database_upload.py",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "summary": "Validates and persists uploaded SQLite databases with extension, header, and metadata checks.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "type": "function",
+      "name": "validate_upload_metadata",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        16,
+        21
+      ],
+      "summary": "Checks uploaded-file metadata against configured limits.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "type": "function",
+      "name": "validate_sqlite_upload",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        24,
+        29
+      ],
+      "summary": "Validates SQLite file name, content signature, and upload size.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "type": "function",
+      "name": "save_sqlite_upload",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        32,
+        38
+      ],
+      "summary": "Persists a validated SQLite upload under a content-derived name.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "type": "class",
+      "name": "SQLiteUploadError",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        12,
+        13
+      ],
+      "summary": "Signals invalid SQLite upload metadata or content.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "type": "file",
+      "name": "streamlit_app.py",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "summary": "Implements the Streamlit application flow for configuring, running, and displaying NL2SQL queries.",
+      "tags": [
+        "streamlit",
+        "user-interface",
+        "entry-point"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "type": "function",
+      "name": "_init_session_state",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        28,
+        33
+      ],
+      "summary": "Implements  init session state for the streamlit_app module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "type": "function",
+      "name": "_demo_database",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        37,
+        51
+      ],
+      "summary": "Builds the demonstration SQLite database used by the UI.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "type": "function",
+      "name": "_runtime_settings",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        54,
+        74
+      ],
+      "summary": "Creates runtime settings from Streamlit session values.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "type": "function",
+      "name": "_resolve_database",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        77,
+        124
+      ],
+      "summary": "Selects an uploaded or demonstration database for a session.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "type": "function",
+      "name": "_build_agent",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        127,
+        143
+      ],
+      "summary": "Builds the UI-configured NL2SQL agent.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "type": "function",
+      "name": "_history_message",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        146,
+        157
+      ],
+      "summary": "Converts a run result into a displayable chat-history entry.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "type": "function",
+      "name": "_stage_text",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        160,
+        169
+      ],
+      "summary": "Formats a workflow stage for progress display.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        172,
+        387
+      ],
+      "summary": "Runs the Streamlit application entry point.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/nl2sql_agent/config/__init__.py",
+      "target": "file:src/nl2sql_agent/config/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:default_model_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:default_model_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:get_settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:get_settings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "class:src/nl2sql_agent/config/settings.py:Settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "class:src/nl2sql_agent/config/settings.py:Settings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/__init__.py",
+      "target": "file:src/nl2sql_agent/llm/factory.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:list_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:list_models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/__init__.py",
+      "target": "file:src/nl2sql_agent/ui/components.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/__init__.py",
+      "target": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1.0
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/agent/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/llm/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/ui/components.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/ui/database_upload.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    }
+  ]
+}

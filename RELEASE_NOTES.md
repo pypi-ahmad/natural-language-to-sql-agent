@@ -1,4 +1,25 @@
-# Release Notes — v0.2.0
+# Release Notes
+
+## v0.3.0 — 2026-08-14
+
+**Status:** Stable
+**Upgrade from:** v0.2.0
+
+This release adds approval-first SQL execution, session-scoped SQLite uploads,
+deterministic schema selection, redacted audits, a result-based evaluation CLI,
+and a Windows double-click launcher. Hosted inference now includes direct
+Hugging Face and xAI access with deterministic medium-effort model choices.
+
+The Streamlit UI now preserves complete result history, exports formula-safe
+CSV, reports stage and token metrics, and estimates standard hosted-model cost.
+Database access, SQL validation, upload limits, endpoint configuration, error
+handling, audit fields, dependencies, CI, packaging, and developer tooling were
+also hardened. Existing `run()`, `stream()`, and `ask` automation remains
+compatible.
+
+---
+
+## v0.2.0 — Historical release
 
 **Date:** 2026-06-22
 **Status:** Stable
@@ -48,7 +69,7 @@ answers), but the internals have been rewritten for production use.
 | `src/nl2sql_agent/cli.py` | `nl2sql-agent` command-line entry point |
 | `tests/unit/` | 174 unit tests |
 | `tests/integration/` | Live Ollama integration test |
-| `pyproject.toml` | Deps + tool config (ruff, mypy, pytest, coverage) |
+| `pyproject.toml` | Deps + tool config (Ruff, ty, pytest, coverage) |
 | `uv.lock` | Reproducible lockfile |
 
 ---
@@ -72,7 +93,7 @@ End-to-end run against a real local Ollama with the default
 
 - `uv run pytest tests/unit` — 174 passed
 - `uv run ruff check src tests` — All checks passed
-- `uv run mypy src/nl2sql_agent` — Success: no issues found
+- `uv run ty check src` — Success: no issues found
 - `uv run nl2sql-agent config` — prints valid JSON
 - Live Ollama end-to-end — all four production questions return
   correct answers; guardian correctly blocks the destructive SQL

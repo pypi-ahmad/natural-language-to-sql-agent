@@ -71,9 +71,7 @@ def error_section(error: str | None) -> str:
     if not error:
         return ""
     return (
-        "Your previous attempt failed with this error:\n"
-        f"  {error}\n"
-        "Fix the query and try again.\n"
+        f"Your previous attempt failed with this error:\n  {error}\nFix the query and try again.\n"
     )
 
 

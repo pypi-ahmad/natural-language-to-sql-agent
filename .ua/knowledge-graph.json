@@ -1,0 +1,5930 @@
+{
+  "version": "1.0.0",
+  "project": {
+    "name": "nl2sql-agent",
+    "languages": [
+      "baseline",
+      "batch",
+      "html",
+      "json",
+      "jsonl",
+      "markdown",
+      "python",
+      "sig",
+      "toml",
+      "txt",
+      "unknown",
+      "yaml"
+    ],
+    "frameworks": [
+      "GitHub Actions",
+      "LangChain",
+      "LangGraph",
+      "Pydantic",
+      "Pytest",
+      "Streamlit"
+    ],
+    "description": "Production-grade natural-language to SQL data analyst agent with local and cloud LLM support.",
+    "analyzedAt": "2026-08-14T11:26:39.931Z",
+    "gitCommitHash": "3b4ee4915d0801524742ee1c3281616d0496e94c"
+  },
+  "nodes": [
+    {
+      "id": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/config/__init__.py",
+      "summary": "Re-exports configuration settings as the package-level configuration API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/config/settings.py",
+      "type": "file",
+      "name": "settings.py",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "summary": "Defines validated runtime settings, provider model choices, environment helpers, and settings-cache access.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
+      "type": "function",
+      "name": "supported_models_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        41,
+        43
+      ],
+      "summary": "Returns the configured model names supported by a provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:default_model_for",
+      "type": "function",
+      "name": "default_model_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        46,
+        48
+      ],
+      "summary": "Returns the default model configured for a provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
+      "type": "function",
+      "name": "validate_model_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        51,
+        68
+      ],
+      "summary": "Validates that a selected model is allowed for its provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:get_settings",
+      "type": "function",
+      "name": "get_settings",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        247,
+        252
+      ],
+      "summary": "Returns the cached validated runtime settings.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
+      "type": "function",
+      "name": "reset_settings_cache",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        255,
+        257
+      ],
+      "summary": "Clears the cached runtime settings for tests or configuration changes.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:env_var_for",
+      "type": "function",
+      "name": "env_var_for",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        260,
+        269
+      ],
+      "summary": "Returns the environment-variable name associated with a setting field.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/config/settings.py:env_var_value",
+      "type": "function",
+      "name": "env_var_value",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        272,
+        275
+      ],
+      "summary": "Reads a setting value from its configured environment variable.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/config/settings.py:Settings",
+      "type": "class",
+      "name": "Settings",
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "lineRange": [
+        71,
+        243
+      ],
+      "summary": "Validated Pydantic configuration model for providers, models, database limits, and security settings.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/nl2sql_agent/llm/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/llm/__init__.py",
+      "summary": "Re-exports LLM factory functions as the package-level model integration API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/llm/factory.py",
+      "type": "file",
+      "name": "factory.py",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "summary": "Builds chat models across supported providers and lists available or fallback model choices.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
+      "type": "function",
+      "name": "build_chat_model",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        46,
+        102
+      ],
+      "summary": "Creates a chat-model client for the selected provider and model.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
+      "type": "function",
+      "name": "_normalize_provider",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        105,
+        112
+      ],
+      "summary": "Normalizes a provider identifier before dispatch.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
+      "type": "function",
+      "name": "_build_ollama",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        115,
+        124
+      ],
+      "summary": "Implements  build ollama for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
+      "type": "function",
+      "name": "_build_openai",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        127,
+        135
+      ],
+      "summary": "Implements  build openai for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
+      "type": "function",
+      "name": "_build_gemini",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        138,
+        149
+      ],
+      "summary": "Implements  build gemini for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
+      "type": "function",
+      "name": "_build_anthropic",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        152,
+        164
+      ],
+      "summary": "Implements  build anthropic for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
+      "type": "function",
+      "name": "_build_huggingface",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        167,
+        176
+      ],
+      "summary": "Implements  build huggingface for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
+      "type": "function",
+      "name": "_build_xai",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        179,
+        188
+      ],
+      "summary": "Implements  build xai for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
+      "type": "function",
+      "name": "_build_openai_compatible",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        191,
+        209
+      ],
+      "summary": "Implements  build openai compatible for the factory module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
+      "type": "function",
+      "name": "fallback_models",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        223,
+        232
+      ],
+      "summary": "Returns fallback models available for a provider.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:list_models",
+      "type": "function",
+      "name": "list_models",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        235,
+        257
+      ],
+      "summary": "Lists models for a provider with local discovery when applicable.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
+      "type": "function",
+      "name": "_list_ollama",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        260,
+        280
+      ],
+      "summary": "Discovers locally installed Ollama models.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
+      "type": "class",
+      "name": "LLMProviderError",
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "lineRange": [
+        42,
+        43
+      ],
+      "summary": "Signals unsupported or unavailable LLM provider configuration.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/ui/__init__.py",
+      "summary": "Re-exports user-interface helpers and the Streamlit application entry point.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/components.py",
+      "type": "file",
+      "name": "components.py",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "summary": "Renders reusable Streamlit sidebar, chat-history, run-progress, and result components.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "type": "function",
+      "name": "render_sidebar",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        13,
+        108
+      ],
+      "summary": "Renders Streamlit controls for model and runtime configuration.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "type": "function",
+      "name": "_default_models",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        111,
+        112
+      ],
+      "summary": "Implements  default models for the components module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "type": "function",
+      "name": "render_chat_history",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        115,
+        131
+      ],
+      "summary": "Renders prior user and assistant messages.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "type": "function",
+      "name": "render_run_steps",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        134,
+        136
+      ],
+      "summary": "Renders progress information for an agent run.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "type": "function",
+      "name": "render_run_result",
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "lineRange": [
+        139,
+        185
+      ],
+      "summary": "Renders the final answer, SQL, and result data.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/database_upload.py",
+      "type": "file",
+      "name": "database_upload.py",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "summary": "Validates and persists uploaded SQLite databases with extension, header, and metadata checks.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "type": "function",
+      "name": "validate_upload_metadata",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        16,
+        21
+      ],
+      "summary": "Checks uploaded-file metadata against configured limits.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "type": "function",
+      "name": "validate_sqlite_upload",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        24,
+        29
+      ],
+      "summary": "Validates SQLite file name, content signature, and upload size.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "type": "function",
+      "name": "save_sqlite_upload",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        32,
+        38
+      ],
+      "summary": "Persists a validated SQLite upload under a content-derived name.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "type": "class",
+      "name": "SQLiteUploadError",
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "lineRange": [
+        12,
+        13
+      ],
+      "summary": "Signals invalid SQLite upload metadata or content.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "type": "file",
+      "name": "streamlit_app.py",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "summary": "Implements the Streamlit application flow for configuring, running, and displaying NL2SQL queries.",
+      "tags": [
+        "streamlit",
+        "user-interface",
+        "entry-point"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "type": "function",
+      "name": "_init_session_state",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        28,
+        33
+      ],
+      "summary": "Implements  init session state for the streamlit_app module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "type": "function",
+      "name": "_demo_database",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        37,
+        51
+      ],
+      "summary": "Builds the demonstration SQLite database used by the UI.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "type": "function",
+      "name": "_runtime_settings",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        54,
+        74
+      ],
+      "summary": "Creates runtime settings from Streamlit session values.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "type": "function",
+      "name": "_resolve_database",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        77,
+        124
+      ],
+      "summary": "Selects an uploaded or demonstration database for a session.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "type": "function",
+      "name": "_build_agent",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        127,
+        143
+      ],
+      "summary": "Builds the UI-configured NL2SQL agent.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "type": "function",
+      "name": "_history_message",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        146,
+        157
+      ],
+      "summary": "Converts a run result into a displayable chat-history entry.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "type": "function",
+      "name": "_stage_text",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        160,
+        169
+      ],
+      "summary": "Formats a workflow stage for progress display.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "lineRange": [
+        172,
+        387
+      ],
+      "summary": "Runs the Streamlit application entry point.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/nl2sql_agent/security/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/security/__init__.py",
+      "summary": "Re-exports SQL validation policy and parsing helpers as the security package API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/security/sql_validator.py",
+      "type": "file",
+      "name": "sql_validator.py",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "summary": "Parses SQL, enforces read-only policy limits, finds referenced tables, and produces executable prepared SQL.",
+      "tags": [
+        "sql",
+        "security",
+        "validation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "function",
+      "name": "parse_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        85,
+        102
+      ],
+      "summary": "Parses SQL text into SQLGlot expressions.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "function",
+      "name": "_flatten_selects",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        105,
+        118
+      ],
+      "summary": "Implements  flatten selects for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "function",
+      "name": "_is_aggregate_call",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        121,
+        133
+      ],
+      "summary": "Implements  is aggregate call for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "function",
+      "name": "_uses_aggregate",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        136,
+        144
+      ],
+      "summary": "Implements  uses aggregate for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "function",
+      "name": "_function_name",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        147,
+        162
+      ],
+      "summary": "Implements  function name for the sql_validator module.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "function",
+      "name": "validate_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        165,
+        174
+      ],
+      "summary": "Validates SQL against the configured read-only policy.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "function",
+      "name": "_validate_statements",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        177,
+        206
+      ],
+      "summary": "Applies policy validation to parsed SQL statements.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "function",
+      "name": "_check_select",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        209,
+        273
+      ],
+      "summary": "Checks a SELECT expression against policy limits.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
+      "type": "function",
+      "name": "referenced_tables",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        276,
+        282
+      ],
+      "summary": "Returns physical database tables referenced by valid SQL.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
+      "type": "function",
+      "name": "_referenced_tables",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        285,
+        293
+      ],
+      "summary": "Extracts table names while accounting for CTE aliases.",
+      "tags": [
+        "python",
+        "function",
+        "internal"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
+      "type": "function",
+      "name": "prepare_sql",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        296,
+        332
+      ],
+      "summary": "Validates SQL, authorizes tables, and applies a result limit.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
+      "type": "class",
+      "name": "SQLValidationError",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        33,
+        34
+      ],
+      "summary": "Signals SQL that violates the configured policy.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "class",
+      "name": "SQLPolicy",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        52,
+        74
+      ],
+      "summary": "Defines allowed SQL operations, table restrictions, and query complexity limits.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "class",
+      "name": "PreparedSQL",
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "lineRange": [
+        78,
+        82
+      ],
+      "summary": "Represents validated executable SQL and its referenced tables.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/utils/__init__.py",
+      "summary": "Re-exports logging, audit, and text helpers as the utilities package API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/audit.py",
+      "type": "file",
+      "name": "audit.py",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "summary": "Provides privacy-preserving audit logging, including text hashing and SQL literal redaction.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "function",
+      "name": "hash_text",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        29,
+        31
+      ],
+      "summary": "Computes a stable one-way hash for audit correlation.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "function",
+      "name": "redact_sql",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        34,
+        45
+      ],
+      "summary": "Removes SQL literal values before audit logging.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "class",
+      "name": "AuditLogger",
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "lineRange": [
+        48,
+        78
+      ],
+      "summary": "Writes allowlisted, redacted audit events to JSONL.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "file",
+      "name": "logging.py",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "summary": "Configures structured application logging and returns bound Loguru loggers.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "function",
+      "name": "configure_logging",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "lineRange": [
+        17,
+        73
+      ],
+      "summary": "Configures application logging, including structured and sink modes.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "function",
+      "name": "get_logger",
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "lineRange": [
+        76,
+        80
+      ],
+      "summary": "Returns a bound application logger.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/utils/text.py",
+      "type": "file",
+      "name": "text.py",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "summary": "Normalizes SQL-fenced model output and truncates display text safely.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "function",
+      "name": "strip_sql_fences",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "lineRange": [
+        22,
+        45
+      ],
+      "summary": "Removes Markdown fences and labels from model-generated SQL.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "function",
+      "name": "truncate",
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "lineRange": [
+        48,
+        54
+      ],
+      "summary": "Shortens text to a maximum length with a suffix.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/agent/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/agent/__init__.py",
+      "summary": "Re-exports agent state and workflow types as the agent package API.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/agent/state.py",
+      "type": "file",
+      "name": "state.py",
+      "filePath": "src/nl2sql_agent/agent/state.py",
+      "summary": "Defines the state contract that carries NL2SQL workflow inputs, outputs, and execution metadata.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/agent/state.py:AgentState",
+      "type": "class",
+      "name": "AgentState",
+      "filePath": "src/nl2sql_agent/agent/state.py",
+      "lineRange": [
+        13,
+        71
+      ],
+      "summary": "Typed state contract used throughout the agent workflow.",
+      "tags": [
+        "python",
+        "data-model",
+        "configuration"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:src/nl2sql_agent/agent/workflow.py",
+      "type": "file",
+      "name": "workflow.py",
+      "filePath": "src/nl2sql_agent/agent/workflow.py",
+      "summary": "Implements the LangGraph-based NL2SQL workflow from schema discovery through policy checks, execution, and summarization.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:src/nl2sql_agent/agent/workflow.py:NodeTrace",
+      "type": "class",
+      "name": "NodeTrace",
+      "filePath": "src/nl2sql_agent/agent/workflow.py",
+      "lineRange": [
+        48,
+        53
+      ],
+      "summary": "Records a workflow-node execution trace.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/agent/workflow.py:NL2SQLAgent",
+      "type": "class",
+      "name": "NL2SQLAgent",
+      "filePath": "src/nl2sql_agent/agent/workflow.py",
+      "lineRange": [
+        56,
+        544
+      ],
+      "summary": "Coordinates schema retrieval, SQL generation, policy validation, execution, and response summarization.",
+      "tags": [
+        "python",
+        "class",
+        "service"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/nl2sql_agent/prompts/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/prompts/__init__.py",
+      "summary": "Re-exports prompt templates and formatting helpers.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/prompts/templates.py",
+      "type": "file",
+      "name": "templates.py",
+      "filePath": "src/nl2sql_agent/prompts/templates.py",
+      "summary": "Defines system prompt templates and helpers for errors and tabular data formatting.",
+      "tags": [
+        "python",
+        "service",
+        "application"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/prompts/templates.py:error_section",
+      "type": "function",
+      "name": "error_section",
+      "filePath": "src/nl2sql_agent/prompts/templates.py",
+      "lineRange": [
+        69,
+        75
+      ],
+      "summary": "Formats optional error context for prompt templates.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/prompts/templates.py:format_data",
+      "type": "function",
+      "name": "format_data",
+      "filePath": "src/nl2sql_agent/prompts/templates.py",
+      "lineRange": [
+        78,
+        85
+      ],
+      "summary": "Formats query data for insertion into a prompt.",
+      "tags": [
+        "python",
+        "function",
+        "api"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/cli.py",
+      "type": "file",
+      "name": "cli.py",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "summary": "Provides the nl2sql-agent command-line interface for asking questions, inspecting resolved settings, launching Streamlit, and running evaluations.",
+      "tags": [
+        "cli",
+        "entry-point",
+        "configuration",
+        "evaluation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/evaluation/__init__.py",
+      "summary": "Re-exports the evaluation package API for cases, reports, runner, and dataset loading.",
+      "tags": [
+        "evaluation",
+        "package-api",
+        "barrel",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/runner.py",
+      "type": "file",
+      "name": "runner.py",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "summary": "Runs deterministic outcome and safety evaluations against an NL2SQL agent and computes accuracy, latency, token-use, and database-integrity metrics.",
+      "tags": [
+        "evaluation",
+        "testing",
+        "metrics",
+        "validation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:_pass_rate",
+      "type": "function",
+      "name": "_pass_rate",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        37,
+        41
+      ],
+      "summary": "Parses a bounded percentage value for evaluation pass-rate arguments.",
+      "tags": [
+        "cli",
+        "validation",
+        "parsing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:_build_agent",
+      "type": "function",
+      "name": "_build_agent",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        44,
+        75
+      ],
+      "summary": "Builds an NL2SQL agent from CLI provider, model, and API-key overrides.",
+      "tags": [
+        "cli",
+        "factory",
+        "agent"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_ask",
+      "type": "function",
+      "name": "cmd_ask",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        78,
+        89
+      ],
+      "summary": "Executes an NL2SQL question and prints its answer and generated SQL.",
+      "tags": [
+        "cli",
+        "command",
+        "query"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_config",
+      "type": "function",
+      "name": "cmd_config",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        92,
+        105
+      ],
+      "summary": "Prints resolved runtime settings with sensitive values filtered from output.",
+      "tags": [
+        "cli",
+        "configuration",
+        "security"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_serve",
+      "type": "function",
+      "name": "cmd_serve",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        108,
+        126
+      ],
+      "summary": "Launches the Streamlit interface from the command line.",
+      "tags": [
+        "cli",
+        "streamlit",
+        "command"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:cmd_eval",
+      "type": "function",
+      "name": "cmd_eval",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        129,
+        162
+      ],
+      "summary": "Loads evaluation cases, runs the agent evaluation suite, writes a report, and returns a pass/fail status.",
+      "tags": [
+        "cli",
+        "evaluation",
+        "reporting"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:build_parser",
+      "type": "function",
+      "name": "build_parser",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        165,
+        201
+      ],
+      "summary": "Builds the argparse command tree and option contracts for ask, config, serve, and eval commands.",
+      "tags": [
+        "cli",
+        "argparse",
+        "entry-point"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/cli.py:main",
+      "type": "function",
+      "name": "main",
+      "filePath": "src/nl2sql_agent/cli.py",
+      "lineRange": [
+        204,
+        207
+      ],
+      "summary": "Parses command-line arguments and dispatches the selected command handler.",
+      "tags": [
+        "cli",
+        "entry-point",
+        "dispatch"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:AgentRunner",
+      "type": "class",
+      "name": "AgentRunner",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        18,
+        19
+      ],
+      "summary": "Defines the protocol required to run an evaluation case against an agent.",
+      "tags": [
+        "evaluation",
+        "protocol",
+        "agent"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvalCase",
+      "type": "class",
+      "name": "EvalCase",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        23,
+        46
+      ],
+      "summary": "Represents a normalized NL2SQL evaluation case loaded from the JSONL corpus.",
+      "tags": [
+        "evaluation",
+        "data-model",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationCaseResult",
+      "type": "class",
+      "name": "EvaluationCaseResult",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        50,
+        60
+      ],
+      "summary": "Stores the safety, execution, latency, retry, and token outcome of one evaluation case.",
+      "tags": [
+        "evaluation",
+        "data-model",
+        "metrics"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationReport",
+      "type": "class",
+      "name": "EvaluationReport",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        64,
+        85
+      ],
+      "summary": "Aggregates evaluated cases and exposes pass status plus serializable summary metrics.",
+      "tags": [
+        "evaluation",
+        "report",
+        "metrics"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationRunner",
+      "type": "class",
+      "name": "EvaluationRunner",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        105,
+        187
+      ],
+      "summary": "Executes cases against the agent, compares results, and calculates aggregate quality metrics.",
+      "tags": [
+        "evaluation",
+        "runner",
+        "validation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:load_cases",
+      "type": "function",
+      "name": "load_cases",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        88,
+        102
+      ],
+      "summary": "Loads and validates evaluation cases from a JSONL corpus.",
+      "tags": [
+        "evaluation",
+        "jsonl",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_rate",
+      "type": "function",
+      "name": "_rate",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        190,
+        193
+      ],
+      "summary": "Calculates the proportion of results with a given truthy attribute.",
+      "tags": [
+        "evaluation",
+        "metrics",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_percentile",
+      "type": "function",
+      "name": "_percentile",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        196,
+        201
+      ],
+      "summary": "Computes a percentile from a collection of numeric values.",
+      "tags": [
+        "evaluation",
+        "metrics",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_rows_equal",
+      "type": "function",
+      "name": "_rows_equal",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        204,
+        221
+      ],
+      "summary": "Compares actual and expected query-result rows with ordered or unordered matching.",
+      "tags": [
+        "evaluation",
+        "comparison",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_value_equal",
+      "type": "function",
+      "name": "_value_equal",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        224,
+        227
+      ],
+      "summary": "Compares scalar values using normalized evaluation semantics.",
+      "tags": [
+        "evaluation",
+        "comparison",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/evaluation/runner.py:_file_digest",
+      "type": "function",
+      "name": "_file_digest",
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "lineRange": [
+        230,
+        232
+      ],
+      "summary": "Computes a stable digest for database-integrity checks.",
+      "tags": [
+        "evaluation",
+        "integrity",
+        "hashing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/db/__init__.py",
+      "summary": "Defines the public database-package API by re-exporting the SQLite wrapper, result model, setup helper, renderer, and demo seed data.",
+      "tags": [
+        "database",
+        "package-api",
+        "barrel",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/db/database.py",
+      "type": "file",
+      "name": "database.py",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "summary": "Implements hardened SQLite connection management, demo-schema setup, schema context generation, bounded query execution, and result rendering.",
+      "tags": [
+        "database",
+        "sqlite",
+        "security",
+        "query-execution"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:src/nl2sql_agent/db/seed.py",
+      "type": "file",
+      "name": "seed.py",
+      "filePath": "src/nl2sql_agent/db/seed.py",
+      "summary": "Provides deterministic department and employee tuples used to seed the demo company database.",
+      "tags": [
+        "database",
+        "seed-data",
+        "demo",
+        "fixtures"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:src/nl2sql_agent/db/database.py:QueryResult",
+      "type": "class",
+      "name": "QueryResult",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        45,
+        76
+      ],
+      "summary": "Represents bounded database query results and renders them as Markdown or CSV.",
+      "tags": [
+        "database",
+        "result-model",
+        "rendering"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:src/nl2sql_agent/db/database.py:Database",
+      "type": "class",
+      "name": "Database",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        93,
+        328
+      ],
+      "summary": "Manages hardened SQLite access, schema discovery, query limits, preflight checks, and demo data lifecycle.",
+      "tags": [
+        "database",
+        "sqlite",
+        "security",
+        "query-execution"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_fmt_cell",
+      "type": "function",
+      "name": "_fmt_cell",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        79,
+        83
+      ],
+      "summary": "Escapes a value for safe Markdown-table rendering.",
+      "tags": [
+        "database",
+        "formatting",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_csv_cell",
+      "type": "function",
+      "name": "_csv_cell",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        86,
+        90
+      ],
+      "summary": "Neutralizes spreadsheet-formula prefixes while preparing CSV cells.",
+      "tags": [
+        "database",
+        "csv",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_list_tables",
+      "type": "function",
+      "name": "_list_tables",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        334,
+        341
+      ],
+      "summary": "Returns user tables from a SQLite connection.",
+      "tags": [
+        "database",
+        "sqlite",
+        "schema"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:setup_db",
+      "type": "function",
+      "name": "setup_db",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        344,
+        346
+      ],
+      "summary": "Creates a database wrapper and initializes its schema.",
+      "tags": [
+        "database",
+        "setup",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:render_table",
+      "type": "function",
+      "name": "render_table",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        349,
+        354
+      ],
+      "summary": "Renders rows and columns through the QueryResult Markdown formatter.",
+      "tags": [
+        "database",
+        "rendering",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_quote_identifier",
+      "type": "function",
+      "name": "_quote_identifier",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        357,
+        358
+      ],
+      "summary": "Quotes a SQLite identifier for dynamically constructed safe queries.",
+      "tags": [
+        "database",
+        "sql",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:src/nl2sql_agent/db/database.py:_sample_cell",
+      "type": "function",
+      "name": "_sample_cell",
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "lineRange": [
+        361,
+        366
+      ],
+      "summary": "Produces bounded display values for sampled schema rows.",
+      "tags": [
+        "database",
+        "formatting",
+        "utility"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "pipeline:.github/workflows/ci.yml",
+      "type": "pipeline",
+      "name": "ci.yml",
+      "filePath": ".github/workflows/ci.yml",
+      "summary": "GitHub Actions workflow that installs locked dependencies, runs formatting and test checks, audits dependencies, builds the package, and smoke-tests the built wheel.",
+      "tags": [
+        "ci-cd",
+        "testing",
+        "security",
+        "build-system"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.pre-commit-config.yaml",
+      "type": "config",
+      "name": ".pre-commit-config.yaml",
+      "filePath": ".pre-commit-config.yaml",
+      "summary": "Defines local pre-commit checks for Ruff formatting, Ruff linting, ty type checking, and secret detection.",
+      "tags": [
+        "configuration",
+        "quality-gates",
+        "python",
+        "security"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:ARCHITECTURE.md",
+      "type": "document",
+      "name": "ARCHITECTURE.md",
+      "filePath": "ARCHITECTURE.md",
+      "summary": "Explains the NL2SQL agent architecture, state machine, SQL safety layers, provider design, observability, and extension points.",
+      "tags": [
+        "documentation",
+        "architecture",
+        "security",
+        "langgraph"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:CHANGELOG.md",
+      "type": "document",
+      "name": "CHANGELOG.md",
+      "filePath": "CHANGELOG.md",
+      "summary": "Records released and unreleased changes, including the production modernization in version 0.2.0.",
+      "tags": [
+        "documentation",
+        "changelog",
+        "releases",
+        "history"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:CODE_OF_CONDUCT.md",
+      "type": "document",
+      "name": "CODE_OF_CONDUCT.md",
+      "filePath": "CODE_OF_CONDUCT.md",
+      "summary": "Sets contributor conduct standards, reporting channels, and enforcement responsibilities for the project community.",
+      "tags": [
+        "documentation",
+        "community",
+        "governance",
+        "contributing"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:DATASET.md",
+      "type": "document",
+      "name": "DATASET.md",
+      "filePath": "DATASET.md",
+      "summary": "Documents the demo SQLite database and the NL2SQL evaluation corpus used by the project.",
+      "tags": [
+        "documentation",
+        "dataset",
+        "sqlite",
+        "evaluation"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:Launch NL2SQL Agent.cmd",
+      "type": "file",
+      "name": "Launch NL2SQL Agent.cmd",
+      "filePath": "Launch NL2SQL Agent.cmd",
+      "summary": "Windows launcher that checks for uv and starts the NL2SQL Agent server with the locked project environment.",
+      "tags": [
+        "windows",
+        "launcher",
+        "uv",
+        "entry-point"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:MIGRATION_GUIDE.md",
+      "type": "document",
+      "name": "MIGRATION_GUIDE.md",
+      "filePath": "MIGRATION_GUIDE.md",
+      "summary": "Guides users from version 0.1 to 0.2 across installation, UI and CLI usage, configuration, API changes, safety, tests, and tooling.",
+      "tags": [
+        "documentation",
+        "migration",
+        "upgrade",
+        "configuration"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:README.md",
+      "type": "document",
+      "name": "README.md",
+      "filePath": "README.md",
+      "summary": "Provides the project overview, setup instructions, architecture, workflow, configuration, provider options, safety model, API reference, testing, and operations guidance.",
+      "tags": [
+        "documentation",
+        "entry-point",
+        "setup",
+        "nl2sql"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "document:RELEASE_NOTES.md",
+      "type": "document",
+      "name": "RELEASE_NOTES.md",
+      "filePath": "RELEASE_NOTES.md",
+      "summary": "Summarizes version 0.2.0 features, packaged components, verified behavior, and validation gates.",
+      "tags": [
+        "documentation",
+        "release-notes",
+        "releases",
+        "validation"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:SECURITY.md",
+      "type": "document",
+      "name": "SECURITY.md",
+      "filePath": "SECURITY.md",
+      "summary": "Defines supported versions, runtime data-safety expectations, vulnerability reporting, and the response process.",
+      "tags": [
+        "documentation",
+        "security",
+        "vulnerability-reporting",
+        "policy"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:UPGRADE_SUMMARY.md",
+      "type": "document",
+      "name": "UPGRADE_SUMMARY.md",
+      "filePath": "UPGRADE_SUMMARY.md",
+      "summary": "Summarizes the version 0.1 to 0.2 upgrade, including organization changes, audit closures, tests, and verification gates.",
+      "tags": [
+        "documentation",
+        "upgrade",
+        "quality",
+        "releases"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "document:ZERO_TO_HERO_STUDY_HANDBOOK.md",
+      "type": "document",
+      "name": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
+      "filePath": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
+      "summary": "Provides a structured learning handbook covering the agent's architecture, repository map, execution flows, setup, safety, and operations.",
+      "tags": [
+        "documentation",
+        "onboarding",
+        "architecture",
+        "nl2sql"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:architecture-diagram.html",
+      "type": "file",
+      "name": "architecture-diagram.html",
+      "filePath": "architecture-diagram.html",
+      "summary": "Standalone interactive HTML visualization of the NL2SQL Agent architecture with presentation and theme controls.",
+      "tags": [
+        "architecture",
+        "visualization",
+        "html",
+        "documentation"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:architecture-diagram.json",
+      "type": "config",
+      "name": "architecture-diagram.json",
+      "filePath": "architecture-diagram.json",
+      "summary": "Stores the structured architecture-diagram model, including components, boundaries, connections, and explanatory cards.",
+      "tags": [
+        "configuration",
+        "architecture",
+        "visualization",
+        "generated-data"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:pyproject.toml",
+      "type": "config",
+      "name": "pyproject.toml",
+      "filePath": "pyproject.toml",
+      "summary": "Defines project metadata, Python version support, dependencies, tool configuration, package scripts, and test settings for nl2sql-agent.",
+      "tags": [
+        "configuration",
+        "python",
+        "dependencies",
+        "packaging"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.ua/config.json",
+      "type": "config",
+      "name": "config.json",
+      "filePath": ".ua/config.json",
+      "summary": "Stores Understand Anything analysis configuration, including the selected output language and update settings.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "analysis",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:.ua/fingerprints.json",
+      "type": "config",
+      "name": "fingerprints.json",
+      "filePath": ".ua/fingerprints.json",
+      "summary": "Stores structural fingerprints used to compare repository changes and support incremental Understand Anything updates.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "fingerprints",
+        "analysis"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:.ua/knowledge-graph.json",
+      "type": "config",
+      "name": "knowledge-graph.json",
+      "filePath": ".ua/knowledge-graph.json",
+      "summary": "Stores the generated Understand Anything knowledge graph used to explore project components and relationships.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "knowledge-graph",
+        "analysis"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:.ua/meta.json",
+      "type": "config",
+      "name": "meta.json",
+      "filePath": ".ua/meta.json",
+      "summary": "Records metadata for the last Understand Anything analysis, including the analyzed commit and file count.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "metadata",
+        "analysis"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:graphify-out/.graphify_analysis.json",
+      "type": "config",
+      "name": ".graphify_analysis.json",
+      "filePath": "graphify-out/.graphify_analysis.json",
+      "summary": "Stores Graphify analysis data used to describe graph structure, communities, and diagnostics.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "analysis"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/.graphify_ast.json",
+      "type": "config",
+      "name": ".graphify_ast.json",
+      "filePath": "graphify-out/.graphify_ast.json",
+      "summary": "Stores Graphify's abstract-syntax-tree extraction results for the repository source corpus.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "ast"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/.graphify_detect.json",
+      "type": "config",
+      "name": ".graphify_detect.json",
+      "filePath": "graphify-out/.graphify_detect.json",
+      "summary": "Stores Graphify corpus-detection output for the most recent graph analysis run.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "corpus"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:graphify-out/.graphify_extract.json",
+      "type": "config",
+      "name": ".graphify_extract.json",
+      "filePath": "graphify-out/.graphify_extract.json",
+      "summary": "Stores Graphify extraction output that combines structural and semantic graph data.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "extraction"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:graphify-out/.graphify_incremental.json",
+      "type": "config",
+      "name": ".graphify_incremental.json",
+      "filePath": "graphify-out/.graphify_incremental.json",
+      "summary": "Stores Graphify incremental-update state used to identify changed material between graph builds.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "incremental"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/.graphify_labels.json",
+      "type": "config",
+      "name": ".graphify_labels.json",
+      "filePath": "graphify-out/.graphify_labels.json",
+      "summary": "Stores the human-readable labels assigned to Graphify communities.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "communities"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:graphify-out/.graphify_old.json",
+      "type": "config",
+      "name": ".graphify_old.json",
+      "filePath": "graphify-out/.graphify_old.json",
+      "summary": "Stores a prior Graphify graph snapshot for comparison during graph updates.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "snapshot"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/.graphify_semantic.json",
+      "type": "config",
+      "name": ".graphify_semantic.json",
+      "filePath": "graphify-out/.graphify_semantic.json",
+      "summary": "Stores Graphify semantic-extraction results used to enrich the structural graph with conceptual relationships.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "semantics"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/.graphify_semantic_new.json",
+      "type": "config",
+      "name": ".graphify_semantic_new.json",
+      "filePath": "graphify-out/.graphify_semantic_new.json",
+      "summary": "Stores newly produced Graphify semantic-extraction records before they are merged into the graph.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "semantics"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:graphify-out/.graphify_uncached.txt",
+      "type": "document",
+      "name": ".graphify_uncached.txt",
+      "filePath": "graphify-out/.graphify_uncached.txt",
+      "summary": "Lists documents that were not served from Graphify's semantic-extraction cache during a graph build.",
+      "tags": [
+        "documentation",
+        "generated-data",
+        "graphify",
+        "cache"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:graphify-out/GRAPH_REPORT.md",
+      "type": "document",
+      "name": "GRAPH_REPORT.md",
+      "filePath": "graphify-out/GRAPH_REPORT.md",
+      "summary": "Reports Graphify corpus coverage, graph health, communities, high-connectivity nodes, relationships, and benchmark results.",
+      "tags": [
+        "documentation",
+        "generated-data",
+        "graphify",
+        "architecture"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/cost.json",
+      "type": "config",
+      "name": "cost.json",
+      "filePath": "graphify-out/cost.json",
+      "summary": "Stores Graphify run cost and token-accounting metadata.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "cost"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:graphify-out/graph.html",
+      "type": "file",
+      "name": "graph.html",
+      "filePath": "graphify-out/graph.html",
+      "summary": "Provides the interactive Graphify HTML visualization for browsing repository nodes and relationships.",
+      "tags": [
+        "visualization",
+        "generated-data",
+        "graphify",
+        "html"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:graphify-out/graph.json",
+      "type": "config",
+      "name": "graph.json",
+      "filePath": "graphify-out/graph.json",
+      "summary": "Stores the exported Graphify graph containing repository nodes, links, communities, and relationship metadata.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "knowledge-graph"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/manifest.json",
+      "type": "config",
+      "name": "manifest.json",
+      "filePath": "graphify-out/manifest.json",
+      "summary": "Records the Graphify output manifest and source inventory for the generated graph artifacts.",
+      "tags": [
+        "configuration",
+        "generated-data",
+        "graphify",
+        "manifest"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/.graphify_analysis.json",
+      "type": "config",
+      "name": ".graphify_analysis.json",
+      "filePath": "graphify-out/2026-08-14/.graphify_analysis.json",
+      "summary": "Stores Graphify analysis results for communities, central nodes, surprising relationships, and questions.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/.graphify_labels.json",
+      "type": "config",
+      "name": ".graphify_labels.json",
+      "filePath": "graphify-out/2026-08-14/.graphify_labels.json",
+      "summary": "Maps Graphify community identifiers to human-readable architecture labels.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:graphify-out/2026-08-14/GRAPH_REPORT.md",
+      "type": "document",
+      "name": "GRAPH_REPORT.md",
+      "filePath": "graphify-out/2026-08-14/GRAPH_REPORT.md",
+      "summary": "Documents Graphify corpus health, topology, central nodes, communities, and suggested architecture questions.",
+      "tags": [
+        "documentation",
+        "graph-analysis",
+        "architecture"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/cost.json",
+      "type": "config",
+      "name": "cost.json",
+      "filePath": "graphify-out/2026-08-14/cost.json",
+      "summary": "Records Graphify semantic-extraction token accounting and cost data.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/graph.json",
+      "type": "config",
+      "name": "graph.json",
+      "filePath": "graphify-out/2026-08-14/graph.json",
+      "summary": "Stores generated Graphify graph data, including nodes, relationships, communities, and semantic links.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/manifest.json",
+      "type": "config",
+      "name": "manifest.json",
+      "filePath": "graphify-out/2026-08-14/manifest.json",
+      "summary": "Stores Graphify source-file metadata and hashes used to validate graph freshness.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:.github/dependabot.yml",
+      "type": "config",
+      "name": "dependabot.yml",
+      "filePath": ".github/dependabot.yml",
+      "summary": "Configures Dependabot updates for the project dependencies and GitHub Actions.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.python-version",
+      "type": "file",
+      "name": ".python-version",
+      "filePath": ".python-version",
+      "summary": "Pins the Python version used by local tooling and automated environments.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.secrets.baseline",
+      "type": "file",
+      "name": ".secrets.baseline",
+      "filePath": ".secrets.baseline",
+      "summary": "Stores the approved baseline used by secret-scanning checks.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.streamlit/config.toml",
+      "type": "config",
+      "name": "config.toml",
+      "filePath": ".streamlit/config.toml",
+      "summary": "Configures Streamlit presentation settings for the interactive user interface.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.ua/.trash-1786690338",
+      "type": "file",
+      "name": ".trash-1786690338",
+      "filePath": ".ua/.trash-1786690338",
+      "summary": "Project support file included in the repository analysis.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:.ua/.understandignore",
+      "type": "file",
+      "name": ".understandignore",
+      "filePath": ".ua/.understandignore",
+      "summary": "Defines exclusions and inclusion rules for Understand Anything project analysis.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:.ua/intermediate/scan-result.json",
+      "type": "config",
+      "name": "scan-result.json",
+      "filePath": ".ua/intermediate/scan-result.json",
+      "summary": "Stores the discovered project-file inventory and scanner metadata for knowledge-graph analysis.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "file:graphify-out/.graphify_labels.json.sig",
+      "type": "file",
+      "name": ".graphify_labels.json.sig",
+      "filePath": "graphify-out/.graphify_labels.json.sig",
+      "summary": "Maps Graphify community identifiers to human-readable architecture labels.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:graphify-out/.graphify_python",
+      "type": "file",
+      "name": ".graphify_python",
+      "filePath": "graphify-out/.graphify_python",
+      "summary": "Provides Graphify support metadata for the checked-in graph artifacts.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:graphify-out/.graphify_root",
+      "type": "file",
+      "name": ".graphify_root",
+      "filePath": "graphify-out/.graphify_root",
+      "summary": "Provides Graphify support metadata for the checked-in graph artifacts.",
+      "tags": [
+        "project-support",
+        "metadata",
+        "tooling"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/__init__.py",
+      "summary": "Defines the package boundary and public import surface for this project area.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/data/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "src/nl2sql_agent/evaluation/data/__init__.py",
+      "summary": "Defines the package boundary and public import surface for this project area.",
+      "tags": [
+        "python",
+        "package",
+        "barrel"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:src/nl2sql_agent/evaluation/data/demo.jsonl",
+      "type": "file",
+      "name": "demo.jsonl",
+      "filePath": "src/nl2sql_agent/evaluation/data/demo.jsonl",
+      "summary": "Provides the newline-delimited evaluation cases used to assess natural-language-to-SQL behavior.",
+      "tags": [
+        "evaluation",
+        "dataset",
+        "test-data"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "tests/__init__.py",
+      "summary": "Marks a test package boundary for pytest discovery and module organization.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/conftest.py",
+      "type": "file",
+      "name": "conftest.py",
+      "filePath": "tests/conftest.py",
+      "summary": "Provides shared pytest fixtures for isolated settings, databases, mock models, and agent state.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/conftest.py:_reset_settings",
+      "type": "function",
+      "name": "_reset_settings",
+      "filePath": "tests/conftest.py",
+      "lineRange": [
+        16,
+        30
+      ],
+      "summary": "Provides the  reset settings test fixture or helper.",
+      "tags": [
+        "fixture",
+        "pytest",
+        "test-support"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/conftest.py:make_state",
+      "type": "function",
+      "name": "make_state",
+      "filePath": "tests/conftest.py",
+      "lineRange": [
+        67,
+        83
+      ],
+      "summary": "Provides the make state test fixture or helper.",
+      "tags": [
+        "fixture",
+        "pytest",
+        "test-support"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/integration/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "tests/integration/__init__.py",
+      "summary": "Marks a test package boundary for pytest discovery and module organization.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/integration/test_ollama_live.py",
+      "type": "file",
+      "name": "test_ollama_live.py",
+      "filePath": "tests/integration/test_ollama_live.py",
+      "summary": "Exercises the NL2SQL workflow against a running local Ollama service when the integration environment is available.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/integration/test_ollama_live.py:TestOllamaIntegration",
+      "type": "class",
+      "name": "TestOllamaIntegration",
+      "filePath": "tests/integration/test_ollama_live.py",
+      "lineRange": [
+        62,
+        97
+      ],
+      "summary": "Groups pytest cases that verify ollama integration behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/__init__.py",
+      "type": "file",
+      "name": "__init__.py",
+      "filePath": "tests/unit/__init__.py",
+      "summary": "Marks a test package boundary for pytest discovery and module organization.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_agent.py",
+      "type": "file",
+      "name": "test_agent.py",
+      "filePath": "tests/unit/test_agent.py",
+      "summary": "Provides pytest coverage for agent behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "function:tests/unit/test_agent.py:_make_agent",
+      "type": "function",
+      "name": "_make_agent",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        12,
+        37
+      ],
+      "summary": "Provides the  make agent test fixture or helper.",
+      "tags": [
+        "fixture",
+        "pytest",
+        "test-support"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestFetchSchema",
+      "type": "class",
+      "name": "TestFetchSchema",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        40,
+        62
+      ],
+      "summary": "Groups pytest cases that verify fetch schema behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestWriteSql",
+      "type": "class",
+      "name": "TestWriteSql",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        65,
+        101
+      ],
+      "summary": "Groups pytest cases that verify write sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestCheckSecurity",
+      "type": "class",
+      "name": "TestCheckSecurity",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        104,
+        128
+      ],
+      "summary": "Groups pytest cases that verify check security behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestExecuteSql",
+      "type": "class",
+      "name": "TestExecuteSql",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        131,
+        152
+      ],
+      "summary": "Groups pytest cases that verify execute sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestSummarize",
+      "type": "class",
+      "name": "TestSummarize",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        155,
+        190
+      ],
+      "summary": "Groups pytest cases that verify summarize behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestRouting",
+      "type": "class",
+      "name": "TestRouting",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        193,
+        239
+      ],
+      "summary": "Groups pytest cases that verify routing behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestHighLevelRun",
+      "type": "class",
+      "name": "TestHighLevelRun",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        242,
+        280
+      ],
+      "summary": "Groups pytest cases that verify high level run behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestPreparedExecution",
+      "type": "class",
+      "name": "TestPreparedExecution",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        283,
+        337
+      ],
+      "summary": "Groups pytest cases that verify prepared execution behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestWorkflowStructure",
+      "type": "class",
+      "name": "TestWorkflowStructure",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        340,
+        364
+      ],
+      "summary": "Groups pytest cases that verify workflow structure behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_agent.py:TestExecutionEdgeCases",
+      "type": "class",
+      "name": "TestExecutionEdgeCases",
+      "filePath": "tests/unit/test_agent.py",
+      "lineRange": [
+        367,
+        398
+      ],
+      "summary": "Groups pytest cases that verify execution edge cases behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_audit.py",
+      "type": "file",
+      "name": "test_audit.py",
+      "filePath": "tests/unit/test_audit.py",
+      "summary": "Provides pytest coverage for audit behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_audit.py:test_audit_logger_writes_jsonl_without_raw_question",
+      "type": "function",
+      "name": "test_audit_logger_writes_jsonl_without_raw_question",
+      "filePath": "tests/unit/test_audit.py",
+      "lineRange": [
+        31,
+        45
+      ],
+      "summary": "Verifies audit logger writes jsonl without raw question behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_cli.py",
+      "type": "file",
+      "name": "test_cli.py",
+      "filePath": "tests/unit/test_cli.py",
+      "summary": "Provides pytest coverage for cli behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestAskCommand",
+      "type": "class",
+      "name": "TestAskCommand",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        13,
+        62
+      ],
+      "summary": "Groups pytest cases that verify ask command behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestConfigCommand",
+      "type": "class",
+      "name": "TestConfigCommand",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        65,
+        96
+      ],
+      "summary": "Groups pytest cases that verify config command behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestParser",
+      "type": "class",
+      "name": "TestParser",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        99,
+        125
+      ],
+      "summary": "Groups pytest cases that verify parser behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_cli.py:TestEvalCommand",
+      "type": "class",
+      "name": "TestEvalCommand",
+      "filePath": "tests/unit/test_cli.py",
+      "lineRange": [
+        128,
+        191
+      ],
+      "summary": "Groups pytest cases that verify eval command behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_database.py",
+      "type": "file",
+      "name": "test_database.py",
+      "filePath": "tests/unit/test_database.py",
+      "summary": "Provides pytest coverage for database behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestSetup",
+      "type": "class",
+      "name": "TestSetup",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        23,
+        82
+      ],
+      "summary": "Groups pytest cases that verify setup behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestQueryResult",
+      "type": "class",
+      "name": "TestQueryResult",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        85,
+        137
+      ],
+      "summary": "Groups pytest cases that verify query result behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestDatabaseExecute",
+      "type": "class",
+      "name": "TestDatabaseExecute",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        140,
+        191
+      ],
+      "summary": "Groups pytest cases that verify database execute behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_database.py:TestDatabaseSchema",
+      "type": "class",
+      "name": "TestDatabaseSchema",
+      "filePath": "tests/unit/test_database.py",
+      "lineRange": [
+        194,
+        252
+      ],
+      "summary": "Groups pytest cases that verify database schema behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_evaluation.py",
+      "type": "file",
+      "name": "test_evaluation.py",
+      "filePath": "tests/unit/test_evaluation.py",
+      "summary": "Provides pytest coverage for evaluation behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_load_cases",
+      "type": "function",
+      "name": "test_load_cases",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        18,
+        36
+      ],
+      "summary": "Verifies load cases behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_result_case_compares_rows_not_sql",
+      "type": "function",
+      "name": "test_result_case_compares_rows_not_sql",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        39,
+        61
+      ],
+      "summary": "Verifies result case compares rows not sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_unordered_results_ignore_row_order",
+      "type": "function",
+      "name": "test_unordered_results_ignore_row_order",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        64,
+        73
+      ],
+      "summary": "Verifies unordered results ignore row order behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_blocked_case_scores_safety",
+      "type": "function",
+      "name": "test_blocked_case_scores_safety",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        76,
+        87
+      ],
+      "summary": "Verifies blocked case scores safety behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_report_threshold_fails_inaccurate_result",
+      "type": "function",
+      "name": "test_report_threshold_fails_inaccurate_result",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        90,
+        100
+      ],
+      "summary": "Verifies report threshold fails inaccurate result behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_evaluation.py:test_optional_cost_estimate",
+      "type": "function",
+      "name": "test_optional_cost_estimate",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        103,
+        125
+      ],
+      "summary": "Verifies optional cost estimate behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_evaluation.py:FakeAgent",
+      "type": "class",
+      "name": "FakeAgent",
+      "filePath": "tests/unit/test_evaluation.py",
+      "lineRange": [
+        10,
+        15
+      ],
+      "summary": "Provides the FakeAgent test double used by the evaluation suite.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_llm_factory.py",
+      "type": "file",
+      "name": "test_llm_factory.py",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "summary": "Provides pytest coverage for llm factory behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/unit/test_llm_factory.py:TestFallbackModels",
+      "type": "class",
+      "name": "TestFallbackModels",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "lineRange": [
+        18,
+        38
+      ],
+      "summary": "Groups pytest cases that verify fallback models behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_llm_factory.py:TestListModels",
+      "type": "class",
+      "name": "TestListModels",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "lineRange": [
+        41,
+        87
+      ],
+      "summary": "Groups pytest cases that verify list models behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_llm_factory.py:TestBuildChatModel",
+      "type": "class",
+      "name": "TestBuildChatModel",
+      "filePath": "tests/unit/test_llm_factory.py",
+      "lineRange": [
+        90,
+        261
+      ],
+      "summary": "Groups pytest cases that verify build chat model behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_logging.py",
+      "type": "file",
+      "name": "test_logging.py",
+      "filePath": "tests/unit/test_logging.py",
+      "summary": "Provides pytest coverage for logging behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_prompts.py",
+      "type": "file",
+      "name": "test_prompts.py",
+      "filePath": "tests/unit/test_prompts.py",
+      "summary": "Provides pytest coverage for prompts behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_prompts.py:TestPrompts",
+      "type": "class",
+      "name": "TestPrompts",
+      "filePath": "tests/unit/test_prompts.py",
+      "lineRange": [
+        14,
+        70
+      ],
+      "summary": "Groups pytest cases that verify prompts behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "file:tests/unit/test_settings.py",
+      "type": "file",
+      "name": "test_settings.py",
+      "filePath": "tests/unit/test_settings.py",
+      "summary": "Provides pytest coverage for settings behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_settings.py:TestSettings",
+      "type": "class",
+      "name": "TestSettings",
+      "filePath": "tests/unit/test_settings.py",
+      "lineRange": [
+        21,
+        186
+      ],
+      "summary": "Groups pytest cases that verify settings behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "class:tests/unit/test_settings.py:TestEnvVar",
+      "type": "class",
+      "name": "TestEnvVar",
+      "filePath": "tests/unit/test_settings.py",
+      "lineRange": [
+        189,
+        203
+      ],
+      "summary": "Groups pytest cases that verify env var behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_sql_validator.py",
+      "type": "file",
+      "name": "test_sql_validator.py",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "summary": "Provides pytest coverage for sql validator behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestDestructiveStatements",
+      "type": "class",
+      "name": "TestDestructiveStatements",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        42,
+        64
+      ],
+      "summary": "Groups pytest cases that verify destructive statements behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestMultiStatement",
+      "type": "class",
+      "name": "TestMultiStatement",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        67,
+        74
+      ],
+      "summary": "Groups pytest cases that verify multi statement behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestDangerousFunctions",
+      "type": "class",
+      "name": "TestDangerousFunctions",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        77,
+        93
+      ],
+      "summary": "Groups pytest cases that verify dangerous functions behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestSubqueries",
+      "type": "class",
+      "name": "TestSubqueries",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        96,
+        107
+      ],
+      "summary": "Groups pytest cases that verify subqueries behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestJoins",
+      "type": "class",
+      "name": "TestJoins",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        110,
+        137
+      ],
+      "summary": "Groups pytest cases that verify joins behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestCTE",
+      "type": "class",
+      "name": "TestCTE",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        140,
+        156
+      ],
+      "summary": "Groups pytest cases that verify c t e behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestUnion",
+      "type": "class",
+      "name": "TestUnion",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        159,
+        168
+      ],
+      "summary": "Groups pytest cases that verify union behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestEmptyAndInvalid",
+      "type": "class",
+      "name": "TestEmptyAndInvalid",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        186,
+        197
+      ],
+      "summary": "Groups pytest cases that verify empty and invalid behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestReferencedTables",
+      "type": "class",
+      "name": "TestReferencedTables",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        200,
+        227
+      ],
+      "summary": "Groups pytest cases that verify referenced tables behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestParseSql",
+      "type": "class",
+      "name": "TestParseSql",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        230,
+        238
+      ],
+      "summary": "Groups pytest cases that verify parse sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_sql_validator.py:TestPrepareSql",
+      "type": "class",
+      "name": "TestPrepareSql",
+      "filePath": "tests/unit/test_sql_validator.py",
+      "lineRange": [
+        241,
+        285
+      ],
+      "summary": "Groups pytest cases that verify prepare sql behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_text.py",
+      "type": "file",
+      "name": "test_text.py",
+      "filePath": "tests/unit/test_text.py",
+      "summary": "Provides pytest coverage for text behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_text.py:TestStripSqlFences",
+      "type": "class",
+      "name": "TestStripSqlFences",
+      "filePath": "tests/unit/test_text.py",
+      "lineRange": [
+        8,
+        41
+      ],
+      "summary": "Groups pytest cases that verify strip sql fences behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "class:tests/unit/test_text.py:TestTruncate",
+      "type": "class",
+      "name": "TestTruncate",
+      "filePath": "tests/unit/test_text.py",
+      "lineRange": [
+        44,
+        61
+      ],
+      "summary": "Groups pytest cases that verify truncate behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "test-suite"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_ui_components.py",
+      "type": "file",
+      "name": "test_ui_components.py",
+      "filePath": "tests/unit/test_ui_components.py",
+      "summary": "Provides pytest coverage for ui components behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "function:tests/unit/test_ui_components.py:test_sidebar_shows_only_approved_cloud_models",
+      "type": "function",
+      "name": "test_sidebar_shows_only_approved_cloud_models",
+      "filePath": "tests/unit/test_ui_components.py",
+      "lineRange": [
+        12,
+        25
+      ],
+      "summary": "Verifies sidebar shows only approved cloud models behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "verification"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "file:tests/unit/test_upload.py",
+      "type": "file",
+      "name": "test_upload.py",
+      "filePath": "tests/unit/test_upload.py",
+      "summary": "Provides pytest coverage for upload behavior.",
+      "tags": [
+        "test",
+        "pytest",
+        "quality-assurance"
+      ],
+      "complexity": "simple"
+    }
+  ],
+  "edges": [
+    {
+      "source": "file:src/nl2sql_agent/config/__init__.py",
+      "target": "file:src/nl2sql_agent/config/settings.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:supported_models_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:default_model_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:default_model_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:validate_model_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:get_settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:get_settings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:reset_settings_cache",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_for",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_for",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_value",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "function:src/nl2sql_agent/config/settings.py:env_var_value",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "class:src/nl2sql_agent/config/settings.py:Settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/config/settings.py",
+      "target": "class:src/nl2sql_agent/config/settings.py:Settings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/__init__.py",
+      "target": "file:src/nl2sql_agent/llm/factory.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:build_chat_model",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_normalize_provider",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_ollama",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_gemini",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_anthropic",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_huggingface",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_xai",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_build_openai_compatible",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:fallback_models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:list_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:list_models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "function:src/nl2sql_agent/llm/factory.py:_list_ollama",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "class:src/nl2sql_agent/llm/factory.py:LLMProviderError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/llm/factory.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/__init__.py",
+      "target": "file:src/nl2sql_agent/ui/components.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/__init__.py",
+      "target": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_sidebar",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:_default_models",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_chat_history",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_steps",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "function:src/nl2sql_agent/ui/components.py:render_run_result",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/components.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_upload_metadata",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:validate_sqlite_upload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "function:src/nl2sql_agent/ui/database_upload.py:save_sqlite_upload",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/database_upload.py",
+      "target": "class:src/nl2sql_agent/ui/database_upload.py:SQLiteUploadError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_init_session_state",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_demo_database",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_runtime_settings",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_resolve_database",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_build_agent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_history_message",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:_stage_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "function:src/nl2sql_agent/ui/streamlit_app.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/agent/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/llm/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/ui/components.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/ui/database_upload.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/ui/streamlit_app.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/__init__.py",
+      "target": "file:src/nl2sql_agent/security/sql_validator.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:parse_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_flatten_selects",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_is_aggregate_call",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_uses_aggregate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_function_name",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:validate_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_validate_statements",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_check_select",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:referenced_tables",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:_referenced_tables",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "function:src/nl2sql_agent/security/sql_validator.py:prepare_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLValidationError",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:SQLPolicy",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "class:src/nl2sql_agent/security/sql_validator.py:PreparedSQL",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/security/sql_validator.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/audit.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/__init__.py",
+      "target": "file:src/nl2sql_agent/utils/text.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:hash_text",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "function:src/nl2sql_agent/utils/audit.py:redact_sql",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/audit.py",
+      "target": "class:src/nl2sql_agent/utils/audit.py:AuditLogger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:configure_logging",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/logging.py",
+      "target": "function:src/nl2sql_agent/utils/logging.py:get_logger",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:strip_sql_fences",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "function:src/nl2sql_agent/utils/text.py:truncate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/utils/text.py",
+      "target": "file:src/nl2sql_agent/utils/logging.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/__init__.py",
+      "target": "file:src/nl2sql_agent/agent/state.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/__init__.py",
+      "target": "file:src/nl2sql_agent/agent/workflow.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/state.py",
+      "target": "class:src/nl2sql_agent/agent/state.py:AgentState",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/state.py",
+      "target": "class:src/nl2sql_agent/agent/state.py:AgentState",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "class:src/nl2sql_agent/agent/workflow.py:NodeTrace",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "class:src/nl2sql_agent/agent/workflow.py:NodeTrace",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "class:src/nl2sql_agent/agent/workflow.py:NL2SQLAgent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "class:src/nl2sql_agent/agent/workflow.py:NL2SQLAgent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/agent/state.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/prompts/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/security/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/agent/workflow.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/__init__.py",
+      "target": "file:src/nl2sql_agent/prompts/templates.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/templates.py",
+      "target": "function:src/nl2sql_agent/prompts/templates.py:error_section",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/templates.py",
+      "target": "function:src/nl2sql_agent/prompts/templates.py:error_section",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/templates.py",
+      "target": "function:src/nl2sql_agent/prompts/templates.py:format_data",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/prompts/templates.py",
+      "target": "function:src/nl2sql_agent/prompts/templates.py:format_data",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/agent/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/config/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/evaluation/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/llm/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/__init__.py",
+      "target": "file:src/nl2sql_agent/evaluation/runner.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "file:src/nl2sql_agent/db/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_pass_rate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_pass_rate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_build_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:_build_agent",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_ask",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_ask",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_config",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_config",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_serve",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_serve",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_eval",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:cmd_eval",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:build_parser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:build_parser",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:main",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/cli.py",
+      "target": "function:src/nl2sql_agent/cli.py:main",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:AgentRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:AgentRunner",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvalCase",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvalCase",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationCaseResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationCaseResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationReport",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationReport",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationRunner",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "class:src/nl2sql_agent/evaluation/runner.py:EvaluationRunner",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:load_cases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:load_cases",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rate",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_percentile",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_percentile",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rows_equal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_rows_equal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_value_equal",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_value_equal",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_file_digest",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/evaluation/runner.py",
+      "target": "function:src/nl2sql_agent/evaluation/runner.py:_file_digest",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/__init__.py",
+      "target": "file:src/nl2sql_agent/db/database.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/__init__.py",
+      "target": "file:src/nl2sql_agent/db/seed.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "file:src/nl2sql_agent/db/seed.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "file:src/nl2sql_agent/utils/__init__.py",
+      "type": "imports",
+      "direction": "forward",
+      "weight": 0.7
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:QueryResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:QueryResult",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:Database",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "class:src/nl2sql_agent/db/database.py:Database",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_fmt_cell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_fmt_cell",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_csv_cell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_csv_cell",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_list_tables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_list_tables",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:setup_db",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:setup_db",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:render_table",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:render_table",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_quote_identifier",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_quote_identifier",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_sample_cell",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:src/nl2sql_agent/db/database.py",
+      "target": "function:src/nl2sql_agent/db/database.py:_sample_cell",
+      "type": "exports",
+      "direction": "forward",
+      "weight": 0.8
+    },
+    {
+      "source": "file:tests/conftest.py",
+      "target": "function:tests/conftest.py:_reset_settings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/conftest.py",
+      "target": "function:tests/conftest.py:make_state",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/integration/test_ollama_live.py",
+      "target": "class:tests/integration/test_ollama_live.py:TestOllamaIntegration",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "function:tests/unit/test_agent.py:_make_agent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestFetchSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestWriteSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestCheckSecurity",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestExecuteSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestSummarize",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestRouting",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestHighLevelRun",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestPreparedExecution",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestWorkflowStructure",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_agent.py",
+      "target": "class:tests/unit/test_agent.py:TestExecutionEdgeCases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_audit.py",
+      "target": "function:tests/unit/test_audit.py:test_audit_logger_writes_jsonl_without_raw_question",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestAskCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestConfigCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestParser",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_cli.py",
+      "target": "class:tests/unit/test_cli.py:TestEvalCommand",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestSetup",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestQueryResult",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestDatabaseExecute",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_database.py",
+      "target": "class:tests/unit/test_database.py:TestDatabaseSchema",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_load_cases",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_result_case_compares_rows_not_sql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_unordered_results_ignore_row_order",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_blocked_case_scores_safety",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_report_threshold_fails_inaccurate_result",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "function:tests/unit/test_evaluation.py:test_optional_cost_estimate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_evaluation.py",
+      "target": "class:tests/unit/test_evaluation.py:FakeAgent",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_llm_factory.py",
+      "target": "class:tests/unit/test_llm_factory.py:TestFallbackModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_llm_factory.py",
+      "target": "class:tests/unit/test_llm_factory.py:TestListModels",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_llm_factory.py",
+      "target": "class:tests/unit/test_llm_factory.py:TestBuildChatModel",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_prompts.py",
+      "target": "class:tests/unit/test_prompts.py:TestPrompts",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_settings.py",
+      "target": "class:tests/unit/test_settings.py:TestSettings",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_settings.py",
+      "target": "class:tests/unit/test_settings.py:TestEnvVar",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestDestructiveStatements",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestMultiStatement",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestDangerousFunctions",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestSubqueries",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestJoins",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestCTE",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestUnion",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestEmptyAndInvalid",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestReferencedTables",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestParseSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_sql_validator.py",
+      "target": "class:tests/unit/test_sql_validator.py:TestPrepareSql",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_text.py",
+      "target": "class:tests/unit/test_text.py:TestStripSqlFences",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_text.py",
+      "target": "class:tests/unit/test_text.py:TestTruncate",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    },
+    {
+      "source": "file:tests/unit/test_ui_components.py",
+      "target": "function:tests/unit/test_ui_components.py:test_sidebar_shows_only_approved_cloud_models",
+      "type": "contains",
+      "direction": "forward",
+      "weight": 1
+    }
+  ],
+  "layers": [
+    {
+      "id": "layer:agent-workflow",
+      "name": "Agent Workflow",
+      "description": "LangGraph orchestration, prompt and evaluation assets, and the six-provider model-integration boundary that turn questions into governed SQL answers.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/llm/__init__.py",
+        "file:src/nl2sql_agent/llm/factory.py",
+        "file:src/nl2sql_agent/agent/__init__.py",
+        "file:src/nl2sql_agent/agent/state.py",
+        "file:src/nl2sql_agent/agent/workflow.py",
+        "file:src/nl2sql_agent/prompts/__init__.py",
+        "file:src/nl2sql_agent/prompts/templates.py",
+        "file:src/nl2sql_agent/evaluation/__init__.py",
+        "file:src/nl2sql_agent/evaluation/runner.py",
+        "file:src/nl2sql_agent/__init__.py",
+        "file:src/nl2sql_agent/evaluation/data/__init__.py",
+        "file:src/nl2sql_agent/evaluation/data/demo.jsonl"
+      ]
+    },
+    {
+      "id": "layer:user-interfaces",
+      "name": "User Interfaces",
+      "description": "The Streamlit interface, command-line interface, and Windows launcher that configure and start the NL2SQL agent for users.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/ui/__init__.py",
+        "file:src/nl2sql_agent/ui/components.py",
+        "file:src/nl2sql_agent/ui/database_upload.py",
+        "file:src/nl2sql_agent/ui/streamlit_app.py",
+        "file:src/nl2sql_agent/cli.py",
+        "file:Launch NL2SQL Agent.cmd"
+      ]
+    },
+    {
+      "id": "layer:data-and-security",
+      "name": "Data and SQL Safety",
+      "description": "SQLite access, demo data, and SQL-policy enforcement that constrain and execute generated analytical queries.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/security/__init__.py",
+        "file:src/nl2sql_agent/security/sql_validator.py",
+        "file:src/nl2sql_agent/db/__init__.py",
+        "file:src/nl2sql_agent/db/database.py",
+        "file:src/nl2sql_agent/db/seed.py"
+      ]
+    },
+    {
+      "id": "layer:runtime-foundations",
+      "name": "Runtime Foundations",
+      "description": "Validated settings plus shared audit, logging, and text utilities that support every execution path.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/config/__init__.py",
+        "file:src/nl2sql_agent/config/settings.py",
+        "file:src/nl2sql_agent/utils/__init__.py",
+        "file:src/nl2sql_agent/utils/audit.py",
+        "file:src/nl2sql_agent/utils/logging.py",
+        "file:src/nl2sql_agent/utils/text.py"
+      ]
+    },
+    {
+      "id": "layer:quality-assurance",
+      "name": "Quality Assurance",
+      "description": "Pytest fixtures, unit tests, and live integration coverage for the agent, providers, data layer, and safeguards.",
+      "nodeIds": [
+        "file:tests/__init__.py",
+        "file:tests/conftest.py",
+        "file:tests/integration/__init__.py",
+        "file:tests/integration/test_ollama_live.py",
+        "file:tests/unit/__init__.py",
+        "file:tests/unit/test_agent.py",
+        "file:tests/unit/test_audit.py",
+        "file:tests/unit/test_cli.py",
+        "file:tests/unit/test_database.py",
+        "file:tests/unit/test_evaluation.py",
+        "file:tests/unit/test_llm_factory.py",
+        "file:tests/unit/test_logging.py",
+        "file:tests/unit/test_prompts.py",
+        "file:tests/unit/test_settings.py",
+        "file:tests/unit/test_sql_validator.py",
+        "file:tests/unit/test_text.py",
+        "file:tests/unit/test_ui_components.py",
+        "file:tests/unit/test_upload.py"
+      ]
+    },
+    {
+      "id": "layer:documentation",
+      "name": "Documentation",
+      "description": "Architecture, operations, security, migration, provider, release, dataset, and learning documentation for the NL2SQL agent.",
+      "nodeIds": [
+        "document:ARCHITECTURE.md",
+        "document:CHANGELOG.md",
+        "document:CODE_OF_CONDUCT.md",
+        "document:DATASET.md",
+        "document:MIGRATION_GUIDE.md",
+        "document:README.md",
+        "document:RELEASE_NOTES.md",
+        "document:SECURITY.md",
+        "document:UPGRADE_SUMMARY.md",
+        "document:ZERO_TO_HERO_STUDY_HANDBOOK.md",
+        "document:graphify-out/.graphify_uncached.txt",
+        "document:graphify-out/GRAPH_REPORT.md",
+        "document:graphify-out/2026-08-14/GRAPH_REPORT.md"
+      ]
+    },
+    {
+      "id": "layer:project-tooling",
+      "name": "Project Tooling and Graph Assets",
+      "description": "Packaging, developer configuration, architecture visualization, and checked-in Understand Anything and Graphify analysis artifacts.",
+      "nodeIds": [
+        "config:.pre-commit-config.yaml",
+        "file:architecture-diagram.html",
+        "config:architecture-diagram.json",
+        "config:pyproject.toml",
+        "config:.ua/config.json",
+        "config:.ua/fingerprints.json",
+        "config:.ua/knowledge-graph.json",
+        "config:.ua/meta.json",
+        "config:graphify-out/.graphify_analysis.json",
+        "config:graphify-out/.graphify_ast.json",
+        "config:graphify-out/.graphify_detect.json",
+        "config:graphify-out/.graphify_extract.json",
+        "config:graphify-out/.graphify_incremental.json",
+        "config:graphify-out/.graphify_labels.json",
+        "config:graphify-out/.graphify_old.json",
+        "config:graphify-out/.graphify_semantic.json",
+        "config:graphify-out/.graphify_semantic_new.json",
+        "config:graphify-out/cost.json",
+        "file:graphify-out/graph.html",
+        "config:graphify-out/graph.json",
+        "config:graphify-out/manifest.json",
+        "config:graphify-out/2026-08-14/.graphify_analysis.json",
+        "config:graphify-out/2026-08-14/.graphify_labels.json",
+        "config:graphify-out/2026-08-14/cost.json",
+        "config:graphify-out/2026-08-14/graph.json",
+        "config:graphify-out/2026-08-14/manifest.json",
+        "config:.github/dependabot.yml",
+        "file:.python-version",
+        "file:.secrets.baseline",
+        "config:.streamlit/config.toml",
+        "file:.ua/.trash-1786690338",
+        "file:.ua/.understandignore",
+        "config:.ua/intermediate/scan-result.json",
+        "file:graphify-out/.graphify_labels.json.sig",
+        "file:graphify-out/.graphify_python",
+        "file:graphify-out/.graphify_root"
+      ]
+    },
+    {
+      "id": "layer:ci-cd",
+      "name": "CI/CD",
+      "description": "GitHub Actions automation that validates formatting, typing, tests, dependency security, builds, and package smoke tests.",
+      "nodeIds": [
+        "pipeline:.github/workflows/ci.yml"
+      ]
+    }
+  ],
+  "tour": [
+    {
+      "order": 1,
+      "title": "Project Overview",
+      "description": "Begin with the README for the project's local-first purpose: turn business questions into safe, auditable SQLite queries. It also maps the configuration, model, workflow, safety, interface, and operational pieces that the rest of this tour follows.",
+      "nodeIds": [
+        "document:README.md"
+      ]
+    },
+    {
+      "order": 2,
+      "title": "Windows Launcher",
+      "description": "For Windows users, the launcher checks for uv and starts the application through the project's locked environment. It is the most direct operational handoff from the setup guidance into the user-facing runtime.",
+      "nodeIds": [
+        "file:Launch NL2SQL Agent.cmd"
+      ],
+      "languageLesson": "A Windows command launcher is deliberately thin: it delegates dependency resolution and process execution to uv so the application environment stays consistent with development and CI."
+    },
+    {
+      "order": 3,
+      "title": "Command-Line Entry",
+      "description": "The CLI is the primary programmatic entry point for asking questions, inspecting resolved settings, launching Streamlit, and running evaluations. Its dependency path leads into the agent, settings, provider, auditing, and evaluation layers without coupling callers to their implementation details.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/cli.py"
+      ]
+    },
+    {
+      "order": 4,
+      "title": "Interactive Interface",
+      "description": "The Streamlit application provides the conversational path alongside the CLI: it collects configuration, chooses a database, builds the agent, streams progress, and displays results. Reading it after the CLI makes clear that both interfaces reuse the same governed execution core.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/ui/streamlit_app.py",
+        "file:src/nl2sql_agent/ui/components.py"
+      ]
+    },
+    {
+      "order": 5,
+      "title": "Validated Settings",
+      "description": "Runtime settings normalize provider credentials, database limits, and environment inputs before any model or database action occurs. This shared foundation gives the CLI and UI from the previous steps a single, validated configuration contract.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/config/settings.py",
+        "config:pyproject.toml"
+      ],
+      "languageLesson": "Typed Python settings move environment parsing and validation to the boundary, preventing invalid configuration from becoming a late workflow failure."
+    },
+    {
+      "order": 6,
+      "title": "Provider Catalog",
+      "description": "The model factory encapsulates provider-specific construction and curated model discovery for local Ollama plus Hugging Face, OpenAI, Anthropic, Gemini, and xAI. Keeping this catalog behind one factory lets the workflow depend on a chat-model capability rather than on any provider SDK.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/llm/factory.py",
+        "file:src/nl2sql_agent/prompts/templates.py"
+      ]
+    },
+    {
+      "order": 7,
+      "title": "Agent Workflow",
+      "description": "The LangGraph workflow turns a question into an answer through schema discovery, SQL drafting, safety checks, execution, repair, summarization, and auditing. It is the central coordinator that connects the interfaces, settings, providers, prompts, database, and guardrail layers introduced so far.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/agent/workflow.py",
+        "file:src/nl2sql_agent/agent/state.py",
+        "document:ARCHITECTURE.md"
+      ]
+    },
+    {
+      "order": 8,
+      "title": "SQL Safety Boundary",
+      "description": "Generated SQL is parsed and validated against read-only policy limits before it can reach the database. This is the project's central trust boundary: LLM output remains untrusted input until a structural allow-list has approved it.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/security/sql_validator.py",
+        "document:SECURITY.md"
+      ],
+      "languageLesson": "An SQL AST exposes statement structure for validation, which is more reliable than matching keywords in generated text and supports deny-by-default policy decisions."
+    },
+    {
+      "order": 9,
+      "title": "SQLite Data Layer",
+      "description": "The database layer initializes the demo schema, supplies schema context, executes bounded approved queries, and renders results. It turns the policy-approved request from Step 8 into data while keeping SQLite and connection-management concerns out of the workflow and interfaces.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/db/database.py",
+        "file:src/nl2sql_agent/db/seed.py",
+        "document:DATASET.md"
+      ]
+    },
+    {
+      "order": 10,
+      "title": "Evidence and Evaluation",
+      "description": "Structured auditing redacts SQL while retaining stable evidence of what happened, and the evaluation runner measures answer quality, safety, latency, and token use. Together they make the workflow observable and give provider or prompt changes a repeatable quality gate.",
+      "nodeIds": [
+        "file:src/nl2sql_agent/utils/audit.py",
+        "file:src/nl2sql_agent/evaluation/runner.py",
+        "file:tests/unit/test_agent.py"
+      ]
+    },
+    {
+      "order": 11,
+      "title": "Continuous Quality",
+      "description": "The CI workflow installs locked dependencies, checks formatting and types, runs tests and dependency auditing, builds the package, and smoke-tests the wheel. Local pre-commit hooks bring a focused subset of those protections into the developer loop before changes reach continuous integration.",
+      "nodeIds": [
+        "pipeline:.github/workflows/ci.yml",
+        "config:.pre-commit-config.yaml"
+      ],
+      "languageLesson": "GitHub Actions model automation as triggered workflows containing jobs and ordered steps, while pre-commit hooks provide a faster local feedback loop for compatible checks."
+    }
+  ]
+}

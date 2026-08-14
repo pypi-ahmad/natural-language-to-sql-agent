@@ -61,7 +61,10 @@ class TestPrompts:
 
     def test_summarizer_user_renders(self):
         out = SUMMARIZER_USER.format(
-            question="q", sql="SELECT 1", data="1", error="",
+            question="q",
+            sql="SELECT 1",
+            data="1",
+            error="",
         )
         assert "SELECT 1" in out
         assert "1" in out

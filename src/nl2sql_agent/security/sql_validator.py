@@ -17,11 +17,13 @@ LangChain's ``SQLDatabaseChain`` and Vanna.ai.
 from __future__ import annotations
 
 import re
+from collections.abc import Collection
 from dataclasses import dataclass
 from typing import Final
 
 import sqlglot
 from sqlglot import expressions as exp
+from sqlglot.optimizer.scope import traverse_scope
 
 from ..utils import get_logger
 
@@ -56,16 +58,28 @@ class SQLPolicy:
     allow_cte: bool = True
     allow_union: bool = True
     max_limit: int | None = None  # If set, force-enforce a LIMIT clause.
+    max_joins: int | None = None
+    max_subqueries: int | None = None
+    max_ctes: int | None = None
 
     @classmethod
-    def from_config(cls, *, allow_subqueries: bool, allow_joins: bool,
-                    allow_aggregates: bool, allow_cte: bool) -> SQLPolicy:
+    def from_config(
+        cls, *, allow_subqueries: bool, allow_joins: bool, allow_aggregates: bool, allow_cte: bool
+    ) -> SQLPolicy:
         return cls(
             allow_subqueries=allow_subqueries,
             allow_joins=allow_joins,
             allow_aggregates=allow_aggregates,
             allow_cte=allow_cte,
         )
+
+
+@dataclass(frozen=True, slots=True)
+class PreparedSQL:
+    """Validated SQL ready for execution."""
+
+    sql: str
+    tables: frozenset[str]
 
 
 def parse_sql(sql: str) -> list[exp.Expression]:
@@ -109,7 +123,13 @@ def _is_aggregate_call(func: exp.Expression) -> bool:
     if not isinstance(func, (exp.Anonymous, exp.AggFunc)):
         return False
     return _function_name(func).lower() in {
-        "count", "sum", "avg", "min", "max", "group_concat", "total",
+        "count",
+        "sum",
+        "avg",
+        "min",
+        "max",
+        "group_concat",
+        "total",
     }
 
 
@@ -151,8 +171,14 @@ def validate_sql(sql: str, policy: SQLPolicy | None = None) -> list[exp.Select]:
     Raises :class:`SQLValidationError` on any violation. The exception
     message is suitable for direct display in the UI.
     """
-    policy = policy or SQLPolicy()
-    statements = parse_sql(sql)
+    return _validate_statements(parse_sql(sql), policy or SQLPolicy())
+
+
+def _validate_statements(
+    statements: list[exp.Expression],
+    policy: SQLPolicy,
+) -> list[exp.Select]:
+    """Validate an already-parsed statement list."""
 
     if len(statements) > 1:
         raise SQLValidationError(
@@ -182,35 +208,33 @@ def validate_sql(sql: str, policy: SQLPolicy | None = None) -> list[exp.Select]:
 
 def _check_select(sel: exp.Select, policy: SQLPolicy) -> None:
     # CTE / WITH
-    if (sel.args.get("with") or any(isinstance(p, exp.CTE) for p in sel.find_all(exp.CTE))) and not policy.allow_cte:
+    if (
+        sel.args.get("with") or any(isinstance(p, exp.CTE) for p in sel.find_all(exp.CTE))
+    ) and not policy.allow_cte:
         raise SQLValidationError("CTEs (WITH ... AS) are not allowed.")
 
     # Joins
     if sel.args.get("joins") and not policy.allow_joins:
         raise SQLValidationError("JOIN clauses are not allowed.")
+    join_count = sum(1 for _ in sel.find_all(exp.Join))
+    if policy.max_joins is not None and join_count > policy.max_joins:
+        raise SQLValidationError(f"Queries may contain at most {policy.max_joins} JOIN clauses.")
 
     # Subqueries: any nested SELECT that isn't the top-level one.
     nested = [s for s in _flatten_selects(sel) if s is not sel]
     if nested and not policy.allow_subqueries:
         raise SQLValidationError("Subqueries are not allowed.")
+    subquery_count = sum(1 for _ in sel.find_all(exp.Subquery))
+    if policy.max_subqueries is not None and subquery_count > policy.max_subqueries:
+        raise SQLValidationError(f"Queries may contain at most {policy.max_subqueries} subqueries.")
+
+    cte_count = sum(1 for _ in sel.find_all(exp.CTE))
+    if policy.max_ctes is not None and cte_count > policy.max_ctes:
+        raise SQLValidationError(f"Queries may contain at most {policy.max_ctes} CTEs.")
 
     # Aggregates
     if not policy.allow_aggregates and _uses_aggregate(sel):
         raise SQLValidationError("Aggregate functions are not allowed.")
-
-    # LIMIT enforcement
-    if policy.max_limit is not None:
-        limit = sel.args.get("limit")
-        limit_n: int | None
-        if limit is None:
-            limit_n = None
-        else:
-            try:
-                limit_n = int(limit.sql())
-            except (TypeError, ValueError):
-                limit_n = None
-        if limit_n is None or limit_n > policy.max_limit:
-            sel.set("limit", exp.Limit(this=exp.Literal.number(policy.max_limit)))
 
     # Dangerous functions
     for fn in sel.find_all(exp.Func):
@@ -223,9 +247,23 @@ def _check_select(sel: exp.Select, policy: SQLPolicy) -> None:
     # Block PRAGMA / ATTACH / VACUUM / REPLACE / INSTALL even if smuggled
     # in a way sqlglot might parse as part of a SELECT (paranoid).
     banned_top_level = {
-        "PRAGMA", "ATTACH", "DETACH", "VACUUM", "REINDEX", "INSTALL",
-        "DROP", "DELETE", "TRUNCATE", "INSERT", "UPDATE", "ALTER",
-        "CREATE", "REPLACE", "GRANT", "REVOKE", "COPY",
+        "PRAGMA",
+        "ATTACH",
+        "DETACH",
+        "VACUUM",
+        "REINDEX",
+        "INSTALL",
+        "DROP",
+        "DELETE",
+        "TRUNCATE",
+        "INSERT",
+        "UPDATE",
+        "ALTER",
+        "CREATE",
+        "REPLACE",
+        "GRANT",
+        "REVOKE",
+        "COPY",
     }
     sql_upper = sel.sql().upper()
     for word in banned_top_level:
@@ -241,10 +279,54 @@ def referenced_tables(sql: str) -> set[str]:
     Used by the executor's pre-flight check to confirm that every referenced
     table actually exists in the database.
     """
+    return _referenced_tables(parse_sql(sql))
+
+
+def _referenced_tables(statements: list[exp.Expression]) -> set[str]:
+    """Return physical table names from already-parsed statements."""
+    return {
+        source.name
+        for statement in statements
+        for scope in traverse_scope(statement)
+        for _, source in scope.selected_sources.values()
+        if isinstance(source, exp.Table) and source.name
+    }
+
+
+def prepare_sql(
+    sql: str,
+    policy: SQLPolicy | None = None,
+    *,
+    allowed_tables: Collection[str] | None = None,
+) -> PreparedSQL:
+    """Validate, authorize, and canonicalize one executable SELECT."""
+    policy = policy or SQLPolicy()
     statements = parse_sql(sql)
-    tables: set[str] = set()
-    for stmt in statements:
-        for table in stmt.find_all(exp.Table):
-            if table.name:
-                tables.add(table.name)
-    return tables
+    _validate_statements(statements, policy)
+    top = statements[0]
+    tables = _referenced_tables(statements)
+
+    if allowed_tables is not None:
+        allowed = {name.casefold() for name in allowed_tables}
+        denied = sorted(name for name in tables if name.casefold() not in allowed)
+        if denied:
+            raise SQLValidationError("Tables are not allowed for this query: " + ", ".join(denied))
+
+    if policy.max_limit is not None:
+        limit = top.args.get("limit")
+        limit_n: int | None = None
+        if limit is not None and isinstance(limit.expression, exp.Literal):
+            try:
+                limit_n = int(limit.expression.this)
+            except (TypeError, ValueError):
+                limit_n = None
+        if limit_n is None or limit_n > policy.max_limit:
+            top.set(
+                "limit",
+                exp.Limit(expression=exp.Literal.number(policy.max_limit)),
+            )
+
+    return PreparedSQL(
+        sql=top.sql(dialect="sqlite"),
+        tables=frozenset(tables),
+    )

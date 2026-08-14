@@ -1,0 +1,4252 @@
+{
+  "version": "1.0.0",
+  "gitCommitHash": "3b4ee4915d0801524742ee1c3281616d0496e94c",
+  "generatedAt": "2026-08-14T11:26:51.928Z",
+  "files": {
+    ".github/dependabot.yml": {
+      "filePath": ".github/dependabot.yml",
+      "contentHash": "09adf09b8515b5974aa509a6a1df6f24231f4f0b4d398228d6ef8d812b1e4db9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21,
+      "hasStructuralAnalysis": true
+    },
+    ".github/workflows/ci.yml": {
+      "filePath": ".github/workflows/ci.yml",
+      "contentHash": "e67e6c816ccfd6bdd6d346b3e1db989b8348cf5edb7f6f05018277425b3f3114",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    ".pre-commit-config.yaml": {
+      "filePath": ".pre-commit-config.yaml",
+      "contentHash": "622cc8fbb4365fadb6a8d70ea19214d4a95c96efec7729230ce4a4099b2b0ba2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    ".python-version": {
+      "filePath": ".python-version",
+      "contentHash": "5b703ca38d3fd391f3e889f7ba893f94b921ff9e7b7e5d8d6622d5f7daca7049",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": false
+    },
+    ".secrets.baseline": {
+      "filePath": ".secrets.baseline",
+      "contentHash": "1a41ffefce235de5d99c8be1d5d07811c88dca2ada58ac51ba470666611a0bac",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 157,
+      "hasStructuralAnalysis": false
+    },
+    ".streamlit/config.toml": {
+      "filePath": ".streamlit/config.toml",
+      "contentHash": "71deff707ed30174e54ffe52f865667937ca239c6d127c690eed33e930ce8716",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 3,
+      "hasStructuralAnalysis": true
+    },
+    ".ua/.trash-1786690338": {
+      "filePath": ".ua/.trash-1786690338",
+      "contentHash": "352a6cfc88a6fbbe1853a04d441cd46a8778c1df4a24075e9982dd37be86c2f9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": false
+    },
+    ".ua/.understandignore": {
+      "filePath": ".ua/.understandignore",
+      "contentHash": "a900444a9fbc9350f9a567b8bd971294f0d296b034a3840c533f8894ac914aa8",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 117,
+      "hasStructuralAnalysis": false
+    },
+    ".ua/config.json": {
+      "filePath": ".ua/config.json",
+      "contentHash": "08d37f20ea0af2233ae24f094723759f952381ecb6dd7f2aaa05ef96e95eae6b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4,
+      "hasStructuralAnalysis": true
+    },
+    ".ua/fingerprints.json": {
+      "filePath": ".ua/fingerprints.json",
+      "contentHash": "cab8a3c9177e601769f912437e45a67d40d5dab669ea6dcd02bbb4cab106ee5f",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 4000,
+      "hasStructuralAnalysis": true
+    },
+    ".ua/intermediate/scan-result.json": {
+      "filePath": ".ua/intermediate/scan-result.json",
+      "contentHash": "f3e8009a3b532b6992b63584c94de091e8c328ab45d29d5c031d24f0471fac53",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 773,
+      "hasStructuralAnalysis": true
+    },
+    ".ua/knowledge-graph.json": {
+      "filePath": ".ua/knowledge-graph.json",
+      "contentHash": "208aa3f42cfbe894f0160dec8f981d97138fb0010a503fb5415bd9cd062483d4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 5930,
+      "hasStructuralAnalysis": true
+    },
+    ".ua/meta.json": {
+      "filePath": ".ua/meta.json",
+      "contentHash": "4836bc01a5ad2a456ba3a7753738786cca163f20f09803dff418cfbb60ae9998",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": true
+    },
+    "ARCHITECTURE.md": {
+      "filePath": "ARCHITECTURE.md",
+      "contentHash": "253683210b2f1c4a5f7bb6c8ef17a1958a643919240c08c0457060d9273451e9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 307,
+      "hasStructuralAnalysis": true
+    },
+    "CHANGELOG.md": {
+      "filePath": "CHANGELOG.md",
+      "contentHash": "6f0c7d89fe6b7d0e17e6a7aa4e229cd12eeaa24fc13231dd2fa01b4e23d6f8d6",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 174,
+      "hasStructuralAnalysis": true
+    },
+    "CODE_OF_CONDUCT.md": {
+      "filePath": "CODE_OF_CONDUCT.md",
+      "contentHash": "f06c7cfd36fef835b6cd63e61dd62c9d85fbe7e11aaabd357d18a933e375e426",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "DATASET.md": {
+      "filePath": "DATASET.md",
+      "contentHash": "4b037a8d326db7ca5b69a58dc35fe530c34d32b313830c763790e406201881d0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 38,
+      "hasStructuralAnalysis": true
+    },
+    "Launch NL2SQL Agent.cmd": {
+      "filePath": "Launch NL2SQL Agent.cmd",
+      "contentHash": "e57d151d3ffc811cfc7446badc8f662bd463bb6ef210e6cbacdbd4f97b4b212a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22,
+      "hasStructuralAnalysis": false
+    },
+    "MIGRATION_GUIDE.md": {
+      "filePath": "MIGRATION_GUIDE.md",
+      "contentHash": "1ca84cec572c2535fe84da736fd5a48fd0d061c04245bb8bbc60e6d51bc68490",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 227,
+      "hasStructuralAnalysis": true
+    },
+    "README.md": {
+      "filePath": "README.md",
+      "contentHash": "4a251e1fb1b756698b21148a64f0521c5f7288832c68457cbc581e9897e173db",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 598,
+      "hasStructuralAnalysis": true
+    },
+    "RELEASE_NOTES.md": {
+      "filePath": "RELEASE_NOTES.md",
+      "contentHash": "27ba8af14b69b6afcfff23e28290ac31f20228a5f4058d401d849c1c7443eb6c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 96,
+      "hasStructuralAnalysis": true
+    },
+    "SECURITY.md": {
+      "filePath": "SECURITY.md",
+      "contentHash": "98c4d288864985c7747743283a0fec06840e644029bf615c5f02608492f50e8e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 54,
+      "hasStructuralAnalysis": true
+    },
+    "UPGRADE_SUMMARY.md": {
+      "filePath": "UPGRADE_SUMMARY.md",
+      "contentHash": "4e9a661d229f385a0533de378ac1aeb44051654e9b0c1aaa522486563d257ae7",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 200,
+      "hasStructuralAnalysis": true
+    },
+    "ZERO_TO_HERO_STUDY_HANDBOOK.md": {
+      "filePath": "ZERO_TO_HERO_STUDY_HANDBOOK.md",
+      "contentHash": "acbc15ee9917112b66adac09a96899e07120a6d799b1420c73d76c28ea4f7746",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 629,
+      "hasStructuralAnalysis": true
+    },
+    "architecture-diagram.html": {
+      "filePath": "architecture-diagram.html",
+      "contentHash": "7870eab0eb58787a703bf9c0f0984457d062f90cb44fad5deae8f48153a6da9d",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 13237,
+      "hasStructuralAnalysis": false
+    },
+    "architecture-diagram.json": {
+      "filePath": "architecture-diagram.json",
+      "contentHash": "72679da2830344c806404d578cb590861b5f7746fac1a521659bda06179e1e1e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 182,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_analysis.json": {
+      "filePath": "graphify-out/.graphify_analysis.json",
+      "contentHash": "392f13deb6e9bf1f39e338a1291dac1e1b7c1bd103c1729eaf155182a739bdb3",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 960,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_ast.json": {
+      "filePath": "graphify-out/.graphify_ast.json",
+      "contentHash": "69659fcdf23cd85b34f40522fb00e3129178aa4095fe65ff6bbd97810caa3e07",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 6792,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_detect.json": {
+      "filePath": "graphify-out/.graphify_detect.json",
+      "contentHash": "66cd703c2c1919c5fdccb239fd284eb0fdd93f91c4acae8df81e2eec63489b0e",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_extract.json": {
+      "filePath": "graphify-out/.graphify_extract.json",
+      "contentHash": "6f09626bc289f9124e6764877375e7df963f5a7e10b2ebb28546da6d01efdb67",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_incremental.json": {
+      "filePath": "graphify-out/.graphify_incremental.json",
+      "contentHash": "93df6752190707e8ff34f90e75d1d261d8d3f4cbc118caeb362ed4209d73b623",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 329,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_labels.json": {
+      "filePath": "graphify-out/.graphify_labels.json",
+      "contentHash": "08c10cf863eb077291e89908e206203134ee5f497c7f38013a4491a6b76e44e0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_labels.json.sig": {
+      "filePath": "graphify-out/.graphify_labels.json.sig",
+      "contentHash": "7060fea412ca471d6a909bf71ac44612eb0a4fb640e76b96dc89de27dd1fce5c",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "graphify-out/.graphify_old.json": {
+      "filePath": "graphify-out/.graphify_old.json",
+      "contentHash": "8ad353c3558748b626ed89bf1aefa64e889d6197a4e8311607a2a375378ab492",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 20979,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_python": {
+      "filePath": "graphify-out/.graphify_python",
+      "contentHash": "b437c7f192102f47aaed4302334947495b2ac31024ea65bace1d9c7f9ccf63b4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "graphify-out/.graphify_root": {
+      "filePath": "graphify-out/.graphify_root",
+      "contentHash": "3ce378cf573cd998f81eb1b765a31f0429ae7fa0173d9eb00f0fc493dae2bddb",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 1,
+      "hasStructuralAnalysis": false
+    },
+    "graphify-out/.graphify_semantic.json": {
+      "filePath": "graphify-out/.graphify_semantic.json",
+      "contentHash": "8363e4892c720bd7b16c203aaf62354179d3424b7aa5b24e794881cdfb894517",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 311,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_semantic_new.json": {
+      "filePath": "graphify-out/.graphify_semantic_new.json",
+      "contentHash": "451da9bada88616557b4304e0251a8e6ba1b4717bd4a99a006c6cb9492ee7e55",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/.graphify_uncached.txt": {
+      "filePath": "graphify-out/.graphify_uncached.txt",
+      "contentHash": "7e006f318272278cccf9dba88ddec3b33ff6fe719ea33b7f55e54828d7c4e482",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 10,
+      "hasStructuralAnalysis": false
+    },
+    "graphify-out/2026-08-14/.graphify_analysis.json": {
+      "filePath": "graphify-out/2026-08-14/.graphify_analysis.json",
+      "contentHash": "5d7d7878cb0c1448e91d659611fb4384f89e246e0a0e01772a8184b4f01125d0",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 960,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/2026-08-14/.graphify_labels.json": {
+      "filePath": "graphify-out/2026-08-14/.graphify_labels.json",
+      "contentHash": "5159ef83f3d938e9ea6bf5904aad02dec775285027dbb838eec9e044cc2cd912",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 40,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/2026-08-14/GRAPH_REPORT.md": {
+      "filePath": "graphify-out/2026-08-14/GRAPH_REPORT.md",
+      "contentHash": "899cc9797796a8339e560a48c03141d29fba196c8c7aba2e3d1ad7e14267c703",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 241,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/2026-08-14/cost.json": {
+      "filePath": "graphify-out/2026-08-14/cost.json",
+      "contentHash": "47f330545f2f5da33761aa8eed8536892c2ae36135cc16df9176c534e80757e4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/2026-08-14/graph.json": {
+      "filePath": "graphify-out/2026-08-14/graph.json",
+      "contentHash": "706ad367c401f7e0ed1c25d93d3aafa71af534295ccc2a89251d6f3084b46121",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 21972,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/2026-08-14/manifest.json": {
+      "filePath": "graphify-out/2026-08-14/manifest.json",
+      "contentHash": "2753b731f175a64beeb79e35ad6222142cc57eb2b1d961ee554d0855ae157eb1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 597,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/GRAPH_REPORT.md": {
+      "filePath": "graphify-out/GRAPH_REPORT.md",
+      "contentHash": "899cc9797796a8339e560a48c03141d29fba196c8c7aba2e3d1ad7e14267c703",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 241,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/cost.json": {
+      "filePath": "graphify-out/cost.json",
+      "contentHash": "47f330545f2f5da33761aa8eed8536892c2ae36135cc16df9176c534e80757e4",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 32,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/graph.html": {
+      "filePath": "graphify-out/graph.html",
+      "contentHash": "2683442693a1cabab7bcfb31ffad647273842a04bfef4d575905a3a46c8329d5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 320,
+      "hasStructuralAnalysis": false
+    },
+    "graphify-out/graph.json": {
+      "filePath": "graphify-out/graph.json",
+      "contentHash": "57dd095c9aca6f9e3c5253bdee0b5ef85ff4db02d79d876b5c4ba98ae2043ea2",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 22645,
+      "hasStructuralAnalysis": true
+    },
+    "graphify-out/manifest.json": {
+      "filePath": "graphify-out/manifest.json",
+      "contentHash": "2753b731f175a64beeb79e35ad6222142cc57eb2b1d961ee554d0855ae157eb1",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 597,
+      "hasStructuralAnalysis": true
+    },
+    "pyproject.toml": {
+      "filePath": "pyproject.toml",
+      "contentHash": "b0507c6554ee01d01fea387c7ea1275d95f92f76535649fd42eb99d42c142012",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 170,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/__init__.py": {
+      "filePath": "src/nl2sql_agent/__init__.py",
+      "contentHash": "5c05f999726d64430be8481fe3810cbe5d8e6b3dd85801f8b5dda98b8c1b68d5",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/agent/__init__.py": {
+      "filePath": "src/nl2sql_agent/agent/__init__.py",
+      "contentHash": "35fbb9ef3cbf085c6866571f952ae5445a186aac1d2e32098fbb1ffcef3314c1",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".state",
+          "specifiers": [
+            "AgentState"
+          ]
+        },
+        {
+          "source": ".workflow",
+          "specifiers": [
+            "NL2SQLAgent",
+            "NodeTrace"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 7,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/agent/state.py": {
+      "filePath": "src/nl2sql_agent/agent/state.py",
+      "contentHash": "01e69d5af633e766e4cc84490e98083a80ff7f9bde8b3d673c8e78bb4f035f12",
+      "functions": [],
+      "classes": [
+        {
+          "name": "AgentState",
+          "methods": [],
+          "properties": [
+            "question",
+            "schema",
+            "sql_query",
+            "sql_unsafe_reason",
+            "result",
+            "raw_rows",
+            "columns",
+            "row_count",
+            "error",
+            "retry_count",
+            "max_retries",
+            "run_id",
+            "sql_safe",
+            "allowed_tables",
+            "trace",
+            "token_usage",
+            "csv_data",
+            "truncated",
+            "final_answer"
+          ],
+          "exported": true,
+          "lineCount": 59
+        }
+      ],
+      "imports": [
+        {
+          "source": "typing",
+          "specifiers": [
+            "TypedDict"
+          ]
+        }
+      ],
+      "exports": [
+        "AgentState"
+      ],
+      "totalLines": 72,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/agent/workflow.py": {
+      "filePath": "src/nl2sql_agent/agent/workflow.py",
+      "contentHash": "c3fd5cb11284bd326b43a66f6a316b16d83380ee7b8e1bf9117b6adc6ad5ec31",
+      "functions": [],
+      "classes": [
+        {
+          "name": "NodeTrace",
+          "methods": [],
+          "properties": [
+            "node",
+            "duration_ms",
+            "summary"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "NL2SQLAgent",
+          "methods": [
+            "__init__",
+            "fetch_schema",
+            "write_sql",
+            "check_security",
+            "execute_sql",
+            "summarize_result",
+            "route_after_security",
+            "route_after_prepare",
+            "route_after_execute",
+            "get_workflow",
+            "get_prepare_workflow",
+            "run",
+            "stream",
+            "prepare",
+            "stream_prepare",
+            "execute_prepared",
+            "_fallback_answer",
+            "_initial_state",
+            "_duration_ms",
+            "_append_trace",
+            "_merge_usage",
+            "_write_audit"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 489
+        }
+      ],
+      "imports": [
+        {
+          "source": "sqlite3",
+          "specifiers": [
+            "sqlite3"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Collection",
+            "Iterator",
+            "Mapping"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "asdict",
+            "dataclass"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "cast"
+          ]
+        },
+        {
+          "source": "uuid",
+          "specifiers": [
+            "uuid4"
+          ]
+        },
+        {
+          "source": "langchain_core.language_models",
+          "specifiers": [
+            "BaseChatModel"
+          ]
+        },
+        {
+          "source": "langgraph.graph",
+          "specifiers": [
+            "END",
+            "START",
+            "StateGraph"
+          ]
+        },
+        {
+          "source": "langgraph.graph.state",
+          "specifiers": [
+            "CompiledStateGraph"
+          ]
+        },
+        {
+          "source": "..config",
+          "specifiers": [
+            "Settings",
+            "get_settings"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "..prompts",
+          "specifiers": [
+            "SQL_WRITER_SYSTEM",
+            "SQL_WRITER_USER",
+            "SUMMARIZER_SYSTEM",
+            "SUMMARIZER_USER",
+            "error_section",
+            "format_data"
+          ]
+        },
+        {
+          "source": "..security",
+          "specifiers": [
+            "SQLPolicy",
+            "SQLValidationError",
+            "prepare_sql"
+          ]
+        },
+        {
+          "source": "..utils",
+          "specifiers": [
+            "AuditLogger",
+            "get_logger",
+            "hash_text",
+            "strip_sql_fences"
+          ]
+        },
+        {
+          "source": ".state",
+          "specifiers": [
+            "AgentState"
+          ]
+        }
+      ],
+      "exports": [
+        "NodeTrace",
+        "NL2SQLAgent"
+      ],
+      "totalLines": 545,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/cli.py": {
+      "filePath": "src/nl2sql_agent/cli.py",
+      "contentHash": "f1439d10f44665fa18987069ea75a949bd91e8fa206b7f613648d560cdc7d162",
+      "functions": [
+        {
+          "name": "_pass_rate",
+          "params": [
+            "value"
+          ],
+          "returnType": "float",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_build_agent",
+          "params": [
+            "provider",
+            "model",
+            "api_key"
+          ],
+          "returnType": "NL2SQLAgent",
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "cmd_ask",
+          "params": [
+            "args"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "cmd_config",
+          "params": [
+            "args"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "cmd_serve",
+          "params": [
+            "args"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "cmd_eval",
+          "params": [
+            "args"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "build_parser",
+          "params": [],
+          "returnType": "argparse.ArgumentParser",
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "main",
+          "params": [
+            "argv"
+          ],
+          "returnType": "int",
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "argparse",
+          "specifiers": [
+            "argparse"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Sequence"
+          ]
+        },
+        {
+          "source": "contextlib",
+          "specifiers": [
+            "suppress"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime"
+          ]
+        },
+        {
+          "source": "importlib.resources",
+          "specifiers": [
+            "as_file",
+            "files"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "cast"
+          ]
+        },
+        {
+          "source": ".agent",
+          "specifiers": [
+            "NL2SQLAgent"
+          ]
+        },
+        {
+          "source": ".config",
+          "specifiers": [
+            "Provider",
+            "default_model_for",
+            "get_settings"
+          ]
+        },
+        {
+          "source": ".evaluation",
+          "specifiers": [
+            "EvaluationRunner",
+            "load_cases"
+          ]
+        },
+        {
+          "source": ".llm",
+          "specifiers": [
+            "LLMProviderError",
+            "build_chat_model"
+          ]
+        },
+        {
+          "source": ".utils",
+          "specifiers": [
+            "configure_logging",
+            "get_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "_pass_rate",
+        "_build_agent",
+        "cmd_ask",
+        "cmd_config",
+        "cmd_serve",
+        "cmd_eval",
+        "build_parser",
+        "main"
+      ],
+      "totalLines": 212,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/config/__init__.py": {
+      "filePath": "src/nl2sql_agent/config/__init__.py",
+      "contentHash": "61fdfeecb5520da094f2776ade127f9720ee311571988f6470b261c6ff5ff8a3",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".settings",
+          "specifiers": [
+            "Provider",
+            "Settings",
+            "default_model_for",
+            "env_var_for",
+            "env_var_value",
+            "get_settings",
+            "reset_settings_cache",
+            "supported_models_for",
+            "validate_model_for"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/config/settings.py": {
+      "filePath": "src/nl2sql_agent/config/settings.py",
+      "contentHash": "45c3f6dea3455120092932a4828f586c197e7099eff4a7610ff27758402580d4",
+      "functions": [
+        {
+          "name": "supported_models_for",
+          "params": [
+            "provider"
+          ],
+          "returnType": "tuple[str, ...]",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "default_model_for",
+          "params": [
+            "provider"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "validate_model_for",
+          "params": [
+            "provider",
+            "model"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "get_settings",
+          "params": [],
+          "returnType": "Settings",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "reset_settings_cache",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "env_var_for",
+          "params": [
+            "provider"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "env_var_value",
+          "params": [
+            "name"
+          ],
+          "returnType": "str | None",
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [
+        {
+          "name": "Settings",
+          "methods": [
+            "_normalize_provider",
+            "_validate_ollama_base_url",
+            "_coerce_db_path",
+            "_validate_provider_model",
+            "api_key_for"
+          ],
+          "properties": [
+            "provider",
+            "model",
+            "ollama_base_url",
+            "ollama_keep_alive",
+            "openai_api_key",
+            "google_api_key",
+            "anthropic_api_key",
+            "hf_token",
+            "xai_api_key",
+            "db_path",
+            "db_seed",
+            "db_max_rows",
+            "db_query_timeout_seconds",
+            "db_max_vm_steps",
+            "db_upload_max_mb",
+            "max_retries",
+            "llm_temperature",
+            "llm_max_tokens",
+            "llm_request_timeout_seconds",
+            "sql_allow_subqueries",
+            "sql_allow_joins",
+            "sql_allow_aggregates",
+            "sql_allow_cte",
+            "sql_max_joins",
+            "sql_max_subqueries",
+            "sql_max_ctes",
+            "schema_max_tables",
+            "log_level",
+            "log_json",
+            "audit_enabled",
+            "audit_path",
+            "project_root"
+          ],
+          "exported": true,
+          "lineCount": 173
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "functools",
+          "specifiers": [
+            "lru_cache"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Literal"
+          ]
+        },
+        {
+          "source": "urllib.parse",
+          "specifiers": [
+            "urlsplit"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "AliasChoices",
+            "Field",
+            "field_validator",
+            "model_validator"
+          ]
+        },
+        {
+          "source": "pydantic_settings",
+          "specifiers": [
+            "BaseSettings",
+            "SettingsConfigDict"
+          ]
+        }
+      ],
+      "exports": [
+        "supported_models_for",
+        "default_model_for",
+        "validate_model_for",
+        "Settings",
+        "get_settings",
+        "reset_settings_cache",
+        "env_var_for",
+        "env_var_value"
+      ],
+      "totalLines": 276,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/db/__init__.py": {
+      "filePath": "src/nl2sql_agent/db/__init__.py",
+      "contentHash": "fb56525a7b0292520e18683f36359099cb34debde14c341bd4f866f98b542918",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".database",
+          "specifiers": [
+            "Database",
+            "QueryResult",
+            "render_table",
+            "setup_db"
+          ]
+        },
+        {
+          "source": ".seed",
+          "specifiers": [
+            "SEED_DEPARTMENTS",
+            "SEED_EMPLOYEES"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 14,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/db/database.py": {
+      "filePath": "src/nl2sql_agent/db/database.py",
+      "contentHash": "916690dfea15732491c7820e845203ec7c0eb7744e155637bd087e8661d86d4e",
+      "functions": [
+        {
+          "name": "_fmt_cell",
+          "params": [
+            "value"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_csv_cell",
+          "params": [
+            "value"
+          ],
+          "returnType": "object",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "_list_tables",
+          "params": [
+            "conn"
+          ],
+          "returnType": "tuple[str, ...]",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "setup_db",
+          "params": [
+            "path",
+            "seed"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "render_table",
+          "params": [
+            "rows",
+            "columns"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_quote_identifier",
+          "params": [
+            "value"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "_sample_cell",
+          "params": [
+            "value"
+          ],
+          "returnType": "object",
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "classes": [
+        {
+          "name": "QueryResult",
+          "methods": [
+            "to_markdown",
+            "to_csv"
+          ],
+          "properties": [
+            "columns",
+            "rows",
+            "row_count",
+            "truncated"
+          ],
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "Database",
+          "methods": [
+            "__init__",
+            "connect",
+            "_writable_connection",
+            "ensure_schema",
+            "reset",
+            "list_tables",
+            "get_schema_text",
+            "_rank_tables",
+            "execute",
+            "preflight",
+            "_install_progress_guard"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 236
+        }
+      ],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "sqlite3",
+          "specifiers": [
+            "sqlite3"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterator"
+          ]
+        },
+        {
+          "source": "contextlib",
+          "specifiers": [
+            "contextmanager"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "..utils",
+          "specifiers": [
+            "get_logger"
+          ]
+        },
+        {
+          "source": ".seed",
+          "specifiers": [
+            "SEED_DEPARTMENTS",
+            "SEED_EMPLOYEES"
+          ]
+        }
+      ],
+      "exports": [
+        "QueryResult",
+        "_fmt_cell",
+        "_csv_cell",
+        "Database",
+        "_list_tables",
+        "setup_db",
+        "render_table",
+        "_quote_identifier",
+        "_sample_cell"
+      ],
+      "totalLines": 367,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/db/seed.py": {
+      "filePath": "src/nl2sql_agent/db/seed.py",
+      "contentHash": "362bc95682b82e9292d083c18ac6b36c8d618c7b30cd6d3549d8ed03e13734c9",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 26,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/evaluation/__init__.py": {
+      "filePath": "src/nl2sql_agent/evaluation/__init__.py",
+      "contentHash": "d59321abad465a75d3ed3e43c1c9604ef8c358ad36f3fd8a717989d3c6581f6f",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".runner",
+          "specifiers": [
+            "EvalCase",
+            "EvaluationCaseResult",
+            "EvaluationReport",
+            "EvaluationRunner",
+            "load_cases"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/evaluation/data/__init__.py": {
+      "filePath": "src/nl2sql_agent/evaluation/data/__init__.py",
+      "contentHash": "a2b65c7e6bbd43506d0fb11f66f028df964795a1b04342f8bdfb473b220512fc",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/evaluation/data/demo.jsonl": {
+      "filePath": "src/nl2sql_agent/evaluation/data/demo.jsonl",
+      "contentHash": "31c20055965a747718f671ebb038be3ee07487e067b7f5db7de6e69e8862893b",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": false
+    },
+    "src/nl2sql_agent/evaluation/runner.py": {
+      "filePath": "src/nl2sql_agent/evaluation/runner.py",
+      "contentHash": "52313ada5e04185259ebb52a081eb747626433f25cd5ce359f2d4c08eb4391bc",
+      "functions": [
+        {
+          "name": "load_cases",
+          "params": [
+            "path"
+          ],
+          "returnType": "list[EvalCase]",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_rate",
+          "params": [
+            "results",
+            "attribute"
+          ],
+          "returnType": "float",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_percentile",
+          "params": [
+            "values",
+            "percentile"
+          ],
+          "returnType": "float",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_rows_equal",
+          "params": [
+            "actual",
+            "expected",
+            "ordered"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_value_equal",
+          "params": [
+            "actual",
+            "expected"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "_file_digest",
+          "params": [
+            "path"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        }
+      ],
+      "classes": [
+        {
+          "name": "AgentRunner",
+          "methods": [
+            "run"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "EvalCase",
+          "methods": [
+            "from_mapping"
+          ],
+          "properties": [
+            "id",
+            "question",
+            "expected_outcome",
+            "reference_sql",
+            "ordered",
+            "tags"
+          ],
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "EvaluationCaseResult",
+          "methods": [],
+          "properties": [
+            "id",
+            "expected_outcome",
+            "passed",
+            "safe",
+            "executed",
+            "latency_ms",
+            "retries",
+            "input_tokens",
+            "output_tokens",
+            "error"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "EvaluationReport",
+          "methods": [
+            "passed",
+            "to_dict"
+          ],
+          "properties": [
+            "cases",
+            "result_accuracy",
+            "safety_rate",
+            "execution_rate",
+            "median_latency_ms",
+            "p95_latency_ms",
+            "average_retries",
+            "input_tokens",
+            "output_tokens",
+            "estimated_cost_usd",
+            "database_unchanged"
+          ],
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "EvaluationRunner",
+          "methods": [
+            "__init__",
+            "run"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 83
+        }
+      ],
+      "imports": [
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "math",
+          "specifiers": [
+            "math"
+          ]
+        },
+        {
+          "source": "statistics",
+          "specifiers": [
+            "statistics"
+          ]
+        },
+        {
+          "source": "time",
+          "specifiers": [
+            "time"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterable",
+            "Mapping"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "asdict",
+            "dataclass"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "Literal",
+            "Protocol"
+          ]
+        },
+        {
+          "source": "..db",
+          "specifiers": [
+            "Database"
+          ]
+        }
+      ],
+      "exports": [
+        "AgentRunner",
+        "EvalCase",
+        "EvaluationCaseResult",
+        "EvaluationReport",
+        "load_cases",
+        "EvaluationRunner",
+        "_rate",
+        "_percentile",
+        "_rows_equal",
+        "_value_equal",
+        "_file_digest"
+      ],
+      "totalLines": 233,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/llm/__init__.py": {
+      "filePath": "src/nl2sql_agent/llm/__init__.py",
+      "contentHash": "3d05b9b3ef335cd9515030bc9da5a6d6e8b4afde7900ebcb02a96f4e186a807d",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".factory",
+          "specifiers": [
+            "ANTHROPIC_FALLBACK_MODELS",
+            "GEMINI_FALLBACK_MODELS",
+            "HUGGINGFACE_FALLBACK_MODELS",
+            "OLLAMA_FALLBACK_MODELS",
+            "OPENAI_FALLBACK_MODELS",
+            "XAI_FALLBACK_MODELS",
+            "LLMProviderError",
+            "build_chat_model",
+            "fallback_models",
+            "list_models"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 28,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/llm/factory.py": {
+      "filePath": "src/nl2sql_agent/llm/factory.py",
+      "contentHash": "5002dfa13839aa4f8dc8bc4e545c87bd0fbaa3cc51d9d9fa6bcd2b355bccddd7",
+      "functions": [
+        {
+          "name": "build_chat_model",
+          "params": [
+            "settings",
+            "provider",
+            "model",
+            "temperature",
+            "max_tokens"
+          ],
+          "returnType": "BaseChatModel",
+          "exported": true,
+          "lineCount": 57
+        },
+        {
+          "name": "_normalize_provider",
+          "params": [
+            "provider"
+          ],
+          "returnType": "Provider",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "_build_ollama",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatOllama",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_build_openai",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatOpenAI",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_build_gemini",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatGoogleGenerativeAI",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_build_anthropic",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatAnthropic",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_build_huggingface",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatOpenAI",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_build_xai",
+          "params": [
+            "cfg"
+          ],
+          "returnType": "ChatOpenAI",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_build_openai_compatible",
+          "params": [
+            "api_key",
+            "model",
+            "max_tokens",
+            "timeout",
+            "base_url"
+          ],
+          "returnType": "ChatOpenAI",
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "fallback_models",
+          "params": [
+            "provider"
+          ],
+          "returnType": "Iterable[str]",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "list_models",
+          "params": [
+            "provider",
+            "api_key",
+            "base_url"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "_list_ollama",
+          "params": [
+            "base_url"
+          ],
+          "returnType": "list[str]",
+          "exported": true,
+          "lineCount": 21
+        }
+      ],
+      "classes": [
+        {
+          "name": "LLMProviderError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterable"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "TYPE_CHECKING",
+            "Any"
+          ]
+        },
+        {
+          "source": "langchain_core.language_models",
+          "specifiers": [
+            "BaseChatModel"
+          ]
+        },
+        {
+          "source": "..config",
+          "specifiers": [
+            "Provider",
+            "Settings",
+            "default_model_for",
+            "get_settings",
+            "supported_models_for",
+            "validate_model_for"
+          ]
+        },
+        {
+          "source": "..utils",
+          "specifiers": [
+            "get_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "LLMProviderError",
+        "build_chat_model",
+        "_normalize_provider",
+        "_build_ollama",
+        "_build_openai",
+        "_build_gemini",
+        "_build_anthropic",
+        "_build_huggingface",
+        "_build_xai",
+        "_build_openai_compatible",
+        "fallback_models",
+        "list_models",
+        "_list_ollama"
+      ],
+      "totalLines": 281,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/prompts/__init__.py": {
+      "filePath": "src/nl2sql_agent/prompts/__init__.py",
+      "contentHash": "49fe0abd531a70654d6394f5e736b06d7225c566f565ff9bd9993d2e7f324978",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".templates",
+          "specifiers": [
+            "SQL_WRITER_SYSTEM",
+            "SQL_WRITER_USER",
+            "SUMMARIZER_SYSTEM",
+            "SUMMARIZER_USER",
+            "error_section",
+            "format_data"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 20,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/prompts/templates.py": {
+      "filePath": "src/nl2sql_agent/prompts/templates.py",
+      "contentHash": "886ac0a0dffa366f9a076ed48d5ea146f339179ce9c87ae254ed7231b52ac0b7",
+      "functions": [
+        {
+          "name": "error_section",
+          "params": [
+            "error"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "format_data",
+          "params": [
+            "data"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 8
+        }
+      ],
+      "classes": [],
+      "imports": [],
+      "exports": [
+        "error_section",
+        "format_data"
+      ],
+      "totalLines": 86,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/security/__init__.py": {
+      "filePath": "src/nl2sql_agent/security/__init__.py",
+      "contentHash": "5671339db7874bed04ad3fdc4670491391c90188cc592ccaf36e5eae13ab88cc",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".sql_validator",
+          "specifiers": [
+            "DANGEROUS_FUNCTIONS",
+            "PreparedSQL",
+            "SQLPolicy",
+            "SQLValidationError",
+            "parse_sql",
+            "prepare_sql",
+            "referenced_tables",
+            "validate_sql"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 24,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/security/sql_validator.py": {
+      "filePath": "src/nl2sql_agent/security/sql_validator.py",
+      "contentHash": "6d5557a0bb5b46d99939edc4a18b15886357df922cea7982c7f7657d36732fc4",
+      "functions": [
+        {
+          "name": "parse_sql",
+          "params": [
+            "sql"
+          ],
+          "returnType": "list[exp.Expression]",
+          "exported": true,
+          "lineCount": 18
+        },
+        {
+          "name": "_flatten_selects",
+          "params": [
+            "node"
+          ],
+          "returnType": "list[exp.Select]",
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "_is_aggregate_call",
+          "params": [
+            "func"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "_uses_aggregate",
+          "params": [
+            "select"
+          ],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "_function_name",
+          "params": [
+            "func"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 16
+        },
+        {
+          "name": "validate_sql",
+          "params": [
+            "sql",
+            "policy"
+          ],
+          "returnType": "list[exp.Select]",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "_validate_statements",
+          "params": [
+            "statements",
+            "policy"
+          ],
+          "returnType": "list[exp.Select]",
+          "exported": true,
+          "lineCount": 30
+        },
+        {
+          "name": "_check_select",
+          "params": [
+            "sel",
+            "policy"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 65
+        },
+        {
+          "name": "referenced_tables",
+          "params": [
+            "sql"
+          ],
+          "returnType": "set[str]",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "_referenced_tables",
+          "params": [
+            "statements"
+          ],
+          "returnType": "set[str]",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "prepare_sql",
+          "params": [
+            "sql",
+            "policy",
+            "allowed_tables"
+          ],
+          "returnType": "PreparedSQL",
+          "exported": true,
+          "lineCount": 37
+        }
+      ],
+      "classes": [
+        {
+          "name": "SQLValidationError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "SQLPolicy",
+          "methods": [
+            "from_config"
+          ],
+          "properties": [
+            "allow_subqueries",
+            "allow_joins",
+            "allow_aggregates",
+            "allow_cte",
+            "allow_union",
+            "max_limit",
+            "max_joins",
+            "max_subqueries",
+            "max_ctes"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "PreparedSQL",
+          "methods": [],
+          "properties": [
+            "sql",
+            "tables"
+          ],
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Collection"
+          ]
+        },
+        {
+          "source": "dataclasses",
+          "specifiers": [
+            "dataclass"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Final"
+          ]
+        },
+        {
+          "source": "sqlglot",
+          "specifiers": [
+            "sqlglot"
+          ]
+        },
+        {
+          "source": "sqlglot",
+          "specifiers": [
+            "exp"
+          ]
+        },
+        {
+          "source": "sqlglot.optimizer.scope",
+          "specifiers": [
+            "traverse_scope"
+          ]
+        },
+        {
+          "source": "..utils",
+          "specifiers": [
+            "get_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "SQLValidationError",
+        "SQLPolicy",
+        "PreparedSQL",
+        "parse_sql",
+        "_flatten_selects",
+        "_is_aggregate_call",
+        "_uses_aggregate",
+        "_function_name",
+        "validate_sql",
+        "_validate_statements",
+        "_check_select",
+        "referenced_tables",
+        "_referenced_tables",
+        "prepare_sql"
+      ],
+      "totalLines": 333,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/ui/__init__.py": {
+      "filePath": "src/nl2sql_agent/ui/__init__.py",
+      "contentHash": "092e27cb29b3c187ef0d653327175bcb06addf351bbde80008696fc5fc285605",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".components",
+          "specifiers": [
+            "render_chat_history",
+            "render_run_result",
+            "render_run_steps",
+            "render_sidebar"
+          ]
+        },
+        {
+          "source": ".streamlit_app",
+          "specifiers": [
+            "main"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 18,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/ui/components.py": {
+      "filePath": "src/nl2sql_agent/ui/components.py",
+      "contentHash": "315438ff94fb59559629f859025e3db4bca9cb04d736775f1fbbec8dfca52c67",
+      "functions": [
+        {
+          "name": "render_sidebar",
+          "params": [
+            "providers"
+          ],
+          "returnType": "dict[str, Any]",
+          "exported": true,
+          "lineCount": 96
+        },
+        {
+          "name": "_default_models",
+          "params": [
+            "provider"
+          ],
+          "returnType": "Iterable[str]",
+          "exported": true,
+          "lineCount": 2
+        },
+        {
+          "name": "render_chat_history",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "render_run_steps",
+          "params": [
+            "placeholder"
+          ],
+          "returnType": "Any",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "render_run_result",
+          "params": [
+            "final_answer",
+            "sql_query",
+            "columns",
+            "raw_rows",
+            "error",
+            "csv_data",
+            "trace",
+            "run_id"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 47
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterable"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "streamlit",
+          "specifiers": [
+            "st"
+          ]
+        },
+        {
+          "source": "..config",
+          "specifiers": [
+            "Provider",
+            "env_var_for",
+            "env_var_value",
+            "supported_models_for"
+          ]
+        }
+      ],
+      "exports": [
+        "render_sidebar",
+        "_default_models",
+        "render_chat_history",
+        "render_run_steps",
+        "render_run_result"
+      ],
+      "totalLines": 186,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/ui/database_upload.py": {
+      "filePath": "src/nl2sql_agent/ui/database_upload.py",
+      "contentHash": "bc7f996fb857cb0d1b32203fadfbf558de75c294c04f5c981c03a0692e21c40f",
+      "functions": [
+        {
+          "name": "validate_upload_metadata",
+          "params": [
+            "name",
+            "size",
+            "max_mb"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "validate_sqlite_upload",
+          "params": [
+            "name",
+            "data",
+            "max_mb"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "save_sqlite_upload",
+          "params": [
+            "directory",
+            "data",
+            "digest"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [
+        {
+          "name": "SQLiteUploadError",
+          "methods": [],
+          "properties": [],
+          "exported": true,
+          "lineCount": 2
+        }
+      ],
+      "imports": [
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        }
+      ],
+      "exports": [
+        "SQLiteUploadError",
+        "validate_upload_metadata",
+        "validate_sqlite_upload",
+        "save_sqlite_upload"
+      ],
+      "totalLines": 39,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/ui/streamlit_app.py": {
+      "filePath": "src/nl2sql_agent/ui/streamlit_app.py",
+      "contentHash": "65d7b8a2b4abfc6e604ac4d863db3e1108d2855347594212a92ca430f982c152",
+      "functions": [
+        {
+          "name": "_init_session_state",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "_demo_database",
+          "params": [
+            "path",
+            "timeout_seconds",
+            "max_rows",
+            "max_vm_steps",
+            "seed"
+          ],
+          "returnType": "Database",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "_runtime_settings",
+          "params": [
+            "settings",
+            "provider",
+            "model",
+            "api_key"
+          ],
+          "returnType": "Settings",
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "_resolve_database",
+          "params": [
+            "settings",
+            "data_source"
+          ],
+          "returnType": "tuple[Database, str, str, bool] | None",
+          "exported": true,
+          "lineCount": 48
+        },
+        {
+          "name": "_build_agent",
+          "params": [
+            "runtime",
+            "database",
+            "allowed_tables",
+            "include_sample_values",
+            "fingerprint"
+          ],
+          "returnType": "NL2SQLAgent",
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "_history_message",
+          "params": [
+            "state"
+          ],
+          "returnType": "dict[str, Any]",
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "_stage_text",
+          "params": [
+            "node",
+            "update"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "main",
+          "params": [],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 216
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sqlite3",
+          "specifiers": [
+            "sqlite3"
+          ]
+        },
+        {
+          "source": "tempfile",
+          "specifiers": [
+            "tempfile"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any",
+            "cast"
+          ]
+        },
+        {
+          "source": "streamlit",
+          "specifiers": [
+            "st"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.agent",
+          "specifiers": [
+            "AgentState",
+            "NL2SQLAgent"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.config",
+          "specifiers": [
+            "Provider",
+            "Settings",
+            "get_settings"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.db",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.llm",
+          "specifiers": [
+            "LLMProviderError",
+            "build_chat_model",
+            "list_models"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.ui.components",
+          "specifiers": [
+            "render_chat_history",
+            "render_sidebar"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.ui.database_upload",
+          "specifiers": [
+            "SQLiteUploadError",
+            "save_sqlite_upload",
+            "validate_sqlite_upload",
+            "validate_upload_metadata"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.utils",
+          "specifiers": [
+            "configure_logging",
+            "get_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "_init_session_state",
+        "_demo_database",
+        "_runtime_settings",
+        "_resolve_database",
+        "_build_agent",
+        "_history_message",
+        "_stage_text",
+        "main"
+      ],
+      "totalLines": 392,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/utils/__init__.py": {
+      "filePath": "src/nl2sql_agent/utils/__init__.py",
+      "contentHash": "a134eea125036023b54ce18e761ca51612db9c21936276f5196491edd7a9e2b4",
+      "functions": [],
+      "classes": [],
+      "imports": [
+        {
+          "source": ".audit",
+          "specifiers": [
+            "AuditLogger",
+            "hash_text",
+            "redact_sql"
+          ]
+        },
+        {
+          "source": ".logging",
+          "specifiers": [
+            "configure_logging",
+            "get_logger"
+          ]
+        },
+        {
+          "source": ".text",
+          "specifiers": [
+            "strip_sql_fences",
+            "truncate"
+          ]
+        }
+      ],
+      "exports": [],
+      "totalLines": 16,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/utils/audit.py": {
+      "filePath": "src/nl2sql_agent/utils/audit.py",
+      "contentHash": "4e9e1c08b46e71cafd1eb1258c48a2d813ba6b9ab0427f7173cd62b4c56ce161",
+      "functions": [
+        {
+          "name": "hash_text",
+          "params": [
+            "value"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "redact_sql",
+          "params": [
+            "sql"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 12
+        }
+      ],
+      "classes": [
+        {
+          "name": "AuditLogger",
+          "methods": [
+            "__init__",
+            "write"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 31
+        }
+      ],
+      "imports": [
+        {
+          "source": "hashlib",
+          "specifiers": [
+            "hashlib"
+          ]
+        },
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "threading",
+          "specifiers": [
+            "threading"
+          ]
+        },
+        {
+          "source": "datetime",
+          "specifiers": [
+            "UTC",
+            "datetime"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "sqlglot",
+          "specifiers": [
+            "sqlglot"
+          ]
+        },
+        {
+          "source": "sqlglot",
+          "specifiers": [
+            "exp"
+          ]
+        }
+      ],
+      "exports": [
+        "hash_text",
+        "redact_sql",
+        "AuditLogger"
+      ],
+      "totalLines": 79,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/utils/logging.py": {
+      "filePath": "src/nl2sql_agent/utils/logging.py",
+      "contentHash": "0a24d71a62f433df5db9888ff0cd561db1cbae3a3bd1c7a89e84efe006ef0f0d",
+      "functions": [
+        {
+          "name": "configure_logging",
+          "params": [
+            "level",
+            "json",
+            "sink"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 57
+        },
+        {
+          "name": "get_logger",
+          "params": [
+            "name"
+          ],
+          "returnType": "Any",
+          "exported": true,
+          "lineCount": 5
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "sys",
+          "specifiers": [
+            "sys"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Any"
+          ]
+        },
+        {
+          "source": "loguru",
+          "specifiers": [
+            "_loguru_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "configure_logging",
+        "get_logger"
+      ],
+      "totalLines": 81,
+      "hasStructuralAnalysis": true
+    },
+    "src/nl2sql_agent/utils/text.py": {
+      "filePath": "src/nl2sql_agent/utils/text.py",
+      "contentHash": "fbb026849fc4e3605e428df6c27c33e01b6781a436edb0fd7bb3387169dd0d2a",
+      "functions": [
+        {
+          "name": "strip_sql_fences",
+          "params": [
+            "text"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 24
+        },
+        {
+          "name": "truncate",
+          "params": [
+            "text",
+            "max_chars",
+            "suffix"
+          ],
+          "returnType": "str",
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "typing",
+          "specifiers": [
+            "Final"
+          ]
+        },
+        {
+          "source": ".logging",
+          "specifiers": [
+            "configure_logging",
+            "get_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "strip_sql_fences",
+        "truncate"
+      ],
+      "totalLines": 55,
+      "hasStructuralAnalysis": true
+    },
+    "tests/__init__.py": {
+      "filePath": "tests/__init__.py",
+      "contentHash": "c267a37292f41887acb2461824636988b8de1ba86d062642bc6663dacaa8b28a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "tests/conftest.py": {
+      "filePath": "tests/conftest.py",
+      "contentHash": "e158af37c68d4da67a0f6626da21ee1abd8237ae841d54499da1eba38cf478c4",
+      "functions": [
+        {
+          "name": "_reset_settings",
+          "params": [
+            "monkeypatch"
+          ],
+          "returnType": "None",
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "tmp_db_path",
+          "params": [
+            "tmp_path",
+            "monkeypatch"
+          ],
+          "returnType": "Path",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "seeded_db",
+          "params": [
+            "tmp_db_path"
+          ],
+          "returnType": "Database",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "empty_db",
+          "params": [
+            "tmp_db_path"
+          ],
+          "returnType": "Database",
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "mock_llm",
+          "params": [],
+          "returnType": "MagicMock",
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "make_state",
+          "params": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "example_questions",
+          "params": [],
+          "returnType": "Iterator[str]",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterator"
+          ]
+        },
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "MagicMock"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.config",
+          "specifiers": [
+            "reset_settings_cache"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.db",
+          "specifiers": [
+            "Database"
+          ]
+        }
+      ],
+      "exports": [
+        "_reset_settings",
+        "tmp_db_path",
+        "seeded_db",
+        "empty_db",
+        "mock_llm",
+        "make_state",
+        "example_questions"
+      ],
+      "totalLines": 96,
+      "hasStructuralAnalysis": true
+    },
+    "tests/integration/__init__.py": {
+      "filePath": "tests/integration/__init__.py",
+      "contentHash": "c267a37292f41887acb2461824636988b8de1ba86d062642bc6663dacaa8b28a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "tests/integration/test_ollama_live.py": {
+      "filePath": "tests/integration/test_ollama_live.py",
+      "contentHash": "ae8aa197dcbd9b5431170585a12135f299b5cd29f5b49e830e58970f746c49fc",
+      "functions": [
+        {
+          "name": "_ollama_alive",
+          "params": [],
+          "returnType": "bool",
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "ollama_model",
+          "params": [],
+          "returnType": "Iterator[str]",
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "live_settings",
+          "params": [
+            "tmp_path",
+            "monkeypatch",
+            "ollama_model"
+          ],
+          "returnType": "Settings",
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [
+        {
+          "name": "TestOllamaIntegration",
+          "methods": [
+            "test_count_employees",
+            "test_total_engineering_salary",
+            "test_guardian_blocks_dangerous_sql"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 36
+        }
+      ],
+      "imports": [
+        {
+          "source": "os",
+          "specifiers": [
+            "os"
+          ]
+        },
+        {
+          "source": "collections.abc",
+          "specifiers": [
+            "Iterator"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.agent",
+          "specifiers": [
+            "NL2SQLAgent"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.config",
+          "specifiers": [
+            "Settings",
+            "get_settings",
+            "reset_settings_cache"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.db",
+          "specifiers": [
+            "Database"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.llm",
+          "specifiers": [
+            "build_chat_model",
+            "list_models"
+          ]
+        }
+      ],
+      "exports": [
+        "_ollama_alive",
+        "ollama_model",
+        "live_settings",
+        "TestOllamaIntegration"
+      ],
+      "totalLines": 98,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/__init__.py": {
+      "filePath": "tests/unit/__init__.py",
+      "contentHash": "c267a37292f41887acb2461824636988b8de1ba86d062642bc6663dacaa8b28a",
+      "functions": [],
+      "classes": [],
+      "imports": [],
+      "exports": [],
+      "totalLines": 2,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_agent.py": {
+      "filePath": "tests/unit/test_agent.py",
+      "contentHash": "25ce411b92c75822b374e373b71f162bfff47e22f6f1d4d5ac745f5b12020b33",
+      "functions": [
+        {
+          "name": "_make_agent",
+          "params": [
+            "seeded_db",
+            "mock_llm",
+            "**policy_overrides"
+          ],
+          "returnType": "NL2SQLAgent",
+          "exported": true,
+          "lineCount": 26
+        }
+      ],
+      "classes": [
+        {
+          "name": "TestFetchSchema",
+          "methods": [
+            "test_returns_schema_string",
+            "test_injected_database_is_never_seeded"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "TestWriteSql",
+          "methods": [
+            "test_calls_llm",
+            "test_includes_error_in_retry",
+            "test_strips_markdown_fence",
+            "test_increments_retry_count"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 37
+        },
+        {
+          "name": "TestCheckSecurity",
+          "methods": [
+            "test_safe_query",
+            "test_dangerous_query_blocked",
+            "test_unknown_column_fails_preflight",
+            "test_disallowed_table_is_blocked"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "TestExecuteSql",
+          "methods": [
+            "test_runs_safe_query",
+            "test_returns_error_on_bad_sql",
+            "test_handles_empty_result"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 22
+        },
+        {
+          "name": "TestSummarize",
+          "methods": [
+            "test_calls_llm",
+            "test_fallback_when_llm_returns_empty",
+            "test_fallback_on_exception"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 36
+        },
+        {
+          "name": "TestRouting",
+          "methods": [
+            "test_security_routes_to_executor_when_safe",
+            "test_security_routes_to_retry_on_error",
+            "test_security_routes_to_summarize_when_retries_exhausted",
+            "test_execute_routes_to_retry_when_error",
+            "test_execute_routes_to_summarize_when_no_error",
+            "test_execute_stops_at_max_retries",
+            "test_execute_with_exhausted_retries_uses_state_max"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 47
+        },
+        {
+          "name": "TestHighLevelRun",
+          "methods": [
+            "test_run_returns_final_state",
+            "test_run_with_retry_on_syntax_error",
+            "test_run_with_dangerous_sql_blocked"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 39
+        },
+        {
+          "name": "TestPreparedExecution",
+          "methods": [
+            "test_prepare_does_not_execute_query",
+            "test_execute_prepared_accepts_safe_edit",
+            "test_execute_prepared_rejects_dangerous_edit",
+            "test_stream_prepare_stops_before_execution"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 55
+        },
+        {
+          "name": "TestWorkflowStructure",
+          "methods": [
+            "test_workflow_compiles",
+            "test_stream_yields_events"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 25
+        },
+        {
+          "name": "TestExecutionEdgeCases",
+          "methods": [
+            "test_summarizer_no_question",
+            "test_summarizer_no_sql",
+            "test_summarizer_fallback_no_data_no_error",
+            "test_executor_returns_tuple_rows",
+            "test_writer_clears_previous_error"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 32
+        }
+      ],
+      "imports": [
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "MagicMock"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.agent",
+          "specifiers": [
+            "AgentState",
+            "NL2SQLAgent"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.security",
+          "specifiers": [
+            "SQLPolicy"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.utils",
+          "specifiers": [
+            "AuditLogger"
+          ]
+        }
+      ],
+      "exports": [
+        "_make_agent",
+        "TestFetchSchema",
+        "TestWriteSql",
+        "TestCheckSecurity",
+        "TestExecuteSql",
+        "TestSummarize",
+        "TestRouting",
+        "TestHighLevelRun",
+        "TestPreparedExecution",
+        "TestWorkflowStructure",
+        "TestExecutionEdgeCases"
+      ],
+      "totalLines": 399,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_audit.py": {
+      "filePath": "tests/unit/test_audit.py",
+      "contentHash": "e06c3943a753be59da6c9871189623d901c75c7f3b181c9489da9e3087a15ffc",
+      "functions": [
+        {
+          "name": "test_hash_text_does_not_expose_input",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_redact_sql_removes_literals",
+          "params": [],
+          "exported": true,
+          "lineCount": 5
+        },
+        {
+          "name": "test_invalid_sql_is_not_logged_raw",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_audit_logger_writes_jsonl_without_raw_question",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 15
+        },
+        {
+          "name": "test_disabled_audit_does_not_create_file",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_audit_logger_rejects_unapproved_fields",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 4
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.utils",
+          "specifiers": [
+            "AuditLogger",
+            "hash_text",
+            "redact_sql"
+          ]
+        }
+      ],
+      "exports": [
+        "test_hash_text_does_not_expose_input",
+        "test_redact_sql_removes_literals",
+        "test_invalid_sql_is_not_logged_raw",
+        "test_audit_logger_writes_jsonl_without_raw_question",
+        "test_disabled_audit_does_not_create_file",
+        "test_audit_logger_rejects_unapproved_fields"
+      ],
+      "totalLines": 58,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_cli.py": {
+      "filePath": "tests/unit/test_cli.py",
+      "contentHash": "06154d3fb1cec2206457d61cc8b31e18936913760646ccdb5aefc9be10e188bc",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestAskCommand",
+          "methods": [
+            "test_unknown_provider_exits_cleanly",
+            "test_runs_question_and_prints_answer",
+            "test_show_sql_prints_sql",
+            "test_missing_api_key_returns_2"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 50
+        },
+        {
+          "name": "TestConfigCommand",
+          "methods": [
+            "test_prints_settings_json",
+            "test_redacts_api_keys"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 32
+        },
+        {
+          "name": "TestParser",
+          "methods": [
+            "test_no_command_fails",
+            "test_ask_requires_question",
+            "test_serve_defaults",
+            "test_serve_rejects_non_loopback_host",
+            "test_eval_defaults",
+            "test_eval_rejects_invalid_pass_rate"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 27
+        },
+        {
+          "name": "TestEvalCommand",
+          "methods": [
+            "test_writes_report_and_returns_success",
+            "test_returns_failure_below_threshold"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 64
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "MagicMock",
+            "patch"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent",
+          "specifiers": [
+            "cli"
+          ]
+        }
+      ],
+      "exports": [
+        "TestAskCommand",
+        "TestConfigCommand",
+        "TestParser",
+        "TestEvalCommand"
+      ],
+      "totalLines": 192,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_database.py": {
+      "filePath": "tests/unit/test_database.py",
+      "contentHash": "3fed026b1aefc2a20ced6ad590ca1620a0fc6eac5ee45b7f433b40f79222e7fb",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestSetup",
+          "methods": [
+            "test_creates_database_file",
+            "test_creates_parent_directory",
+            "test_tables_created",
+            "test_departments_columns",
+            "test_employees_columns",
+            "test_seed_data_inserted",
+            "test_seed_data_actual_values",
+            "test_idempotent",
+            "test_no_seed_when_disabled",
+            "test_setup_module_helper"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 60
+        },
+        {
+          "name": "TestQueryResult",
+          "methods": [
+            "test_to_markdown_includes_header",
+            "test_to_markdown_truncates",
+            "test_to_markdown_empty",
+            "test_to_markdown_escapes_pipe",
+            "test_to_csv",
+            "test_to_csv_neutralizes_spreadsheet_formulas",
+            "test_truncation_is_reported",
+            "test_render_table_helper"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 53
+        },
+        {
+          "name": "TestDatabaseExecute",
+          "methods": [
+            "test_basic_select",
+            "test_no_rows",
+            "test_max_rows_enforced",
+            "test_aggregation",
+            "test_invalid_sql_raises",
+            "test_syntax_error_raises",
+            "test_query_connection_is_read_only",
+            "test_preflight_validates_columns_without_running_query",
+            "test_result_cap_sets_truncation_flag",
+            "test_vm_step_budget_interrupts_expensive_query"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 52
+        },
+        {
+          "name": "TestDatabaseSchema",
+          "methods": [
+            "test_get_schema_text",
+            "test_get_schema_text_includes_foreign_key",
+            "test_get_schema_empty_db",
+            "test_lists_user_tables",
+            "test_schema_reuses_one_query_connection",
+            "test_schema_honors_allowlist",
+            "test_schema_ranking_prefers_matching_columns",
+            "test_schema_ranking_evaluates_each_identifier_once",
+            "test_sample_rows_are_opt_in"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 59
+        }
+      ],
+      "imports": [
+        {
+          "source": "re",
+          "specifiers": [
+            "re"
+          ]
+        },
+        {
+          "source": "sqlite3",
+          "specifiers": [
+            "sqlite3"
+          ]
+        },
+        {
+          "source": "csv",
+          "specifiers": [
+            "reader"
+          ]
+        },
+        {
+          "source": "io",
+          "specifiers": [
+            "StringIO"
+          ]
+        },
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "patch"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.db",
+          "specifiers": [
+            "SEED_DEPARTMENTS",
+            "SEED_EMPLOYEES",
+            "Database",
+            "QueryResult",
+            "render_table",
+            "setup_db"
+          ]
+        }
+      ],
+      "exports": [
+        "TestSetup",
+        "TestQueryResult",
+        "TestDatabaseExecute",
+        "TestDatabaseSchema"
+      ],
+      "totalLines": 253,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_evaluation.py": {
+      "filePath": "tests/unit/test_evaluation.py",
+      "contentHash": "c47ae465f8db9a80856f96e553acc0398251da1accbfa6f0e9df5318d6a31259",
+      "functions": [
+        {
+          "name": "test_load_cases",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "test_result_case_compares_rows_not_sql",
+          "params": [
+            "seeded_db"
+          ],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "test_unordered_results_ignore_row_order",
+          "params": [
+            "seeded_db"
+          ],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "test_blocked_case_scores_safety",
+          "params": [
+            "seeded_db"
+          ],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "test_report_threshold_fails_inaccurate_result",
+          "params": [
+            "seeded_db"
+          ],
+          "exported": true,
+          "lineCount": 11
+        },
+        {
+          "name": "test_optional_cost_estimate",
+          "params": [
+            "seeded_db"
+          ],
+          "exported": true,
+          "lineCount": 23
+        }
+      ],
+      "classes": [
+        {
+          "name": "FakeAgent",
+          "methods": [
+            "__init__",
+            "run"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 6
+        }
+      ],
+      "imports": [
+        {
+          "source": "json",
+          "specifiers": [
+            "json"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.evaluation",
+          "specifiers": [
+            "EvalCase",
+            "EvaluationRunner",
+            "load_cases"
+          ]
+        }
+      ],
+      "exports": [
+        "FakeAgent",
+        "test_load_cases",
+        "test_result_case_compares_rows_not_sql",
+        "test_unordered_results_ignore_row_order",
+        "test_blocked_case_scores_safety",
+        "test_report_threshold_fails_inaccurate_result",
+        "test_optional_cost_estimate"
+      ],
+      "totalLines": 126,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_llm_factory.py": {
+      "filePath": "tests/unit/test_llm_factory.py",
+      "contentHash": "4af5ccfa80b7d3895258d017a0e6d99908f7ff066736b3d0a366ef672462d38c",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestFallbackModels",
+          "methods": [
+            "test_ollama",
+            "test_openai",
+            "test_gemini",
+            "test_anthropic",
+            "test_huggingface",
+            "test_xai"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 21
+        },
+        {
+          "name": "TestListModels",
+          "methods": [
+            "test_ollama_no_connection_returns_empty",
+            "test_ollama_returns_models",
+            "test_openai_uses_approved_list_without_key",
+            "test_gemini_uses_approved_list_without_key",
+            "test_anthropic_uses_curated_list",
+            "test_huggingface_uses_curated_default",
+            "test_xai_uses_approved_list",
+            "test_unknown_provider_returns_empty"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 47
+        },
+        {
+          "name": "TestBuildChatModel",
+          "methods": [
+            "test_ollama_uses_chat_ollama",
+            "test_openai_without_key_raises",
+            "test_openai_with_key_uses_chat_openai",
+            "test_rejects_unapproved_openai_model",
+            "test_huggingface_without_key_raises",
+            "test_huggingface_uses_direct_router",
+            "test_xai_uses_direct_api",
+            "test_gemini_uses_medium_thinking_without_sampling",
+            "test_anthropic_uses_medium_adaptive_thinking_without_sampling",
+            "test_gemini_without_key_raises",
+            "test_anthropic_without_key_raises",
+            "test_unknown_provider_raises",
+            "test_ollama_with_dict_response",
+            "test_temperature_override"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 172
+        }
+      ],
+      "imports": [
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "MagicMock",
+            "patch"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.config",
+          "specifiers": [
+            "Settings",
+            "get_settings",
+            "reset_settings_cache"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.llm",
+          "specifiers": [
+            "LLMProviderError",
+            "build_chat_model",
+            "fallback_models",
+            "list_models"
+          ]
+        }
+      ],
+      "exports": [
+        "TestFallbackModels",
+        "TestListModels",
+        "TestBuildChatModel"
+      ],
+      "totalLines": 262,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_logging.py": {
+      "filePath": "tests/unit/test_logging.py",
+      "contentHash": "adc6ba8495c8e7ba27755b635e0f2280a5b0ea9712edfaf559e5f214eac96718",
+      "functions": [
+        {
+          "name": "test_configure_logging_default",
+          "params": [
+            "capsys"
+          ],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_configure_logging_json",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_configure_logging_sink",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        },
+        {
+          "name": "test_get_logger_bound",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_intercept_handler_for_stdlib",
+          "params": [],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_multiple_configure_calls_safe",
+          "params": [
+            "capsys"
+          ],
+          "exported": true,
+          "lineCount": 9
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "io",
+          "specifiers": [
+            "io"
+          ]
+        },
+        {
+          "source": "logging",
+          "specifiers": [
+            "logging"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.utils",
+          "specifiers": [
+            "configure_logging",
+            "get_logger"
+          ]
+        }
+      ],
+      "exports": [
+        "test_configure_logging_default",
+        "test_configure_logging_json",
+        "test_configure_logging_sink",
+        "test_get_logger_bound",
+        "test_intercept_handler_for_stdlib",
+        "test_multiple_configure_calls_safe"
+      ],
+      "totalLines": 61,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_prompts.py": {
+      "filePath": "tests/unit/test_prompts.py",
+      "contentHash": "b5ab9e6edfaceca784f0e5b3840871c5afe8e5e1cd616d51d4ac6b71f3c993c1",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestPrompts",
+          "methods": [
+            "test_writer_system_includes_safety_rules",
+            "test_writer_user_has_placeholders",
+            "test_summarizer_user_has_placeholders",
+            "test_error_section_empty",
+            "test_error_section_formatted",
+            "test_format_data_empty",
+            "test_format_data_short",
+            "test_format_data_truncates",
+            "test_writer_user_renders",
+            "test_summarizer_user_renders"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 57
+        }
+      ],
+      "imports": [
+        {
+          "source": "nl2sql_agent.prompts",
+          "specifiers": [
+            "SQL_WRITER_SYSTEM",
+            "SQL_WRITER_USER",
+            "SUMMARIZER_USER",
+            "error_section",
+            "format_data"
+          ]
+        }
+      ],
+      "exports": [
+        "TestPrompts"
+      ],
+      "totalLines": 71,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_settings.py": {
+      "filePath": "tests/unit/test_settings.py",
+      "contentHash": "bb045ec6baddc664c9b50f4fb6b1fba66bb6d61182a14056add2c23e4a202f1e",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestSettings",
+          "methods": [
+            "test_rejects_unsafe_ollama_url",
+            "test_allows_https_remote_ollama_url",
+            "test_defaults",
+            "test_env_override",
+            "test_provider_lowercased",
+            "test_provider_uses_its_default_model_when_model_is_omitted",
+            "test_rejects_unapproved_cloud_model",
+            "test_accepts_custom_hugging_face_model",
+            "test_db_path_coerced_from_string",
+            "test_model_must_not_be_empty",
+            "test_max_retries_bounded",
+            "test_api_key_for",
+            "test_cloud_model_catalog",
+            "test_standard_cloud_key_environment_variables",
+            "test_prefixed_cloud_key_environment_variables",
+            "test_settings_is_singleton",
+            "test_reset_clears_cache"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 166
+        },
+        {
+          "name": "TestEnvVar",
+          "methods": [
+            "test_env_var_for",
+            "test_env_var_value"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 15
+        }
+      ],
+      "imports": [
+        {
+          "source": "pathlib",
+          "specifiers": [
+            "Path"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "pydantic",
+          "specifiers": [
+            "ValidationError"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.config",
+          "specifiers": [
+            "Settings",
+            "default_model_for",
+            "env_var_for",
+            "env_var_value",
+            "get_settings",
+            "reset_settings_cache",
+            "supported_models_for"
+          ]
+        }
+      ],
+      "exports": [
+        "TestSettings",
+        "TestEnvVar"
+      ],
+      "totalLines": 204,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_sql_validator.py": {
+      "filePath": "tests/unit/test_sql_validator.py",
+      "contentHash": "18e5aa90dcd18654fa4e5013102ee3a1dede367769d3797fb09d6e251af779b6",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestSafeQueries",
+          "methods": [
+            "test_valid"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 19
+        },
+        {
+          "name": "TestDestructiveStatements",
+          "methods": [
+            "test_blocked"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 23
+        },
+        {
+          "name": "TestMultiStatement",
+          "methods": [
+            "test_two_selects",
+            "test_select_then_drop"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 8
+        },
+        {
+          "name": "TestDangerousFunctions",
+          "methods": [
+            "test_blocked",
+            "test_safe_aggregate_allowed_by_default",
+            "test_aggregate_blocked_when_disabled"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "TestSubqueries",
+          "methods": [
+            "test_nested_select_blocked_when_disallowed",
+            "test_subquery_allowed_by_default"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "TestJoins",
+          "methods": [
+            "test_join_blocked_when_disallowed",
+            "test_join_allowed_by_default",
+            "test_subquery_count_is_bounded",
+            "test_join_count_is_bounded"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "TestCTE",
+          "methods": [
+            "test_cte_blocked_when_disallowed",
+            "test_cte_allowed_by_default",
+            "test_cte_count_is_bounded"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 17
+        },
+        {
+          "name": "TestUnion",
+          "methods": [
+            "test_union_blocked_when_disallowed",
+            "test_union_allowed_by_default"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 10
+        },
+        {
+          "name": "TestFalsePositives",
+          "methods": [
+            "test_column_names_not_blocked"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 13
+        },
+        {
+          "name": "TestEmptyAndInvalid",
+          "methods": [
+            "test_empty_string",
+            "test_whitespace_only",
+            "test_garbage"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 12
+        },
+        {
+          "name": "TestReferencedTables",
+          "methods": [
+            "test_simple",
+            "test_join",
+            "test_subquery",
+            "test_cte_alias_is_not_a_database_table",
+            "test_cte_name_does_not_hide_same_named_physical_table",
+            "test_invalid_sql_raises"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 28
+        },
+        {
+          "name": "TestParseSql",
+          "methods": [
+            "test_returns_selects",
+            "test_empty"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 9
+        },
+        {
+          "name": "TestPrepareSql",
+          "methods": [
+            "test_parses_query_once",
+            "test_rejects_disallowed_table",
+            "test_rejects_physical_table_hidden_by_same_named_cte",
+            "test_allows_cte_over_an_authorized_table",
+            "test_adds_limit_to_executable_sql",
+            "test_clamps_existing_limit"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 45
+        }
+      ],
+      "imports": [
+        {
+          "source": "unittest.mock",
+          "specifiers": [
+            "patch"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "sqlglot",
+          "specifiers": [
+            "sqlglot"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.security",
+          "specifiers": [
+            "DANGEROUS_FUNCTIONS",
+            "SQLPolicy",
+            "SQLValidationError",
+            "parse_sql",
+            "prepare_sql",
+            "referenced_tables",
+            "validate_sql"
+          ]
+        }
+      ],
+      "exports": [
+        "TestSafeQueries",
+        "TestDestructiveStatements",
+        "TestMultiStatement",
+        "TestDangerousFunctions",
+        "TestSubqueries",
+        "TestJoins",
+        "TestCTE",
+        "TestUnion",
+        "TestFalsePositives",
+        "TestEmptyAndInvalid",
+        "TestReferencedTables",
+        "TestParseSql",
+        "TestPrepareSql"
+      ],
+      "totalLines": 286,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_text.py": {
+      "filePath": "tests/unit/test_text.py",
+      "contentHash": "cfb198a6643db052ee9c85efc9afb54f59a3b83a88511e157bf6fa4f9acc6ad7",
+      "functions": [],
+      "classes": [
+        {
+          "name": "TestStripSqlFences",
+          "methods": [
+            "test_bare_sql",
+            "test_strips_markdown_fence_with_lang",
+            "test_strips_markdown_fence_no_lang",
+            "test_strips_trailing_semicolon",
+            "test_strips_trailing_semicolons",
+            "test_strips_quotes",
+            "test_strips_leading_label",
+            "test_empty",
+            "test_multiline"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 34
+        },
+        {
+          "name": "TestTruncate",
+          "methods": [
+            "test_shorter",
+            "test_exact",
+            "test_truncates_with_suffix",
+            "test_custom_suffix",
+            "test_zero_max",
+            "test_negative_max"
+          ],
+          "properties": [],
+          "exported": true,
+          "lineCount": 18
+        }
+      ],
+      "imports": [
+        {
+          "source": "nl2sql_agent.utils.text",
+          "specifiers": [
+            "strip_sql_fences",
+            "truncate"
+          ]
+        }
+      ],
+      "exports": [
+        "TestStripSqlFences",
+        "TestTruncate"
+      ],
+      "totalLines": 62,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_ui_components.py": {
+      "filePath": "tests/unit/test_ui_components.py",
+      "contentHash": "fe6e2b3eda41ddb0b5b41afa7a2aaaf52db62880b65eaefb40bd8c73164f28cf",
+      "functions": [
+        {
+          "name": "_sidebar_app",
+          "params": [],
+          "returnType": "AppTest",
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_sidebar_shows_only_approved_cloud_models",
+          "params": [],
+          "exported": true,
+          "lineCount": 14
+        },
+        {
+          "name": "test_sidebar_accepts_custom_hugging_face_model",
+          "params": [],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "streamlit.testing.v1",
+          "specifiers": [
+            "AppTest"
+          ]
+        }
+      ],
+      "exports": [
+        "_sidebar_app",
+        "test_sidebar_shows_only_approved_cloud_models",
+        "test_sidebar_accepts_custom_hugging_face_model"
+      ],
+      "totalLines": 35,
+      "hasStructuralAnalysis": true
+    },
+    "tests/unit/test_upload.py": {
+      "filePath": "tests/unit/test_upload.py",
+      "contentHash": "2599aefd38ceda51a5d6d4790ff47eed95542dcdb71119ab1bf0f706953e06da",
+      "functions": [
+        {
+          "name": "_sqlite_bytes",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 6
+        },
+        {
+          "name": "test_valid_sqlite_upload",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_rejects_wrong_extension",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_rejects_wrong_header",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_rejects_oversized_upload",
+          "params": [],
+          "exported": true,
+          "lineCount": 4
+        },
+        {
+          "name": "test_rejects_oversized_upload_from_metadata",
+          "params": [],
+          "exported": true,
+          "lineCount": 3
+        },
+        {
+          "name": "test_save_uses_digest_not_uploaded_filename",
+          "params": [
+            "tmp_path"
+          ],
+          "exported": true,
+          "lineCount": 7
+        }
+      ],
+      "classes": [],
+      "imports": [
+        {
+          "source": "sqlite3",
+          "specifiers": [
+            "sqlite3"
+          ]
+        },
+        {
+          "source": "pytest",
+          "specifiers": [
+            "pytest"
+          ]
+        },
+        {
+          "source": "nl2sql_agent.ui.database_upload",
+          "specifiers": [
+            "SQLiteUploadError",
+            "save_sqlite_upload",
+            "validate_sqlite_upload",
+            "validate_upload_metadata"
+          ]
+        }
+      ],
+      "exports": [
+        "_sqlite_bytes",
+        "test_valid_sqlite_upload",
+        "test_rejects_wrong_extension",
+        "test_rejects_wrong_header",
+        "test_rejects_oversized_upload",
+        "test_rejects_oversized_upload_from_metadata",
+        "test_save_uses_digest_not_uploaded_filename"
+      ],
+      "totalLines": 59,
+      "hasStructuralAnalysis": true
+    }
+  }
+}

@@ -1,0 +1,83 @@
+{
+  "nodes": [
+    {
+      "id": "config:graphify-out/2026-08-14/.graphify_analysis.json",
+      "type": "config",
+      "name": ".graphify_analysis.json",
+      "filePath": "graphify-out/2026-08-14/.graphify_analysis.json",
+      "summary": "Stores Graphify analysis results for communities, central nodes, surprising relationships, and questions.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/.graphify_labels.json",
+      "type": "config",
+      "name": ".graphify_labels.json",
+      "filePath": "graphify-out/2026-08-14/.graphify_labels.json",
+      "summary": "Maps Graphify community identifiers to human-readable architecture labels.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "document:graphify-out/2026-08-14/GRAPH_REPORT.md",
+      "type": "document",
+      "name": "GRAPH_REPORT.md",
+      "filePath": "graphify-out/2026-08-14/GRAPH_REPORT.md",
+      "summary": "Documents Graphify corpus health, topology, central nodes, communities, and suggested architecture questions.",
+      "tags": [
+        "documentation",
+        "graph-analysis",
+        "architecture"
+      ],
+      "complexity": "moderate"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/cost.json",
+      "type": "config",
+      "name": "cost.json",
+      "filePath": "graphify-out/2026-08-14/cost.json",
+      "summary": "Records Graphify semantic-extraction token accounting and cost data.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "simple"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/graph.json",
+      "type": "config",
+      "name": "graph.json",
+      "filePath": "graphify-out/2026-08-14/graph.json",
+      "summary": "Stores generated Graphify graph data, including nodes, relationships, communities, and semantic links.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    },
+    {
+      "id": "config:graphify-out/2026-08-14/manifest.json",
+      "type": "config",
+      "name": "manifest.json",
+      "filePath": "graphify-out/2026-08-14/manifest.json",
+      "summary": "Stores Graphify source-file metadata and hashes used to validate graph freshness.",
+      "tags": [
+        "configuration",
+        "tooling",
+        "metadata"
+      ],
+      "complexity": "complex"
+    }
+  ],
+  "edges": []
+}

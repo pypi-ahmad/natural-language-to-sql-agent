@@ -1,14 +1,14 @@
 [project]
 name = "nl2sql-agent"
-version = "0.2.0"
-description = "Production-grade natural-language to SQL data analyst agent with local Ollama support"
+version = "0.3.0"
+description = "Production-grade natural-language to SQL data analyst agent with local and cloud LLM support"
 readme = "README.md"
 requires-python = ">=3.12.10,<3.13"
 license = { file = "LICENSE" }
 authors = [
     { name = "Ahmad" },
 ]
-keywords = ["nlp", "sql", "agent", "ollama", "langgraph", "streamlit", "text2sql"]
+keywords = ["nlp", "sql", "agent", "ollama", "huggingface", "langgraph", "streamlit", "text2sql"]
 classifiers = [
     "Development Status :: 4 - Beta",
     "Intended Audience :: Developers",
@@ -23,40 +23,25 @@ classifiers = [
 
 dependencies = [
     # LLM providers (LangChain ecosystem)
-    "langchain>=0.3.27,<0.4",
-    "langchain-core>=0.3.74,<0.4",
-    "langchain-community>=0.3.27,<0.4",
-    "langchain-ollama>=0.2.3,<0.4",
-    "langchain-openai>=0.3.32,<0.4",
-    "langchain-google-genai>=2.1.10,<3",
-    "langchain-anthropic>=0.3.18,<0.4",
+    "langchain-core>=1.5.4,<2",
+    "langchain-ollama>=1.1,<2",
+    "langchain-openai>=1.5,<2",
+    "langchain-google-genai>=4.3.3,<5",
+    "langchain-anthropic>=1.5.6,<2",
     # LangGraph workflow
-    "langgraph>=0.6.7,<0.7",
-    # Native SDKs (for model discovery and direct API use)
-    "ollama>=0.5.4,<0.6",
-    "openai>=1.84.0,<2",
-    "anthropic>=0.52.0,<1",
-    "google-genai>=1.27.0,<2",
+    "langgraph>=1.2.11,<2",
+    # Native SDKs used by provider integrations
+    "ollama>=0.6.2,<1",
+    "openai>=2.54,<3",
+    "google-genai>=1.75,<2",
     # UI
-    "streamlit>=1.46.1,<2",
+    "streamlit>=1.61.1,<2",
     # Config, validation, logging
     "pydantic>=2.11.7,<3",
     "pydantic-settings>=2.10.1,<3",
     "loguru>=0.7.3,<0.8",
-    "python-dotenv>=1.1.1,<2",
     # SQL safety
     "sqlglot>=27.16.0,<28",
-]
-
-[project.optional-dependencies]
-dev = [
-    "pytest>=8.4.2,<9",
-    "pytest-cov>=6.2.1,<7",
-    "pytest-asyncio>=1.1.0,<2",
-    "pytest-mock>=3.14.1,<4",
-    "ruff>=0.13.0,<0.14",
-    "mypy>=1.18.0,<2",
-    "freezegun>=1.5.2,<2",
 ]
 
 [project.scripts]
@@ -66,19 +51,8 @@ nl2sql-agent = "nl2sql_agent.cli:main"
 Repository = "https://github.com/ahmad/natural-language-to-sql-agent"
 
 [build-system]
-requires = ["hatchling>=1.27.0,<2"]
-build-backend = "hatchling.build"
-
-[tool.hatch.build.targets.wheel]
-packages = ["src/nl2sql_agent"]
-
-[tool.hatch.build.targets.sdist]
-include = [
-    "src/nl2sql_agent",
-    "README.md",
-    "LICENSE",
-    "CHANGELOG.md",
-]
+requires = ["uv_build>=0.12.4,<0.13"]
+build-backend = "uv_build"
 
 # ----- Tooling -----
 
@@ -101,6 +75,10 @@ select = [
     "RUF", # ruff-specific
     "PT",  # pytest style
     "TID", # tidy imports
+    "S",   # flake8-bandit
+    "DTZ", # timezone-aware datetimes
+    "T10", # debugger calls
+    "ERA", # commented-out code
 ]
 ignore = [
     "E501",  # line too long (handled by formatter)
@@ -111,42 +89,21 @@ ignore = [
 ]
 
 [tool.ruff.lint.per-file-ignores]
-"tests/**/*.py" = ["N802", "N803", "N806", "RUF043"]
+"tests/**/*.py" = ["N802", "N803", "N806", "RUF043", "S"]
 
 [tool.ruff.lint.isort]
 known-first-party = ["nl2sql_agent"]
 
-[tool.mypy]
-python_version = "3.12"
-strict = true
-warn_unused_ignores = true
-warn_redundant_casts = true
-disallow_untyped_defs = true
-ignore_missing_imports = true
-plugins = ["pydantic.mypy"]
-exclude = ["build/", "dist/", ".venv/", "tests/"]
+[tool.ty.environment]
+python-version = "3.12"
+root = ["src"]
 
-[[tool.mypy.overrides]]
-module = [
-    "nl2sql_agent.ui.*",
-    "nl2sql_agent.cli",
-    "streamlit.*",
-    "ollama.*",
-    "openai.*",
-    "anthropic.*",
-    "google.*",
-    "langchain_community.*",
-    "langchain_core.*",
-    "langchain_ollama.*",
-    "langchain_openai.*",
-    "langchain_google_genai.*",
-    "langchain_anthropic.*",
-    "langgraph.*",
+[tool.uv]
+constraint-dependencies = [
+    "cryptography>=50,<51",
+    "pillow>=12.3,<13",
+    "pyasn1>=0.6.4,<0.7",
 ]
-ignore_missing_imports = true
-disallow_untyped_defs = false
-disallow_untyped_calls = false
-check_untyped_defs = false
 
 [tool.pytest.ini_options]
 minversion = "8.0"
@@ -176,9 +133,11 @@ branch = true
 omit = [
     "*/tests/*",
     "*/__main__.py",
+    "*/ui/streamlit_app.py",
 ]
 
 [tool.coverage.report]
+fail_under = 80
 precision = 1
 show_missing = true
 skip_covered = false
@@ -188,4 +147,23 @@ exclude_lines = [
     "if __name__ == .__main__.:",
     "if TYPE_CHECKING:",
     "\\.\\.\\.",
+]
+
+[dependency-groups]
+dev = [
+    { include-group = "lint" },
+    { include-group = "test" },
+    { include-group = "security" },
+]
+lint = [
+    "ruff>=0.13,<0.14",
+    "ty>=0.0.71,<0.1",
+]
+security = [
+    "detect-secrets>=1.5.0",
+    "prek>=0.4.13",
+]
+test = [
+    "pytest>=9.1.1,<10",
+    "pytest-cov>=6.2.1,<7",
 ]

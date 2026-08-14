@@ -48,6 +48,22 @@ class AgentState(TypedDict, total=False):
     retry_count: int
     """Number of writer attempts so far."""
     max_retries: int
+
+    # ---- Preparation, observability, and usage ----
+    run_id: str
+    """Opaque correlation identifier shared by preparation and execution."""
+    sql_safe: bool
+    """Whether the latest SQL candidate passed policy and database preflight."""
+    allowed_tables: list[str]
+    """Database tables authorized for this run."""
+    trace: list[dict[str, object]]
+    """Operational stage timings; never model chain-of-thought."""
+    token_usage: dict[str, int]
+    """Input, output, and total token counts when providers report them."""
+    csv_data: str
+    """RFC 4180 CSV for the latest successful result."""
+    truncated: bool
+    """Whether the database row cap truncated the result."""
     """Per-run retry cap (mirrored from settings for downstream access)."""
 
     # ---- Final output ----
