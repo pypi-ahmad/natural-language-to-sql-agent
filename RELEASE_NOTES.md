@@ -1,5 +1,13 @@
 # Release Notes
 
+## v0.3.1 — 2026-08-14
+
+This patch makes the secrets hook deterministic across Windows development and
+Linux CI by excluding generated architecture HTML that embeds public Git
+revisions. Application behavior and the v0.3.0 feature set are unchanged.
+
+---
+
 ## v0.3.0 — 2026-08-14
 
 **Status:** Stable

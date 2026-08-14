@@ -1,6 +1,6 @@
 [project]
 name = "nl2sql-agent"
-version = "0.3.0"
+version = "0.3.1"
 description = "Production-grade natural-language to SQL data analyst agent with local and cloud LLM support"
 readme = "README.md"
 requires-python = ">=3.12.10,<3.13"

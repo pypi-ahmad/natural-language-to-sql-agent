@@ -20,4 +20,4 @@ repos:
         name: detect secrets
         entry: uv run detect-secrets-hook --baseline .secrets.baseline
         language: system
-        exclude: ^(?:uv\.lock|\.ua/|\.codegraph/|\.code-review-graph/|graphify-out/)
+        exclude: ^(?:uv\.lock|architecture-diagram\.html|\.ua/|\.codegraph/|\.code-review-graph/|graphify-out/)

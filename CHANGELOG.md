@@ -7,6 +7,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.3.1] — 2026-08-14
+
+### Fixed
+
+- CI now excludes generated architecture HTML from entropy-based secret
+  detection; the file embeds public Git revisions that are false positives on
+  Linux runners.
+
 ## [0.3.0] — 2026-08-14
 
 ### Added

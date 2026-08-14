@@ -1,5 +1,8 @@
 # Upgrade Summary — v0.1 → v0.2
 
+> v0.3.1 makes generated-diagram secret scanning consistent across Windows and
+> Linux CI; it does not change application behavior or migration steps.
+
 > v0.3.0 addendum: the repository now uses `uv_build`, PEP 735 groups,
 > Ruff, `ty`, `prek`, an 80% coverage gate, and an advisory-clean lock. The
 > remaining counts below are retained as the v0.2 migration snapshot. Current
