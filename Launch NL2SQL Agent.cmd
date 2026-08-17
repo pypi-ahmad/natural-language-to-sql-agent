@@ -11,6 +11,19 @@ if errorlevel 1 (
     exit /b 1
 )
 
+if not exist ".venv" (
+    echo First-time setup: creating the virtual environment and installing dependencies.
+    echo This can take a minute.
+    echo.
+    uv sync --locked
+    if errorlevel 1 (
+        echo.
+        echo Setup failed. See the output above for details.
+        pause
+        exit /b 1
+    )
+)
+
 uv run --locked nl2sql-agent serve
 set "exit_code=%errorlevel%"
 if not "%exit_code%"=="0" (

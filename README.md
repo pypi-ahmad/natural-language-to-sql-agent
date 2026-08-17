@@ -6,6 +6,8 @@
 [![Type checker: ty](https://img.shields.io/badge/type%20checker-ty-blue.svg)](https://docs.astral.sh/ty/)
 [![Tests: 317 passing](https://img.shields.io/badge/tests-317_passing-brightgreen.svg)](#testing)
 
+Repository: [github.com/pypi-ahmad/natural-language-to-sql-agent](https://github.com/pypi-ahmad/natural-language-to-sql-agent)
+
 > Turn natural-language questions into safe, auditable SQL against SQLite or
 > PostgreSQL. Use a local Ollama model or one of six hosted providers, review
 > every generated query, and track sessions, plans, runtime, and estimated cost.
@@ -683,6 +685,22 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 [MIT](LICENSE).
 
 ---
+
+## Documentation
+
+| Document | Purpose |
+| --- | --- |
+| [ARCHITECTURE.md](ARCHITECTURE.md) | Full system design: modules, workflow, safety model, extension points |
+| [DATASET.md](DATASET.md) | Seed dataset shape and how to swap in your own |
+| [SECURITY.md](SECURITY.md) | Security model, redacted fields, and private vulnerability reporting |
+| [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup, required checks, and pull-request guidance |
+| [SUPPORT.md](SUPPORT.md) | Where to ask usage questions and what response time to expect |
+| [DISCLAIMER.md](DISCLAIMER.md) | Data responsibility, what reaches an LLM provider, no financial support wanted |
+| [CHANGELOG.md](CHANGELOG.md) | Full release history |
+| [RELEASE_NOTES.md](RELEASE_NOTES.md) | Human-readable notes for the current release |
+| [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) | Upgrading from earlier versions |
+| [UPGRADE_SUMMARY.md](UPGRADE_SUMMARY.md) | One-page upgrade cheat sheet |
+| [Zero-to-Hero Study Handbook](ZERO_TO_HERO_STUDY_HANDBOOK.md) ([PDF](ZERO_TO_HERO_STUDY_HANDBOOK.pdf)) | Full curriculum: NLP, agents, SQL safety, and this codebase from first principles |
 
 ## Community & support
 
