@@ -10,6 +10,8 @@ workflow in :mod:`nl2sql_agent.agent`, and the Streamlit UI in
 
 from __future__ import annotations
 
-__version__ = "0.4.0"
+from importlib.metadata import version
+
+__version__ = version("nl2sql-agent")
 
 __all__ = ["__version__"]

@@ -7,6 +7,33 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+## [0.5.2] — 2026-08-17
+
+### Added
+
+- `CONTRIBUTING.md`, `SUPPORT.md`, and `DISCLAIMER.md`, and GitHub issue templates
+  (`.github/ISSUE_TEMPLATE/bug_report.md`, `feature_request.md`) and a pull request template.
+
+### Changed
+
+- Stated in the README that the project wants no donations, sponsorships, or other financial
+  support, and linked `SUPPORT.md`/`DISCLAIMER.md`.
+- Added a repository link, a `Documentation` table referencing every other doc in the repo, and a
+  `Community & support` section to the README.
+- `Launch NL2SQL Agent.cmd` now detects a missing `.venv` and runs an explicit `uv sync --locked`
+  with a first-time-setup message before launching, instead of relying on `uv run --locked` to
+  sync silently.
+
+### Fixed
+
+- Corrected `SECURITY.md`'s redacted-fields claim: the `config` command redacts 7 fields (5
+  provider keys plus `NL2SQL_AGNES_API_KEY` and the PostgreSQL DSN), not the 5 previously stated.
+- Added the two missing environment-variable rows (`NL2SQL_LLM_REQUEST_TIMEOUT_SECONDS`,
+  `NL2SQL_QUERY_WARN_FULL_SCAN`) to the README configuration table.
+- `nl2sql_agent.__version__` was hardcoded and had drifted to `0.4.0` across the 0.5.0 and 0.5.1
+  releases. It now reads from installed package metadata via `importlib.metadata.version`, so it
+  can't silently drift from `pyproject.toml` again.
+
 ## [0.5.1] — 2026-08-14
 
 ### Changed
