@@ -709,3 +709,5 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 - **No warranty, no liability**, per the [MIT License](LICENSE) — use it at your own risk.
 
 See [DISCLAIMER.md](DISCLAIMER.md) for the full version.
+
+<p align="center">Made with ❤️ by Ahmad Mujtaba</p>
