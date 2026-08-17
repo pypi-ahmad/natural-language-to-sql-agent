@@ -10,6 +10,16 @@
 > PostgreSQL. Use a local Ollama model or one of six hosted providers, review
 > every generated query, and track sessions, plans, runtime, and estimated cost.
 
+Free, open-source, and community-driven — clone it, run it on your own machine against your own
+database, and use it however you like. Bug reports, feature ideas, and pull requests are genuinely
+welcome.
+
+> [!IMPORTANT]
+> This app connects to a database you provide and sends your schema, question, and query results to
+> whichever LLM provider you configure — only local Ollama keeps everything on your machine. You are
+> fully responsible for the data you use with it. Read [DISCLAIMER.md](DISCLAIMER.md) before
+> connecting anything sensitive.
+
 ---
 
 ## Table of contents
@@ -226,6 +236,7 @@ uv run nl2sql-agent config
 | `NL2SQL_MAX_RETRIES` | `3` | SQL rewrite attempts after a failed execution. |
 | `NL2SQL_LLM_TEMPERATURE` | `0.0` | Ollama/Agnes sampling temperature; other hosted reasoning models use medium effort. |
 | `NL2SQL_LLM_MAX_TOKENS` | `1024` | Max output tokens per LLM call. |
+| `NL2SQL_LLM_REQUEST_TIMEOUT_SECONDS` | `60.0` | Per-LLM-call request timeout. |
 | `NL2SQL_SQL_ALLOW_SUBQUERIES` | `true` | Allow nested SELECT. |
 | `NL2SQL_SQL_ALLOW_JOINS` | `true` | Allow JOIN clauses. |
 | `NL2SQL_SQL_ALLOW_AGGREGATES` | `true` | Allow COUNT, SUM, AVG, etc. |
@@ -239,6 +250,7 @@ uv run nl2sql-agent config
 | `NL2SQL_QUERY_WARN_ESTIMATED_ROWS` | `100000` | Planner row-estimate warning threshold. |
 | `NL2SQL_QUERY_WARN_POSTGRES_COST` | `10000` | PostgreSQL planner-cost warning threshold. |
 | `NL2SQL_QUERY_WARN_SQLITE_VM_STEPS` | `1000000` | SQLite VM-step warning threshold. |
+| `NL2SQL_QUERY_WARN_FULL_SCAN` | `true` | Warn when a query plan indicates a full table scan. |
 | `NL2SQL_LOG_LEVEL` | `INFO` | Loguru log level. |
 | `NL2SQL_LOG_JSON` | `false` | Emit JSON-formatted logs. |
 | `NL2SQL_AUDIT_ENABLED` | `true` | Write redacted operational audit events. |
@@ -657,10 +669,43 @@ Possible future work after the current unreleased changes:
 2. Install the pinned Python and all development groups with `uv sync --all-groups`.
 3. Make your change. Add tests. Run `uv run ruff check src tests`,
    `uv run ty check src`, and `uv run pytest tests/unit`.
-4. Open a PR with a clear description.
+4. Run `uv run prek run --all-files` — this is the same gate CI runs, and also checks
+   formatting (`ruff format --check`) and secret scanning, which the commands above don't cover.
+5. Open a PR with a clear description.
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
+[Code of Conduct](CODE_OF_CONDUCT.md) before opening a pull request.
 
 ---
 
 ## 19. License
 
 [MIT](LICENSE).
+
+---
+
+## Community & support
+
+| You want to… | Do this |
+| --- | --- |
+| Report a bug | [Bug report](https://github.com/pypi-ahmad/natural-language-to-sql-agent/issues/new/choose) |
+| Suggest a feature | [Feature request](https://github.com/pypi-ahmad/natural-language-to-sql-agent/issues/new/choose) |
+| Contribute code or docs | [CONTRIBUTING.md](CONTRIBUTING.md) |
+| Ask a usage question | [SUPPORT.md](SUPPORT.md) |
+| Report a vulnerability | [SECURITY.md](SECURITY.md) |
+
+> [!NOTE]
+> This project does not want or accept donations, sponsorships, or any other financial support, and
+> never will. It's free to use and free to modify. If you'd like to give back, the most valuable
+> thing you can do is contribute code, tests, docs, or a well-written bug report.
+
+## Disclaimer
+
+- **You run this on your own machine, with your own database and API keys.** There is no hosted
+  version and no account system.
+- **You are responsible for the data you process with it.** Your schema, question, and actual query
+  results are sent to whichever LLM provider you configure — only local Ollama keeps that on your
+  machine.
+- **No warranty, no liability**, per the [MIT License](LICENSE) — use it at your own risk.
+
+See [DISCLAIMER.md](DISCLAIMER.md) for the full version.
