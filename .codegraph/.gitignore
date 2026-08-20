@@ -1,5 +1,0 @@
-# Publish the graph database, not process-local sidecars.
-*.db-wal
-*.db-shm
-*.log
-*.pid
