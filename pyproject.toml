@@ -108,7 +108,6 @@ constraint-dependencies = [
 
 [tool.pytest.ini_options]
 minversion = "8.0"
-testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = [
     "-ra",
