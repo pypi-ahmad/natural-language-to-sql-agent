@@ -1,6 +1,6 @@
 # Contributing to NL2SQL Agent
 
-Thanks for considering a contribution — this is a free, community-driven project, and bug reports, feature suggestions, and pull requests all genuinely help.
+Thanks for considering a contribution. This is a free, community-driven project, and bug reports, feature suggestions, and pull requests all genuinely help.
 
 ## Before you start
 
@@ -52,9 +52,9 @@ CI runs this full suite before a pull request can merge.
 
 ## Pull requests
 
-- Keep PRs focused — one change per PR is much easier to review than five.
+- Keep PRs focused: one change per PR is much easier to review than five.
 - Describe what you changed and why in the PR description.
-- Be patient — this is maintained in spare time, so review may take a bit.
+- Be patient: this is maintained in spare time, so review may take a bit.
 
 ## Code of conduct
 

@@ -117,6 +117,9 @@ class EvaluationRunner:
         self.output_cost_per_million = output_cost_per_million
 
     def run(self, cases: Iterable[EvalCase]) -> EvaluationReport:
+        # Hash the database file before and after: the agent should only ever
+        # run read-only SELECTs, so any change here (report.database_unchanged)
+        # signals a regression in that guarantee, not an expected side effect.
         before = _file_digest(self.database.path)
         results: list[EvaluationCaseResult] = []
         for case in cases:
@@ -212,6 +215,9 @@ def _rows_equal(
     left = list(actual)
     right = list(expected)
     if not ordered:
+        # Rows can mix types (str, int, float, None) that aren't natively
+        # orderable against each other; sorting by repr() gives a stable,
+        # deterministic order so unordered result sets can still be compared.
         left.sort(key=repr)
         right.sort(key=repr)
     return all(
@@ -222,6 +228,9 @@ def _rows_equal(
 
 
 def _value_equal(actual: object, expected: object) -> bool:
+    # Tolerant numeric comparison: aggregate/float results can differ in
+    # trailing precision between the reference query and the model's query
+    # even when they're semantically the same answer.
     if isinstance(actual, (int, float)) and isinstance(expected, (int, float)):
         return math.isclose(float(actual), float(expected), rel_tol=1e-6, abs_tol=1e-6)
     return actual == expected

@@ -68,6 +68,9 @@ class AuditLogger:
         sql = fields.pop("sql", None)
         if isinstance(sql, str):
             payload["sql"] = redact_sql(sql, dialect=self.dialect)
+        # Fail closed: an unrecognized field raises instead of being silently
+        # dropped, so a new field must be deliberately added to
+        # _ALLOWED_FIELDS (and reviewed for privacy) before it can be logged.
         unsupported = fields.keys() - _ALLOWED_FIELDS
         if unsupported:
             raise ValueError(f"unsupported audit fields: {', '.join(sorted(unsupported))}")

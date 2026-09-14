@@ -282,6 +282,14 @@ def get_settings() -> Settings:
     """Return the cached :class:`Settings` instance.
 
     Use this as a FastAPI-/dependency-style accessor in the rest of the app.
+
+    The cache makes this a process-wide singleton: ``Settings`` is a mutable
+    Pydantic model, so assigning to a field on the returned object (e.g.
+    ``get_settings().model = "x"``) mutates shared state for every caller in
+    this process, not just the caller that made the change. That is safe in
+    the one-shot CLI (see ``cli._build_agent``) but not in a long-lived,
+    multi-session process — see ``ui.streamlit_app._runtime_settings``, which
+    deep-copies before overriding per-session values.
     """
     return Settings()
 

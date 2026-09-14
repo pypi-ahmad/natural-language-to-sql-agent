@@ -47,6 +47,10 @@ def _init_session_state() -> None:
         st.session_state.upload_workspace = tempfile.TemporaryDirectory(prefix="nl2sql-upload-")
 
 
+# Both @st.cache_resource functions below return a process-wide singleton
+# shared by every concurrent session/thread (cached by argument values, not
+# per-session). That's safe only because Database and StateStore are each
+# documented thread-safe.
 @st.cache_resource
 def _demo_database(
     path: str,
@@ -77,6 +81,10 @@ def _runtime_settings(
     model: str,
     api_key: str | None,
 ) -> Settings:
+    # Deep-copy before overriding: `settings` is the process-wide singleton
+    # from get_settings(), and Streamlit serves multiple concurrent sessions
+    # from one process. Mutating it in place (as the one-shot CLI does)
+    # would leak one user's provider/model/API key into another session.
     runtime = settings.model_copy(deep=True)
     runtime.provider = provider
     runtime.model = model
@@ -318,6 +326,9 @@ def _ensure_session(
     provider: str,
     model: str,
 ) -> str | None:
+    # A change to any part of `context` (database fingerprint, provider, or
+    # model) is treated as a new conversation: history is cleared and a new
+    # persisted session is created rather than continuing the old one.
     if st.session_state.active_context == context and st.session_state.current_session_id:
         return cast(str, st.session_state.current_session_id)
     st.session_state.messages = []

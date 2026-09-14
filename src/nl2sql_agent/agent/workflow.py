@@ -81,6 +81,11 @@ class NL2SQLAgent:
     ) -> None:
         self.llm = llm
         self.settings = settings or get_settings()
+        # managed_demo: no explicit database was supplied and the configured
+        # backend is the bundled SQLite one, so this agent owns the demo
+        # database's full lifecycle (auto-create/seed below, sample values
+        # in schema text by default, and a stable "demo" fingerprint instead
+        # of one derived from the file path).
         managed_demo = database is None and self.settings.db_backend == "sqlite"
         if database is not None:
             self.db = database
@@ -369,7 +374,14 @@ class NL2SQLAgent:
         return "writer" if retry < maximum else "summarizer"
 
     def route_after_prepare(self, state: AgentState) -> str:
-        """Retry failed preparation or finish with a safe candidate/error."""
+        """Retry failed preparation or finish with a safe candidate/error.
+
+        "prepared" is a routing sentinel, not a success signal: it also
+        covers the case where retries are exhausted while SQL is still
+        unsafe (see :meth:`route_after_security`). Callers of
+        :meth:`prepare`/:meth:`stream_prepare` must check ``state["error"]``
+        rather than assume "prepared" means the SQL is safe to run.
+        """
         route = self.route_after_security(state)
         return "writer" if route == "writer" else "prepared"
 
@@ -582,6 +594,9 @@ class NL2SQLAgent:
             value = reported.get(key)
             if isinstance(value, int):
                 current[key] = current.get(key, 0) + value
+        # Provider SDKs disagree on the cache-token key name inside
+        # input_token_details (e.g. "cache_read" vs "cache_read_tokens");
+        # check both so pricing stays accurate across providers.
         details = reported.get("input_token_details", {})
         if not isinstance(details, dict):
             details = {}

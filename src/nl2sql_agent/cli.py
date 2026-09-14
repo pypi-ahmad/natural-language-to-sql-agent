@@ -48,7 +48,11 @@ def _build_agent(
     api_key: str | None = None,
 ) -> NL2SQLAgent:
     settings = get_settings()
-    # Apply CLI overrides via env-style fields.
+    # Apply CLI overrides via env-style fields. This mutates the process-wide
+    # cached Settings singleton (see get_settings) rather than a copy; that is
+    # fine here because the CLI runs one command per process and exits, but
+    # the same pattern would leak overrides across requests in a long-lived
+    # process (the Streamlit app deep-copies instead; see _runtime_settings).
     if provider:
         settings.provider = cast(Provider, provider.strip().lower())
         if not model:
@@ -113,6 +117,9 @@ def cmd_serve(args: argparse.Namespace) -> int:
     """Launch the Streamlit app."""
     import subprocess
 
+    # Loopback-only by default: this launches a Streamlit dev server with no
+    # authentication of its own, so binding to a non-loopback address would
+    # expose the agent (and its configured API keys) to the network.
     if args.host not in {"localhost", "127.0.0.1", "::1"}:
         raise SystemExit("serve host must be a loopback address")
 

@@ -48,6 +48,7 @@ class AgentState(TypedDict, total=False):
     retry_count: int
     """Number of writer attempts so far."""
     max_retries: int
+    """Per-run retry cap (mirrored from settings for downstream access)."""
 
     # ---- Preparation, observability, and usage ----
     run_id: str
@@ -76,7 +77,6 @@ class AgentState(TypedDict, total=False):
     """RFC 4180 CSV for the latest successful result."""
     truncated: bool
     """Whether the database row cap truncated the result."""
-    """Per-run retry cap (mirrored from settings for downstream access)."""
 
     # ---- Final output ----
     final_answer: str

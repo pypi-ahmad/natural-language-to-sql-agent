@@ -1,6 +1,6 @@
 # Support
 
-This is a free, open-source, community-driven project maintained in spare time — there is no paid support tier, no SLA, and no dedicated support staff.
+This is a free, open-source, community-driven project maintained in spare time. There is no paid support tier, no SLA, and no dedicated support staff.
 
 ## Getting help
 

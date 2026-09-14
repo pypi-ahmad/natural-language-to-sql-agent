@@ -167,84 +167,84 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 This is a complete rewrite of the project from a two-file Streamlit demo
 into a properly modularized, tested, production-grade Python package.
-**All v0.1 functionality is preserved; public behavior is equivalent.**
+All v0.1 functionality is preserved; public behavior is equivalent.
 
 #### Added
 
-- **`src/` layout** with a single `nl2sql_agent` package replacing the old
+- `src/` layout with a single `nl2sql_agent` package replacing the old
   `app.py` / `backend.py` pair. Sub-packages: `config`, `db`, `security`,
   `llm`, `prompts`, `agent`, `ui`, `utils`.
-- **Pydantic Settings configuration** with env-var overrides
+- Pydantic Settings configuration with env-var overrides
   (`NL2SQL_*` prefix) and `.env` file support. See
   `src/nl2sql_agent/config/settings.py`.
-- **AST-based SQL safety** using `sqlglot` parsing and an allow-list
+- AST-based SQL safety using `sqlglot` parsing and an allow-list
   policy. Replaces the v0.1 regex deny-list. New dangerous-function
   blocklist (`load_extension`, `readfile`, `writefile`, `shell`,
   `system`, `edit`).
-- **Configurable SQL policy**: per-knob toggles for subqueries, joins,
+- Configurable SQL policy: per-knob toggles for subqueries, joins,
   aggregates, CTEs, UNION. All policy violations raise
   `SQLValidationError` with a UI-friendly message.
-- **Multi-provider LLM factory** with explicit support for Ollama,
+- Multi-provider LLM factory with explicit support for Ollama,
   OpenAI, Gemini, and Anthropic. LangChain `langchain_*` providers
   (including the new `langchain_ollama` package) used throughout.
-- **Streamlit UI rewrite** with sidebar provider picker, model
+- Streamlit UI rewrite with sidebar provider picker, model
   discovery button, live per-step status, chat history, expandable
   SQL view, raw results table, and clickable example questions.
-- **CLI** with subcommands `ask`, `config`, `serve`. The `ask`
+- CLI with subcommands `ask`, `config`, `serve`. The `ask`
   subcommand is suitable for scripts and CI.
-- **Structured logging** via Loguru with optional JSON output and
+- Structured logging via Loguru with optional JSON output and
   stdlib-logging intercept.
-- **174 unit tests** organized by module. New tests for settings,
+- 174 unit tests organized by module. New tests for settings,
   security, prompts, text utilities, CLI, and the agent workflow.
-- **Live integration test** (`tests/integration/test_ollama_live.py`)
+- Live integration test (`tests/integration/test_ollama_live.py`)
   that drives the agent against a real local Ollama.
-- **Mermaid architecture diagram** in README.
+- Mermaid architecture diagram in README.
 
 #### Changed
 
-- **Python 3.12.10**, `uv`-managed, `pyproject.toml` is the single
+- Python 3.12.10, `uv`-managed, `pyproject.toml` is the single
   source of truth for dependencies. Replaces `requirements.txt`.
-- **Pinned dependencies** with conservative version ranges (e.g.
+- Pinned dependencies with conservative version ranges (e.g.
   `langgraph>=0.6.7,<0.7`).
-- **Default LLM** is now `phi4-mini:3.8b` (2.5 GB VRAM, fits 8 GB GPUs
+- Default LLM is now `phi4-mini:3.8b` (2.5 GB VRAM, fits 8 GB GPUs
   comfortably). v0.1 defaulted to `llama3` (untested in this repo).
-- **Database access** is now context-managed and per-call; no long-lived
+- Database access is now context-managed and per-call; no long-lived
   shared connection.
-- **Settings are typed** end-to-end. Configuration errors fail at
+- Settings are typed end-to-end. Configuration errors fail at
   import time, not at query time.
-- **Error contract** for the executor is explicit: every code path
+- Error contract for the executor is explicit: every code path
   returns both `result` and `error` keys (with sensible defaults), so
   downstream nodes never see `KeyError`.
-- **CLI entry point** is `nl2sql-agent` (was `python -m app`).
+- CLI entry point is `nl2sql-agent` (was `python -m app`).
 
 #### Security
 
-- **C-03 (incomplete keyword coverage)**: closed. The new validator
+- C-03 (incomplete keyword coverage): closed. The new validator
   parses SQL into an AST and rejects any non-SELECT top-level, any
   dangerous function, and any forbidden keyword with word-boundary
   matching.
-- **M-04 / M-05 (connection leaks)**: closed. All connections are
+- M-04 / M-05 (connection leaks): closed. All connections are
   opened and closed via `Database.connect()` context manager.
-- **M-07 (raw error in LLM prompt)**: now wrapped and truncated
+- M-07 (raw error in LLM prompt): now wrapped and truncated
   (`format_data()`); the writer prompt uses an explicit `error_section`
   block instead of free-form f-string interpolation.
-- **M-10 (no recursion limit)**: the new routing still uses LangGraph
+- M-10 (no recursion limit): the new routing still uses LangGraph
   defaults, but the retry cap is enforced by `route_after_execute` and
   is configurable per-run.
-- **m-01 (deprecated `google.generativeai`)**: removed. We now use
+- m-01 (deprecated `google.generativeai`): removed. We now use
   `google-genai` (which itself uses the maintained SDK under the
   hood).
-- **m-02 (unpinned dependencies)**: closed. All deps are pinned in
+- m-02 (unpinned dependencies): closed. All deps are pinned in
   `pyproject.toml`.
-- **m-03 (unused packages)**: closed. The minimum necessary SDKs are
+- m-03 (unused packages): closed. The minimum necessary SDKs are
   listed in `pyproject.toml`.
 
 #### Fixed
 
-- **PRAGMA f-string interpolation** (C-04): closed. We use
+- PRAGMA f-string interpolation (C-04): closed. We use
   `sqlglot`'s parameterised `pragma_table_info(?)` instead of
   f-stringing table names.
-- **Hardcoded database path** (M-06): closed. The path is a `Settings`
+- Hardcoded database path (M-06): closed. The path is a `Settings`
   field and propagates everywhere.
 
 #### Removed
