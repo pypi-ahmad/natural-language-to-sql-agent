@@ -1,8 +1,8 @@
-# Migration Guide — v0.1 → v0.2
+# Migration Guide: v0.1 → v0.2
 
 This guide covers the user-facing and developer-facing changes between
 v0.1 and v0.2. The behavior of the agent is unchanged; the changes are
-in **how the project is installed, configured, and extended**.
+in how the project is installed, configured, and extended.
 
 > **Current `main`:** Existing `run()`, `stream()`, and `ask` callers remain
 > compatible. New optional capabilities include `prepare()` /
@@ -137,7 +137,7 @@ result = agent.run("What is the total salary in Engineering?")
 print(result["final_answer"])
 ```
 
-The v0.2 API is **stricter and more discoverable**: type hints
+The v0.2 API is stricter and more discoverable: type hints
 throughout, explicit dataclass return values, named arguments
 everywhere.
 
@@ -154,7 +154,7 @@ Deny-list of 6 keywords with word-boundary regex.
 AST-based allow-list using `sqlglot`. Single-statement SELECT only.
 Configurable per-knob policy. New dangerous-function blocklist.
 
-This is a **security improvement** — there is no action required on
+This is a security improvement. There is no action required on
 your part, but if you previously relied on the deny-list to reject
 specific keywords, the AST validator is more accurate and configurable.
 
@@ -177,7 +177,7 @@ Defaults to `company.db` in the current working directory.
 
 ### v0.1
 
-`python -m pytest tests/ -v` — 126 tests, 100% coverage of
+`python -m pytest tests/ -v`: 126 tests, 100% coverage of
 `backend.py`.
 
 ### v0.2

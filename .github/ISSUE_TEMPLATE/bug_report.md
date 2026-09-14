@@ -6,7 +6,7 @@ labels: bug
 assignees: ''
 ---
 
-Thanks for taking the time to report this — please fill in as much as you can, but don't let a missing field stop you from posting.
+Thanks for taking the time to report this. Please fill in as much as you can, but don't let a missing field stop you from posting.
 
 ## What happened
 
@@ -35,6 +35,6 @@ shown in the UI or terminal, here.
 
 ## Anything else
 
-Any other context — schema shape, screenshots, logs.
+Any other context, such as schema shape, screenshots, or logs.
 
 > Please don't paste real API keys, database connection strings, or private schema/data into this issue.

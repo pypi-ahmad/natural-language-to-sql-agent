@@ -1,4 +1,4 @@
-# Upgrade Summary — v0.1 → v0.2
+# Upgrade Summary: v0.1 → v0.2
 
 > **v0.5.1 addendum:** The Streamlit UI now defaults to `127.0.0.1:8512`. This
 > applies to the Windows launcher, `nl2sql-agent serve`, and direct Streamlit
@@ -18,7 +18,7 @@
 > connection. The Streamlit UI has Chat, Costs, Sessions, Insights, and Pricing
 > views backed by a local versioned state database. It saves conversations,
 > pending approvals, approved SQL, usage, pricing snapshots, and bounded query
-> metrics—not result rows, uploads, schemas, keys, or DSNs. Pricing supports
+> metrics, not result rows, uploads, schemas, keys, or DSNs. Pricing supports
 > effective dates, cache, batch, fast-mode, and long-context rates; budgets are
 > disabled until configured. Existing SQLite and public agent APIs remain
 > compatible. Run `uv sync --locked --all-groups` after upgrading.
@@ -51,7 +51,7 @@
 The project went from a two-file Streamlit demo to a properly
 modularized, tested, production-grade Python package. The agent's
 behavior is unchanged; the surface area is similar; the internals are
-fundamentally more robust.
+far more robust.
 
 ---
 

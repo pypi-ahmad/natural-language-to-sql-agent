@@ -10,20 +10,20 @@ NL2SQL Agent is a local-first tool. There is no hosted version, no backend serve
 
 This is the part most disclaimers gloss over, so it's stated precisely:
 
-- **Writing SQL:** your database **schema** (table/column names) and your **question** are sent to whichever LLM provider you've selected.
-- **Summarizing the answer:** the **actual query result data** — the real rows your query returned — is sent to that same provider, along with the SQL and your question, so it can write a natural-language answer.
-- **Local Ollama is the only path that keeps all of this on your machine.** Selecting any hosted provider (OpenAI, Google Gemini, Anthropic, xAI, Agnes AI, or a Hugging Face-routed model) means your schema, your question, and your real query results are transmitted to that provider's API.
+- **Writing SQL:** your database schema (table/column names) and your question are sent to whichever LLM provider you've selected.
+- **Summarizing the answer:** the actual query result data, the real rows your query returned, is sent to that same provider, along with the SQL and your question, so it can write a natural-language answer.
+- Local Ollama is the only path that keeps all of this on your machine. Selecting any hosted provider (OpenAI, Google Gemini, Anthropic, xAI, Agnes AI, or a Hugging Face-routed model) means your schema, your question, and your real query results are transmitted to that provider's API.
 
 ## You are responsible for the data and database you connect
 
-**You, and only you, are responsible for:**
+You, and only you, are responsible for:
 
-- Deciding whether the database you point this at may have its schema and query results sent to a third-party LLM provider — this includes proprietary business data, customer records, or anything under a confidentiality or compliance obligation.
+- Deciding whether the database you point this at may have its schema and query results sent to a third-party LLM provider. This includes proprietary business data, customer records, or anything under a confidentiality or compliance obligation.
 - Understanding and accepting your chosen provider's own data-handling, retention, and training-use policies.
 - Any costs your provider charges for API usage. This project does not meter, cap, or reimburse API spend.
-- The credentials and access scope of the database connection you provide — NL2SQL Agent enforces read-only query safety on its own side (see [ARCHITECTURE.md](ARCHITECTURE.md) and [SECURITY.md](SECURITY.md)), but a misconfigured connection string with write access is your responsibility, not the application's.
+- The credentials and access scope of the database connection you provide. NL2SQL Agent enforces read-only query safety on its own side (see [ARCHITECTURE.md](ARCHITECTURE.md) and [SECURITY.md](SECURITY.md)), but a misconfigured connection string with write access is your responsibility, not the application's.
 
-**If your data must never leave your machine, use only the local Ollama provider.**
+If your data must never leave your machine, use only the local Ollama provider.
 
 ## No warranty, no liability
 

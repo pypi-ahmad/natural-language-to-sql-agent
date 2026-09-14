@@ -378,7 +378,7 @@ Tables and seed columns:
    independently through scope traversal.
 9. Preparation reuses one parsed AST for validation, table discovery, and
    LIMIT canonicalization; a regression test enforces the single-parse path.
-9. The returned SQL contains an enforced result LIMIT.
+10. The returned SQL contains an enforced result LIMIT.
 
 After AST checks, `Database.preflight()` validates identifiers without running
 the SELECT. Execution uses SQLite URI `mode=ro`, `query_only`, disabled
@@ -390,7 +390,7 @@ Output contract:
 
 Why this matters for learners:
 
-1. This safety gate is the key trust boundary in the system.
+1. This safety gate is the system's trust boundary.
 2. It runs before query execution.
 3. It is configurable through `Settings` flags that map to `SQLPolicy`.
 

@@ -1,9 +1,9 @@
 # Architecture Guide
 
 This document explains the design decisions behind the project. It is
-written for engineers who want to **extend** the agent (add a new
+written for engineers who want to extend the agent (add a new
 provider, add a new safety rule, swap the database) or who want to
-**understand** why things are the way they are.
+understand why things are the way they are.
 
 ---
 
@@ -11,15 +11,15 @@ provider, add a new safety rule, swap the database) or who want to
 
 1. **One module, one responsibility.** Every sub-package has a
    single, well-defined job:
-   - `config` — runtime configuration
-   - `db` — database I/O
-   - `security` — SQL validation
-   - `llm` — LLM client construction
-   - `prompts` — prompt templates
-   - `agent` — orchestration
-   - `persistence` — local sessions, pricing, and run summaries
-   - `ui` — Streamlit presentation
-   - `utils` — shared helpers (logging, text)
+   - `config`: runtime configuration
+   - `db`: database I/O
+   - `security`: SQL validation
+   - `llm`: LLM client construction
+   - `prompts`: prompt templates
+   - `agent`: orchestration
+   - `persistence`: local sessions, pricing, and run summaries
+   - `ui`: Streamlit presentation
+   - `utils`: shared helpers (logging, text)
 
 2. **No hidden global state.** All settings come from
    `nl2sql_agent.config.get_settings()`. Tests can monkeypatch the
@@ -74,7 +74,7 @@ provider, add a new safety rule, swap the database) or who want to
                      └─────────────┘
 ```
 
-There are **no cycles**. The CLI and UI both depend on `agent`; the
+There are no cycles. The CLI and UI both depend on `agent`; the
 `agent` depends on `db`, `security`, `llm`, `prompts`, and `config`;
 the foundational modules depend only on `config` and `utils`.
 
@@ -179,16 +179,16 @@ The v0.1 keyword regex couldn't distinguish:
 
 | v0.1 (regex) | v0.2 (AST) |
 |---|---|
-| `SELECT * FROM updated_at` → "UPDATE detected" (false positive) | `updated_at` is a column, not a statement — passes |
-| `SELECT * FROM my_drop_log` → "DROP detected" (false positive) | `my_drop_log` is a table — passes |
-| `SELECT load_extension('evil.so')` → not blocked | `load_extension` is a function — blocked |
+| `SELECT * FROM updated_at` → "UPDATE detected" (false positive) | `updated_at` is a column, not a statement, so it passes |
+| `SELECT * FROM my_drop_log` → "DROP detected" (false positive) | `my_drop_log` is a table, so it passes |
+| `SELECT load_extension('evil.so')` → not blocked | `load_extension` is a function, so it's blocked |
 | `SELECT 1; DROP TABLE x` → blocked by driver only | Blocked at AST layer, never reaches driver |
 
 ---
 
 ## 5. Multi-provider design
 
-The LLM factory is intentionally **small and boring**:
+The LLM factory is intentionally small and boring:
 
 ```python
 def build_chat_model(settings, *, provider=None, model=None) -> BaseChatModel:
@@ -196,7 +196,7 @@ def build_chat_model(settings, *, provider=None, model=None) -> BaseChatModel:
 ```
 
 It returns a LangChain `BaseChatModel`. The agent doesn't care which
-one it gets — it only ever calls `.invoke(messages)`. The supported adapters
+one it gets. It only ever calls `.invoke(messages)`. The supported adapters
 are Ollama, Hugging Face, OpenAI, Anthropic, Gemini, xAI, and Agnes AI. Hugging
 Face, xAI, and Agnes reuse the existing OpenAI-compatible LangChain client
 against fixed direct endpoints, so they do not require provider-specific SDKs.
@@ -225,7 +225,7 @@ That's it. No other module needs to change.
 
 ## 6. Observability strategy
 
-The project uses **Loguru** as a single logging backend, with
+The project uses Loguru as a single logging backend, with
 optional JSON output for log aggregators.
 
 Runtime metadata lists only dependencies imported by the application.

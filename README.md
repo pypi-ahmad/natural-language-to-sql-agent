@@ -1,4 +1,4 @@
-# NL2SQL Agent — Production-Grade Natural Language to SQL
+# NL2SQL Agent: Production-Grade Natural Language to SQL
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12.10-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
@@ -12,9 +12,9 @@ Repository: [github.com/pypi-ahmad/natural-language-to-sql-agent](https://github
 > PostgreSQL. Use a local Ollama model or one of six hosted providers, review
 > every generated query, and track sessions, plans, runtime, and estimated cost.
 
-Free, open-source, and community-driven — clone it, run it on your own machine against your own
-database, and use it however you like. Bug reports, feature ideas, and pull requests are genuinely
-welcome.
+This project is free, open source, and community driven. Clone it, run it on your own machine
+against your own database, and use it however you like. Bug reports, feature ideas, and pull
+requests are genuinely welcome.
 
 > [!IMPORTANT]
 > This app connects to a database you provide and sends your schema, question, and query results to
@@ -75,14 +75,14 @@ The system is composed of five cooperating pieces:
   API calls. Default model is **Microsoft Phi-4-mini** served by **Ollama**.
 - **Production-grade safety.** SQL is parsed by `sqlglot` into an AST and
   validated against a configurable allow-list policy. The legacy approach
-  of regex-matching destructive keywords is gone — it can no longer be
+  of regex-matching destructive keywords is gone: it can no longer be
   fooled by column names like `updated_at`.
-- **LangGraph, not magic.** Every step is an explicit node you can stream,
-  log, debug, and replace. There is a real state machine with retries.
-- **Pinned, reproducible, modern.** Python 3.12.10 and `uv`-managed direct
+- **LangGraph workflow.** Every step is an explicit node you can stream,
+  log, debug, and replace, with a real state machine and retries.
+- **Pinned and reproducible.** Python 3.12.10 and `uv`-managed direct
   dependencies, with security floors expressed as transitive constraints.
-- **Tested.** A comprehensive offline suite plus opt-in live Ollama integration tests
-  (config, db, security, prompts, agent, llm factory, text utilities).
+- **Tested.** An offline suite plus opt-in live Ollama integration tests
+  cover config, db, security, prompts, agent, llm factory, and text utilities.
 - **Observable.** Structured Loguru logging, request-friendly error
   contracts, JSON logging mode for log aggregators.
 
@@ -168,7 +168,7 @@ uv run nl2sql-agent ask --show-sql "What is the total salary in Engineering?"
                                           └───────────────────┘
 ```
 
-The agent's responsibilities are **strictly separated**: the database layer
+The agent's responsibilities are strictly separated: the database layer
 doesn't know about the LLM, the security layer doesn't know about the
 workflow, and the LLM factory doesn't know about the database. This makes
 each piece independently testable and replaceable.
@@ -272,8 +272,8 @@ ALTER DEFAULT PRIVILEGES IN SCHEMA public
   GRANT SELECT ON TABLES TO nl2sql_reader;
 ```
 
-Then configure `NL2SQL_POSTGRES_DSN`, `NL2SQL_POSTGRES_SCHEMA`, and—for CLI
-`ask`—`NL2SQL_DB_BACKEND=postgres`. The Streamlit PostgreSQL source appears
+Then configure `NL2SQL_POSTGRES_DSN` and `NL2SQL_POSTGRES_SCHEMA` (and, for CLI
+`ask`, `NL2SQL_DB_BACKEND=postgres`). The Streamlit PostgreSQL source appears
 when the DSN is present. The app refuses elevated roles and never displays or
 persists the DSN. The packaged `eval` corpus remains SQLite-only.
 
@@ -722,9 +722,9 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 - **You run this on your own machine, with your own database and API keys.** There is no hosted
   version and no account system.
 - **You are responsible for the data you process with it.** Your schema, question, and actual query
-  results are sent to whichever LLM provider you configure — only local Ollama keeps that on your
+  results are sent to whichever LLM provider you configure; only local Ollama keeps that on your
   machine.
-- **No warranty, no liability**, per the [MIT License](LICENSE) — use it at your own risk.
+- **No warranty and no liability**, per the [MIT License](LICENSE): use it at your own risk.
 
 See [DISCLAIMER.md](DISCLAIMER.md) for the full version.
 

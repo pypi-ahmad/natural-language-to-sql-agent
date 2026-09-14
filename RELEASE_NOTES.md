@@ -87,7 +87,7 @@ compatible.
 
 ## Headline
 
-v0.2.0 is a **complete modernization** of the project. The public
+v0.2.0 is a complete modernization of the project. The public
 behavior is unchanged (you can still ask questions and get SQL-backed
 answers), but the internals have been rewritten for production use.
 
@@ -95,19 +95,18 @@ answers), but the internals have been rewritten for production use.
 
 ## What you get
 
-1. **A real Python package.** `nl2sql_agent` replaces the old
-   `app.py` / `backend.py` pair. It can be installed (`uv pip install
-   -e .`), versioned, and published.
-2. **A real dependency story.** `uv` + `pyproject.toml` + pinned
-   versions, no more `pip install -r requirements.txt` with
-   unpinned strings.
-3. **A real safety story.** AST-based SQL validation with allow-list
-   policy, replacing the v0.1 keyword regex.
-4. **A real test story.** 174 unit tests + 1 live integration test,
-   organized by module, with 80%+ coverage on every core module.
-5. **A real observability story.** Structured Loguru logging with
-   optional JSON output.
-6. **A real CLI.** `nl2sql-agent ask "..."` for one-shot use, in
+1. `nl2sql_agent` is now a real installable Python package, replacing
+   the old `app.py` / `backend.py` pair. It can be installed
+   (`uv pip install -e .`), versioned, and published.
+2. Dependencies are managed with `uv` and `pyproject.toml`, with
+   pinned versions instead of an unpinned `pip install -r
+   requirements.txt`.
+3. SQL safety is AST-based, with an allow-list policy replacing the
+   v0.1 keyword regex.
+4. There are 174 unit tests plus 1 live integration test, organized by
+   module, with 80%+ coverage on every core module.
+5. Logging is structured via Loguru, with optional JSON output.
+6. A CLI (`nl2sql-agent ask "..."`) is available for one-shot use, in
    addition to the Streamlit UI.
 
 ---
