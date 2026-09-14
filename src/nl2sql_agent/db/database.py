@@ -143,6 +143,11 @@ class Database:
         """
         if not self.path.exists():
             raise sqlite3.OperationalError(f"Database does not exist: {self.path.name}")
+        # Defense in depth for LLM-generated SQL: the file is opened read-only
+        # at the OS/SQLite level (mode=ro), then query_only and trusted_schema
+        # are also turned off below, and extension loading is disabled. Any
+        # one of these alone would block writes; together they mean a bug in
+        # the upstream SQL validator can't turn into a write or file access.
         uri = self.path.resolve().as_uri() + "?mode=ro"
         conn = sqlite3.connect(
             uri,
@@ -334,7 +339,12 @@ class Database:
             )
 
     def preflight(self, sql: str) -> QueryPlan:
-        """Compile and normalize a query plan without executing the SELECT."""
+        """Compile and normalize a query plan without executing the SELECT.
+
+        SQLite has no structured plan API, so this parses the free-text
+        ``detail`` column from ``EXPLAIN QUERY PLAN`` with a regex; the
+        SCAN/SEARCH detection below is coupled to that text format.
+        """
         with self.connect() as conn:
             self._install_progress_guard(conn)
             rows = conn.execute("EXPLAIN QUERY PLAN " + sql).fetchall()
@@ -359,6 +369,15 @@ class Database:
         )
 
     def _install_progress_guard(self, conn: sqlite3.Connection):
+        """Install a homemade query timeout.
+
+        sqlite3 has no execution-time timeout for a running statement
+        (``timeout=`` only bounds waiting on a lock), so this uses SQLite's
+        progress handler to abort a query that runs too many VM instructions
+        or too long in wall-clock time. ``steps`` is only accurate to the
+        nearest ``interval`` (1000), since it's incremented once per
+        callback rather than reflecting the true VM instruction count.
+        """
         deadline = time.monotonic() + self.timeout_seconds
         steps = 0
         interval = 1000

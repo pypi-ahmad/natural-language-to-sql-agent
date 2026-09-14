@@ -213,6 +213,9 @@ def _validate_schema_and_locks(
             raise SQLValidationError(f"Schema '{schema}' is not allowed for this query.")
     if any(True for _ in top.find_all(exp.Into)):
         raise SQLValidationError("SELECT INTO is not allowed.")
+    # sqlglot doesn't expose FOR UPDATE/SHARE row-locking clauses as a
+    # distinct, reliably-typed AST node, so fall back to a text check on the
+    # rendered SQL rather than an AST walk.
     rendered = top.sql(dialect=dialect)
     if re.search(r"\bFOR\s+(?:UPDATE|SHARE|NO\s+KEY\s+UPDATE|KEY\s+SHARE)\b", rendered, re.I):
         raise SQLValidationError("Row-locking SELECT clauses are not allowed.")

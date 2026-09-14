@@ -60,6 +60,9 @@ class PostgresDatabase:
                     row_factory=cast(Any, dict_row),
                 ),
             )
+            # conn.read_only sets a client-side flag; re-check server-side via
+            # SHOW so a server/pooler that ignores or downgrades it is caught
+            # here rather than silently allowing a writable transaction.
             conn.read_only = True
             read_only = conn.execute("SHOW transaction_read_only").fetchone()
             if not read_only or str(read_only["transaction_read_only"]).casefold() != "on":
@@ -70,6 +73,9 @@ class PostgresDatabase:
             ).fetchone()
             if role is None or any(bool(role[field]) for field in role):
                 raise DatabaseError("PostgreSQL requires a non-privileged read-only role")
+            # set_config's third argument (true) scopes each setting to the
+            # current transaction, so it never leaks into a later reused
+            # connection if this one is returned to a pool.
             conn.execute(
                 "SELECT set_config('statement_timeout', %s, true)",
                 (f"{max(1, int(self.timeout_seconds * 1000))}ms",),
@@ -173,6 +179,9 @@ class PostgresDatabase:
         return sorted(tables, key=lambda name: (-score(name), name.casefold()))[:max_tables]
 
     def execute(self, sql: str) -> QueryResult:
+        # Executes sql verbatim: the caller (see security.prepare_sql and
+        # agent.workflow.check_security) is responsible for having already
+        # validated it as a safe, read-only, single SELECT.
         started = time.perf_counter()
         with self.connect() as conn:
             cursor = conn.execute(psycopg_sql.SQL(cast(LiteralString, sql)))

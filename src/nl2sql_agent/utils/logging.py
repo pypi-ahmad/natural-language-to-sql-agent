@@ -57,6 +57,9 @@ def configure_logging(
                 level_ = _loguru_logger.level(record.levelname).name
             except ValueError:
                 level_ = record.levelno  # type: ignore[assignment]
+            # Standard Loguru recipe: walk back past stdlib logging's own
+            # frames so the log record's {name}:{function}:{line} point at
+            # the original caller instead of this handler.
             frame: Any = logging.currentframe()
             depth = 2
             while frame and frame.f_code.co_filename == logging.__file__:

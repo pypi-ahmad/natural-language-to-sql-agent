@@ -20,6 +20,10 @@ from uuid import uuid4
 
 from .llm.pricing import DEFAULT_PRICING_RULES, PricingRule
 
+# Fail-closed privacy allowlists: only these keys are ever written to the
+# local state database. A new AgentState/pending field is invisible to
+# persistence until it is deliberately added here, so raw query rows,
+# question text, etc. can't leak to disk by accident.
 _SAFE_MESSAGE_FIELDS = frozenset(
     {
         "sql",
@@ -139,6 +143,12 @@ class StateStore:
 
     @contextmanager
     def _connect(self):
+        # isolation_level=None puts sqlite3 in autocommit mode (no implicit
+        # transactions). Methods that must not race across threads/processes
+        # (e.g. append_message computing the next position) wrap their
+        # statements in an explicit BEGIN IMMEDIATE/COMMIT below to take a
+        # write lock up front instead of relying on sqlite3's default
+        # deferred-transaction behavior.
         conn = sqlite3.connect(self.path, timeout=10, isolation_level=None)
         try:
             conn.row_factory = sqlite3.Row

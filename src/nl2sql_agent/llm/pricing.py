@@ -9,6 +9,10 @@ from typing import Literal
 
 RequestMode = Literal["standard", "batch", "fast"]
 MILLION = Decimal(1_000_000)
+# Rates below are a manually maintained, point-in-time snapshot of public
+# provider pricing as of this date; they go stale as providers change prices
+# and must be updated here (or via the Pricing page, which edits the same
+# effective-dated rows in the state database) rather than computed.
 SEED_EFFECTIVE_AT = datetime(2026, 8, 14, tzinfo=UTC)
 
 
@@ -255,6 +259,9 @@ def calculate_cost(
     for usage in usage_records:
         input_tokens = max(int(usage.input_tokens), 0)
         output_tokens = max(int(usage.output_tokens), 0)
+        # Clamp so cache_read + cache_creation never exceeds input_tokens:
+        # the remainder (input_tokens - cache_read - cache_creation) is what
+        # gets charged at the regular input rate below.
         cache_read = min(max(int(usage.cache_read_tokens), 0), input_tokens)
         cache_creation = min(max(int(usage.cache_creation_tokens), 0), input_tokens - cache_read)
         input_rate, output_rate = _mode_rates(rule, usage.request_mode)
