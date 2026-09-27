@@ -1,0 +1,75 @@
+{
+  "schemaVersion": 1,
+  "pages": {
+    "/openwiki/architecture/runtime.md": {
+      "pageVersion": "sha256:bce8874f274c706a98b9ffeff129dae869340101417e48f67d28e143decabc42",
+      "completedBy": "codex",
+      "completedRunId": "d676c53f-d58e-4900-b12b-5a74e0f951e2",
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:762638e02c5afa84c7aa4661983bdbf2da7758199e1dcd3f4813165011959256"
+    },
+    "/openwiki/concepts/sql-safety.md": {
+      "pageVersion": "sha256:6008d759b01cca512795e6c65bb6b57675e395870fcedd1b977ab2567960f976",
+      "completedBy": "codex",
+      "completedRunId": "d676c53f-d58e-4900-b12b-5a74e0f951e2",
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:762638e02c5afa84c7aa4661983bdbf2da7758199e1dcd3f4813165011959256"
+    },
+    "/openwiki/evaluation/benchmarks.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:1c31bfde8eb2fa336a30522f6cb8425cdfd68b00ad6716b2df7a5bfad83cdebf",
+      "pageVersion": "sha256:1b3bd6ca8c4ba9aca842a019fa8500ba03add2b8339527e381f4dc4200577896",
+      "completedBy": "codex",
+      "completedRunId": "9f3abe33-3884-48d1-9332-d06781b610b8"
+    },
+    "/openwiki/integrations/databases-schema.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:84ebb46561098e9db7015461e87e88f47af6e71fbc96a52b33f77323fd76ceb4",
+      "pageVersion": "sha256:6bb895160ce39e7a9aa213d6f33e716606ab35cf55bfb12eff0d0af6455a3576",
+      "completedBy": "codex",
+      "completedRunId": "abb68b9e-37ad-43bd-a69b-c9de4ac68e96"
+    },
+    "/openwiki/integrations/model-providers.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:4ebc8ce00d9bbd9fd18247c68e71b09477074aa2519f0c972fae9c5913d05d81",
+      "pageVersion": "sha256:f395d66ff0101a334718027d6a1e3a4adf13aac3bbd21f58d744b9556b79bb1f",
+      "completedBy": "codex",
+      "completedRunId": "41c92eb4-457e-4923-8e77-50afe03bd8eb"
+    },
+    "/openwiki/operations/persistence-audit.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:1c31bfde8eb2fa336a30522f6cb8425cdfd68b00ad6716b2df7a5bfad83cdebf",
+      "pageVersion": "sha256:35317a5acea00b9fab50945c6ffef5eac1b7b78c69ba00f5164d8aede3e02440",
+      "completedBy": "codex",
+      "completedRunId": "9f3abe33-3884-48d1-9332-d06781b610b8"
+    },
+    "/openwiki/quickstart.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:4ebc8ce00d9bbd9fd18247c68e71b09477074aa2519f0c972fae9c5913d05d81",
+      "pageVersion": "sha256:605031aaa5871bad9eabf32264da04a5a4c251ac9bcc3595386e23936c7638e0",
+      "completedBy": "codex",
+      "completedRunId": "41c92eb4-457e-4923-8e77-50afe03bd8eb"
+    },
+    "/openwiki/testing/verification.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:4ebc8ce00d9bbd9fd18247c68e71b09477074aa2519f0c972fae9c5913d05d81",
+      "pageVersion": "sha256:8761c54854b9e18d8ddf08111913e588bd7f2c68114a04312d47641ee5b9484c",
+      "completedBy": "codex",
+      "completedRunId": "41c92eb4-457e-4923-8e77-50afe03bd8eb"
+    },
+    "/openwiki/workflows/cli-streamlit.md": {
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:1c31bfde8eb2fa336a30522f6cb8425cdfd68b00ad6716b2df7a5bfad83cdebf",
+      "pageVersion": "sha256:17dd3cc8af42288e3730c51e2404129ec5d1baffb45e92bd2a0122a8aad8b604",
+      "completedBy": "codex",
+      "completedRunId": "9f3abe33-3884-48d1-9332-d06781b610b8"
+    },
+    "/openwiki/workflows/query-review.md": {
+      "pageVersion": "sha256:d82ea452c3f62b6f2f9b7eceb80a04432e44fb383d518f921aca5614d357dd52",
+      "completedBy": "codex",
+      "completedRunId": "d676c53f-d58e-4900-b12b-5a74e0f951e2",
+      "gitHead": "c7a7e23e084622ee7bb9509fc95848102228f255",
+      "sourceFingerprint": "sha256:762638e02c5afa84c7aa4661983bdbf2da7758199e1dcd3f4813165011959256"
+    }
+  }
+}

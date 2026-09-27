@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:f395d66ff0101a334718027d6a1e3a4adf13aac3bbd21f58d744b9556b79bb1f",
+  "claims": [
+    {
+      "id": "claim_12b55af61f6341a881083e0585f14412",
+      "statement": "Settings resolves explicit configuration, environment, dotenv and defaults, with provider-specific credential aliases and CLI masking.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L108-L124",
+          "version": "repo-lines-v1:sha256:24e06d053be2493c817778b3849b299896e89f7dcc5b40cacf7caab39d454e70:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImU1NDcxOTkzNWY1ODEyYTQwNTFiMzI1Yjg2NGNlNDFjM2Q1NDY3NTRlMjg2ZjUyNTk5N2UzM2ZlN2M0MTJmY2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcyMDQ0NjU1NThiMDkzMGY3OWNkZDA4OWZkZmJmNTMyYTgxYjNjODhmM2ZlNGM1NzQ0ZjM3OGQwYzI3M2Y2MmYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlYjYxOTk4YzE4NTEzM2NkNGQyMGZmN2JhNTYxYjkxMzBkZjBkNTQwMTdkM2RjMmM3YWViMTcxM2Y0ZDY1MDcifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/config/settings.py#L76-L125",
+          "version": "repo-lines-v1:sha256:c0b8373ff007ac12b61a105252db4fbf9e5e0b87caecc245ffa603430881ecf8:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzOGFlZWYzNjdhODkyMGY5YzE5ZmFjYWFlOGE4ZmIyYWViMzAwNGQ0NGJlZTZiZjI2ZjFmNWIwMWExNjk5MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyMDA3YTI0M2Q2YmI5OGNiNmE3YjczOTA2ODE2Yzg0ODg4ZDJmYTlhNjI5OGZkMmUyMWJlMzM2MzZlNzk5N2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4ZTMxMDE5ZDkyZjA0NTI1OGE0MzNlZGJlY2EzYTgxZGI1OTQxOTFkOWQ4ZTdiNDg0NzY5ZGYzNWM0OGYyOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijk5MzZiYjFlMDhkYWE1OWUwMzkxODMzZDRkMmY4ODJkZTllM2ViNzRkYTVjZmNlZWNiYzliNGU0M2YxYzUyYTMifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a3e9993028c643bf9476d56e3bc1e809",
+      "statement": "Model validation permits local Ollama IDs except Guardian, accepts Hugging Face namespace/routing IDs, and constrains other hosted IDs to curated choices.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/config/settings.py#L19-L73",
+          "version": "repo-lines-v1:sha256:11830c318f73bb700bb2f712b63ef44f4e5a7b98c9a5bbf9c5abaa93382be447:eyJzZWxlY3RlZExpbmVDb3VudCI6NTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZiNDhiYWUzYTJlOWM1ZWE5NGQ4NGMyMTgwNGJhOTUzMzVkYzY2NTE5NjYyNWEzY2U3OWNhYTRiY2VhODc1NWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2ODdhYzYwOTEwZjEyZGQ5YmNkMWI2M2IxMmRlNzMxODc1Y2Q2NGU4NDFkYTVmMmQ3ZTczN2E1MjQ4YjlmODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImMzZmY3NzhjZDkzMGY3NmI4MzYwNTFiMDY4MDlhNjM0M2EyOWQ4OTQwM2M3YTU3MmZmMzEzNDNmMzgxNmZlOGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3ZGZmNWFmNjgwYWYyNTQ1ODEyYzgzMWY2OTE5NWY1M2FiYWIyZDIzNDc5NTBkY2ZhOTg4NDk0NzhhMjgxMTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_0f2e77bc05f5452ca09d210244bd22fa",
+      "statement": "Adapters differ in reasoning and transport: OpenAI-compatible clients use Responses with medium reasoning and no SDK retries, Agnes uses thinking-enabled chat with no SDK retries, and local/Gemini/Anthropic settings differ.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/llm/factory.py#L117-L236",
+          "version": "repo-lines-v1:sha256:18573d29a68c219f74da17a238bf843bf023729bcb9a43ea10371e754a61c279:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI3M2ZjYTQwZmE1MzRlYmVmN2M4YmM1OTZlYjhlY2M1YjUyYmRkMzFhNGUxNzc4Y2U3MjM0YWI4M2JiZmI5MzM4IiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJjOTIyMDRjNjVmNTAyZGMxNjQ1NGI2MjQwODU2YTlhYjdhZGUwMDNhOGU5Zjg2MzMzZWMwYjdjOWU0MDk0OTFkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJkODRiZGE0Y2QxMDJjMjBkNWIyNGM0ODBlY2FmMDcxM2JkNGMwYjA4MGEwYjJkZjJkMDVmNzk4MDZkZTFhOWRlIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3MDQzODMwNDRhMDIyN2YzYmQ5ZDdkNWNiZmEzNGZlMzY5NGIwZTQ0YmIyNTM0NzgyNjJiNmIzMWU0NDg4ZWYxIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_01f03aaeaa8e4b158841a26abf10ee94",
+      "statement": "Hosted model discovery is offline curated selection, while Ollama queries local discovery and excludes Guardian; remote Ollama URLs require HTTPS.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/config/settings.py#L232-L248",
+          "version": "repo-lines-v1:sha256:91c0724342dd5de112447eb323996d402644b796ccffce52fde31e9250255abb:eyJzZWxlY3RlZExpbmVDb3VudCI6MTcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxNjE2ZWY1YTNiYjg3ZjI2ZmUyOGJkMTg4ODcwYjYwM2IwODc1YWY3ZjhmOGM4Yzk1NjkwMmI2MTBhYmIwZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZlZTlmYzcxM2U5NDQwYjAxYWMzYWU0MDk1NGQwZmMwYjUwZmUxNTY0NTRmNzgxMjcwYjJkNWIxOTZkNGFhZDciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjRkNDc0YzkzMDZmMjhiOTdkM2U3ODhlOTllOWE0ZGIwMWYwMWQyYzk2ODliN2JiZjM0NTczZDMxODI4N2UyY2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjEzODhkYWUzYTU2NDU1OWU4M2I3NTE0ZWZmMTFiZDBjZmE3MGExNGVjY2I5YmNiNjMwYTE2YTJiYzY2NTZiZDEifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/llm/factory.py#L264-L312",
+          "version": "repo-lines-v1:sha256:b2dd799b503aff94de8c8687fa9af2f1d89befe6f533cc62df38af2653dd233e:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwMjBlODI1ZDE0MTQ0NGU2NGE3MmE4YjI0ZmI0ZGQ3MTQ0ZThiNzIxYjk0OWUyYWNlNjhhMDhjODQ0YzcyYmEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllNTZlZWUyOThiNThlMzExZDBjNGZiNGFlN2M5ZmJlOTJlZWFlMWNlMzJhNzUxMTc1MjVhNGZjMGJjMDI1YmEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1OWMxZGViMjU0YjlmNWQ4NzJkYWI5NmRlODEyNDk0MmQzMTkwNDFlMWRjNGM3NDJlZWE4MGQyYTA2NzBmM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_02d9d2271f1c46399623e5f886ac57b8",
+      "statement": "Pricing selects one effective rule and uses Decimal per-call calculations with cache, mode and long-context rates; unavailable modes and overlapping rules fail explicitly.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/llm/pricing.py#L262-L347",
+          "version": "repo-lines-v1:sha256:d765678d6201f30550130a8ba1b6a7952ea6f3bc5faef16d9a8fc4b9433e1807:eyJzZWxlY3RlZExpbmVDb3VudCI6ODYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5M2I0YzAzYmFmYTBhMmJiZWM2NGI4ZGVlMzNjOTY4NTJhNDA1ZDAxYmJhNTc1Nzg1YjQ3ODY4YjQ4ZTRiYTUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA5ZjkzMDgzYzE5NzEyMWI5ODI3MDBiYThhZmFiZDE3MjJjZjFkM2U3NDA0NTA5ZTgwZWZhMjcyNDdmNjJmMDciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjJkNGEyMGQ1YzhiMDk5MjIxYTg2NWFmODM5ODM2ZDJlMGY4ZGQ0NzIyZTg4MDUxMGRlODU2ZmNkNjdiZmNkMWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a31a6b018f7c4ea99701be6a190636b3",
+      "statement": "The benchmark wrapper reserves persistent budget atomically before calls, keeps uncertain reservations and enforces an immutable existing ceiling, but normal factory-created clients are not wrapped.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L79-L85",
+          "version": "repo-lines-v1:sha256:561c68fd1c96a28fbfba24d34009aaab25564abca40c061dfdc3dec455855b7b:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTMwNTQ0OGQwNDQ3NzEyZjhiNjg0YjQ0NjkxMmU4YTEwOTg0YTkwZjE4MTAyYjZhYTE0NDY5ZTgwYjI4NDRjYiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmE2ZTY0MGQ5OGUxNDFlMTU0MThiZDA1Y2YxN2VjNmYxOGZlOTVmMWY1MGZkNmZkNzI4NjhlZDY4NWZhYzBmMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZmYyZGRmZjVlZTQxYmU4NDNiYmE1OTg5Y2Q4NjNlNmUzMGM3MjNmNzlmYTI3NDg1Nzg5ZjhlNWFhMmE5ZTMyOSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMThjMmVkYmVlNjhmMjcxOWM2OGViZThjMTEyM2U5ZWRjNjU0NjA5ZjMxZjE0ZDMwNDE2MjEzNDU0MzliMjIyYyJ9"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/benchmark.py#L141-L148",
+          "version": "repo-lines-v1:sha256:5a56c3b0c4d3b7e85162593348b964bb5b20029eb3d03b6426260b5160c3a2d1:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiOTkwNjliNDE5NGNmMTViZDk3NThiYTcwMmNlOWQ1NDNlYjlkMzg1Yzg1ZWI2Yzg4M2I0M2YyOGJiZjgxZDZiOSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTkwOWE1M2E2MThkMDI4ZTFkMzAwMGMwYTdhYmNlZWNiZTVmYjM3ZjRlNTExZWZlNDY2NDNmYWQ2ZTY2ODcyZiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzA3ZDM1ZTM1ZWY5ZjZhOTNmZjUxNDI4NDdkODkwZjQ1Y2RmNGM3YTk4OWY5MzViOTMyZWEzNGU1YjczNjIzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNzFkOTYxNGE1YWFjZTBhZjA3NzAxYTk2NWI5ZmQ1ZjUzYTg5YmFkMjliNGY3NTc2MDY2NGNjY2ZiNjFmY2UwNyJ9"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/llm/budget.py#L47-L152",
+          "version": "repo-lines-v1:sha256:56c23b2fc6a9e1c97556ab08a306200522b327cc540a579287e4f1e17d74997f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTA2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJjZDIxNDA3Mzg0MjU2NzdmMTE1ZmFhOTMzMTFjMDliYjE1OTQ3ZTU4OThkZjM5NmQyN2I3ODFkM2I0ZTEzNWMxIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4YTg0OTZlZTk2NDI3MmZjOTExYTJjMjJlZTQxZGEwZmNlN2Y4NDliZmFkZTM0MDY1MTJiZTFkMmM4MTg4Y2VmIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI0NGYzYjM5MDE0YmE4NTE5OWM1MzhhYzU1ZmVmMzZmNWIzZGQ0MzUzZjI2ZDIxZTlmMGRkOWUwYTg4NTY3ZTYzIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MCwiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlM2IwYzQ0Mjk4ZmMxYzE0OWFmYmY0Yzg5OTZmYjkyNDI3YWU0MWU0NjQ5YjkzNGNhNDk1OTkxYjc4NTJiODU1In0"
+        },
+        {
+          "resource": "repo://tests/unit/test_budget.py",
+          "version": "repo-file-v1:sha256:4618a47df39fa84780184aad8fc21434d8935fbb3cefc8d0f61cc7b31eb77252"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:31:57.770Z"
+  }
+}

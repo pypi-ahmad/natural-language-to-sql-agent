@@ -1,0 +1,78 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:8761c54854b9e18d8ddf08111913e588bd7f2c68114a04312d47641ee5b9484c",
+  "claims": [
+    {
+      "id": "claim_2ceba944c9a34f6991ad40ab6c609403",
+      "statement": "Unit fixtures reset settings, clear listed credentials and backend overrides, use temporary databases and provide mocked model responses.",
+      "evidence": [
+        {
+          "resource": "repo://tests/conftest.py#L14-L79",
+          "version": "repo-lines-v1:sha256:c6a11d91b26a48a675f798546163e3cef4a5ac0f5800de81fdb0274c78df6975:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlZDQzMDM0ODI1MGNmZDBmMWQ2NTNjN2NkNGExM2RkNGI3ZmE4MjM3MTVhYmQ5ZjAzMzRkOWQ0Y2IwNTdmMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjUzNWQzMWRlNWM0YmJlZWU4YmYzZDk1ZGIzZTE2OTlhZGMxZDYyNjZmNzk0NmM2OWE3ZTJhODU1YTEwYzYzOWUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_5ae0ff919a3c42dbb3c6746ea4bbcd68",
+      "statement": "Streamlit AppTests cover navigation, pricing and clarification followed by explicit execution approval without an extra model summary call.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/test_ui_app.py#L62-L123",
+          "version": "repo-lines-v1:sha256:fca252dd7c1191a5359ac27a9e1ccfbecad989567b5a29fc0fb1a3b36495c6fa:eyJzZWxlY3RlZExpbmVDb3VudCI6NjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkMGJiMTJmMWI5YjY1YzI4ZmFjY2M2ZDExZTQwMDM1YzNkMDI4Zjk3Y2VlMjFhYmM2MDQwMDk3ZTc3MmI2ZTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhiY2EzZjcxZDU5Njk1MGMxNWJjNzI1OTU4MGZmNzA2ZTdhMGU3NmViMjRiYmI0ZDNiY2JmOGI2ZWIzYzVkYzQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ0MmIyODBlYmVmM2NhYmYwNTRiZjc5MDZjYWYyODBiOTMyYTk3NDJhNWUyMGEzYmM1YjdmMTczY2RjYjc3NzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_457b2b53b97b41588e21cde288f0e816",
+      "statement": "CI verifies Ubuntu and Windows with locked sync, pytest coverage, prek, dependency audit, build and isolated installed-wheel help.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L10-L27",
+          "version": "repo-lines-v1:sha256:66e1580d5ca7060c351ccd6441033247381e812bca6a589de90088f86b8ccdaf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1MGE2MDZkZWQyMDhhNzcwMWFmZTU5ZTg2MjQzYWQ4M2EyMjg0MjlmNTMzMjk4MDNlZGU1MDBlOGY2Y2M5ODUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxMjRmMWE2YzM4YjFkOGUwOGEzMDA2OWE0NDgyNWM3YTQxOWNiMWEwZDNjMjNkN2M1ZDg2Njc1MjJlOTIxZWUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ0Zjc5NDhlODYyZjVmOWZiZThmZjE1ZWJmMjU3YjU3NDI2ODNlYWVhYjVmMjVmYTE5NzlhYWY5NzljZmVhNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImJmOGEyZTIwYjg5MTRhYzVhYzhhNTk0MzQxOTA0NDJiMWJkODVlN2QxMTViNzYxYWE3NThjYmU1ODU3MmEzZTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fca50ab33cf04e4c95bf9ab1649075e6",
+      "statement": "Coverage measures branches with an 80 percent threshold but excludes the Streamlit app and pages; local hooks include Ruff, ty and secret checks.",
+      "evidence": [
+        {
+          "resource": "repo://.pre-commit-config.yaml",
+          "version": "repo-file-v1:sha256:6bc1496c49f88fcb4e22eed0a49d2dc9fe5572a61afb49a85742b9e2356f17e0"
+        },
+        {
+          "resource": "repo://pyproject.toml#L130-L150",
+          "version": "repo-lines-v1:sha256:03937ace428606c2532f11af19d5e6d31eb2db405ea95d6e935dc0d2f8590b80:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdmYzZlYTkzZTI5MWU0MmY0NzFhNTk1OGZhNWQ0YzVhMWYxZWUxM2FhNjI2ZTY4YjJhNGU3ODdlZGRiZTkzOTkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMxZGNhMjRiNjMwNWFlMmY5OGJiMjRhNmU0Mzk2OGY0MzBjNjkyMzNiODVlZDE1MzJjYjI0MmZlNWUwM2Y1ZTgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNlNzRiNDFhMmFjZGFlMzVlOTE5OTBhMDZmNjcwY2ZmNDk4MjE0ZTIzNWE1ODY4ZjU5MzY3MmExMjc2Mzc0NjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFmZGJmNWRkMzJkOGU0MTExN2RhNTdmMTMzZDM2YjNiYWM2NTAyMmUzYzJlODUzMDU2MGU1ZWE2N2I0ZTQ3N2QifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_98581dffe7954540a3705db33679d20e",
+      "statement": "Ollama live tests require explicit opt-in, server reachability and the selected installed model.",
+      "evidence": [
+        {
+          "resource": "repo://tests/integration/test_ollama_live.py#L23-L54",
+          "version": "repo-lines-v1:sha256:c5e88bb53331c235656c1ce9c3418d6e07e63b76f1b5e310d0be28f3ffdf8c44:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTU3YWE4MTQ0MjExMWVmN2Q5YWNmM2I2YzNiMzhmZmYwY2QzNDZhZTg1YjE1ZjdkNjU0MWQ3YWE1MzMyNGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmYzhmOTVjYTU2OTg1MDdmMmMzOWJlMWQ0NTM2ZTYwMDI0NWExMDc2MzBkYTY4ZDNmMWEzOWY4ZWRjOGJmZGEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjNmOTUwZmRkMGRkMGE1MzhlY2NkMTA4MmI1MGE5ZTU1NjIwZDRlMTVjM2E0OWUzMTk3ZjAzYTM0YTI3NmE2NmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFmMjg3NmZiMGIxYmUyYWJiMDFlYjVhNDdlNzE5Nzk3ZWM3ZmEwODM1MDAzOGI1NDYxNmQ0MTdkMDZmNzU3NTIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_843f8b0f04fa4f2b9c80cf07eb0bff7b",
+      "statement": "PostgreSQL integration tests require an explicit disposable nl2sql_test DSN, create test fixtures, and test prepared execution, read-only permissions and composite foreign keys; CI supplies PostgreSQL 17.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L29-L50",
+          "version": "repo-lines-v1:sha256:f5a8697295d669d3a925c9624ee75b7227c27737092d0c32cf11d0d81c560081:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM5NDNiNWY1Nzg2OWNhMjBmOWE5MjRlMjk5ZDk5MGZhNzJjZTI5MzJjYWMwNzhlZDE1ZDdkY2FkMTg5OWY5OTIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlYzU3MzBkZTEyNDQzMGM0ZmY1ODgzNTM1YTUyMTdlMzFhMGQ3MzA4YTg3NWU5OGU5NGU4NzFmNjFkZTdhMzUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE4NjhjNTliM2JiM2E3MTEzOGViZWFjNzVmODI2OGIxMzZjMmZhYTk5ZjEzMDQ1MmM2YzYyYzZlYjZkOWZjZGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/integration/test_postgres_live.py#L18-L83",
+          "version": "repo-lines-v1:sha256:60c26fa51cf9dadad74209280ea467aa4d3241350070d1c7a013abca41243576:eyJzZWxlY3RlZExpbmVDb3VudCI6NjYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE5MTc3YWEyMzg2NDE4YmUxMjhmMGZjNTk1MDgzZWZjOWQ5ODk4ZjdiZDM3Y2YzNDFlNDMxZjhhOWM3MDVjYzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkzYmYzNWExODJhM2UxNzRlYjc1Y2I4YjU4NTExYmY2MmYyODc1ZTlmYjZiYjM1MjJkNzliYTdiZmY0NzA5NmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc2YTkwM2RjZWY1ZGJkYWIyYTcxZTE4NzFhMzE4MDAyZGI4ZTE1MjM4OWM0ZjMzYzgxYmVmMTBhYzFlNGJjYmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:31:57.770Z"
+  }
+}

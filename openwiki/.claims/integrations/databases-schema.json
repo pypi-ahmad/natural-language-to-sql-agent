@@ -1,0 +1,98 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6bb895160ce39e7a9aa213d6f33e716606ab35cf55bfb12eff0d0af6455a3576",
+  "claims": [
+    {
+      "id": "claim_5bcd3d87372f469d843c05a477fccc77",
+      "statement": "Backend fingerprints represent resolved SQLite path or PostgreSQL DSN/schema identity rather than database content hashes.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/database.py#L125-L134",
+          "version": "repo-lines-v1:sha256:1801861997815c42948549823bf8be9d03485790d82b89d3e6baf5ed32cf7503:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlNWZjMDY5YjU3NDU4YmZjMmYzYzAxNGNhYTI0NmFlZmI0NTUyMjhkMjkzMWUzOTQ4YmM2OWM5NTBmMmQ0NzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhOGFkOGM0N2Y5Nzk3OTg2MGY1YmZhOGFhMTUzMDAzMDFlYjdkNzYzZWM0ZWNlNzUxYjdhNmYyMzQyZDFkMTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMxNTZkY2I5YmE1ZjQ4NTkwNzFlZWZhMWY0YjdiMzE1MjRkYThmOTY4Nzk0ODgyZWMxZmVjMjc3YmE3ZmIwMjEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFhZTU5MTNlNTIwNjA5YmZlYmI0MGM1YzYzNDI1YThmZWMxZTU2NWRjNTYyN2RiNDViNGVmZDA1M2JkMTcwZWMifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/db/postgres.py#L27-L48",
+          "version": "repo-lines-v1:sha256:5108e82ef94449627928c947c06746d95da2dd1add6b44e8726b57ee36bed440:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImE0YmQzOTg2NjllOTBjNmE4YThmNDAwOTJkYmNjNzkyMThjMGQwMDEyNzVmNTY0ZGI0YTdhYzA4NTgzMzY5YTIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImUwZDk4MTdjOTdkOTVkMWU2OTJjN2UxNWMxMDQzN2VjYWY5N2EzM2M0MDM1NDJkNWI2NTE1ZWJiNzIwYjM4ZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllMzE1M2JhMDk3MzdiNjY4YjMyNjg5OWJkNDNiNWM0N2I0ZWJmZDYzZjNiYjEzNjIxNmExOTFiZDY5YWViZTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_174a40db22d74d7ea43aa0981cc011f6",
+      "statement": "Agent construction preserves explicit empty allowlists, rejects unknown allowed tables and defaults sampling on only for the managed demo.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L93-L125",
+          "version": "repo-lines-v1:sha256:1bba763ef1f9554cf2231c70e23c6a0d87e07a714d4f8c170bcc0d9f0d9b2d37:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJjYzQwYTBjYWRhNDIyZTgxNTc2NTdhZmM5YjBhYzVkMmRhYWFmNmNmNzg1Y2ZjMWJiMjBmY2FjYTU4ZTg5ODQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMTJkMjU5YTE5NzZlYjlkM2ZjNDc2MGRiYjg4MmVlYjU0YThlNWI0NjdmMTJhYzUzYmNlM2EyNmY0YjY5NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ4MDg0OGYzY2VjNjhkZTI0ZDk1MmUxYTRiNjM0NWFlMWM4YTg0M2E4ZGUzNTM3M2Q2MjAzM2Y0ZGY5NWY4NTYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzNDgzM2MxNjdlMzc0M2Y2ODNlM2VhNThjYzMxZDBmZmFkOGViY2U3Mzc2OGQwNmZmM2IxMjE1Y2RjNTc0MWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b84ee8feac934a818d44f4eeb59e0fd5",
+      "statement": "Active schema discovery filters authorized metadata and shares deterministic lexical ranking with bounded foreign-key connector selection.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/database.py#L231-L300",
+          "version": "repo-lines-v1:sha256:1e5facc67206a1e52bb9f2ff880c7f637e6e7b5b506eef6673bfe455ef5ff899:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MjYxZTJkNzlhZjZkOWNlNTRiZTY2MmMwNWYyZWQ5ZTVmNTI0ODUxNzVjMTJlMWRiMTg1MzJmZWEzNTZlNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk2YzE4MTcwMDVlMTJkYTcwZDk3ZWFiZmM3M2Q2NDFjYWIxYjNmNTZiMDA1ODkwMGVhNjRmMTU4NGI5NzllMTQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEwODhjZmI3NDExZDAwMzY3NTZlYWMxZTBhZWRjNWE3ZmU1NTc5Mzg3OGZmMDUyMjEyMjE2NzhhNDk1ZWZhM2QiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4ZjVkYjQ2MmNkYTY3M2U1ZDkzNzU4YjVkN2UxNjM4M2Q0NTcxNzI3MDA0MDExMWUxMmYyMmRhOWI4MmRiYTkifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/db/postgres.py#L113-L206",
+          "version": "repo-lines-v1:sha256:76045d3e53b74822d05b8b734b4e1c32402e3c12c68bd65774ea721b37d7630e:eyJzZWxlY3RlZExpbmVDb3VudCI6OTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY1MjYxZTJkNzlhZjZkOWNlNTRiZTY2MmMwNWYyZWQ5ZTVmNTI0ODUxNzVjMTJlMWRiMTg1MzJmZWEzNTZlNWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZWZkNDBkZTcxZTZjMWM1MzVlZTY5ZmVjMjdlNTY2NDBjNGRjZmJiMGUxZGRlYmI4NTlmNmQ3ZjdmMWU3ODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImFkMzJkZGQ4ZWFhMTI0MDFiYzRkM2UwMjJhZDAwYzdiODEyN2NmMGUwYmM3OGM1ZThlN2Q1MzM0YzdmY2YzYzIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA4ZjVkYjQ2MmNkYTY3M2U1ZDkzNzU4YjVkN2UxNjM4M2Q0NTcxNzI3MDA0MDExMWUxMmYyMmRhOWI4MmRiYTkifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/db/schema_context.py#L68-L104",
+          "version": "repo-lines-v1:sha256:95c6d02b8348657645f8417e44f16601f9e8ceb1f4e3e21a9a6acfa2cf466b8b:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijk4NDQ0M2RmZjMwNTljMTkwNDE0MWZlZTdjZDNkMTlhYTNlZDkyNjBkZTUwYzAyMzYzN2RkZDlkMzA2NmU2YTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIzZGYyYWNmMDZlOGMzZjAzYzcxMzVjNmU4YWM1YTljYTU0MzJhYmUwNmE3NGFjYTBmZGQ5YTUzYTAwOGY5ODciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L105-L123",
+          "version": "repo-lines-v1:sha256:5fc4b764555b017614ac752d9f78baca545bcdb962a0d560529c838509bbfc87:eyJzZWxlY3RlZExpbmVDb3VudCI6MTksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUyYTNiODZjNjJiMGViZmJjMGQxZDQxMjFlYTJmMGE1NWMwMTBlODVhNjAyZjlkODFkOGNmNjA2ZmExZjJjZWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjE1YzJmMTRmYWYxY2I0ODg3ZDU2OTBiNGM3YzJiNjg3YTIwZTYwYzBlNzE2MDhhY2JjMTU5ZjlhYjdjNTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijg0NmQ4OGI1MjgyMzg3NmFmYTY2YzgwZWQ2ZDA3ZWRjOTYyNDAyZGU1YWM0ZGY1YmM5MDEyZmVmYjMxNjkwNDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_c1732558fb604c2da611fbbea6c27435",
+      "statement": "PostgreSQL FK discovery pairs composite columns by position and checks column SELECT access; real integration tests check the resulting pairs.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/postgres.py#L140-L166",
+          "version": "repo-lines-v1:sha256:9c0939999af674d0acd95041b7fd4565323854bcee6ee08cbf01586cff972966:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3MzEyYzcyYjcwMzVlNDIxN2QyZjU1ZjE3NWQ1Yzk0NGExOWUzNDJiMDI0MWYwMDU1MzgxN2Q0OTI3MzVmMDEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijc3NTVmM2ExZmRlM2NkNzI1NzFjYTA2OTk5ODU1OTQ1YTRiOTc1MWRkMDRmMTIwYWUyYTMyYjY2NWNkN2YxZjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjU2OGY3N2E2NDBhNzIxYzE4NzU3OGZjZWYwMGNlYzdlMDhhN2Q1ZDQ3Yzk5MjI1ZDM3ZWQ3NWY0OGQ5YTY1MWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjdkNGIxODcxNDE2MDVmYzA4MTZjODA0MWM1OTJiMzM2MjIxZjk0ZGY2NzE1YzI0ZDBhYWE4Y2NkMzRlZjM3ZTAifQ"
+        },
+        {
+          "resource": "repo://tests/integration/test_postgres_live.py#L78-L83",
+          "version": "repo-lines-v1:sha256:a75ec8f74c68d9aa4a5c129c3ed35c7245a3f66f65a4a628f40f3bfa51d811a3:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYWJjYTUzMWU5YzZkYmFiOTgzM2JkYmJlNWMzMmUwMzlmZmZkMzg0YWI4MTdjMjJlOTI2ZTNmODQ1OWE2NTkxNCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTNiZjM1YTE4MmEzZTE3NGViNzVjYjhiNTg1MTFiZjYyZjI4NzVlOWZiNmJiMzUyMmQ3OWJhN2JmZjQ3MDk2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMjdhYWYxOWU3MTgwMGUwN2VjZmQ0MTQzM2RiNzNmYTM5YWU1Y2Q5YmRjM2JkZjMzZmU1NTg0MWRhNzc1N2I3YiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjAsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_617c9d91fc0c4ef38c76f2ff83774577",
+      "statement": "Catalog validation rejects unknown schema references; aliases/metric names supply allowed table hints and only selected entries are serialized into prompt context.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/schema_context.py#L13-L65",
+          "version": "repo-lines-v1:sha256:4803f8cf513847d6e71875a853c312544e0a560b66468d5951808d69029674d8:eyJzZWxlY3RlZExpbmVDb3VudCI6NTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjFmZTkwNmY2NTY0NDMyMGJlNTBiYThhOTdhOTYyOWE2N2EwMzhjYTEyZjM1YWI1MmQxY2RhNWFjODc5YTdmODYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjY0NDU0NGIzMzI1MWYwNmY5MDAxOWYyYzBmNjhmMTkzZmUwYWFkNjM1ODQ2MjUyNzY3YmViY2JhMTI4MzcwYTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjMzNGY0NmJjYjBhNDFlNjFlZTc4ODMxNTcyMmIxNGZiMmQzMjYyMjhhMmMxMGRhNWE5YmRlMzdkMzRiNzViZTQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L89-L102",
+          "version": "repo-lines-v1:sha256:9168195dacfadd26f0dadc19c1c88dc1c8f21cf59f9879d4bfcc9accb1ecbd0f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhjNzA1OTkwOTU4OWNiMWY0OTYyOTUxYjkzNTA2OWY2YTI4NTI3MTYzM2U3ZWQ0Y2M4MDhhMmY1Y2RiOGExYzMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlMmJhNTQ3NTljOWM5NWNiMzU3M2Q1YjA0MzY3YjQyODQyZWUyNzk3MTQ0NGUwMTRmZWFhNjU3ZjIxMWViYzYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM0NWUzYmU2ODNjMGIxMjNkNWZkOTc5ZDZjYjkyYzUzYzJlOTFlYjcxMGViOTk5NzAwNDU1MWEzOWI3MjRlNzEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImNiOWE3NmY1MzNhN2NmYjMwMzM0NjlhYzU4N2M3NTM0Nzk3ZGJjZWQyYzBmMWRmMzI2NmQ3Y2IxMWFlN2I1ZjEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d5caf4ec3d7d4e389f0f732f2411b5ce",
+      "statement": "Preparation records selected tables and schema incompleteness and binds full schema, catalog, backend identity, allowlist and policy into its context signature.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L149-L170",
+          "version": "repo-lines-v1:sha256:3a42601acee9ff88883591cb3295d6c980eb64b1b7d3e1c7811367fe7a8a70a0:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU3M2YyZWU1ZTdiOWI3NTYwZWVmYzhiYzY2NGVkZDU2MDdjNDI1ZjNlNDRkMWNkNTZiODQyYjY5MDlhMjhhNjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNTFiZmFiY2ZiNmQ4OWZkOWY0ZTNiN2JjNGExNzRmZDkwYzk5ODE4NmU0ZmRlMmM4ZmEzNGU2ZDVjMjkzYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImY0N2YyMzRkZDEzYmFiYjVjMTRiYmI5NzFkNTVkYTFhYzBlNjUxYmU1NzIwMjY3MTAwYjZjOWZlN2Q5YmRkMzQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjZhMTdkMjhiYTlhNGFiNGVmYTYwMWQ1OWIyYTdkOWMwZTk4MDU4YTQyYzMwZTgxMWVlYzg4ZDZhNDM2YTI4NmIifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L710-L723",
+          "version": "repo-lines-v1:sha256:ba76d59e52737e9f90d6b373b703182e3b18141ac3e7c925f84f7b226eea87fc:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2M2ZlYWEyMGUwNDdkZTI4YTIwMWE5ZjA0NDMyNDVkODE5ZjRjYzgwOGY3MzhjZDVkMDQ4ODMwMjQ2NjdkODgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhOWY4YzJiYzdhMTQxYTAyMmFmM2ZlYjhhYjUwMDhlYzI1NzU3ZWYyNGFjZDA0OWY1MDg5YTc0YjdjOWFlODEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImZkNDg4MmRhOTc4MjFhYjAzYzhmMTQzNTBiNDQwNDBkNDk2YzNmMTU0MzAzMDhhNjJmYzI4ZDc1NmI3MzBlY2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEyOGQ5OTg2MmMzN2I2MjkyMzRmZjhkNGI5NzY3ZTRiZDNkZDUwODY0Mzc3ZDg2NDdjNGI0MGQzZGZlMzJmZTgifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:35:51.881Z"
+  }
+}

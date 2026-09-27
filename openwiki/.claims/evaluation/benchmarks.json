@@ -1,0 +1,106 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:1b3bd6ca8c4ba9aca842a019fa8500ba03add2b8339527e381f4dc4200577896",
+  "claims": [
+    {
+      "id": "claim_4eae77f8ec4748be942d48bc9d59cc63",
+      "statement": "Result scoring requires explicit executed outcome, no error/truncation and row equality; policy, clarification and unanswerable cases have distinct contracts.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/runner.py#L168-L211",
+          "version": "repo-lines-v1:sha256:61bdb47e2c0990a93c84846979fee3622d602457f4702b7e5494fbf6e395bf3c:eyJzZWxlY3RlZExpbmVDb3VudCI6NDQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMGI2ZDExMmZjN2I1NmVjODc0MWIyNmFmMmYxMjFiNmQ3MjhiOGY4YjE1MzljZmQwMjI3ZjdiMWVjMjkxN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxMDM0ODFjNTdkMGYwZGMwZjc2Y2QyY2M4YjM2MDRjNGU4Mjk2ZGE0MTIyYWRkMTllODE3NDVkYzdlMzMxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmZWE0ZDhlNzAwYTYxMmM0NTA2YzE2NzlmMzE3ZDZiODhjOGIxYjQ5YWE0ODk3MmEwZDhjNmQ4ZWFjZDE3ZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkNGIwNjVhZTYyZDI0ZTVjMGU4ZGRmZjMyMDYwOGMzMjFhY2Q1OTU0ZDUwN2JiNGE0OTYxMmQyMmE4MDM5ZmUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_evaluation.py#L171-L191",
+          "version": "repo-lines-v1:sha256:eec74f2168ca0f671726fdf41f3775d878e523ba9d0d1ce204c3862f59f7988d:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdhZTc4YThkNGQzOGFhY2FiYTJiZTJlMTUyNmQyY2Q2ZWY4ZDkwN2VhOGJkNjQyODA1MTA5OGU3MWJkNTY2MjgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM4YTkxZDg4ODk0OTUyNDIxODIzZWYyOTVlZDljZjg3YmY0ZGMyYThlYmE2MzliNjBlZTUzMmMyYWFiOTFkMGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQyNGE5MDA2YTVjMjM5NTAyYjAzZTdjZTcwZDhmZDg2OGU5YjBhZGMxZTIyNDI5MzE1MGQxMGIxNWExMmM2MDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQyZGQ4ZTNhODcyOTlhYjQzNzI2NzA2YmY3OTNiNjRkZTYwMWI1YzU3ZjIyOTlhM2JjOGI4NzE5MmJjOTY0OTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_d4f68055dec64d4fa7e4f1794429bfc7",
+      "statement": "Unordered comparison preserves duplicates using bipartite matching and numeric tolerance; the runner hashes the database before and after evaluation.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/runner.py#L168-L178",
+          "version": "repo-lines-v1:sha256:3d1887a56b3ea6b15f820ee30c8a2d3ab3627aa7da8ee64e2bed7897f7d1462a:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVkMGI2ZDExMmZjN2I1NmVjODc0MWIyNmFmMmYxMjFiNmQ3MjhiOGY4YjE1MzljZmQwMjI3ZjdiMWVjMjkxN2UiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJhODA5Yjc3NTIwYmM5NDZkZDQ0MTZiMmYzZTdiZmNkNGRmMWM5NDliNjJkODQ2MjJhYzI2YzA4ZDEwZGE4ODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImJmZWE0ZDhlNzAwYTYxMmM0NTA2YzE2NzlmMzE3ZDZiODhjOGIxYjQ5YWE0ODk3MmEwZDhjNmQ4ZWFjZDE3ZTUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ5Nzk0YzJlZDg3M2E3NDljM2EwODg4NGQ0ODQyNDM2MjEzNDE1MmI5MzA2MThhMGIyOWNhNTI2NGQ5ZTZkMTgifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/runner.py#L232-L267",
+          "version": "repo-lines-v1:sha256:2bfb0ef0dc45e92c66993ad05ac9bb3462476400c60c73e65a79997c3628974f:eyJzZWxlY3RlZExpbmVDb3VudCI6MzYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY4MGY3ZmNjZWU5ZmMzNDgzYTY5NWNlYzIxYzA2MTI3N2IzNDdhZGIxMDQzYTA2NTkyYTU0NmQwYTZjYTM3NWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU5MDlhNTNhNjE4ZDAyOGUxZDMwMDBjMGE3YWJjZWVjYmU1ZmIzN2Y0ZTUxMWVmZTQ2NjQzZmFkNmU2Njg3MmYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQxNmE1ZjgyNjQ4MDFjZGQ5OTFkOTE0ZGY0NGM0ODViZGE0OGIzMTEzZjk4OTcwM2ZhMGZmODAwODA5NDA1NTciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA1MGM4OWQyZGQwNzNmZGFiMjA5ZmIwZTQyYjNkMjIzODkyNTRlY2E4MDdkMmIwMDZlMzM2YzQzY2M5NjI4N2IifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/runner.py#L284-L347",
+          "version": "repo-lines-v1:sha256:60da79d42f6baac5285a8e27e45bb8325b38f52fd45cbd9fde4618497823ba8f:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjIzYmM4MGQzNGVmZTcxNDRkZDU4ODIwNjFiN2I1NzQ0ZDNlNjZhMmRkMTkyNWJjMTFlMjQ4NDI3MTE3MmRkOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY0OGQ0ZGNlMzZmOWIyZjlhY2Y0MDUwYWVkMDQ5YjY4ZmI2NWY1ZWRjMGJiYmEzNzQ3MmQwYTNhOWZmOGJkMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjYxOWQ1NzkyMjMzM2JkODkyYWEyYzU0YmE1YWRmNGM1ODVkNDkzNjhkNDQ3MzhjYWQ0MzcyOGZlNjExYjdlMzciLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_61a146af50de4696860b54bc05aadedb",
+      "statement": "Synthetic fixtures contain 120 cases with 30 development and 90 held-out cases, and fixture tests validate and execute reference queries.",
+      "evidence": [
+        {
+          "resource": "repo://benchmarks/README.md#L2-L9",
+          "version": "repo-lines-v1:sha256:871a4b0b570eaa8e24e9ef44a4cc615030474aa899fdbc991fc9e39716c69f82:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNmYwYjBhYzA2NTliNjRkMzNkMTI4MjdiYzIxYjVjM2NjZGJhNWYxYWM1YzY5NDIxNDk4NjM0NmY3ZmZjYmIxYyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjEsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiODAwODI0YzhjZGY1NGVjYzViMTllNTEwODFiMDgzNjc5MDE5MTEwMjIwYTIwZmQwYzRkOWNhMzMzZjczMjVlYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOTdkYTFlN2QwYzBkMGIyYTRhMTViNjBmNjA0NThhNTc3OTkzOGNhY2E0ZTI4MzY1NzU2YzQxNGUzOTVlNWYzZSJ9"
+        },
+        {
+          "resource": "repo://tests/unit/test_benchmark.py#L16-L27",
+          "version": "repo-lines-v1:sha256:a87a07456fa119ba39c84def26a77385cd4c49ca640f7a273d7d735c183fad3b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZGFjZTEzOTJkMDNkNjk4OTc3MmJjMTUzYTEwYjRlNTdjMzlkNGFmMGU4YWI5ODJkNmM1YzIxYWRiOWNkZjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcxZDQ0YmUxMzZjOGQwNmFjMWMyOTJlYjVkMWE2OGRjMjA2MmMzNTk5MzJhZDQ1ZjI5YjE5MDNhOTAzM2RjNGEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjVhYzA4ODAzY2UyOTU2MWFiY2I3MTg2MDA0ZDVlMzQ2YzU0MGY3MGM2MmNkZmUwYTU5YWY5Yzk2OTg2YTBlYTcifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4687033ce689473c91d98574a21bc1ca",
+      "statement": "The benchmark driver preserves output files, records provenance/checkpoints, supports offset selection and stops on budget exhaustion or three consecutive provider errors.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/benchmark.py#L210-L270",
+          "version": "repo-lines-v1:sha256:5f05c543fcfe705e4542b8b4902cc81a5552b1a2cdbc6bbec057cabbbb68501c:eyJzZWxlY3RlZExpbmVDb3VudCI6NjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkNmY2MjkxNTBmNmZlMWIwN2E1OTMzMTUwM2MxZDBlYmRhZGI4MjNiMmQyNGUyNzc5NmY2OGZiNzEyZDA3MGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE2MjMzYjNmZmVhMzJhMjNkZjUzMDY1MzQzNDhmMmRlZTc3NmE1YTZmNzRmYjUzMzE3NWRkYzUzOWE4ZmU0NjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjE0Y2E0OTkzZmJjMWZmZWQyZWNjYjhjZTk1ZTYyZjRhY2JmNDkxNDQ5ZjNiNGM2NmY5ODY3ZGE2NDA4OTdiYmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNkNDEzNDBjYzIzOWExNTljZTliNjAyMmU5ZjYzMjI4MzJlMmVhZDc2Y2FlOWU0NzU0ZDIxMGViOGZiNmQ1ZTgifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/benchmark.py#L99-L208",
+          "version": "repo-lines-v1:sha256:2365c1b9b8b9b477659259cf41d2314a2d724d09ecfc2abd290d9e48b1cbbf5f:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI1NDQwYWJmNGQzNzZlYjRlM2FlMWYzYmQ1N2NhYWI5YTE4NThiZTIwYzU3ZTc0ZjdmMDRhMThkNTUyOGRmZjFjIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI0ODkzZjQwZTM3ODFlYjg5NmM4MmQwNDZhMDgwNjdhMTFlMzVjZGYyZjFkZmFmMjZmZWE5MGI4ZGI2Njc2NDEzIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJmYTM2ZTU0ZGE2MzIxMmY0ZGIxMTc2NTJhZGU1ODM0NTFkNzdkOWViMjJjMDliNTdiOGRmZDdjMTM3ODU0YmE5IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiIxODAzNThhZTc3OWM4N2Y5ZjNkNDdiZjRmNzY4NzNlZDhiNDhhMDdmYjU3YjhmNjYxZWNmZmU2YzlkZDc5OWU2In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_570820a6fa134a9cabb444920547abb6",
+      "statement": "The common BIRD driver selection contains 20 difficulty-stratified cases; the retained development results are one-database runs with explicit score corrections and provenance limits.",
+      "evidence": [
+        {
+          "resource": "repo://benchmarks/results/README.md",
+          "version": "repo-file-v1:sha256:a59069ea5905e0b16938cd4de60993cc6d2f294d02424552f31e7c425145b42d"
+        },
+        {
+          "resource": "repo://benchmarks/results/scoring-corrections.json",
+          "version": "repo-file-v1:sha256:d55fbd7ae2783d94b66484226f25d328686edf92bc507d96f56b91f534470700"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/benchmark.py#L157-L168",
+          "version": "repo-lines-v1:sha256:8bd34048d24d82ffa77aa6b417ad13ef04d224f2815037f10122fd00f3b6e39b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNlZTYxMTEzY2U2ODNkYzViYzMwMjFmNmViZDc0MTBmOWM0NDIxYTdlN2YwMjZmYmM0NzNjNGE1ZGY0ZTJmOTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM0MTY0NzNkZmI3ZWI5YTkxYjljYjA5ZWIwMDIwM2I4MDFjNDFiYjIxYjdmMTEwODM3MzY0ZTg0ODI4ZjhhZWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmYzI4ZTAxNDY4ZGQ0Yzk3N2FlZjY5MmM3MDVlMzI2YmUzMGFlM2FlNWVlZTIzOTlhODMzYjUyMjE5MDg3ZDYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjRmY2JjMTcwYjM2ZDBjOWJjYjg1YzgzNTExODQ2YjEwN2MxZWM4M2UzMzUwYTlmNWY5ODkxMGY1OGIzOTY0N2MifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/benchmark.py#L61-L80",
+          "version": "repo-lines-v1:sha256:4d30bac6fb21f87a9c7cb7ae17281033edd1d5a433dc632000b9dc67e843a33f:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkyNDA2YjRjZDMwN2YyYjNmNzgwZTQ3NTFkMjgyZTk4YzRlYWRjMTM2MDc5NWI5ZjY2MmRjYWYyOThiYjhmNWYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMjkzZWU5OTFlZTk5YTg1NzJjNjkxYjAxOTViZDNlNzQ2NGUyNjk2ZmU3ZGQxNDFhNWI2OWZjZmYwZTI1NDkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjAxMDY3MzZiMmJlMGIxYjVjZGE4NWZjZmIwYmViOGQ4MzRmZmJmYzkyYWY1MjU5OTgyMThjMTEzMWJhZTAxN2YiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImVjNTZkYmJjZTY0YjczOGQ3YjU4OTc0MWM1MGZiZjYyMjRmOTRjMWE1MTE1YTVjZjQyYTkwZWViY2ZiY2EwNDkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f656f00a231c456fbc9d4241e3310f65",
+      "statement": "Guardian is a separate SQL-form judge with strict score parsing; malformed or failed requests produce judge_failure and four calibration labels carry a narrow owner-review record.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/evaluation/judge.py#L13-L85",
+          "version": "repo-lines-v1:sha256:63630b3e7cb5c638420dc956a017d0fe61b2e1cc3ae45d3e0c9486c01e189ea7:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQyYmY4ZDY2OTdlZDMzNzc1ZTFiZDdlZjFlZmFjZDYwMjIwNzBhMTE1ZjExYWE5ZWNiOTQxODA0Njc3NmUzZGIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE5MmM5YjhmZWYzMDg2YTEzMzFkMzkwZGVlYzRlNjEyN2QzOTY2ZjA0OGMzNzI1MTQ3NjVjMDA5ZjcyNDg1YzgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZiYjBmYjJkMmQxMmI5MWVhODkyMTlkZWJkMTJmOGEyYTBiNjk2MjNlZmE3M2Q0YTk3NTgxMzc1NjY2MDFiM2EiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImExMTFkOGQxMzZkNjZlZTRlZmNhZDE5MGFlNGNkNjk0ZDIwMTUzMWI2NDJjNGNmZGVhYzdiMjdmOTA5OTM1NmMifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_judge.py#L13-L49",
+          "version": "repo-lines-v1:sha256:6d99864c88f76b99eac36480a498a28c19889d0e1ecc8ebb8ca816875d2c96b0:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxY2YxNmI5NjlkOGYyNjBlMzg1M2MxMWRmZTQyODlhOTkxY2NkYzhhNmY3OTBlMDYwMmYzZTQ4NDgxZjU3NGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRkY2I1NDQ5NWFlZDM0MjZmOWE5ZDYyZDVjMTMyNjJkMjhiYjczNjcyYzY3M2IxMmMzZDA3MWZlMWQ0MWZkZjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM5N2I0Yjk2YWZhZDc4OWM2YTQ2MzNiNzFlYjE0NjNiYjA3NTBiMzQ0YTZmMTdiYjY5ZTQwNWQxODBlZjJiOWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:38:19.239Z"
+  }
+}

@@ -1,0 +1,82 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:bce8874f274c706a98b9ffeff129dae869340101417e48f67d28e143decabc42",
+  "claims": [
+    {
+      "id": "claim_3fb3f83082e54101a076204cfa1fc3f8",
+      "statement": "NL2SQLAgent accepts an injected backend and only auto-seeds the managed SQLite demo.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L76-L125",
+          "version": "repo-lines-v1:sha256:aadb6224fedeadfc2089a4a2eb60ec0d536277f66051fe43d549b0ed5a7789be:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI5NTQ0N2U5ODViNWE5YjNhYzJlYWZlNDdlNDQxZmJjOGUxYzgxYWE2MjJhMjM2MGZhZjA1YjI1Y2IxZTgyNGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMTJkMjU5YTE5NzZlYjlkM2ZjNDc2MGRiYjg4MmVlYjU0YThlNWI0NjdmMTJhYzUzYmNlM2EyNmY0YjY5NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVmMTY2Y2VkODBiYzlhMDk5MjkyNjdhYjRkNWMzZDM5Mzc4YWZlYmE3MzgxOGQwOGI4MjYyYzIzMmUxYmIwMTMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzNDgzM2MxNjdlMzc0M2Y2ODNlM2VhNThjYzMxZDBmZmFkOGViY2U3Mzc2OGQwNmZmM2IxMjE1Y2RjNTc0MWQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_agent.py#L72-L87",
+          "version": "repo-lines-v1:sha256:ba8afa6b49f67f40a0ea59e6ee5e9e99e4eb5e1cabbc324de4d41acc53926e8c:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlMGZlZjBhN2Y0OGMwYzkwNWMzOTY1Y2MzM2FiMWQyZjU5NzM0NGI5MzdmMmRiZTBiNWFmNDkxZTk1YWQzZWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMwYmZmNTU2OWYxOWE5ZWYwYmFhNTJhMzIxYTZkYWNmMTc3MzFjYzZjYzU0ZjM0NDU5MmVhMjM3YzAzMWFjZjUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImRkNDVmMThjNjE3MTI4NTFhOTdlMDc0N2Y2NjhlZjkzZmZkNGM5ODg5NzI4NThmYTBkNDRkN2Y3NDllNWQzZGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImY4NTk2ZGFjNDkxNDlkY2Y1NmI5YTljYTU4YTY3MzVhNTU1MjllNGI1ZTNhNDI3NzZlODg5OTQ3M2Y0ODFiNDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_a1d08d2aed364e6b9b790bf9b1a584e4",
+      "statement": "The full graph can execute queries, while the prepare graph terminates after validation/preflight; its prepared routing sentinel is not proof of successful preparation.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L506-L593",
+          "version": "repo-lines-v1:sha256:c4783fb663fd7152df40a7103cc31fd3ca07e0e54976552c285da6be39801d10:eyJzZWxlY3RlZExpbmVDb3VudCI6ODgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4YzMxNTNkNzI4YWM5ZDdlYmNjNDVkZDNjNGNiZjQ1YWIxMzBlZDlhOGY3MjVhNTBmYzI4NDgyNWE4MWM1ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxOTVmMjhlYzliM2JhNjZkM2I0NjA2MzNhNDgzMDE3OWEwODY0ZDVkNDIxNGI2MmVmOWUwNWM2NDM0OWI4MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4ZGViMjI4YjNmMGZiZjkyMjQ4ZGRiODQwN2VlYjk4MGE0NGYzODJlOGEyMjNhOTMzMWUwNmMxN2Y2NmExZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNDFkYzkwNjU5YzFjZGE3NDZkNGEzMTdkY2E1MmI3MGQ0M2U3MjhiM2FkN2JhYTc1ZTU1ZWFiMzFhZGMzZTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_4f4d9b6ed47d4d519fadc51ea55c3db8",
+      "statement": "AgentState holds partial workflow updates including explicit outcomes, execution evidence, schema, usage and query observability.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/state.py#L13-L96",
+          "version": "repo-lines-v1:sha256:2a8d28f4ecf520270d0ed4ef0a02f97bcdd6f690e0d6b9ca4ac37cd77f11dd98:eyJzZWxlY3RlZExpbmVDb3VudCI6ODQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEwMGNlZDYzZmYxOThmZTUwZGY5ODkyNWJlY2VkZDAxZjE2YmViZjkxZmUxMjgwZGU1ODFkMDE1N2JkN2Y1MzQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY1N2YyY2E3ZjliZWIyZjBiYmJiMmVkMDg0N2Y1MGI0NjY2Mjg2Mjg5YmJmNjBiMjBkZGFmNWVlNzNlMjk5N2QiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ2ZDdhNjlkMWE2NzdjMWMzOTBjYTM4NDRlOTY1ZTI0M2MzMDM2YmRmODE1NzI0ZWM1ODRlZTQxNGFhMGU5MjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1832ef714ccc457ebaaafcd8f1e99615",
+      "statement": "Successful executed results are rendered deterministically with distinct SQL LIMIT, fetch truncation and preview notices, while a legacy model summarization fallback remains.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L428-L500",
+          "version": "repo-lines-v1:sha256:3eeb41ffbe945f636586f27a74a91c8e4757180ae08a80cfaf0c0090e2982b68:eyJzZWxlY3RlZExpbmVDb3VudCI6NzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjEzZjU3ZWM4ZmE2MzA3YWU1YWU1NzYzODU1NDAyN2E0NDFhNzVmZmM4MTU4OTYxMTFhZTg3MDY2MTk5ZTJhZjEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNTFiZmFiY2ZiNmQ4OWZkOWY0ZTNiN2JjNGExNzRmZDkwYzk5ODE4NmU0ZmRlMmM4ZmEzNGU2ZDVjMjkzYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE1YmFkOTUyZDRkZDJjMmRhMzJkZTM0ZTllNzI0MTJkNDA0NjA2MWNjNmVkZDNiNWUzZGMyMDU4OGQwM2I2ZDIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc4ZGViMjI4YjNmMGZiZjkyMjQ4ZGRiODQwN2VlYjk4MGE0NGYzODJlOGEyMjNhOTMzMWUwNmMxN2Y2NmExZmQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L23-L40",
+          "version": "repo-lines-v1:sha256:54ab909e3979836587a003e2bf7db62c49509d00feff4159e443de4bcc1a6d55:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMDlmNWY2NTE2NTdhYzg1ZTlkMDRkNWJlYWQxOWJiZGYwNjFlNTNiYmYyOGUxM2FjMGQzMzM2MDgyYWU3NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMTM5MmIxYjgxMTIzNzkxYzJjZDk5MmRkOGU5M2RhYTdiMjM0OTMxZjc3NmZkY2QwNzk0MWEwMDY5NThkODYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwMzFmZmQxZDczZGE1OWM3OTg1MDRjNjAzYzQyNTgzOWQ2NjVhZTNlYTY5NGMyM2I0ZGNjOTI0ZjFkNWFkOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NTdiOGRhN2U5YmE0ZmNkMDJjYjQ4ZDkxZWUyOWQxNmFjMTA0NTg2MGZjOWExZGJjMDQxMzM4ZGNlMGU4ZjYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_cae097f967d54051a1e00c9309a30dd7",
+      "statement": "DatabaseBackend separates backend identity and schema discovery from non-executing preflight and execution.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/base.py#L55-L103",
+          "version": "repo-lines-v1:sha256:9368fcabebd763200ec5c6728addc4594e0008a0c42b4fdf04ea3e7e412c2ae2:eyJzZWxlY3RlZExpbmVDb3VudCI6NDksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMzA2OWQzZjMyN2IwY2ZkMWQwODcyNzRlYzI3NTY1ODU0ZDg1MmIzMjI1NTNkMzkwMmM4OWY1M2YwMDBlZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2MjBkODVkZTRlZDdhYjgwMjFiNGE4ZGQ0ZmExNWVjNTE5MjVjZGZjY2RlMTgwNTg5NWE0YzhhM2MzYmE0OGMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ5YWJhNzk2ODM4MzI5NGY4ZjhlZDI2ZjVkNDhjY2U0ZjM1ZWIxYjY4MDRhNzVhZDU0MzNhZGMzYWJhYmY1NWUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ca4b2e7a38ad452c989ee3ecf300da7e",
+      "statement": "The CLI directly runs the full agent workflow, whereas execute_prepared rechecks approval context and revalidates any edited SQL.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L689-L763",
+          "version": "repo-lines-v1:sha256:50fffcd21394fa5b9c7df7767b526f5aae818ba6765a5dda4ec5e86ec0a30c36:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkYmQ4MjRjOWYwOTdhMmFiYWY4ODA2YzBjYjQ5ZWNlMTBkODc2NjlkMGMyYjg4MTdhNjE5YzE5N2MzOThjNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YWU5NTdjZmI0MzI2NTg2YjhjODVjN2I4YzcwNzVhZGExZGE5NzkxZjc0ZDczZWVhZjcwODVlOTBhNThjNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1MjNlZDEyMzZkZGY4YjEzNjA2MzNlNTdmN2UzY2M4ZTQ3MTAxNmIzM2YwN2E1OTIwNWFlMDA4NDllM2RmNTEifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L88-L105",
+          "version": "repo-lines-v1:sha256:0f5220f5f62f3f760876938619d819cc7709b85a98b88cee360fa72f0f371cfa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNTk3M2JjM2ZkYzQzNGYyYmFiM2I2MGQwZjhkZGM5MGQ5ODNhNGEyOTBmZGU2OGI0ODJmNTNkNjQwMzJlZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYWRlMTU0ZmQ1ZjZhMDVmZWU2ODc5NjZkNzAxN2NiZmE4NTllNDU0NGMyMDllOTM2OGYyM2RkOTFjM2UyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxYzRkMmYxNzQyZWQzMjMzOTNhOGQ4YTViYTA4YmI1ZWE2NTExYjE3MzYyZDhiN2ZmODlhYTc5NmIyMTIzYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4NjY3MGZmYTVkZjk3ODgzMjc1YjUwZGMwZjJmYWFmZjExZjNlODBlOTBmODljMjgzNTIyMTk0OGQ1MGQ2ZWQifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:43:28.075Z"
+  }
+}

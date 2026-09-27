@@ -1,0 +1,90 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:6008d759b01cca512795e6c65bb6b57675e395870fcedd1b977ab2567960f976",
+  "claims": [
+    {
+      "id": "claim_f4453fbacdeb40539866d466d331bfec",
+      "statement": "SQL preparation enforces one allowed query statement, configurable structural policy, dangerous-function/rendered-keyword checks and PostgreSQL schema/locking restrictions.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/security/sql_validator.py#L202-L327",
+          "version": "repo-lines-v1:sha256:68953f01b5b1d49a3d2e530594cb553dadf5bacadf65d59b950f0cefe9b0daa9:eyJzZWxlY3RlZExpbmVDb3VudCI6MTI2LCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiJhMmRjOGRkZTdlOTg1YTVmMjRmNTg1MDA5YmMyMzMyNWE1NDc4OWFlYjFkYjY1ZDIwN2E3ZGI0OTYxYTY4NWMzIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI1NTAzMmU5NjRkMDkzMjM1MWU1ZDE4NTI2OTI4MWIxNzFhM2EwOWIwOGIyODZlNjYxZWE0NzAzMjNjODJlYjRkIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMjFmOTRkNjhiNjU5MDUzNTgwZDQyN2JlMjI5N2Y5MDU1YTYzMTlkMzY2MDI1OTNkZjVmN2E0NGRlNTBjOTY4IiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJkZTJlNjI1MDk2OGQwZTgxZWM5ZDRkZTdlMTVmZWM2NjJhOGVlZWZjNjI2MzY0YzU3OWM3YjA4M2ZkNTI0N2E0In0"
+        }
+      ]
+    },
+    {
+      "id": "claim_433f53c1214f4959b5a0e72c8f9f18cf",
+      "statement": "Physical table authorization is scope-aware and explicit allowlists are applied before SQL LIMIT normalization.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/security/sql_validator.py#L330-L392",
+          "version": "repo-lines-v1:sha256:ba363c2ebfd3d843e4e7ecc0035502c330cd180f1845c22026dde56ede7f29ce:eyJzZWxlY3RlZExpbmVDb3VudCI6NjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjRlNjI5OGQ4YzFmNzUzNzYxODE5ZjdmMWU4NzAwZTcxMGU1MjkxYWYxNWQ2YjFkYzYyNjQ4MjU0M2IzNzg2ZGMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU2ZGZiZjQ1M2Y3ZjFiZWJhYjcyODM2MWIwZjM5M2VlYjRjMWZiNjY4ZjllYTIyYjkxNmRhY2Y1ZGZmODFkODMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_sql_validator.py#L289-L321",
+          "version": "repo-lines-v1:sha256:751161fd06617dd3b951253024868c141925300d30d3eaa76db58bf221563da1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVjNzQzZWYzYjkyYTNlOWM0MDMwOWI2ZTgwYTU3NWE2YzJlYTc0YzIzYjc1M2VkZmY2MzBmY2ExYzE0YmZmZWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI4YzQ1MzgxMzM1MmYyMTNkZDdiOTQwNDM2YzE5ZDIyOTY5Y2UzZjhlYjM4MzhjM2U4ZWQzNjA4MGJjNDJiMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwZDIwMzMyMWYyZDA2YmZlM2Q4Mzc1NDdjOTIzYzUxNjdmZTE1Nzg5NTM2MzNiMDg1YmU3ZDBlYmI2Mjc1YzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_b6a29bd706b749f8b0fc6f9d1b642a08",
+      "statement": "The agent preflights validated SQL without marking it executed and classifies database/preflight failures separately from policy failures.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L276-L339",
+          "version": "repo-lines-v1:sha256:1db5cf6f264622f0d38671cd822d9b5997ac32207faa58ff6189514d29d82c66:eyJzZWxlY3RlZExpbmVDb3VudCI6NjQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY0NGNkZjE5MzA0OWIyMDUzZjVlNjIwNzMyMTkwZWFmN2U0ZmM5NmY5YTAwNDlmYWVhODNkOTJkYmM3OGZkYTYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNTFiZmFiY2ZiNmQ4OWZkOWY0ZTNiN2JjNGExNzRmZDkwYzk5ODE4NmU0ZmRlMmM4ZmEzNGU2ZDVjMjkzYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4MDMxOGEyOWFkZmY0MjhiY2VlZjg2ZmVlMGNjNzI2NDllZGFjYWQxZjE3YzQ4NDJjMTBjZjdkNjhhNWYyNmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImEwNGUzNWU1ZjkxNDA3OGRmODM5Nzc4MzE1ODVmZDIzNGY5ODMzOGI3OTg4OTY5OTc2MmRhMTMzMzQxNDI4YTMifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L68-L76",
+          "version": "repo-lines-v1:sha256:24256efe3e68e291d9fc1044f4948b14e31eee7039020b30df758a4008756a52:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiM2RjMzE2MzMwNmZkNjA0YTJlOTAyMmQ1NzFiMzhiNTc1ODllODk0NmYwMmY5NmRmYzExYTdmZjYzYTRjYzg1YSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMmY0NzBjNGU3MDk4NDNhYzczMDQ0ZjQzMzM1Y2E5YjYxNzM2N2IyZWM5OWQxZDVhYjlkODUwNjY0ZGQxOTY5YyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNjNjZWU0NDJjNjFjNjJjNzI5YWQxMDY4Njk1YzUxNjViYjg2ZGI5MDRiMjBiZDQwNDViNWFhYjBkZGI1M2JiNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNTAxOGM2MWM5NjY4M2U1MmIyYmY0NDc1NWMwOTc0NzI4NzdmZGU0ODdlZWJiZWU0MTY0MGFmNzlhYzA0MGE5OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3ccc12c421aa48929921715c7d3eb638",
+      "statement": "SQLite query connections enforce read-only URI mode, query-only mode, untrusted schema and disabled extension loading; execution uses fetch truncation detection and a progress guard.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/database.py#L139-L172",
+          "version": "repo-lines-v1:sha256:92123ae01bf6accd70a4f01f57278d8a1e136441c4880b375f135a1e2a7413b7:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjJlN2RkMGI3Y2VmODE4ZDhjNDIwMDc2NjI2YjI1NTc5YjAyNmIxNTFjYTY0MmNmYzEzZWNlZjg2NjJmOTU2MzUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjBkZjA5YTQ3MTc3ZGVkOTdlODMyNmE5YzQ2OTc4NjcxZTQ4NThlZmFmN2VkM2IyNTgyYTU5NmFlYzhmYTc0ZTUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImNiNTI1ZjRmNjk5YWRjYjAxYzc3ZGY5YTQ5OTU1MDYxODdkMWVmZWI0Nzk0ZThkMzNiOTFkZTA0MGU0ZTNmMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY2NWFkMTVkMzkyODgzZDk2MGE4NmY5OTc4ZTAyNTg5NTU5NTU0ZTJiMGE1Yjc2ZGMxNzhhOGI4ZjNkNDI4YTMifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/db/database.py#L330-L410",
+          "version": "repo-lines-v1:sha256:512ea05fe9297dce12cb72c8d8553b9c24a511a4cdb4a8a072ccfd3738458a4f:eyJzZWxlY3RlZExpbmVDb3VudCI6ODEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA1MmQ1OWEzN2E2OGIwODAzOTU4ZjVkOTVhNmM4OGQ1NTg3N2FhZWZjYTZkOWQxMmU5YjMyODAwYzViNzM2MzgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA5MGIwOTllNjg2MmRlZjJiMjBmZDZkZjQ1ZjQ0ZDZiZGVkNWUyMWNiY2I3YmM3YzM1MDg3ODVlN2Q2MzczNGUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwYzI2MjJiZTAyMTlmYzhmNTg0OWY0ZGZiMmE2NmY1ZDk4NGIyNDA0ODM4NTc2ZDU0YTUzMGQzZWJhYzE0NzAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUwYTE4YjFmMzBjYWI2ZDQzM2IxN2IyNzdiZTM3YzQyMWY4OTYzYWIwNDNmZjU3NmNjNjZjZWExMjRlODI5NDUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_860251c802a94320a5521f387a63c274",
+      "statement": "PostgreSQL verifies read-only transaction mode, rejects privileged roles, applies local timeouts/search path and always rolls back and closes.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/db/postgres.py#L54-L100",
+          "version": "repo-lines-v1:sha256:46eb96dfba306cca7df765e9e1d7a36df5882c5b9986032220d9055eecf103ac:eyJzZWxlY3RlZExpbmVDb3VudCI6NDcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI1NjljYjA5MjgwZWUwNzgxOTQ1ZTQ4ZDQwNDFiZDJkZmFhZTY5MWFkMmVhYmY1ZDNjYmEwODQ2YzcyMTZjYWEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZhYWZhZTM5MTNjZGEzMTYzOGQ2MDFiZWY2MmUwMGMwZjZlOTQ1YzVkYjY3ZjY4YzBhZDM5ZDllMTNjZTM5OTciLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBlMmIzODIwNDY5MmQxNzUyZjVhNTgzMjM0OGMwZGQ1ZDc4MGMzZmIyYTEwODFlOWJkOTMzYmQ4MGY3YmE2NmIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjFlNzYyYWE1MzlmNWJiNTQ3MDljZTg2NzdlYzgyNjQxNzg1Nzk3ODQzNWI3MWIyMTkwOGUxZWFiZWRhYzQ4MzYifQ"
+        },
+        {
+          "resource": "repo://tests/integration/test_postgres_live.py#L72-L75",
+          "version": "repo-lines-v1:sha256:ff4a893b79c6453564c8f9eab0ad5ac56e6cfc474e97b81cd3b78ae4a46e3d27:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjg1MTg4ZjMxMGVlYzIzOTc4ZjNhZDQ1YWExNjBhMGJmYzAxZGM2Y2YxNWE5M2U4NDRiOTNkZWZkZjMwYzM5MyIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZGEzMjEwODdjMzEzYjFmZWNkNTM0NTZmNWM3OGQ2ZDUxYzM3YjRmMWJkMDYxMjM4MGU4Yzc5MzNjZTU1ZTFlNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiMGQyNTA5MGJjNzU3MmRhODM2M2NmOTFhNmMxMzAwMDQ1ZTExNzM5MGI0YmIwMzRjMGIwMDE5MTI0ZjcyNjJkYiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZDRlZjE0MWJkMGQ1MGE3NTBmMDYzMWU3ZjdiMTFiMTQzYTA4N2I4MTZhMjc4NmMyYjhmZTZmYmYyODNmNDBiYiJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_955f4a22804d428c8e475bbb2356da23",
+      "statement": "Prepared execution rechecks context and revalidates SQL, whereas direct backend execute expects caller-side SQL validation.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L689-L763",
+          "version": "repo-lines-v1:sha256:50fffcd21394fa5b9c7df7767b526f5aae818ba6765a5dda4ec5e86ec0a30c36:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkYmQ4MjRjOWYwOTdhMmFiYWY4ODA2YzBjYjQ5ZWNlMTBkODc2NjlkMGMyYjg4MTdhNjE5YzE5N2MzOThjNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YWU5NTdjZmI0MzI2NTg2YjhjODVjN2I4YzcwNzVhZGExZGE5NzkxZjc0ZDczZWVhZjcwODVlOTBhNThjNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1MjNlZDEyMzZkZGY4YjEzNjA2MzNlNTdmN2UzY2M4ZTQ3MTAxNmIzM2YwN2E1OTIwNWFlMDA4NDllM2RmNTEifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/db/database.py#L330-L335",
+          "version": "repo-lines-v1:sha256:0243df56e42618508b1cc5887b211a2f2bc16cf4fcb22c581b658b2d85f42a10:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDUyZDU5YTM3YTY4YjA4MDM5NThmNWQ5NWE2Yzg4ZDU1ODc3YWFlZmNhNmQ5ZDEyZTliMzI4MDBjNWI3MzYzOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNTBkZTI1ODcxOTYxNDkyNjA3MWM4ZmIxOWZkODY2MTUwNTU1ZjFiMDEzNTRmOGNkMTYwM2ExMDlhN2RkYWU0MCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzBjMjYyMmJlMDIxOWZjOGY1ODQ5ZjRkZmIyYTY2ZjVkOTg0YjI0MDQ4Mzg1NzZkNTRhNTMwZDNlYmFjMTQ3MCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYjFjMWZhZGU5ZWJiMjA1ZDJhMDAxZmIzNTg4YTMwNjEzMmRmMTI3Nzc0NGFlOGJjMDY2YWI3MmYxNTFlMTIxZiJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:43:28.075Z"
+  }
+}

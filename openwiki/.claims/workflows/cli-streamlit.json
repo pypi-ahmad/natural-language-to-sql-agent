@@ -1,0 +1,120 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:17dd3cc8af42288e3730c51e2404129ec5d1baffb45e92bd2a0122a8aad8b604",
+  "claims": [
+    {
+      "id": "claim_b52782b53f6e4d40a69a03050f8cde59",
+      "statement": "CLI ask runs the full workflow without a UI approval pause, prints optional SQL and returns failure for non-executed outcomes except the legacy absent-outcome case.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L201-L212",
+          "version": "repo-lines-v1:sha256:a990ff9a1401493bdc37670c6a2b44e490c77e26dc0eaceecfabbc7e8cf7156b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0OTYxMzY4NDhmZmVlODM2NGQzNzE5MjIzNWVhNzNiYTc4OWNjZDYzZjk2NjI1YWFlNDdlNzQyNDcwN2U1MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImViMzA2YmQyMjI2Y2MzNjRiZjg2ZWVlNzIzMDFiZGM5ODllNGJlNTk5OTAzYjY0NGY2NjI0NWI0MmU1MTlhYmUiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhOTc4MWEyZWFjMmZiOTMzMzgzMjk1NmRiZGYyMTY5NzRhNTVmYTQzMzg3ZDI3OWQwYTljN2Q0MzZkYTk1M2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjBlMTY0OTE0MmVjMGUzMDhiOWQ2NWUzMDIyMWY0OGY2NDU0Mjc3ODQ2ODJjNzZiMjQ5MzZiMjE2YmE4MjAwYWUifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L88-L105",
+          "version": "repo-lines-v1:sha256:0f5220f5f62f3f760876938619d819cc7709b85a98b88cee360fa72f0f371cfa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNTk3M2JjM2ZkYzQzNGYyYmFiM2I2MGQwZjhkZGM5MGQ5ODNhNGEyOTBmZGU2OGI0ODJmNTNkNjQwMzJlZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYWRlMTU0ZmQ1ZjZhMDVmZWU2ODc5NjZkNzAxN2NiZmE4NTllNDU0NGMyMDllOTM2OGYyM2RkOTFjM2UyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxYzRkMmYxNzQyZWQzMjMzOTNhOGQ4YTViYTA4YmI1ZWE2NTExYjE3MzYyZDhiN2ZmODlhYTc5NmIyMTIzYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4NjY3MGZmYTVkZjk3ODgzMjc1YjUwZGMwZjJmYWFmZjExZjNlODBlOTBmODljMjgzNTIyMTk0OGQ1MGQ2ZWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_ae63ccecbd2a498aa573ae85e9e60091",
+      "statement": "Streamlit prepares questions, handles clarification and requires explicit approval of editable SQL before execute_prepared; cancel clears pending SQL and pending approval disables new chat input.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L473-L546",
+          "version": "repo-lines-v1:sha256:63ba5fe56610e64e8d805bc27267d4daea668c55f06cf1d8ae66056cb855ba62:eyJzZWxlY3RlZExpbmVDb3VudCI6NzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImY2OGM1NWY5MmQxY2RlMDY2ZGQyOTRlNzEzZDE1NzU2NGZhMjk5MzNlZWJkOWZkNGIzODQzNWVhMDA3ZDM3ODkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjMwMzE3MzgxYTdmODY2Y2ZkM2EzN2EwMzMxYjljNzczMmYxNjQ3MmIzMWU4N2FlNzQ2MDBmYmEzM2FiOWM4NzkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjNmOWQ5OTI1YjMwZWFmZTYxYmM0MWJlMDBiMTQ3MWUyNWIyMzdlOGM4MTQ0ZjIzYjllM2MxYzhhM2ViMDkwY2QifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L566-L665",
+          "version": "repo-lines-v1:sha256:0fa1123c0eeb6029ff6a76529800998ac81a6172302e3607cf5442e4890e3df2:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAwLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiIwMWJhNDcxOWM4MGI2ZmU5MTFiMDkxYTdjMDUxMjRiNjRlZWVjZTk2NGUwOWMwNThlZjhmOTgwNWRhY2E1NDZiIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiJhM2U4NTM4NTdmMTJiZTQxYjcxOWNkZWYwMDIwMTRhOTQxNTEyZjA3MDNhNDk0NjliOWJmZTRjM2ExMDNiMzhiIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiI1ZTkyMzRjYzM2MzU0YzAwZDIwYjg1YWEzNDgxZWRhNDUzNjlhY2RlYmIzMDRhYzJmMTJlN2U2MzRlNzAyYjEyIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiJlZThhZGQ1ZDZkZTE3MWE0MThlZmI0N2VkN2E3MTFiMzA5ZDdhYzliNzFkYjA1MmUzNWJmMDJjNTNiOTY4ZDVhIn0"
+        },
+        {
+          "resource": "repo://tests/unit/test_ui_app.py#L74-L107",
+          "version": "repo-lines-v1:sha256:d21f37ff896df0abdfca75e234849869398ffc7d3a609305b9f13f5a10ca27d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZTIwNzU2NDNkYzEwNTc3N2JiZGM3YWM5NmYwNDNjODA0NTY2ZmM0YzMzYWI5OWMzYjk4NTFjODM4M2M4NzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNzg3N2M5ZjkxMGMyZjcxYTcyYzg3OTE2ZDE4ZGEzYzVmMjcxNzM1MjkwYzIxZDBmMGVlNWEzMGJmNjM3NWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMjc0ODM3YzJlNjgwYzFjOGVkYjM5YzY0OTJlNjI2ZmFjYjYwMGE3NzZlOTIyMGE4YmRiZDMzNTVjODAwZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2ZDE5ZjMxOTNhMmY4NGFkMzcyMGNlMTVjN2I3MzQzYjE3NTU2MDI3ZDUwZGFhOTRkMzIyNDU5ZTdkMzdlNTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_6ee9cef325774031b5652599dea0d00d",
+      "statement": "The CLI serve launcher runs the source Streamlit script and rejects non-loopback hosts, defaulting to port 8512.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L127-L148",
+          "version": "repo-lines-v1:sha256:7ea5ee64f67f3509f25c1a49558dbda46a5a0dd3efc6f56e05269484b5e51a30:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhODA2NDM3ZmRiNWI5YzA2YTY1YTA1MDkwYzI1MDI0MjQ1NDUxYTMwZmIzMzE3ZGE0N2JlZmRlMWQ4ODAxMDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4NmNjZWI1M2RmYTdhZDIyNzAyYjUzMzVhMThjMWQzOGFkNzBhM2NiZGU1OGJkYjZhYjgwYmUxZjMzZTBkMjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1NzIyYjhjNGYyODMxYTA4YTZmZjE2OGQxNjUxMTRiNmZkYmFjZjk4NDIxNTM2NjI3NzY5M2JkY2IzYmQwMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NmM1YWE1MmM1MTA0NzNkYWI5NzY5YTM5Y2Q4NTM4NWJhOGFkOTZiY2E2YWM3Y2IyNDk5OTNhOWIyYmVmMzIifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L217-L220",
+          "version": "repo-lines-v1:sha256:c4090754dcbf2daf63b7f19c02fd7f82c766018be24a7313925bfbabddbb3e91:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYzQ4MDdlNjgzYTMyODhmNmIyNTJhYmU4ZWJiY2M2NmMxMDcyZTI2YWRhMmM5MTVkNmEwYmQxNjIyNjM2MzY0NCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWUwN2EyODE2ZWI2ZjlhMDJlMjMyYmEwMTFlNTE0MDdjMDNhZjdhNmY4OTk4YzMwMzQzOTAzYjQ1ZDg4MDAyYiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNWM2YThiNTEyODViYTc1YjExMDM0ZDk1ZWZiMzVlYjJiZDYzZmRmNGNiMjJmMTcwNDAxOTFjZmE0ZTY3MzJlNyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMzllOTkyNDMzNmU5NjI4ODllZWU4MzBjZDBjNDEyYWI4ZmIzMDhiMTY2NTFkM2I0NzViMTZkNWNmNzFhYjAzOCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_98c9e83ab4e14445828afb6ed56026cf",
+      "statement": "UI provider settings are deep-copied and model refresh explicitly queries provider discovery.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L387-L399",
+          "version": "repo-lines-v1:sha256:e459b521079557a9aa5a1d48e968d17167d8fa784fb73dc004d35d7f050b2fb7:eyJzZWxlY3RlZExpbmVDb3VudCI6MTMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg3MWU3ZTA3ZTcwZDUwMGRkNDQ5YWUwMjA0NzE1MTU5Y2VmMDcwYzc5ZTJhYWUxNzA0NTY3NmE2YTBkMzllZjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjQ1ZTFiYmVmN2U4YjU4NTkzMzdkMmE0ZWQ5ODY0MDc3OTAwMWJjY2ZjMzNiYWE4NDI1YzY2NzBmYmQ4NTYzYmEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzNGJlYTIzNzkxYTY0OGE2ZmJmYWIyYmEyMjI2YTI2NDM1YzI3ZGRhZjJlODdmYTBlZmU0ZTQ2NmFlODkzZjAifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L77-L104",
+          "version": "repo-lines-v1:sha256:eee05da0053657ad9bac0cafcbb311f8d0d15c5c34722b1b03c3aea88257e600:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg2ODY5MDgyYWQ1MDkwNzg2OTQ5MTEyNjJhOTczM2U1YmRhZTA4YzUwOGNlNzE4ZjVkMDUyZGI0ODY1MzUxNjIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjZmMmZhMzAxZDUzMTM3MjFiMmM5NzQzZGM4NWExZDM0NTQ0ZDhkMGE1NzZmNGI4MTZkZjkzNjAyY2IxMDg4ZjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg0MGNkMDZiNTZlN2MyNDEzODVhNjQzNmY5ODViOTlkNDhjMmJiN2FkNjM3ZGY3OGFmN2FkOGI1YWRjMDI3ZWYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_054b59843c0148eeacfc140399516442",
+      "statement": "Uploads are validated for size, extension and header then stored in a server-side session workspace under a digest filename; demo, uploaded SQLite and operator-configured PostgreSQL are separate sources.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/ui/database_upload.py#L16-L38",
+          "version": "repo-lines-v1:sha256:0abe824e0fc8b034629b76f90ef49572a4863143ef7be8fa7b1b1a57c33d6aaf:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2ZGUyMmUyYmE2NDViMjkwN2U4OTcxZGE4MjY3MTIyYzdhODhkZWZkNzdhNjhmYmZjMmEyZTMxMGI0Y2U5MjMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFhY2JjMjU0NDU0OWNmOTY4OGUzZjIwNjhhNmFjY2Y3YWEzMmMzOGQ2YjFkMDRhYTY1Y2IzM2ZiMTU2ZTE1N2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUzNWNhOGViY2VhMzJkMDMyNjFlMzNkNDY3ZWMzZGFlZjFmNzQyODk0ZWVlYjhiMWI4Mzg5YmM3ZWFjMjdhOTIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L106-L175",
+          "version": "repo-lines-v1:sha256:a5783b8fccac995cd8686b1b2ed3cddd08dd19e3d45d072a1e05f2c7c9882096:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4Y2YyYTBlYWYwMTY3MzRhMDY5ZDFmNzdmODY2MjMyMzRhZGEwMmM3NjBhMDUwNGY3ZWZmM2QwMWJkNDNiZDQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjcwZmQ2ZmZmZmVmZTdkMmFjNzE3OGQxYTEwYTNiMmE0NWRmOGE4ZGNlMTc5ZmRkNmY4MmNkNDQ0NzI3ZWE2ZjYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijc5MzQ2ZGIzMjJhM2EzMzA2YTFkNDFhM2FmMmFhNWNiMGVmOTA3NWI2YjUyYzE5MTdiZTg4MzZiYTFhZjE4MzIifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_66fb660983a34eb0b3ad30948a7e5dfc",
+      "statement": "Allowed table selection gates questions; uploaded samples require opt-in, demo samples are enabled, and context changes reset session state.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L324-L355",
+          "version": "repo-lines-v1:sha256:9f08366d5624f2b1f212e1466c9c672fbf8386f3116755baf6d65b45d0ecf706:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhhNGE0NDM3NjRiMzU0MmEwMDc0Nzk3YjlhYjJiYjRhYzUyMTM3YTBkYTFhN2RhZWJmMjY2Mjc1OTcwNTQwYWMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImEyMWQ3OGFmYzcxZDVhNTY2OTdlZmVkNWY1NjcwNjIzZGNjMjI1ZTczMTIwMWUyZjFmYzZiODk3ZTcwMzllMjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjY5MmRhMzJjOTE1Y2QwMWUzZDAwMmYxNzdiNDFiMDM5MzhlNzBmMjA5NjM1ZTFlZTc3YmI1ZDRmMjg1NzEyZTIifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L416-L443",
+          "version": "repo-lines-v1:sha256:2cf4b4a31e0638e0a7983d49bd75b9573139d51881e5be2b70c8eba626ec408a:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhiZGUzNzEyMzlkYmU2ZTE4ZGRhMWU2NmQ3YzEwMzM3NWM4NDRlOTRlNzQ3NjY2NWE3NTJiNDdkYzZmZjUyNTEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0MDk1NjIxYTJhZWIwNDhlYmUwYWI1NDE4NzFmMGY0MDU3NDVlMzNkOTk3ZGI3OTlmZTczMTE5ZjdiMjI2Y2QifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L547-L550",
+          "version": "repo-lines-v1:sha256:3bf550d0442a1c2938123c61389f074eb775d252da1bcec4f3c42d5221fa9df5:eyJzZWxlY3RlZExpbmVDb3VudCI6NCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiYWI1YzgyNjMyZmM4MmQ0YjJjMzQwZjQyNTU4YmEzZGZhMzFjNzY1NWRmNmZjYzE2OGI0ZmRjZTU3ZmFjNjA0MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiOGQ3OWQ2NjIyNTk0NTgyYjNhY2RiODcyMmI1MTM3MWY0OTE3MTY2ZDk4NTVkOTAzYzExNmIzMzI2ZDE3MzliMiIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzU4M2QyODc4MmJmNDJhM2I4YWNkMDA1OGNiODdhNTVlOTFmNTU3NjYwZWZjYjhjNjljMTgwMTQzNmZmZjMxNSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_0c5aa735ff774bde910312943ab8ba4a",
+      "statement": "Clear history resets active UI state rather than deleting saved sessions; Sessions provides load, rename and confirmed deletion, while unavailable persistence disables historical features.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/ui/pages.py#L102-L173",
+          "version": "repo-lines-v1:sha256:0ea7f3a91ad3de2e40f059bc15964563158b3ca823f6cb50361b21e7dc88a72d:eyJzZWxlY3RlZExpbmVDb3VudCI6NzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjA3ZjYwMDFlOGM3ODE0YTEzYzgxNDhlYWFjYjU5OTIwMzEzZjZkNjg4YTI4MWIyZTRkYWUwMGRjNjg5YTVmZmYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ2MjM2MjRhOWJmZmU4OGYwNTEyNjBjNzljYWEzY2Q2ZDg2OWIyZmMwNTdlYTJlYmNkNzQ1MmQ5YTE1MTA4Y2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjhjYzRhN2QxY2M3OTZhYmEzZTQ2NzIzMzI3ZjUxN2U5ZjgxMTk4MmQyNTBmMDcwMjk4NmU0YjU3NjRhZDk1ODkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6Ijg3NzNlNzdhNDFhYTEyZTUwYmFmNTE2MjM4NDc4ZjA2NmRmMTM1ZTMxM2UyZDc5ODZiMzQ4MDg0MDdmYzZlOTMifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L457-L464",
+          "version": "repo-lines-v1:sha256:d2e78337fad6fc27123c52ae45a65f37f00aaed777c59e7b48d56057e266b445:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMDFiYTQ3MTljODBiNmZlOTExYjA5MWE3YzA1MTI0YjY0ZWVlY2U5NjRlMDljMDU4ZWY4Zjk4MDVkYWNhNTQ2YiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiNDFkMjE5ZWZiMDU4M2I4OTdjY2YwMTY3ZWVlYzJhYWMyYmNmODQwOTNjZTgwMTA5ZGU1OTYyNzhlNjYwOGVlNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNzBhNjE2M2UwZTNlNTkxMWVkMzg0YTI2Zjk0NjQwNWE1OTgwNDMzYzgyZDRkYmQ3OTMxMDdjNjNlYzI0NThiYSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiNWZiNTA1ZDUwY2U5NmRhNWM5ODUwMGE1ZTVmODA5YzQ1OWUzMDRjYmU3NGE1NGRmNGRkN2NjZjMyNzc5YTJhNSJ9"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L669-L700",
+          "version": "repo-lines-v1:sha256:f6df8a2c8e0362d8e7c6ab655bf1361002e89b416e04f34d15a24e408bf212d1:eyJzZWxlY3RlZExpbmVDb3VudCI6MzIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwYmM1MTI2NWRhM2M0OTRiZGQyOTQwOGMwZTE3NzY2NWJmZWFkNmZkMjc5MzZmMDU5ZDJjNTU3YjE5YTNjZTEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjcwMGE1YWQ5MzdhYmI1MDQyM2NkZmQ5NmZmNGI2OWQyNjFlNjU5ZWU1ZjNmZDJkMTU4ZGM2YjVmZTg3OGM3YWQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImVlOGFkZDVkNmRlMTcxYTQxOGVmYjQ3ZWQ3YTcxMWIzMDlkN2FjOWI3MWRiMDUyZTM1YmYwMmM1M2I5NjhkNWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjkzNTRkY2M5NzQzNzhlNmEwMjdjZjU1NjllZTNiNmQyYWEyM2Q1ODg4YTY4ZGVkOTcxZTk0N2Q5Y2M5N2U0ZTYifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:38:19.239Z"
+  }
+}

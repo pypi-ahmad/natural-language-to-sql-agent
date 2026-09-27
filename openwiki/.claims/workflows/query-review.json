@@ -1,0 +1,108 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:d82ea452c3f62b6f2f9b7eceb80a04432e44fb383d518f921aca5614d357dd52",
+  "claims": [
+    {
+      "id": "claim_d86b2845b9db4a40b3b4c95c3a5e39f5",
+      "statement": "Writer decisions are strict sql/clarify/unanswerable objects with action-dependent fields; JSON-looking invalid responses cannot fall back to legacy SQL.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/decisions.py#L10-L27",
+          "version": "repo-lines-v1:sha256:56362c63964772ad4c301c366ee4e834da49a2e171e32f40653029342b5b6c64:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0ODAxNGY3YmRiYmQzZmRiYjA4MmQxNTA0Yzk1OTY0MzY4ODBlYjAyYmQ0MmYyZmNjMjVkODY0MzM2OTY2NjQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImEyYWIwOTBiY2QxNjIwZmE2MmVhZWUxNTdhNzRmY2E2MzVhYTI5ZTEyY2JmZmQ2MThiNTc5MmQ4N2JjMDNhM2YiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU5ZjU5YjIwODQ3NDVmNDNjMTE1NzZhYzU2ODc4Y2I5NTA5ODU2MmJmZDUzNzQ3N2JjNzJmMjA1YjU1NDhiODUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUxZTMxOGE4MDU2NGZmNjFjMmI0NzQ4ZWI3ZDliNGIwMmU2MTQwYzBkNGUwMGJjNWY5MWFhYjNlZWQyNzgwY2MifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L207-L256",
+          "version": "repo-lines-v1:sha256:f321f667ad5b86644fc466c9429f27f970f5e5e6e5988a4c4b73115e1909e4bb:eyJzZWxlY3RlZExpbmVDb3VudCI6NTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUyZmI0NTdkMmRiMjE1ODc0ZTJlNWFlMjM5NmEzNTZmNzYyNzNhMTUyMWVkYTllY2E4OGQyZmZjYzc5YjZhMmQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUxZGI3NWU1MDE2ZTU5OTY0MjRmNWU2ZTg3ODRkZGI1YjE3Y2UzODg2OGZiNWViMTk5OGUwYjExNmE4NmE3MTkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU4NTc3N2NmNDBiYjVlYWQ1NGI2ZWJkYWM1ZGZhMTMwNGYxZTEzZTVhMGMzMzRmNWU4M2RiNGM3YWExYWE1MzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjlkMzk5OTZhMGU2MmJjNjIzNGExOTk4ZDI3OTc1ZGVhNjA1MDk1MDEzM2Q2YzVmMzE5NzliZGUyNWQyMGFiNzEifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_1cacc7000c6f4abda667222750ba6c77",
+      "statement": "Clarification does not execute, supports at most two replies and becomes unanswerable when the model asks again after that limit.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L238-L257",
+          "version": "repo-lines-v1:sha256:75d9719669f63d80fe8be909a1028348f3ccd0f7f78fe7d4746f1498bb516d15:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg5ZjNmOTdmYjdhZjY5MDZkZTBmYThjMmU3NWMyYmFkOGM4NzFiODlhNTk0YWIzYzc2YWM5NzQ3MWM5N2I0MWQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjI2NzhiYWU3MjU2OGYzNTI0YmZmNmNlMTZiMjMzZjdjMTZlMDYwZDg3ZTY4YzYxYjYxMmYxNjY0YjkyZDZjNmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMmQwY2ZjMTIyOTA4YWE5N2M4OTU2NmEwNWJjZDVhZDhhYzA3ZTFiOTQ1YTMyODMzNWMzNzk4ZGMxN2QzMGUiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImFkMGRmMDIyNThiOGQ2OWNmODMzNTBjYjAzNjFlYzEzNzFiY2FjMjBjYjMwMTdiYzNlODU5MjEzNmNjNmEwMjkifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L736-L764",
+          "version": "repo-lines-v1:sha256:136264bc97d7f879d88db0ce881192421a80b8e521b5f702a9e501e4010b7b68:eyJzZWxlY3RlZExpbmVDb3VudCI6MjksImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjUwOTY3Zjg2NDI1MWYyOTA1Yzk3NDYxMjMyMDc0NGM1NzQzZDY1YWM3ZTc0ZGUyNjM2YWM5ZGUwYTI4MTQxMzYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjgyNTFiZmFiY2ZiNmQ4OWZkOWY0ZTNiN2JjNGExNzRmZDkwYzk5ODE4NmU0ZmRlMmM4ZmEzNGU2ZDVjMjkzYWEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImM4Nzk5M2JmMDRiMTAyYmVmMWQxNzVlZTBkMDIyODg2YjhiMWY2YTNmNDg3MWFhYjhkODhjNmYzZmVkYmVkZDkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRlMWU5NTI0ZGY5Y2JiZGIxNzA2YWIyMjc1OWJhZjZiNWIzY2IxNzg4ZjdmNDE2YmZjZmMwMDc5YjU3NzhiNjgifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L23-L49",
+          "version": "repo-lines-v1:sha256:f7d040e3a381c1c071e585264d7984857e9b98c9a6bcda827abd40b13f6c3851:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjNhMDlmNWY2NTE2NTdhYzg1ZTlkMDRkNWJlYWQxOWJiZGYwNjFlNTNiYmYyOGUxM2FjMGQzMzM2MDgyYWU3NjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJmMzlmNzE4NWNlYWZlMjUzNWMyNzAxMzVmOWYwOGNkZmQ0YmRiOWJmYzk4NzlhMWQxMjA3M2YzYTA2MzFmMjgiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImIwMzFmZmQxZDczZGE1OWM3OTg1MDRjNjAzYzQyNTgzOWQ2NjVhZTNlYTY5NGMyM2I0ZGNjOTI0ZjFkNWFkOWIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzNWVkODAxZTRhMzgwN2Q2NmYwZDc4N2JjZmU0MDkyMDIwMmI0YWViNjI4ZTdkOTQ5MzE2NWY4YjUyMzkwMTgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f4dfb4fcada0406cae582fe3c1fe15f8",
+      "statement": "Writer attempts consume the retry bound; terminal outcomes stop retries while recoverable generation and execution errors can return to the writer in the full graph.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L195-L215",
+          "version": "repo-lines-v1:sha256:b00278226b2e91053f14e342adff8fb4d8b3d5bfe208d2ba89faac4b97be4644:eyJzZWxlY3RlZExpbmVDb3VudCI6MjEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwZjdhNTRkMGZmZmZkOGNiODMzMWY2ZGZhZmYzYTAyYjJiMGMwZTA4ZDc1ZTZhMjdkMDExNGM1ZjIxMmVlOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMyMmM4MzkzYTljN2ExZDgwZTVkYzgwMWJiZjVjOWJhNjM5NTlhNWJkNTk4YzQ4YmVkNDVkZjFjNWNiNTU1MDYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5MThiYjRiNDhiZmUxYzFjMTk0ZTBkNWEyOTNkYzRmYmQ2OGRjZTQ4ZTNkYTMxZDk3M2Q2YTU2ZjVjNDkyMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjgzNzZiOTBiZjFhMWZhYjc5OWFjMGFiZTc3MWIxMzQ0MjY4MTVkOGIxN2ZjZDVmOTI4MzZhODc0MmY5ZjNkMTkifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L506-L575",
+          "version": "repo-lines-v1:sha256:58843fb06f94699f9ef28d2a2c06ccfa37306401e248dde1e8e3ef4148638daf:eyJzZWxlY3RlZExpbmVDb3VudCI6NzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY4YzMxNTNkNzI4YWM5ZDdlYmNjNDVkZDNjNGNiZjQ1YWIxMzBlZDlhOGY3MjVhNTBmYzI4NDgyNWE4MWM1ZDgiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjU2Zjc4ZjRkNjczZWNjYTMwYjNiYmI2NmFhZjg3ZDAwMzIxNjNmYzkwZTI0OWJmNmIwMjg0NTg1MTU3MWZmYTEiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6Ijc4ZGViMjI4YjNmMGZiZjkyMjQ4ZGRiODQwN2VlYjk4MGE0NGYzODJlOGEyMjNhOTMzMWUwNmMxN2Y2NmExZmQiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4OGY3Mzk1MGYzN2IxNzRlMTQ3MzllZTc4Nzc3YWRkYTljYjgxMjNhNjUxOGI3OGNmMTFkOWEyY2ZmYzAzYzgifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bfdea88357a0400a8db071cdd9571aab",
+      "statement": "The prepare graph has no executor and its prepared routing sentinel is not itself evidence of successful preparation.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L522-L532",
+          "version": "repo-lines-v1:sha256:220ced20a5e23198dc383bc9362d85c7fb35a5b1dc0dc43d6eb4cfc2fc404dc6:eyJzZWxlY3RlZExpbmVDb3VudCI6MTEsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjY5OWRkYTA1MDEwMzgyNzIyZDNmZDkyZWYxOGEwMTg5OWUwYTNhNzJjNzNiMzM0YmExMmJmYzI1OGZhYWE5MDciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImNjOTRhZmE3ZDgwMjA5MTE0YWI5ZTA3NmU3Y2NiZWQ2Y2IzNmE0MTVjNjM0ZTMyZWU0ZDkxN2Y0YmU1MTE5ZDIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBhNmJiZjA0MmE0ODViNjc2ODhhYTlmY2Y2OWVhNGExNTM3MTk2YTYzZDQ3MDliZjJkZWZlNzU5YTNjOWNlZjgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjhjZGZhYzY2NDAwMmZmMmRlMmQ4ZGZhOTVkYTA5NGI4ZGEwM2Y2ZGRjZDIzNjFlOTY4MmQ1ZDM3ZDMwMjcxYWMifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L579-L593",
+          "version": "repo-lines-v1:sha256:eb31dd68256ce8d48025c25991291cd72c201fc24db1ba5396f76840b1a31781:eyJzZWxlY3RlZExpbmVDb3VudCI6MTUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImMzZTlkNzg4MDMxMDg3NGJhZjY5MDI5M2JlYTFmZmRiYWY2MTUzOTIyZjQxMDA1ZDdmOGMzZmZmZDVjNzY2ODkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQxOTVmMjhlYzliM2JhNjZkM2I0NjA2MzNhNDgzMDE3OWEwODY0ZDVkNDIxNGI2MmVmOWUwNWM2NDM0OWI4MjQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjM4OGY3Mzk1MGYzN2IxNzRlMTQ3MzllZTc4Nzc3YWRkYTljYjgxMjNhNjUxOGI3OGNmMTFkOWEyY2ZmYzAzYzgiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYxNDFkYzkwNjU5YzFjZGE3NDZkNGEzMTdkY2E1MmI3MGQ0M2U3MjhiM2FkN2JhYTc1ZTU1ZWFiMzFhZGMzZTUifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_9661afcf4f2d48468e947eaa6fd55e08",
+      "statement": "execute_prepared requires matching prepared context, revalidates optional edits and executes once without writer repair; context signatures cover identity/schema/catalog/policy rather than database row contents.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L689-L763",
+          "version": "repo-lines-v1:sha256:50fffcd21394fa5b9c7df7767b526f5aae818ba6765a5dda4ec5e86ec0a30c36:eyJzZWxlY3RlZExpbmVDb3VudCI6NzUsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImFkYmQ4MjRjOWYwOTdhMmFiYWY4ODA2YzBjYjQ5ZWNlMTBkODc2NjlkMGMyYjg4MTdhNjE5YzE5N2MzOThjNGYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjdlYjcwMjU3NTkzZGEwNmY2ODJhM2RkZGE1NGE5ZDI2MGQ0ZmM1MTRmNjQ1MjM3ZjVjYTc0YjA4ZjhkYTYxYTYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImU0YWU5NTdjZmI0MzI2NTg2YjhjODVjN2I4YzcwNzVhZGExZGE5NzkxZjc0ZDczZWVhZjcwODVlOTBhNThjNjIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM1MjNlZDEyMzZkZGY4YjEzNjA2MzNlNTdmN2UzY2M4ZTQ3MTAxNmIzM2YwN2E1OTIwNWFlMDA4NDllM2RmNTEifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L79-L86",
+          "version": "repo-lines-v1:sha256:6ed6a2c67ca1e809c25cf39872b112ad0f50bc001da377f45c9c826f32eb427f:eyJzZWxlY3RlZExpbmVDb3VudCI6OCwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYjIzYTgwMTBlNmU4NzY5ODVkZjU3ZTkwMDJjYTFjZTIzMDYzZmIyNmEzMTlkYzZiNzA5OTEyYzRjY2Q4Yzc4MSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiZjAxZTkzZDNmOTRlMGVhMjUxNWRlMDI3NzJhMWY0N2EzZDM4YzYxNWZmZWVlYWFhYzk4N2JhMDRjZThkNmZhMyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiM2ZiODAwNmI0ODRjZjJlZmJlZmY2MWIyZmIwYTFjMGM4OGRjNTQ1ZjM2MzQ0NzRjMDI4NmE5ZGM5ZTExZTMyYyIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiOWFkMDcxNTE5YTdkNWQ0ZTc0NTUwMzQ0OWY3NTBhZjcxZTVjZjg3YjBkMWFkOGQyZmU4ZGYyNzcyMzVjZDE3OCJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_3c42c9dbaf4449bd8594d878bd0d4fe9",
+      "statement": "Successful results render deterministically with distinct LIMIT, truncation and preview notices; database failures clear result fields, while legacy non-executed summarization can still call the model.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L339-L500",
+          "version": "repo-lines-v1:sha256:0c5b12d02c2fb9b9312a896cb745d1995f8a8ddb9162509ddb4fe7b25dbb4349:eyJzZWxlY3RlZExpbmVDb3VudCI6MTYyLCJmaXJzdFNlbGVjdGVkTGluZUhhc2giOiI0ZTBkYzk4N2FmN2MyNGE1MGQ5MDVmMTRjYTBiMDczMjg3ODI2MTA3MDY0MDYyZjE5ZDAyNjZmNjdlOGQwNTAyIiwibGFzdFNlbGVjdGVkTGluZUhhc2giOiI4MjUxYmZhYmNmYjZkODlmZDlmNGUzYjdiYzRhMTc0ZmQ5MGM5OTgxODZlNGZkZTJjOGZhMzRlNmQ1YzI5M2FhIiwicHJlY2VkaW5nQ29udGV4dExpbmVDb3VudCI6MywicHJlY2VkaW5nQ29udGV4dEhhc2giOiJlMmVlNDVmZDRiMDc3NjIxZjkwMGM1OThlNmUzMGVlNGE2MzgxNjFiNTI2ODYxNGM5NWQ3ZWJlMTBjNDE3ODUwIiwiZm9sbG93aW5nQ29udGV4dExpbmVDb3VudCI6MywiZm9sbG93aW5nQ29udGV4dEhhc2giOiI3OGRlYjIyOGIzZjBmYmY5MjI0OGRkYjg0MDdlZWI5ODBhNDRmMzgyZThhMjIzYTkzMzFlMDZjMTdmNjZhMWZkIn0"
+        }
+      ]
+    },
+    {
+      "id": "claim_bbcb92ffe62c42798fe19ba16e8a2875",
+      "statement": "Provider failures produce generic state errors without leaking the original exception text.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L195-L208",
+          "version": "repo-lines-v1:sha256:a014bc2a2ddbe483f780407be2c2dc532baba4d0832441158a3a6c69245e152d:eyJzZWxlY3RlZExpbmVDb3VudCI6MTQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjkwZjdhNTRkMGZmZmZkOGNiODMzMWY2ZGZhZmYzYTAyYjJiMGMwZTA4ZDc1ZTZhMjdkMDExNGM1ZjIxMmVlOWIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImM5YTg1NzJiODg4YjA4Zjc5Nzk4YTE5YWNhZDFlZmRhZmVkMDI3MDQyNWEzZTFjMjJkODg4ZDEwNmQ2NTY4M2IiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImE5MThiYjRiNDhiZmUxYzFjMTk0ZTBkNWEyOTNkYzRmYmQ2OGRjZTQ4ZTNkYTMxZDk3M2Q2YTU2ZjVjNDkyMzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjliMDExOTM5ZGJiYTMyNzljYzM1NTdmZWFiYmFkZDU3M2Q5ZWMzZGVkOTJlNzExNzg3Y2U5NzQ2MmJhYjNkNmQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_decisions.py#L60-L65",
+          "version": "repo-lines-v1:sha256:4dbec00e448eb84481a538f75b4d38f9aeae4539897f693901253d3dc12a0d6f:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiYTJhNTY4NTY0NTA0ZTU5MWY3ZDZkMTEyYjczYjFlYzAxYjY3ODI0Nzk5MDY1ZTQ4MGU1MmU2ZTEzOGQ4MzIwMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOTAxNmI2MmE4MWRjOGNlYzNkNjZiMzUyYmIxOTg1NTE2NDgyNWE5Yzk2YzZjMzgzNGQ2OTI2YzVhNDFkMTQ1MyIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZjY5MTQ4MjYxYmU1OGExNTM0ZWM3NjFmMzJiYTk2ZjdkY2FkMDRlYWIxYmZkMmZkODk2NDJiZTUwOWIyZjY5OCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMTE1ZDVhYTM3ZGU1MWJlMDczODNhMjNlODU4YWJlNzU2MDRkMWMzM2NkMWEwNDFiY2ZmY2MwNjllYjFiNzZmZCJ9"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:43:28.075Z"
+  }
+}

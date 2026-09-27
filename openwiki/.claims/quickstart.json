@@ -1,0 +1,116 @@
+{
+  "schemaVersion": 1,
+  "pageVersion": "sha256:605031aaa5871bad9eabf32264da04a5a4c251ac9bcc3595386e23936c7638e0",
+  "claims": [
+    {
+      "id": "claim_030d264a5e864469b419b5c77b6fb44e",
+      "statement": "The package requires Python >=3.12.10,<3.13 and installs nl2sql-agent, with grouped development dependencies synchronized by the CI uv command.",
+      "evidence": [
+        {
+          "resource": "repo://.github/workflows/ci.yml#L21-L27",
+          "version": "repo-lines-v1:sha256:7f5d62ade1cfe5957620c78050f5aac74f57d62f02583683c5203f93a34f8f1e:eyJzZWxlY3RlZExpbmVDb3VudCI6NywiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODAwZThhNDFkYTQ3YTAzMTk1ZDRlZjAyMmRmNTIzYmIyM2ZjMmIzNWJjODI4MDk5NTY4ZjdjZTUzMDg1OTkwOCIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzEyNGYxYTZjMzhiMWQ4ZTA4YTMwMDY5YTQ0ODI1YzdhNDE5Y2IxYTBkM2MyM2Q3YzVkODY2NzUyMmU5MjFlZSIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiNDJiNTlkN2RmOWU2YjcyZWJkYThjNGU5NWU0ZWU5NmY5YTg5YzBkZjYyZDFhYWIyZDUzY2FjOGY3OWViMTczNCIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYmY4YTJlMjBiODkxNGFjNWFjOGE1OTQzNDE5MDQ0MmIxYmQ4NWU3ZDExNWI3NjFhYTc1OGNiZTU4NTcyYTNlOCJ9"
+        },
+        {
+          "resource": "repo://pyproject.toml#L1-L6",
+          "version": "repo-lines-v1:sha256:37d2353f87290470805fd5f7fb78c38999681f46bdc62fcf8efa87068c15b468:eyJzZWxlY3RlZExpbmVDb3VudCI6NiwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiMjU5N2Q5NzNkNDk4YWMxOGIwZjRhN2FmZDA0N2RiNGQwMmYwNjJhNjM5M2UzOGEzYjkxNmZiZTA4YzcxOGE2OSIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiMzc3NTZkYjVlYmVjMjIwMjI2M2FjNTc0ZDQ5MDQ3MDM3ODcyMDcwZjA5NWViOTk3Nzc3YjRkZDU1MzU5MTRkNCIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjAsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiZTNiMGM0NDI5OGZjMWMxNDlhZmJmNGM4OTk2ZmI5MjQyN2FlNDFlNDY0OWI5MzRjYTQ5NTk5MWI3ODUyYjg1NSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiYzYzNDMxZTAzOWY0NjE0ZGVhOWViY2NkY2I0MmVhY2E2ODg3MTU2YTEwY2UyYzY0ZDFkOTQ3NzhiN2M1YjY4NCJ9"
+        },
+        {
+          "resource": "repo://pyproject.toml#L153-L170",
+          "version": "repo-lines-v1:sha256:341e8e2446d2d3386348e508acdcf7e85b400699bbaf58c1f49238e4027802bf:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlZmM1MTIwNGMwOGE1ZmYzNDEyZGFhMTJiYzVjMTc4MTRkYzA0N2U2YjFiYzcyMDZlNGJiM2U4ZjNiMTZmYjYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImZkM2I2YzViOTQ0MjJhN2MwNGYwMDkzMzgxYmY4ZDE3MDdlNmVjY2E2Zjc4NzMyMWE2Nzk0ZWEzZGYxNjQ1MmQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImI4NjZjMWQyMWJhOWI3ZDk2M2FjZmFmOTIzYzAyMTFjOTFkNGY5M2Q4ZTJlYjBmOGU4Yzc4MTI2MzEzYmEzZmMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjowLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImUzYjBjNDQyOThmYzFjMTQ5YWZiZjRjODk5NmZiOTI0MjdhZTQxZTQ2NDliOTM0Y2E0OTU5OTFiNzg1MmI4NTUifQ"
+        },
+        {
+          "resource": "repo://pyproject.toml#L48-L56",
+          "version": "repo-lines-v1:sha256:2f1cac57f4068d7c3fa9d45dedfb253558feec6b70eb0f10f4ccbd0e9d6e07c9:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiNTZmYmJhODg1ODY1NzVkMzYwNmNhMDIzZWZmYTU5MTk5OTBkMzJiYjQ1Njg4N2IzMGU0NjcyMzgzNjM1NmMyMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiN2U1MzU3MzFkMGFhZmFmODgzYTBkNTAwMTQ3NjI3YzY0MjFkNjExMTY3NTIxYzVhYTUzZmEwZDdiMGEzYTA2YiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTI4YzU1ZDc3MzI2YzJiZGE3NTNkMzZhYzRlMjNlYzAwOGRiMjQxOTFkN2MyYmI0NDI0NDUzNGIxYzZhNmQzNSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiZTNkMzY3OTJjNDhhMGZkZTM1ZTYxYmMyZDc0ODljNTc3NDBkMzZkMDA0Y2JlNDMzNmZmNjQ4NmVlNzRjYmVhYyJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_88bbb1ecb58c4809a97c7d1034e78474",
+      "statement": "The serve command runs the source script from the checkout and defaults to loopback port 8512, while ask executes directly with provider/model and optional SQL display.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L127-L148",
+          "version": "repo-lines-v1:sha256:7ea5ee64f67f3509f25c1a49558dbda46a5a0dd3efc6f56e05269484b5e51a30:eyJzZWxlY3RlZExpbmVDb3VudCI6MjIsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjVhODA2NDM3ZmRiNWI5YzA2YTY1YTA1MDkwYzI1MDI0MjQ1NDUxYTMwZmIzMzE3ZGE0N2JlZmRlMWQ4ODAxMDYiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImQ4NmNjZWI1M2RmYTdhZDIyNzAyYjUzMzVhMThjMWQzOGFkNzBhM2NiZGU1OGJkYjZhYjgwYmUxZjMzZTBkMjkiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjA1NzIyYjhjNGYyODMxYTA4YTZmZjE2OGQxNjUxMTRiNmZkYmFjZjk4NDIxNTM2NjI3NzY5M2JkY2IzYmQwMjAiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjQ3NmM1YWE1MmM1MTA0NzNkYWI5NzY5YTM5Y2Q4NTM4NWJhOGFkOTZiY2E2YWM3Y2IyNDk5OTNhOWIyYmVmMzIifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L201-L220",
+          "version": "repo-lines-v1:sha256:27fb0a92233162c2ad8fe279d63a068f57d24e115d15b3975d2dfd80a017d973:eyJzZWxlY3RlZExpbmVDb3VudCI6MjAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6Ijg0OTYxMzY4NDhmZmVlODM2NGQzNzE5MjIzNWVhNzNiYTc4OWNjZDYzZjk2NjI1YWFlNDdlNzQyNDcwN2U1MWUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjllMDdhMjgxNmViNmY5YTAyZTIzMmJhMDExZTUxNDA3YzAzYWY3YTZmODk5OGMzMDM0MzkwM2I0NWQ4ODAwMmIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjdhOTc4MWEyZWFjMmZiOTMzMzgzMjk1NmRiZGYyMTY5NzRhNTVmYTQzMzg3ZDI3OWQwYTljN2Q0MzZkYTk1M2IiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM5ZTk5MjQzMzZlOTYyODg5ZWVlODMwY2QwYzQxMmFiOGZiMzA4YjE2NjUxZDNiNDc1YjE2ZDVjZjcxYWIwMzgifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/cli.py#L88-L105",
+          "version": "repo-lines-v1:sha256:0f5220f5f62f3f760876938619d819cc7709b85a98b88cee360fa72f0f371cfa:eyJzZWxlY3RlZExpbmVDb3VudCI6MTgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImYxNTk3M2JjM2ZkYzQzNGYyYmFiM2I2MGQwZjhkZGM5MGQ5ODNhNGEyOTBmZGU2OGI0ODJmNTNkNjQwMzJlZDkiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYWRlMTU0ZmQ1ZjZhMDVmZWU2ODc5NjZkNzAxN2NiZmE4NTllNDU0NGMyMDllOTM2OGYyM2RkOTFjM2UyNjAiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjUxYzRkMmYxNzQyZWQzMjMzOTNhOGQ4YTViYTA4YmI1ZWE2NTExYjE3MzYyZDhiN2ZmODlhYTc5NmIyMTIzYjkiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjM4NjY3MGZmYTVkZjk3ODgzMjc1YjUwZGMwZjJmYWFmZjExZjNlODBlOTBmODljMjgzNTIyMTk0OGQ1MGQ2ZWQifQ"
+        },
+        {
+          "resource": "repo://tests/unit/test_cli.py#L111-L119",
+          "version": "repo-lines-v1:sha256:6c2de8327098a9fc4666dea9e797af3124249647a265e9b780fa82bfece4a3e9:eyJzZWxlY3RlZExpbmVDb3VudCI6OSwiZmlyc3RTZWxlY3RlZExpbmVIYXNoIjoiODZlMzI0Y2ZiZWUwMWJkZmU1NzZiZTYxNTNiZjc4M2Y2ZjVhOWNmMjI1ZWU5MDNiZTYyNGFkNmZmYzViYTJiMiIsImxhc3RTZWxlY3RlZExpbmVIYXNoIjoiOWI5ZWNkZmMyYjkzNWQ2YjgyMjZkMmMzMjE3ZTFmMjJmOTg4ZWY2Y2Y4ZDc5MzkwMTM1N2M5Y2E4ZTc1MTFhNiIsInByZWNlZGluZ0NvbnRleHRMaW5lQ291bnQiOjMsInByZWNlZGluZ0NvbnRleHRIYXNoIjoiYTQ5MmExMzdiM2JhYWNjMTg1MDlmN2MzYjkxYzkzZDkwZWIwMmY5YzUwNGE3ZDI5OGFhYTNlZmI4OTJhMDM5ZSIsImZvbGxvd2luZ0NvbnRleHRMaW5lQ291bnQiOjMsImZvbGxvd2luZ0NvbnRleHRIYXNoIjoiMmFlMzQ2MDdhMzZkYWI1OTFiYmUyZTkxZDAwOGE1OTk4ODhkODU4YzJmYTYwMTY5ZjJmNGIxM2JlYzA2N2JlOSJ9"
+        }
+      ]
+    },
+    {
+      "id": "claim_ce88c12a08a748559925a4beea3d4b09",
+      "statement": "Ollama defaults to phi4-mini:3.8b, granite4.2:3b is a configured model choice, and settings resolve constructor arguments before environment, dotenv and defaults.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/config/settings.py#L21-L30",
+          "version": "repo-lines-v1:sha256:611b8ba875fa936fd13ee32c4dcbedea4a85e3757ca4b8623b4a0bebca22dc3b:eyJzZWxlY3RlZExpbmVDb3VudCI6MTAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImJjMmNmMmEzYTJhZDk2MjRmMTY5ODQ5NTdlMWFlZTk0Njg3ODQyMjdiMTcwNDhjNzJiOTNjNDE5YzUyNTRiMTQiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImI2MWE0YzFlOTI1MmE4MTA1MTNlOTFlYzM3ZGU0ZDNlNDMwYTY2OWRiNGJlYTAzODVjOTg4MmY2ODQzOTY4NzMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQ2ZTM1MTJlMmExNDkxN2U0NmQ3NWRhNGQ4NDI1NjBkZWUxNjIyMGI4MGRhMTcyOGRmNGZmMjgzYmMwYjUwYzYiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImI3ODM4YzIxYTg2MjIzNWI5YmUyYmQ2YzE1ODNhMzBjM2IzYjI3MDNkODFlNDgxOTM0YWRiNjc2OTVhZmI1NWIifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/config/settings.py#L76-L105",
+          "version": "repo-lines-v1:sha256:0d5a23f66d6733867ea4053a2b40f6fc9cab526e343d6d225a483bfff7152ae3:eyJzZWxlY3RlZExpbmVDb3VudCI6MzAsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImUzOGFlZWYzNjdhODkyMGY5YzE5ZmFjYWFlOGE4ZmIyYWViMzAwNGQ0NGJlZTZiZjI2ZjFmNWIwMWExNjk5MGUiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVkZmI3ZGY0MmMxNjljMTc1NWNhYWZjOWQyZWMzMzdkYzNjNDY4MGIwOTdlMTNlZDNiYTMyYjJiYmJiMzkxZGQiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI4ZTMxMDE5ZDkyZjA0NTI1OGE0MzNlZGJlY2EzYTgxZGI1OTQxOTFkOWQ4ZTdiNDg0NzY5ZGYzNWM0OGYyOWMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImQ1NmY4MmZlMmYxZTgxODY3YjU5YzRmMzIxMTMyZGYyYTQyMWVjZDNhMjRhNzY1MmUzM2I1N2UwMjE4MWQ1NGYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_bda692025f24478289e157726f1b2286",
+      "statement": "Only the agent-owned configured SQLite demo is initialized and optionally seeded; injected databases and PostgreSQL are not seeded by that constructor.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L88-L125",
+          "version": "repo-lines-v1:sha256:8bbd47ced6d92fce54fb40b8e790c065c94bdc53cd74192981d9733bdb55b2ff:eyJzZWxlY3RlZExpbmVDb3VudCI6MzgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwMDk0MzFiMGMxM2VlYzBmNjg3M2Y4ZTliMDU0Zjc4Y2FhNDI3YzYwZDNhMjMxOGZlYzk3N2QwODM4YTVkMzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6ImRlMTJkMjU5YTE5NzZlYjlkM2ZjNDc2MGRiYjg4MmVlYjU0YThlNWI0NjdmMTJhYzUzYmNlM2EyNmY0YjY5NzIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImQwYjZmYjk1MDFmMzE0NDMyM2I5MWQzNWIzNGJhMzM5OWUwMjhmOGNmYTVmYTNhY2M5NWUyMGIxZWIyNTc1OWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjYzNDgzM2MxNjdlMzc0M2Y2ODNlM2VhNThjYzMxZDBmZmFkOGViY2U3Mzc2OGQwNmZmM2IxMjE1Y2RjNTc0MWQifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_f122eefb29b846be87968981b1d0cfba",
+      "statement": "The Streamlit clarification and approval path does not execute the prepared SQL until Run query is selected.",
+      "evidence": [
+        {
+          "resource": "repo://tests/unit/test_ui_app.py#L74-L107",
+          "version": "repo-lines-v1:sha256:d21f37ff896df0abdfca75e234849869398ffc7d3a609305b9f13f5a10ca27d2:eyJzZWxlY3RlZExpbmVDb3VudCI6MzQsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6ImVlZTIwNzU2NDNkYzEwNTc3N2JiZGM3YWM5NmYwNDNjODA0NTY2ZmM0YzMzYWI5OWMzYjk4NTFjODM4M2M4NzEiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjhlNzg3N2M5ZjkxMGMyZjcxYTcyYzg3OTE2ZDE4ZGEzYzVmMjcxNzM1MjkwYzIxZDBmMGVlNWEzMGJmNjM3NWIiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6ImYzMjc0ODM3YzJlNjgwYzFjOGVkYjM5YzY0OTJlNjI2ZmFjYjYwMGE3NzZlOTIyMGE4YmRiZDMzNTVjODAwZDMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImU2ZDE5ZjMxOTNhMmY4NGFkMzcyMGNlMTVjN2I3MzQzYjE3NTU2MDI3ZDUwZGFhOTRkMzIyNDU5ZTdkMzdlNTkifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_253748bebd614fc68dd013c66d8dcccd",
+      "statement": "Writer calls send schema context, question, errors and clarifications to the configured model; selecting a remote provider therefore transmits that prompt context.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/agent/workflow.py#L172-L194",
+          "version": "repo-lines-v1:sha256:f4ba4c7d975f42f41a341d0111e2cae37f807ea6b15b481ca5ad7dddee1e0b60:eyJzZWxlY3RlZExpbmVDb3VudCI6MjMsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjM2Yzc2ZjE5NTE1ZWViMzZjNTg3OGQyMWE2ODVmYjUxZDczYWU0MzgxNDk0ODIwYTVjMDBhZjAzMTBmZmViZWMiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjZkMDAwNzg3NWRlOGY5MmQ5MmI3ODdhMDE4YzE2YzAwMDQxOGJkNWY5NDk5MjNiOTBmNGQ2M2M3ZWMxNmQ4M2EiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjI0ZTBmNmExMzc0Y2NhMmZmNjIwZTdkMjkzMDhiNTAxNjNlMTg3YmU4Mzg5NDdiMjYwODcxYmQ1ZmU1ZjNjMzMiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjllNmIwNzcyOThhNTFiMjRkYzg4Y2VkYTZiMjAzYjAzZmU5M2NhOTYwMTUyMzlhZGNhY2IxYmExMzc1MGI5YTYifQ"
+        }
+      ]
+    },
+    {
+      "id": "claim_fb5d4afaeb744b50be3fd7c82f076e1c",
+      "statement": "Saved assistant text is persisted unchanged and can contain final-answer result values despite exclusion of structured result payloads.",
+      "evidence": [
+        {
+          "resource": "repo://src/nl2sql_agent/persistence.py#L364-L400",
+          "version": "repo-lines-v1:sha256:67ab0e2bdaa69c03e599fe607007f6d3a332fdb12ab76306fe3ed683f295e20d:eyJzZWxlY3RlZExpbmVDb3VudCI6MzcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjE1YzJkOWQxYTU1ZjI5ZmYwNjAxYzA0ZDE0YzI2NTViYjE1NGU4MzZlNDJjOTI5NjhiZTBiODI1MTgxZjU5NzciLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwNmZhN2JmNTI1Nzg3OGIwNmI0MmJjM2EzOGVkYzRkZTljZjRjMDNjNDJhZWE3YjZiZWUxYmY0OTc3N2RjMjYiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjVjOWJlYWIzZGUyYWI0NzUzN2I0NDY0NWNkYmExMTljOTNiYWJiNzM2N2Y0MTI3MjVmNzNmOTgzMGYwNWU2ZGIiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImM5OTgyZTYwNTk3Yjg0MGE2YTI2NTk5OTI5OTk3YTg5MTM4NmUyMzExZjM5NGNjNjY0ZmI3MmU1NDk1NzQxYzkifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L196-L222",
+          "version": "repo-lines-v1:sha256:0454e393e6e463395e1100d359b8f90aaafc42edb35a8548e4cf1a6c33de1f75:eyJzZWxlY3RlZExpbmVDb3VudCI6MjcsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjQ4OTNmNDBlMzc4MWViODk2YzgyZDA0NmEwODA2N2ExMWUzNWNkZjJmMWRmYWYyNmZlYTkwYjhkYjY2NzY0MTMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjkzNGQ2ODQ1N2JkMTkwN2U5Y2QzY2FjZGM1ZTk1MDk0YWRhYjkyYzdkYWFkZTJmNWI3MGQ3YmVkN2YzMmJkNDEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6ImRkNGNjMzQwMzg4YzA1Zjg2NTQ0MmQyMDI5YTA3ZWE2OTZlNmQ4MmEzNDQ4NjM1MjY5OWQ1NzY4MzZjMThkY2IifQ"
+        },
+        {
+          "resource": "repo://src/nl2sql_agent/ui/streamlit_app.py#L295-L322",
+          "version": "repo-lines-v1:sha256:e8bf406dccdc27deb9766b56b2d7cb06006525d7345a1a572dfcc88efd021e26:eyJzZWxlY3RlZExpbmVDb3VudCI6MjgsImZpcnN0U2VsZWN0ZWRMaW5lSGFzaCI6IjAxYmE0NzE5YzgwYjZmZTkxMWIwOTFhN2MwNTEyNGI2NGVlZWNlOTY0ZTA5YzA1OGVmOGY5ODA1ZGFjYTU0NmIiLCJsYXN0U2VsZWN0ZWRMaW5lSGFzaCI6IjMwYzFmMTg4ZjE0MmVkN2E4MjQ2ODBiMjA3MTcyYzU1MTliYzYxNGE0OGZkYTdjZjE2N2VkYjhkZGY3OTk1NmMiLCJwcmVjZWRpbmdDb250ZXh0TGluZUNvdW50IjozLCJwcmVjZWRpbmdDb250ZXh0SGFzaCI6IjBmMzdkZDNkZDhkNjM2MzJhODczYmE3MTg4ODVmYzkzYmVkMjQxYzM1M2ZjYTU5ZTZiNjk3YjQyNjlhNmU1ZWEiLCJmb2xsb3dpbmdDb250ZXh0TGluZUNvdW50IjozLCJmb2xsb3dpbmdDb250ZXh0SGFzaCI6IjA0MDljMGEwNjVmNDMxYTRjMDg4ZTdiNjdmYjBlMjEzOWY0NGZkYWM0ZDFiMDAzNDQ0NDJmNzE2ZDFiNjlkODUifQ"
+        }
+      ]
+    }
+  ],
+  "verification": {
+    "by": "openwiki/0.6.0",
+    "at": "2026-09-27T13:31:57.770Z"
+  }
+}
