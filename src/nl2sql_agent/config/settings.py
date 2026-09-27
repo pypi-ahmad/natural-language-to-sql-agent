@@ -21,17 +21,19 @@ Provider = Literal["ollama", "huggingface", "openai", "anthropic", "gemini", "xa
 _PROVIDER_MODELS: dict[Provider, tuple[str, ...]] = {
     "ollama": (
         "phi4-mini:3.8b",
+        "granite4.2:3b",
+        "qwen3.5:9b",
         "qwen3.5:4b",
         "qwen3.5:2b",
         "llama3.1",
         "mistral",
     ),
-    "huggingface": ("openai/gpt-oss-120b:fastest",),
-    "openai": ("gpt-5.6-luna", "gpt-5.6-terra"),
+    "huggingface": ("openai/gpt-oss-120b:fastest", "openai/gpt-oss-120b:groq"),
+    "openai": ("gpt-5.6-luna", "gpt-5.6-terra", "gpt-6-luna"),
     "anthropic": ("claude-sonnet-5",),
     "gemini": ("gemini-3.7-flash", "gemini-3.5-flash-lite"),
     "xai": ("grok-4.6",),
-    "agnes": ("agnes-2.5-flash",),
+    "agnes": ("agnes-3.0-flash", "agnes-2.5-flash"),
 }
 _HUGGING_FACE_MODEL_ID = re.compile(
     r"[A-Za-z0-9][A-Za-z0-9._-]*/[A-Za-z0-9][A-Za-z0-9._-]*"
@@ -104,6 +106,7 @@ class Settings(BaseSettings):
         default="5m",
         description="How long Ollama keeps the model loaded after the last request.",
     )
+    ollama_num_ctx: int = Field(default=4096, ge=1024, le=131072)
     openai_api_key: str | None = Field(default=None, alias="openai_api_key")
     google_api_key: str | None = Field(default=None, alias="google_api_key")
     anthropic_api_key: str | None = Field(default=None, alias="anthropic_api_key")
@@ -117,7 +120,7 @@ class Settings(BaseSettings):
     )
     agnes_api_key: str | None = Field(
         default=None,
-        validation_alias=AliasChoices("agnes_api_key", "NL2SQL_AGNES_API_KEY"),
+        validation_alias=AliasChoices("AGNESAI_API_KEY", "agnes_api_key", "NL2SQL_AGNES_API_KEY"),
     )
 
     # ---- Database ----
@@ -186,6 +189,7 @@ class Settings(BaseSettings):
     sql_max_subqueries: int = Field(default=8, ge=0, le=64)
     sql_max_ctes: int = Field(default=8, ge=0, le=64)
     schema_max_tables: int = Field(default=8, ge=1, le=100)
+    schema_catalog_path: Path | None = None
     query_warn_duration_ms: float = Field(default=1000.0, ge=0)
     query_warn_estimated_rows: int = Field(default=100_000, ge=0)
     query_warn_postgres_cost: float = Field(default=10_000.0, ge=0)
@@ -308,7 +312,7 @@ def env_var_for(provider: Provider) -> str | None:
         "anthropic": "ANTHROPIC_API_KEY",
         "huggingface": "HF_TOKEN",
         "xai": "XAI_API_KEY",
-        "agnes": "AGNES_API_KEY",
+        "agnes": "AGNESAI_API_KEY",
     }.get(provider)
 
 

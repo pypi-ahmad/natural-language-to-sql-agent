@@ -122,7 +122,9 @@ def _build_ollama(cfg: Settings, **common: Any) -> ChatOllama:
         base_url=cfg.ollama_base_url,
         temperature=common["temperature"],
         num_predict=common["max_tokens"],
-        timeout=common["timeout"],
+        num_ctx=cfg.ollama_num_ctx,
+        keep_alive=cfg.ollama_keep_alive,
+        client_kwargs={"timeout": common["timeout"]},
     )
 
 
@@ -192,7 +194,9 @@ def _build_xai(cfg: Settings, **common: Any) -> ChatOpenAI:
 
 def _build_agnes(cfg: Settings, **common: Any) -> ChatOpenAI:
     if not cfg.agnes_api_key:
-        raise LLMProviderError("AGNES_API_KEY is required for provider=agnes")
+        raise LLMProviderError(
+            "AGNESAI_API_KEY (legacy AGNES_API_KEY) is required for provider=agnes"
+        )
     from langchain_openai import ChatOpenAI
 
     return ChatOpenAI(
@@ -202,6 +206,7 @@ def _build_agnes(cfg: Settings, **common: Any) -> ChatOpenAI:
         temperature=common["temperature"],
         timeout=common["timeout"],
         use_responses_api=False,
+        max_retries=0,
         extra_body={
             "max_tokens": common["max_tokens"],
             "chat_template_kwargs": {"enable_thinking": True},
@@ -227,6 +232,7 @@ def _build_openai_compatible(
         timeout=timeout,
         reasoning={"effort": "medium"},
         use_responses_api=True,
+        max_retries=0,
     )
 
 
