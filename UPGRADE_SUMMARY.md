@@ -1,4 +1,4 @@
-# Upgrade Summary: v0.1 → v0.2
+# Upgrade summary: v0.1 → v0.2
 
 This document is a historical migration snapshot. Test counts, coverage, and
 verification results below describe the v0.2 release checkout, not current
@@ -8,14 +8,16 @@ The current implementation restores and extends the tests, uses report v2
 with explicit outcomes, supports clarification, and validates saved approval
 context. Agnes now defaults to `agnes-3.0-flash` with `AGNESAI_API_KEY`; the
 older aliases and model remain supported. Historical addenda below describe
-their original releases.
+their original releases. For current persistence behavior, saved answer text can
+contain result values and pending approval can retain unapproved SQL; structured
+row exclusions are not complete text redaction. See [SECURITY.md](SECURITY.md).
 
-> **v0.5.1 addendum:** The Streamlit UI now defaults to `127.0.0.1:8512`. This
+> v0.5.1 addendum: The Streamlit UI now defaults to `127.0.0.1:8512`. This
 > applies to the Windows launcher, `nl2sql-agent serve`, and direct Streamlit
 > launches using the repository configuration. Existing `--port` overrides
 > remain supported.
 
-> **v0.5.0 addendum:** Agnes AI is available as a fixed-endpoint hosted
+> v0.5.0 addendum: Agnes AI is available as a fixed-endpoint hosted
 > provider with the strictly allow-listed `agnes-2.5-flash` model. Set
 > `AGNES_API_KEY` (or `NL2SQL_AGNES_API_KEY`) and select `agnes` in the CLI or
 > UI. Requests use Agnes's documented boolean Thinking mode. The local pricing
@@ -23,7 +25,7 @@ their original releases.
 > standard rates in its notes. No dependency or state-schema migration is
 > required.
 
-> **v0.4.0 addendum:** SQLite remains the default, while an opt-in PostgreSQL
+> v0.4.0 addendum: SQLite remains the default, while an opt-in PostgreSQL
 > backend now enforces a verified read-only, non-privileged, single-schema
 > connection. The Streamlit UI has Chat, Costs, Sessions, Insights, and Pricing
 > views backed by a local versioned state database. It saves conversations,
@@ -46,15 +48,14 @@ their original releases.
 > Streamlit result view now includes input/output tokens and fixed
 > standard-rate cost estimates for those approved hosted models.
 
-**Release date:** 2026-06-22
-**Type:** Major (architectural rewrite, public-API preserved)
+Release date: 2026-06-22
+Type: Major (architectural rewrite, public-API preserved)
 
-> **v0.3.0:** The v0.2 migration remains valid. This release
+> v0.3.0: The v0.2 migration remains valid. This release
 > preserves `run()`, `stream()`, and `ask`, while adding two-phase preparation,
 > uploaded SQLite databases, stronger read-only controls, redacted auditing,
 > result-based evaluation, and a Windows `Launch NL2SQL Agent.cmd` entrypoint.
 
----
 
 ## TL;DR
 
@@ -62,7 +63,6 @@ The project moved from a two-file Streamlit demo to a modular Python package.
 The agent behavior remained compatible while configuration, SQL validation,
 packaging, and operational logging moved into separate modules.
 
----
 
 ## Scorecard
 
@@ -72,7 +72,7 @@ packaging, and operational logging moved into separate modules.
 | Source modules | 2 | 12 |
 | Source lines per file (median) | 230 | ~90 |
 | Test count | 126 | 174 |
-| Test coverage of core modules | 100% (`backend.py` only) | 80–100% per module |
+| Test coverage of core modules | 100% (`backend.py` only) | 80 to 100% per module |
 | SQL safety | keyword regex | AST allow-list |
 | Dependency pinning | unpinned | pinned in `pyproject.toml` |
 | Lint configured | no | `ruff` (10 rule sets) |
@@ -83,11 +83,10 @@ packaging, and operational logging moved into separate modules.
 | CLI | none | `nl2sql-agent` |
 | Live integration test | none | `tests/integration/test_ollama_live.py` |
 
----
 
 ## Code organization
 
-**v0.1:**
+v0.1:
 
 ```
 .
@@ -99,7 +98,7 @@ packaging, and operational logging moved into separate modules.
 └── README.md
 ```
 
-**v0.2:**
+v0.2:
 
 ```
 .
@@ -158,7 +157,6 @@ packaging, and operational logging moved into separate modules.
         └── test_ollama_live.py
 ```
 
----
 
 ## Audit items closed
 
@@ -190,9 +188,8 @@ packaging, and operational logging moved into separate modules.
 | m-09 | Minor | Redundant markdown instruction | Closed (cleaner prompts) |
 | m-10 | Minor | No recursion limit | Closed (configurable per-run cap) |
 
-**Closed: 25 / 25 audit items.**
+Closed: 25 / 25 audit items.
 
----
 
 ## Historical v0.2 test inventory
 
@@ -209,32 +206,30 @@ packaging, and operational logging moved into separate modules.
 | `tests/unit/test_cli.py` | `nl2sql-agent` argparse and command dispatch | 8 |
 | `tests/integration/test_ollama_live.py` | Real local Ollama end-to-end | 4 |
 
----
 
 ## Verification gates
 
 The table below records the v0.2 upgrade verification at the time it was
-performed. It is not the status of the current checkout, which no longer
-contains the listed test files.
+performed. It is not a current test receipt. The current checkout contains a
+restored and extended suite under `tests/`.
 
 | Check | Result |
 |---|---|
-| `uv run pytest tests/unit` | **174 passed** |
-| `uv run ruff check src tests` | **All checks passed** |
-| `uv run ty check src` | **Success: no issues found** |
+| `uv run pytest tests/unit` | 174 passed |
+| `uv run ruff check src tests` | All checks passed |
+| `uv run ty check src` | Success: no issues found |
 | `uv run nl2sql-agent config` | Valid JSON output |
 | Live Ollama end-to-end | All 4 production questions return correct answers; guardian blocks the destructive SQL |
 
----
 
 ## What you should do
 
-1. **Update your install.** Replace `pip install -r requirements.txt`
+1. Update your install. Replace `pip install -r requirements.txt`
    with `uv sync --all-groups`.
-2. **Update your run command.** Replace `streamlit run app.py` with
+2. Update your run command. Replace `streamlit run app.py` with
    `uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py`.
-3. **Optionally set env vars** in a `.env` file (see
+3. Optionally set env vars in a `.env` file (see
    `MIGRATION_GUIDE.md`).
-4. **Update any Python imports** from `backend` to `nl2sql_agent`.
-5. **Run the current verification gates** from
+4. Update any Python imports from `backend` to `nl2sql_agent`.
+5. Run the current verification gates from
    [README.md](README.md#12-verification).

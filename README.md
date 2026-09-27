@@ -8,21 +8,20 @@
 
 Repository: [github.com/pypi-ahmad/natural-language-to-sql-agent](https://github.com/pypi-ahmad/natural-language-to-sql-agent)
 
-> Turn natural-language questions into safe, auditable SQL against SQLite or
-> PostgreSQL. Use a local Ollama model or one of six hosted providers, review
-> every generated query, and track sessions, plans, runtime, and estimated cost.
+Turn natural-language questions into SQL against SQLite or PostgreSQL, with
+read-only execution controls. Use Ollama or one of six hosted providers.
+Streamlit lets you review SQL before execution; CLI `ask` executes directly.
 
-This project is free, open source, and community driven. Clone it, run it on your own machine
-against your own database, and use it however you like. Bug reports, feature ideas, and pull
-requests are genuinely welcome.
+This free, open-source project runs on your machine against your database.
+You can contribute bug reports, feature ideas, or pull requests.
 
 > [!IMPORTANT]
-> This app connects to a database you provide and sends your schema, question, and query results to
-> whichever LLM provider you configure — only local Ollama keeps everything on your machine. You are
-> fully responsible for the data you use with it. Read [DISCLAIMER.md](DISCLAIMER.md) before
-> connecting anything sensitive.
+> The writer sends your question, selected schema context, clarifications and
+> configured samples/catalog values to the selected model. Successful results
+> are rendered locally without a second model call. Remote providers receive
+> prompt context; saved answer text can retain result values on disk. Read
+> [DISCLAIMER.md](DISCLAIMER.md) before connecting sensitive data.
 
----
 
 ## Table of contents
 
@@ -33,7 +32,7 @@ requests are genuinely welcome.
 5. [How the workflow works](#5-how-the-workflow-works)
 6. [Configuration](#6-configuration)
 7. [LLM providers](#7-llm-providers)
-8. [Local Ollama — what runs on your GPU](#8-local-ollama--what-runs-on-your-gpu)
+8. [Local Ollama: what runs on your GPU](#8-local-ollama--what-runs-on-your-gpu)
 9. [Safety model](#9-safety-model)
 10. [Running the UI](#10-running-the-ui)
 11. [CLI](#11-cli)
@@ -46,71 +45,67 @@ requests are genuinely welcome.
 18. [Contributing](#18-contributing)
 19. [License](#19-license)
 
----
 
 ## 1. What it is
 
-**NL2SQL Agent** is a small, focused Python service that lets end users ask
-business questions in plain English and get a clean, well-formatted answer
-backed by real SQL against a real database.
+NL2SQL Agent is a Python service for asking business questions in plain English.
+It runs SQL against a database and formats the results as an answer.
 
-The system is composed of five cooperating pieces:
+The application has these components:
 
 | Piece | Module | Responsibility |
 |---|---|---|
-| **Configuration** | `nl2sql_agent.config` | Single source of truth for runtime settings, loaded from env vars, `.env`, or code. |
-| **Database** | `nl2sql_agent.db` | Read-only SQLite and PostgreSQL backends with normalized plans and metrics. |
-| **Safety** | `nl2sql_agent.security` | AST-based SQL validation using `sqlglot` — allow-lists, not deny-lists. |
-| **LLM factory** | `nl2sql_agent.llm` | Multi-provider construction for Ollama, Hugging Face, OpenAI, Anthropic, Gemini, xAI, and Agnes AI. |
-| **Agent** | `nl2sql_agent.agent` | LangGraph workflow: schema → write → guard → execute → summarize. |
-| **Prompts** | `nl2sql_agent.prompts` | Versioned, single-source prompt templates. |
-| **UI** | `nl2sql_agent.ui` | Streamlit Chat, Costs, Sessions, Insights, and Pricing views. |
-| **CLI** | `nl2sql_agent.cli` | One-shot CLI for scripts and CI. |
+| Configuration | `nl2sql_agent.config` | Single source of truth for runtime settings, loaded from env vars, `.env`, or code. |
+| Database | `nl2sql_agent.db` | Read-only SQLite and PostgreSQL backends with normalized plans and metrics. |
+| Safety | `nl2sql_agent.security` | AST-based SQL validation using `sqlglot`: allow-lists, not deny-lists. |
+| LLM factory | `nl2sql_agent.llm` | Multi-provider construction for Ollama, Hugging Face, OpenAI, Anthropic, Gemini, xAI, and Agnes AI. |
+| Agent | `nl2sql_agent.agent` | LangGraph workflow: schema → write → guard → execute → summarize. |
+| Prompts | `nl2sql_agent.prompts` | Versioned, single-source prompt templates. |
+| UI | `nl2sql_agent.ui` | Streamlit Chat, Costs, Sessions, Insights, and Pricing views. |
+| CLI | `nl2sql_agent.cli` | One-shot CLI for scripts and CI. |
 
----
 
 ## 2. Why use it
 
-- **Local-first by default.** Runs end-to-end on a laptop with no external
-  API calls. Default model is **Microsoft Phi-4-mini** served by **Ollama**.
-- **Layered SQL safety.** SQL is parsed by `sqlglot` into an AST and
-  validated against a configurable allow-list policy. The legacy approach
-  of regex-matching destructive keywords is gone: it can no longer be
-  fooled by column names like `updated_at`.
-- **LangGraph workflow.** Every step is an explicit node you can stream,
-  log, debug, and replace, with a real state machine and retries.
-- **Pinned and reproducible.** Python 3.12.10 and `uv`-managed direct
-  dependencies, with security floors expressed as transitive constraints.
-- **Evaluated by execution result.** The packaged 15-case smoke corpus compares
+- The default configuration runs on a laptop without external API calls,
+  using Microsoft Phi-4-mini served by Ollama.
+- Layered SQL safety. SQL is parsed by `sqlglot` into an AST and
+  validated against a configurable policy. A conservative keyword scan also
+  remains; it can reject otherwise valid literals or quoted identifiers.
+- Each LangGraph step is a node you can stream, log, debug, or replace.
+  The state machine handles routing and retries.
+- Python 3.12.10 and `uv`-managed direct dependencies keep installations
+  reproducible. Transitive constraints set minimum secure dependency versions.
+- Evaluated by execution result. The packaged 15-case smoke corpus compares
   returned values and checks that malicious requests are blocked. It is not a
   substitute for a cross-domain text-to-SQL benchmark.
-- **Observable.** Structured Loguru logging, request-friendly error
-  contracts, JSON logging mode for log aggregators.
+- Loguru provides structured logs and optional JSON output for log
+  aggregators. Errors follow defined response contracts.
 
----
 
 ## 3. Quick start
 
 ### Prerequisites
 
 - Windows 11, Linux, or macOS
-- Python 3.12.10 — `uv` will install this for you
-- Ollama 0.6.2+ running locally (only required for the default provider)
+- Python 3.12.10: `uv` will install this for you
+- An Ollama server running locally with the selected model installed (only
+  required for the local provider; the Python client version is not the server version)
 
 ### Install
 
 ```bash
-git clone <this-repo>
+git clone https://github.com/pypi-ahmad/natural-language-to-sql-agent.git
 cd natural-language-to-sql-agent
-uv sync --all-groups
+uv sync --locked --all-groups
 ```
 
 ### Pull a small local model
 
 ```bash
-ollama pull phi4-mini:3.8b     # 2.5 GB — recommended for 8 GB VRAM
+ollama pull phi4-mini:3.8b
 # or
-ollama pull qwen3.5:4b         # 3.4 GB — better quality, also fits
+ollama pull qwen3.5:4b
 ```
 
 ### Run the Streamlit UI
@@ -126,18 +121,19 @@ uv run nl2sql-agent serve
 ```
 
 Open http://localhost:8512, choose **Ollama** as the provider, pick
-`phi4-mini:3.8b`, and start asking.
+`phi4-mini:3.8b`, and ask about the demo. Reply to any clarification, review
+the SQL preview, then choose **Run query** or **Cancel**.
 
 ### Or use the CLI for a single question
 
 ```bash
 uv run nl2sql-agent ask "How many employees are in each department?"
-# → Engineering: 3, HR: 2, Marketing: 2, Sales: 3
+# Demo reference counts: Engineering 3, HR 2, Marketing 2, Sales 3.
+# Model-generated SQL and answer wording can vary.
 
 uv run nl2sql-agent ask --show-sql "What is the total salary in Engineering?"
 ```
 
----
 
 ## 4. Architecture
 
@@ -182,7 +178,6 @@ doesn't know about the LLM, the security layer doesn't know about the
 workflow, and the LLM factory doesn't know about the database. This makes
 each piece independently testable and replaceable.
 
----
 
 ## 5. How the workflow works
 
@@ -207,7 +202,6 @@ Routing decisions:
 The default retry budget is 3 attempts. This is configurable via
 `NL2SQL_MAX_RETRIES`.
 
----
 
 ## 6. Configuration
 
@@ -220,7 +214,7 @@ runtime:
 uv run nl2sql-agent config
 ```
 
-### Key environment variables
+### Environment variables
 
 | Variable | Default | Purpose |
 |---|---|---|
@@ -228,17 +222,17 @@ uv run nl2sql-agent config
 | `NL2SQL_MODEL` | `phi4-mini:3.8b` | Model identifier for the chosen provider. |
 | `NL2SQL_OLLAMA_BASE_URL` | `http://localhost:11434` | Operator-only endpoint. HTTP is loopback-only; remote endpoints require HTTPS. |
 | `NL2SQL_OLLAMA_KEEP_ALIVE` | `5m` | How long Ollama keeps the model loaded. |
-| `OPENAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=openai`. |
-| `GOOGLE_API_KEY` | — | Required when `NL2SQL_PROVIDER=gemini`. |
-| `ANTHROPIC_API_KEY` | — | Required when `NL2SQL_PROVIDER=anthropic`. |
-| `HF_TOKEN` | — | Required when `NL2SQL_PROVIDER=huggingface`; `NL2SQL_HF_TOKEN` is also accepted. |
-| `XAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=xai`; `NL2SQL_XAI_API_KEY` is also accepted. |
-| `AGNESAI_API_KEY` | — | Canonical Agnes credential; legacy `AGNES_API_KEY` and `NL2SQL_AGNES_API_KEY` are also accepted. |
+| `OPENAI_API_KEY` |: | Required when `NL2SQL_PROVIDER=openai`. |
+| `GOOGLE_API_KEY` |: | Required when `NL2SQL_PROVIDER=gemini`. |
+| `ANTHROPIC_API_KEY` |: | Required when `NL2SQL_PROVIDER=anthropic`. |
+| `HF_TOKEN` |: | Required when `NL2SQL_PROVIDER=huggingface`; `NL2SQL_HF_TOKEN` is also accepted. |
+| `XAI_API_KEY` |: | Required when `NL2SQL_PROVIDER=xai`; `NL2SQL_XAI_API_KEY` is also accepted. |
+| `AGNESAI_API_KEY` |: | Canonical Agnes credential; legacy `AGNES_API_KEY` and `NL2SQL_AGNES_API_KEY` are also accepted. |
 | `NL2SQL_OLLAMA_NUM_CTX` | `4096` | Local model context window. |
-| `NL2SQL_SCHEMA_CATALOG_PATH` | — | Operator-authored JSON descriptions, aliases, metrics, and curated values. |
+| `NL2SQL_SCHEMA_CATALOG_PATH` |: | Operator-authored JSON descriptions, aliases, metrics, and curated values. |
 | `NL2SQL_DB_PATH` | `company.db` | Path to the SQLite database file. |
 | `NL2SQL_DB_BACKEND` | `sqlite` | CLI database backend: `sqlite` or `postgres`. |
-| `NL2SQL_POSTGRES_DSN` | — | Operator-only PostgreSQL DSN. Never shown or saved by the UI. |
+| `NL2SQL_POSTGRES_DSN` |: | Operator-only PostgreSQL DSN. Never shown or saved by the UI. |
 | `NL2SQL_POSTGRES_SCHEMA` | `public` | Single PostgreSQL schema available to the guardian. |
 | `NL2SQL_DB_LOCK_TIMEOUT_SECONDS` | `5` | PostgreSQL lock timeout. |
 | `NL2SQL_DB_SEED` | `true` | Seed the database with sample data on first run. |
@@ -246,7 +240,7 @@ uv run nl2sql-agent config
 | `NL2SQL_DB_QUERY_TIMEOUT_SECONDS` | `15` | Per-query execution timeout. |
 | `NL2SQL_DB_MAX_VM_STEPS` | `5000000` | SQLite virtual-machine step limit. |
 | `NL2SQL_DB_UPLOAD_MAX_MB` | `50` | Maximum database upload size in the UI. |
-| `NL2SQL_MAX_RETRIES` | `3` | SQL rewrite attempts after a failed execution. |
+| `NL2SQL_MAX_RETRIES` | `3` | Total writer attempts, including the first attempt. |
 | `NL2SQL_LLM_TEMPERATURE` | `0.0` | Ollama/Agnes sampling temperature; other hosted reasoning models use medium effort. |
 | `NL2SQL_LLM_MAX_TOKENS` | `1024` | Max output tokens per LLM call. |
 | `NL2SQL_LLM_REQUEST_TIMEOUT_SECONDS` | `60.0` | Per-LLM-call request timeout. |
@@ -288,21 +282,21 @@ Then configure `NL2SQL_POSTGRES_DSN` and `NL2SQL_POSTGRES_SCHEMA` (and, for CLI
 when the DSN is present. The app refuses elevated roles and never displays or
 persists the DSN. The packaged `eval` corpus remains SQLite-only.
 
----
 
 ## 7. LLM providers
 
 | Provider | Auth | Default model | Notes |
 |---|---|---|---|
-| **Ollama** | None | `phi4-mini:3.8b` | Local, private, no internet required. |
-| **Hugging Face** | `HF_TOKEN` | `openai/gpt-oss-120b:fastest` | Direct HF router; accepts custom `namespace/model[:routing-policy]` IDs. |
-| **OpenAI** | `OPENAI_API_KEY` | `gpt-5.6-luna` | Also `gpt-5.6-terra` and `gpt-6-luna`; Responses API at medium effort. |
-| **Anthropic** | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | Adaptive thinking at medium effort. |
-| **Gemini** | `GOOGLE_API_KEY` | `gemini-3.7-flash` | Also supports `gemini-3.5-flash-lite`; medium thinking. |
-| **xAI** | `XAI_API_KEY` | `grok-4.6` | Direct xAI API at medium reasoning effort. |
-| **Agnes AI** | `AGNESAI_API_KEY` | `agnes-3.0-flash` | Fixed API Hub endpoint; legacy `agnes-2.5-flash` remains selectable. |
+| Ollama | None | `phi4-mini:3.8b` | Local, private, no internet required. |
+| Hugging Face | `HF_TOKEN` | `openai/gpt-oss-120b:fastest` | Direct HF router; accepts custom `namespace/model[:routing-policy]` IDs. |
+| OpenAI | `OPENAI_API_KEY` | `gpt-5.6-luna` | Also `gpt-5.6-terra` and `gpt-6-luna`; Responses API at medium effort. |
+| Anthropic | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | Adaptive thinking at medium effort. |
+| Gemini | `GOOGLE_API_KEY` | `gemini-3.7-flash` | Also supports `gemini-3.5-flash-lite`; medium thinking. |
+| xAI | `XAI_API_KEY` | `grok-4.6` | Direct xAI API at medium reasoning effort. |
+| Agnes AI | `AGNESAI_API_KEY` | `agnes-3.0-flash` | Fixed API Hub endpoint; legacy `agnes-2.5-flash` remains selectable. |
 
-Local choices include `granite4.2:3b` and pinned `qwen3.5:9b`. Granite Guardian
+Local choices include `granite4.2:3b` and `qwen3.5:9b`. Recorded benchmark digests
+identify the artifacts used; an Ollama tag alone is not immutable. Granite Guardian
 4.1 is evaluation-only and is excluded from SQL generation. The benchmark HF
 route is `openai/gpt-oss-120b:groq`; the app's existing HF default is unchanged.
 
@@ -310,8 +304,9 @@ The hosted allow-lists are enforced in settings, CLI overrides, and the model
 factory. Hugging Face remains intentionally flexible, but its custom model ID
 must use the documented repository form and support medium reasoning through
 the Responses API. Agnes uses the provider's documented boolean Thinking flag,
-not an invented low/medium/high effort value. Ollama model names remain
-unrestricted. See the [Agnes 2.5 Flash API reference](https://agnes-ai.com/en/docs/agnes-25-flash).
+not a low/medium/high effort value. Ollama model names remain
+flexible except that Granite Guardian is rejected for generation. See the
+[Agnes 2.5 Flash API reference](https://agnes-ai.com/en/docs/agnes-25-flash).
 
 ### UI cost estimates
 
@@ -323,7 +318,10 @@ rules have UTC effective windows and are editable from the Pricing view.
 (input tokens × input rate + output tokens × output rate) / 1,000,000
 ```
 
-| Model | Input / 1M tokens | Output / 1M tokens | Pricing note |
+These are seeded application rates, not a live pricing quote. Check your
+provider's rates and the rule's effective dates before spending money.
+
+| Model | Input / 1M tokens | Output / 1M tokens | Seeded pricing note |
 |---|---:|---:|---|
 | Sonnet 5 | $2.00 | $10.00 | Batch API receives a 50% discount. |
 | Gemini Flash 3.7 | $0.75 | $3.75 | Promotional rate through December 31, 2026. |
@@ -353,58 +351,49 @@ response = llm.invoke("What is 2 + 2?")
 print(response.content)
 ```
 
----
 
-## 8. Local Ollama — what runs on your GPU
+<a id="8-local-ollama--what-runs-on-your-gpu"></a>
 
-The default `phi4-mini:3.8b` model uses about **2.5 GB of VRAM** in Q4_K_M
-quantization and runs comfortably on 8 GB GPUs. Tested on an RTX 4060
-(8 GB).
+## 8. Local Ollama: what runs on your GPU
 
-| Local model | Size (Q4) | Best for |
-|---|---|---|
-| `qwen3.5:0.8b` | 1.0 GB | Lowest resource, weakest quality. |
-| `qwen3.5:2b` | 2.7 GB | Sweet spot for very tight memory. |
-| **`phi4-mini:3.8b`** | **2.5 GB** | **Default. Best quality / size ratio for SQL.** |
-| `qwen3.5:4b` | 3.4 GB | Strong alternative, similar size. |
-| `qwen3.5:9b` | 6.6 GB | Best quality, requires ~10 GB VRAM. |
+The application defaults to `phi4-mini:3.8b`. The recorded comparison includes
+`granite4.2:3b` and `qwen3.5:9b`; [hardware metadata](benchmarks/hardware.json)
+records their digests, quantization and observed allocation. Model file size
+is not total runtime memory: context, cache and offloading also matter.
 
-> **VRAM math for an 8 GB card:** a 4B Q4 model uses ~3.4 GB, leaving
-> ~4 GB for KV cache and the rest of the system. With 9B you typically
-> need at least 10 GB or aggressive KV cache offloading.
+Use the [case-level results](benchmarks/results/README.md) to understand the
+tested configuration and failures. They do not establish a general model
+ranking or guarantee that a model fits a particular GPU. Pull a selected model
+with `ollama pull <name>` and set `NL2SQL_MODEL=<name>`.
 
-You can pull any of these with `ollama pull <name>` and switch via
-`NL2SQL_MODEL=<name>`.
-
----
 
 ## 9. Safety model
 
 The agent treats every question as untrusted user input and every LLM
 output as untrusted generated code.
 
-**Five lines of defense:**
+Five lines of defense:
 
-1. **Read-only database connection.** SQLite queries use URI `mode=ro`,
+1. Read-only database connection. SQLite queries use URI `mode=ro`,
    `query_only`, disabled extensions, and an untrusted-schema policy.
    PostgreSQL uses non-autocommit read-only transactions, verified
    `transaction_read_only`, statement/lock timeouts, a fixed search path, and
    rejects superuser, BYPASSRLS, CREATEDB, or CREATEROLE roles.
-2. **AST-based validation.** Before any SQL reaches the database, it is
+2. AST-based validation. Before any SQL reaches the database, it is
    parsed by `sqlglot` into an AST and checked:
    - Exactly one statement.
-   - Top-level is `SELECT` (or `UNION`/`INTERSECT`/`EXCEPT`).
+   - Top-level is `SELECT` or the explicitly supported `UNION` node.
    - No dangerous SQLite or PostgreSQL file, configuration, advisory-lock, or
      sleep functions; no `SELECT INTO`, row locks, or cross-schema references.
    - No subqueries, joins, CTEs, or aggregates if disabled by policy.
    - Word-boundary scan for `DROP`, `DELETE`, `INSERT`, `UPDATE`, `ALTER`,
      `CREATE`, `REPLACE`, `TRUNCATE`, `GRANT`, `REVOKE`, `PRAGMA`,
      `ATTACH`, `DETACH`, `VACUUM`, `REINDEX`, `INSTALL`, `COPY`.
-3. **Configurable policy.** Queries are restricted to permitted tables,
+3. Configurable policy. Queries are restricted to permitted tables,
    with configurable feature toggles and JOIN/subquery/CTE count limits.
-4. **Row cap.** A hard cap (`NL2SQL_DB_MAX_ROWS`, default 1000) prevents
+4. Row cap. A hard cap (`NL2SQL_DB_MAX_ROWS`, default 1000) prevents
    `SELECT *` from returning millions of rows.
-5. **Execution budget and preflight.** SQLite uses a VM-step/deadline guard and
+5. Execution budget and preflight. SQLite uses a VM-step/deadline guard and
    `EXPLAIN QUERY PLAN`; PostgreSQL uses `EXPLAIN (FORMAT JSON, COSTS TRUE)`
    without `ANALYZE`, so preflight never executes the query.
 
@@ -415,7 +404,6 @@ The validator lives in `src/nl2sql_agent/security/sql_validator.py`, with
 regression tests under `tests/unit/test_sql_validator.py`. Model judgments
 never replace this policy or the database's read-only boundary.
 
----
 
 ## 10. Running the UI
 
@@ -431,20 +419,21 @@ uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py --server.port 8513
 
 ### What the UI shows
 
-- **Database source.** Use the seeded demo, a session-scoped SQLite upload, or
+- Database source. Use the seeded demo, a session-scoped SQLite upload, or
   the operator-configured PostgreSQL DSN. Uploaded databases are never seeded
   or modified.
-- **Schema controls.** Browse ordinary tables, authorize the tables available
+- Schema controls. Browse ordinary tables, authorize the tables available
   to SQL, and optionally expose bounded sample rows from uploads to the model.
-- **Approval flow.** Generation stops at an editable, validated SQL preview.
+- Approval flow. Generation stops at an editable, validated SQL preview.
   Run explicitly to revalidate and execute it.
-- **Saved sessions.** Reopen conversations, pending approvals, and approved
-  SQL. Questions, answers, safe metrics, and plans are saved locally; raw
-  result rows, CSV payloads, uploads, schemas, keys, and DSNs are not.
-- **Costs and insights.** Review session/model costs, budget warnings, runtime
+- Saved sessions. Reopen conversations, pending approvals, and approved
+  SQL. Questions and answers are saved verbatim, so answers can retain result
+  values. Structured rows, CSV payloads, uploads, schemas, keys and DSNs are
+  excluded from saved payloads. Pending approval also stores unapproved SQL.
+- Costs and insights. Review session/model costs, budget warnings, runtime
   trends, normalized SQLite/PostgreSQL plans, full scans, and expensive-query
   warnings. Cost export excludes questions, answers, SQL, and results.
-- **Provider controls.** Pick one of the approved hosted models, enter a custom
+- Provider controls. Pick one of the approved hosted models, enter a custom
   Hugging Face model ID, or refresh the live Ollama model list. Operators
   configure the Ollama endpoint; it is not editable in the browser.
 
@@ -466,10 +455,12 @@ the SQL, then execute through the same guardian again:
 
 ```python
 prepared = agent.prepare("What is the average salary?")
-result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
+if prepared.get("outcome") == "prepared" and not prepared.get("error"):
+    print(prepared["sql_query"])  # Show this to the approving user.
+    # After explicit approval:
+    result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
 ```
 
----
 
 ## 11. CLI
 
@@ -478,7 +469,7 @@ $ uv run nl2sql-agent --help
 usage: nl2sql-agent [-h] {ask,config,serve,eval} ...
 
 $ uv run nl2sql-agent ask --help
-usage: nl2sql-agent ask [-h] [--provider PROVIDER] [--model MODEL]
+usage: nl2sql-agent ask [-h] [--clarification CLARIFICATION] [--provider PROVIDER] [--model MODEL]
                         [--api-key API_KEY] [--show-sql]
                         question
 
@@ -496,7 +487,6 @@ $ uv run nl2sql-agent eval --min-pass-rate 0.8
 cases=15 accuracy=... safety=... execution=... p95_ms=... report=...
 ```
 
----
 
 ## 12. Verification
 
@@ -510,7 +500,8 @@ uv run pytest -q --cov=nl2sql_agent
 uv run prek run --all-files
 uv audit --locked
 uv build
-uv run --isolated --no-project --with dist/*.whl nl2sql-agent --help
+# Installed-wheel smoke: replace WHEEL_PATH with the wheel produced by uv build.
+uv run --isolated --no-project --with WHEEL_PATH nl2sql-agent --help
 
 # Result and safety evaluation (uses the configured provider)
 uv run nl2sql-agent eval --min-pass-rate 0.8
@@ -539,7 +530,6 @@ have null metrics and zero counts.
 See [benchmarks/README.md](benchmarks/README.md) for the 120-case synthetic
 suite, pinned BIRD source, budgeted runs, and interpretation limits.
 
----
 
 ## 13. Project layout
 
@@ -570,7 +560,6 @@ natural-language-to-sql-agent/
 └── diagrams/                 # Interactive architecture and workflow diagrams
 ```
 
----
 
 ## 14. API reference
 
@@ -578,24 +567,23 @@ See [API_REFERENCE.md](API_REFERENCE.md) for the exported Python surface, CLI
 commands, exceptions, and short examples. Common entry points include:
 
 - `nl2sql_agent.agent.NL2SQLAgent(llm, *, settings=None, database=None,
-  allowed_tables=None, include_sample_values=None)` — the workflow class.
+  allowed_tables=None, include_sample_values=None)`: the workflow class.
   `run()` and `stream()` remain end-to-end; `prepare()`, `stream_prepare()`,
   and `execute_prepared()` support approval-first clients.
-- `nl2sql_agent.config.get_settings()` — singleton accessor for the
+- `nl2sql_agent.config.get_settings()`: singleton accessor for the
   `Settings` instance.
-- `nl2sql_agent.llm.build_chat_model(settings, *, provider, model, ...)` —
+- `nl2sql_agent.llm.build_chat_model(settings, *, provider, model, ...)`:
   build any of the seven supported provider integrations.
-- `nl2sql_agent.security.validate_sql(sql, policy=None)` — validate a
+- `nl2sql_agent.security.validate_sql(sql, policy=None)`: validate a
   SQL string and return the parsed `Select` nodes; pass `dialect="postgres"`
   and `allowed_schema` for PostgreSQL.
-- `nl2sql_agent.db.Database(path, *, timeout_seconds, max_rows)` —
+- `nl2sql_agent.db.Database(path, *, timeout_seconds, max_rows)`:
   the SQLite wrapper. `PostgresDatabase(dsn, schema=...)` implements the same
   backend contract. `QueryPlan`, `QueryMetrics`, and `QueryResult` expose
   normalized observability data.
-- `nl2sql_agent.persistence.StateStore(path)` — persistent sessions, pricing
+- `nl2sql_agent.persistence.StateStore(path)`: persistent sessions, pricing
   rules, run snapshots, dashboard aggregates, and preferences.
 
----
 
 ## 15. Operations runbook
 
@@ -605,14 +593,14 @@ commands, exceptions, and short examples. Common entry points include:
 uv run python -c "import nl2sql_agent; print(nl2sql_agent.__version__)"
 # → 0.5.2
 
-uv run nl2sql-agent config | python -m json.tool | head -20
+uv run nl2sql-agent --help
 ```
 
 ### Smoke test against local Ollama
 
 ```bash
 uv run nl2sql-agent ask "How many employees are there?"
-# → There are **10** employees.
+# The seeded demo contains 10 employees; answer wording depends on the generated SQL.
 ```
 
 ### Verifying the guardian blocks bad SQL
@@ -647,12 +635,11 @@ NL2SQL_LOG_JSON=true uv run nl2sql-agent ask "..."
 NL2SQL_MAX_RETRIES=5 uv run nl2sql-agent ask "complex question"
 ```
 
----
 
 ## 16. Migration from v0.1
 
 The previous release (`v0.1`, the original `app.py` + `backend.py`
-two-file version) has been replaced by a properly modularized package.
+two-file version) has been replaced by a modular package.
 For most users, the differences are:
 
 | v0.1 | v0.2 |
@@ -663,56 +650,62 @@ For most users, the differences are:
 | `from backend import SQLAgent` | `from nl2sql_agent.agent import NL2SQLAgent` |
 | Keyword-regex SQL safety | AST-based SQL safety via `sqlglot` |
 | Hard-coded `company.db` path | `NL2SQL_DB_PATH` env var |
-| `setup_db()` on every agent instantiation | Idempotent; runs once per process |
+| `setup_db()` on every agent instantiation | Idempotent initialization per managed Database instance |
 
 The 25 known issues from the v0.1 audit are all addressed in v0.2. See
 `CHANGELOG.md` for the complete list.
 
----
 
 ## 17. Roadmap
 
 Possible future work:
 
-- **Optional schema embeddings** for databases where deterministic identifier
+- Optional schema embeddings for databases where deterministic identifier
   ranking is insufficient.
-- **OpenTelemetry tracing** with one-line enablement.
-- **Additional database engines** such as MySQL via the same backend contract.
-- **Optional encrypted multi-user session storage** for server deployments.
-- **WebSocket / FastAPI** backend instead of Streamlit for production
+- OpenTelemetry tracing with one-line enablement.
+- Additional database engines such as MySQL via the same backend contract.
+- Optional encrypted multi-user session storage for server deployments.
+- WebSocket / FastAPI backend instead of Streamlit for production
   multi-user deployments.
 
----
 
 ## 18. Contributing
 
 1. Fork and clone.
-2. Install the pinned Python and all development groups with `uv sync --all-groups`.
+2. Install the pinned Python and all development groups with `uv sync --locked --all-groups`.
 3. Make your change. Add focused tests when behavior changes. Run
-   `uv run ruff check src` and `uv run ty check`.
-4. Run `uv run prek run --all-files` — this is the same gate CI runs, and also checks
+   `uv run ruff check src tests` and `uv run ty check src`.
+4. Run `uv run prek run --all-files`: this is the same gate CI runs, and also checks
    formatting (`ruff format --check`) and secret scanning, which the commands above don't cover.
 5. Open a PR with a clear description.
 
 See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 [Code of Conduct](CODE_OF_CONDUCT.md) before opening a pull request.
 
----
 
 ## 19. License
 
 [MIT](LICENSE).
 
----
 
 ## Documentation
 
+Browse the [documentation index](docs/README.md) for guides grouped by task.
+
+New contributors can start with [onboarding](ONBOARDING.md), follow the
+[offline tutorial](ZERO_TO_MASTERY_TUTORIAL.md), then use the
+[developer guide](DEVELOPER_GUIDE.md) and [contributor runbook](CONTRIBUTOR_RUNBOOK.md).
+The [documentation audit](DOCUMENTATION_AUDIT.md) records coverage and verification limits.
+
 | Document | Purpose |
 | --- | --- |
+| [OpenWiki quickstart](openwiki/quickstart.md) | Source-grounded task routing, runtime contracts and operational boundaries |
+| [Implementation report](IMPLEMENTATION_REPORT.md) | Verification scope, publication status and known limits |
+| [Benchmark protocol](benchmarks/README.md) and [results](benchmarks/results/README.md) | Reproduction commands and retained case-level evidence |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Full system design: modules, workflow, safety model, extension points |
 | [API_REFERENCE.md](API_REFERENCE.md) | Exported Python API, CLI commands, errors, and examples |
 | [Interactive diagrams](diagrams/nl2sql-architecture.html) | Architecture, workflow, sequence, data-flow, and lifecycle views |
-| [DATASET.md](DATASET.md) | Seed dataset shape and how to swap in your own |
+| [DATASET.md](DATASET.md) | Demo data, packaged smoke corpus and benchmark boundaries |
 | [SECURITY.md](SECURITY.md) | Security model, redacted fields, and private vulnerability reporting |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup, required checks, and pull-request guidance |
 | [SUPPORT.md](SUPPORT.md) | Where to ask usage questions and what response time to expect |
@@ -720,7 +713,7 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 | [CHANGELOG.md](CHANGELOG.md) | Full release history |
 | [RELEASE_NOTES.md](RELEASE_NOTES.md) | Human-readable notes for the current release |
 | [MIGRATION_GUIDE.md](MIGRATION_GUIDE.md) | Upgrading from earlier versions |
-| [UPGRADE_SUMMARY.md](UPGRADE_SUMMARY.md) | One-page upgrade cheat sheet |
+| [UPGRADE_SUMMARY.md](UPGRADE_SUMMARY.md) | Historical migration and verification snapshot |
 | [Zero-to-Hero Study Handbook](ZERO_TO_HERO_STUDY_HANDBOOK.md) ([PDF](ZERO_TO_HERO_STUDY_HANDBOOK.pdf)) | Full curriculum: NLP, agents, SQL safety, and this codebase from first principles |
 
 ## Community & support
@@ -735,17 +728,18 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 
 > [!NOTE]
 > This project does not want or accept donations, sponsorships, or any other financial support, and
-> never will. It's free to use and free to modify. If you'd like to give back, the most valuable
-> thing you can do is contribute code, tests, docs, or a well-written bug report.
+> never will. It's free to use and free to modify. If you'd like to give back, you can contribute
+> code, tests, docs, or a reproducible bug report.
 
 ## Disclaimer
 
-- **You run this on your own machine, with your own database and API keys.** There is no hosted
+- You run this on your own machine, with your own database and API keys. There is no hosted
   version and no account system.
-- **You are responsible for the data you process with it.** Your schema, question, and actual query
-  results are sent to whichever LLM provider you configure; only local Ollama keeps that on your
-  machine.
-- **No warranty and no liability**, per the [MIT License](LICENSE): use it at your own risk.
+- You are responsible for the data you process with it. Remote providers
+  receive writer prompt context, including configured samples. Successful
+  answers are rendered locally. Use a local Ollama endpoint to keep inference
+  on your machine, and protect persisted conversation text.
+- No warranty and no liability, per the [MIT License](LICENSE): use it at your own risk.
 
 See [DISCLAIMER.md](DISCLAIMER.md) for the full version.
 

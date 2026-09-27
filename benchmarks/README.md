@@ -22,8 +22,8 @@ The default selects the same first 30 HR cases. Use `--limit 120` to include
 all schemas. Reports refuse to overwrite existing files and checkpoint every
 attempt. They include dataset, database, and Python source hashes, commit,
 dirty-tree status, model, settings,
-outcome, latency, usage, and SQL, but never credentials, private endpoints,
-raw database rows, or reasoning traces. Generated databases stay under outputs.
+outcome, latency, usage, and SQL. They omit credential, endpoint, raw-row and reasoning-trace fields.
+SQL and questions can still contain dataset values; inspect reports before sharing. Generated databases stay under outputs.
 
 After diagnosing an interrupted run, use `--offset N` with a new output file to
 attempt only the unattempted suffix; `--limit` remains the number of cases to
@@ -31,7 +31,7 @@ attempt. The offset is recorded in the manifest. Keep the original failures and
 do not replace them with the best result from repeated attempts. A fresh run
 still stops after three consecutive provider/interface errors.
 
-All paid calls pass through `outputs/benchmark-budget.db`, with a total US$2
+All paid calls made by this benchmark driver pass through `outputs/benchmark-budget.db`, with a total US$2
 ceiling. Reservations use conservative input estimates and the full output cap;
 failures or missing usage retain the reservation. SDK retries are disabled.
 Unknown prices block paid runs. This ledger applies to the benchmark driver;
@@ -90,7 +90,7 @@ definitions are prompt context, never executable authorization.
 ## Optional local judge
 
 ```powershell
-uv run python -m nl2sql_agent.evaluation.judge outputs/benchmarks/luna-full.json --output outputs/benchmarks/guardian.json
+uv run python -m nl2sql_agent.evaluation.judge benchmarks/results/luna-full.json --output outputs/benchmarks/guardian-new.json
 ```
 
 Granite Guardian 4.1 8B runs separately, with thinking disabled and a strict

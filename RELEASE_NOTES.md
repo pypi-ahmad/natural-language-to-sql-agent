@@ -1,4 +1,15 @@
-# Release Notes
+# Release notes
+
+## Unreleased: documentation sync
+
+The current guides distinguish direct CLI execution from UI approval, describe
+local result rendering and saved-text privacy, and link the source-grounded
+OpenWiki. Python docstrings describe the public interfaces without changing
+query logic. No benchmark was rerun for these documentation changes.
+
+Historical release sections below retain their original evidence. For current
+privacy boundaries, use [SECURITY.md](SECURITY.md); exclusion of structured rows
+does not mean answer text is free of result values.
 
 ## Unreleased: reliable evaluation and clarification
 
@@ -10,7 +21,7 @@ and grounded result rendering. Saved pending SQL must be re-prepared when its
 context changes. See [benchmark instructions](benchmarks/README.md) for corpus,
 budget, and reproducibility limits. These changes are not a tagged release.
 
-## v0.5.2 — 2026-08-17
+## v0.5.2: 2026-08-17
 
 This release adds the contributor, support, disclaimer, issue-template, and
 pull-request documentation used by the public repository. The README now links
@@ -22,7 +33,7 @@ virtual environment is missing. Package version reporting now reads installed
 metadata, and the security/configuration documentation includes every redacted
 credential field and current environment variable.
 
-## v0.5.1 — 2026-08-14
+## v0.5.1: 2026-08-14
 
 The Streamlit UI now defaults to `127.0.0.1:8512` for the Windows launcher,
 the `nl2sql-agent serve` wrapper, and direct launches that use the checked-in
@@ -32,7 +43,7 @@ precedence.
 This is a backward-compatible patch release. Existing `--port` overrides,
 provider configuration, saved sessions, and database settings are unchanged.
 
-## v0.5.0 — 2026-08-14
+## v0.5.0: 2026-08-14
 
 This release adds Agnes AI as the seventh model provider, with the single
 approved `agnes-2.5-flash` model. It uses Agnes's fixed OpenAI-compatible API
@@ -48,7 +59,7 @@ runtime dependency or state-schema migration is required.
 Upgrade with `uv sync --locked --all-groups`. Existing providers, public agent
 APIs, databases, saved sessions, and pricing snapshots remain compatible.
 
-## v0.4.0 — 2026-08-14
+## v0.4.0: 2026-08-14
 
 This release adds a five-view Streamlit workspace: Chat, Costs, Sessions,
 Insights, and Pricing. Conversations, pending approvals, approved SQL, usage,
@@ -72,18 +83,17 @@ Upgrade with `uv sync --locked --all-groups`. Existing SQLite configuration
 and the `run()`, `stream()`, `prepare()`, and `execute_prepared()` APIs remain
 compatible. See `README.md` for PostgreSQL role creation and new settings.
 
-## v0.3.1 — 2026-08-14
+## v0.3.1: 2026-08-14
 
 This patch makes the secrets hook deterministic across Windows development and
 Linux CI by excluding generated architecture HTML that embeds public Git
 revisions. Application behavior and the v0.3.0 feature set are unchanged.
 
----
 
-## v0.3.0 — 2026-08-14
+## v0.3.0: 2026-08-14
 
-**Status:** Stable
-**Upgrade from:** v0.2.0
+Status: Stable
+Upgrade from: v0.2.0
 
 This release adds approval-first SQL execution, session-scoped SQLite uploads,
 deterministic schema selection, redacted audits, a result-based evaluation CLI,
@@ -97,31 +107,27 @@ handling, audit fields, dependencies, CI, packaging, and developer tooling were
 also hardened. Existing `run()`, `stream()`, and `ask` automation remains
 compatible.
 
----
 
-## v0.2.0 — Historical release
+## v0.2.0: Historical release
 
 The test counts and live-model results in this section are archived release
 evidence. The suite has since been restored and extended; use
 [README.md](README.md#12-verification) for current verification.
 
-**Date:** 2026-06-22
-**Status:** Stable
-**Upgrade from:** v0.1.0
+Date: 2026-06-22
+Status: Stable
+Upgrade from: v0.1.0
 
----
 
 ## Headline
 
-v0.2.0 is a complete modernization of the project. The public
-behavior is unchanged (you can still ask questions and get SQL-backed
-answers), but the internals have been rewritten for production use.
+v0.2.0 rewrites the internals as a modular Python package. Public behavior
+is unchanged: you can still ask questions and get SQL-backed answers.
 
----
 
 ## What you get
 
-1. `nl2sql_agent` is now a real installable Python package, replacing
+1. `nl2sql_agent` is now an installable Python package, replacing
    the old `app.py` / `backend.py` pair. It can be installed
    (`uv pip install -e .`), versioned, and published.
 2. Dependencies are managed with `uv` and `pyproject.toml`, with
@@ -135,7 +141,6 @@ answers), but the internals have been rewritten for production use.
 6. A CLI (`nl2sql-agent ask "..."`) is available for one-shot use, in
    addition to the Streamlit UI.
 
----
 
 ## What's in the box
 
@@ -155,7 +160,6 @@ answers), but the internals have been rewritten for production use.
 | `pyproject.toml` | Deps + tool config (Ruff, ty, pytest, coverage) |
 | `uv.lock` | Reproducible lockfile |
 
----
 
 ## Verified behavior
 
@@ -170,13 +174,12 @@ End-to-end run against a real local Ollama with the default
 | "Who is the highest paid employee and what is their department?" | `SELECT e.name, d.dept_name, MAX(e.salary) FROM employees e JOIN departments d ON e.dept_id = d.dept_id` | "Frank in Engineering, $142,500" |
 | (attacker) "destroy everything" | `DROP TABLE employees` | **Blocked by guardian.** Table still has 10 rows. |
 
----
 
 ## Validation gates that passed
 
-- `uv run pytest tests/unit` — 174 passed
-- `uv run ruff check src tests` — All checks passed
-- `uv run ty check src` — Success: no issues found
-- `uv run nl2sql-agent config` — prints valid JSON
-- Live Ollama end-to-end — all four production questions return
+- `uv run pytest tests/unit`: 174 passed
+- `uv run ruff check src tests`: All checks passed
+- `uv run ty check src`: Success: no issues found
+- `uv run nl2sql-agent config`: prints valid JSON
+- Live Ollama end-to-end: all four production questions return
   correct answers; guardian correctly blocks the destructive SQL

@@ -1,12 +1,12 @@
-# Zero to Hero Study Handbook: NL2SQL Agent
+# NL2SQL Agent study handbook
 
 How to use this handbook:
 
 1. Read modules in order. Each module builds on the previous one.
-2. Keep the code open while reading. Every concept here maps to real files/functions in this repo.
-3. After Module 5, use the checklist to validate end-to-end understanding.
+2. Keep the code open while reading and follow the file and function references.
+3. After Module 5, use the checklist to review what you have learned.
 
-## Module 1: Foundations & Architecture
+## Module 1: Foundations and architecture
 
 ### 1.1 What this project does
 
@@ -54,7 +54,7 @@ Definitions first, then where they appear in this codebase:
 
 ### 1.3 Architecture description
 
-Key components and interactions:
+Components and interactions:
 
 1. Entrypoints:
    - CLI: `src/nl2sql_agent/cli.py` (`main()`, subcommands `ask/config/serve/eval`)
@@ -113,7 +113,7 @@ Schema fetching keeps one read-only connection open, scores every table and
 column identifier once, and loads foreign-key metadata only for the tables that
 will be sent to the writer.
 
-## Module 2: Repository Map
+## Module 2: Repository map
 
 Files a new contributor should learn first (in practical reading order):
 
@@ -124,8 +124,8 @@ Files a new contributor should learn first (in practical reading order):
 | `src/nl2sql_agent/cli.py` | CLI entrypoint for ask/config/serve/eval | `main`, `cmd_ask`, `cmd_eval`, `cmd_config`, `cmd_serve` | Provider/model overrides, eval threshold, report and cost options |
 | `src/nl2sql_agent/ui/streamlit_app.py` | Approval-first multipage Streamlit orchestration | `main`, `_resolve_database`, `_build_agent` | Chat context, temporary upload workspace, pending SQL, active database context |
 | `src/nl2sql_agent/ui/components.py` | UI widgets and result rendering | `render_sidebar`, `render_chat_history`, `render_run_result` | Database source, provider/model, results, traces, plans, metrics, CSV download |
-| `src/nl2sql_agent/ui/pages.py` | Costs, Sessions, Insights, and Pricing views | `render_costs_page`, `render_sessions_page`, `render_insights_page`, `render_pricing_page` | Dashboards, saved-session management, rule editing, budgets |
-| `src/nl2sql_agent/persistence.py` | Versioned local state database | `StateStore` | Allowlisted messages, approved SQL, usage, price snapshots, plans, metrics; never raw results or secrets |
+| `src/nl2sql_agent/ui/pages.py` | Costs, Sessions, Insights, and Pricing views | `costs_page`, `sessions_page`, `insights_page`, `pricing_page` | Dashboards, saved-session management, rule editing, budgets |
+| `src/nl2sql_agent/persistence.py` | Versioned local state database | `StateStore` | Verbatim messages, pending SQL, usage, pricing and metrics; structured rows excluded, answer values retained |
 | `src/nl2sql_agent/ui/database_upload.py` | Untrusted upload validation/storage | `validate_sqlite_upload`, `save_sqlite_upload` | Extension, size, SQLite header, content digest |
 | `src/nl2sql_agent/agent/workflow.py` | Full and two-phase workflow routing | `NL2SQLAgent`, `prepare`, `stream_prepare`, `execute_prepared`, `run`, `stream` | Run ID, allowlist, SQL safety, retries, traces, token usage |
 | `src/nl2sql_agent/agent/state.py` | Typed workflow contract | `AgentState` | Fields for schema, SQL, retries, raw rows, columns, row_count |
@@ -144,9 +144,7 @@ Files a new contributor should learn first (in practical reading order):
 | `API_REFERENCE.md` | Exported Python and CLI reference | Public constructors, methods, errors, and examples | Generated from the current package exports and signatures |
 | `diagrams/` | Interactive system views | Architecture, workflow, sequence, data flow, lifecycle | Standalone HTML with editable JSON specifications |
 
-## Module 3: Core Execution Flows
-
-This module explains the real operational paths using concrete symbols and data shapes.
+## Module 3: Core execution flows
 
 ### 3.1 Core data contracts
 
@@ -177,16 +175,19 @@ This module explains the real operational paths using concrete symbols and data 
 }
 ```
 
-Important note: `AgentState` is declared with `total=False`. That means each node can return partial updates instead of a full state object.
+`AgentState` uses `total=False`, so nodes can return partial updates.
 
 #### QueryResult shape (`src/nl2sql_agent/db/database.py`)
 
-```python
+Field outline (not a constructor call):
+
+```text
 QueryResult(
     columns: tuple[str, ...],
     rows: tuple[tuple[object, ...], ...],
     row_count: int,
-    truncated: bool
+    truncated: bool = False,
+    metrics: QueryMetrics = field(default_factory=QueryMetrics)
 )
 ```
 
@@ -194,7 +195,7 @@ QueryResult(
 
 ```python
 {
-  "data_source": str,             # "Demo" | "Upload"
+  "data_source": str,             # "Demo" | "Upload" | "PostgreSQL"
   "provider": Provider,           # ollama | huggingface | openai | anthropic | gemini | xai | agnes
   "model": str | None,
   "api_key": str | None,
@@ -203,14 +204,16 @@ QueryResult(
 
 #### Initial workflow input shape (`run`/`stream` in `src/nl2sql_agent/agent/workflow.py`)
 
-Both `run()` and `stream()` start with:
+The following is a partial outline of `_initial_state()`, shared by run and
+preparation APIs. It also initializes outcome, execution, clarification, usage
+records, warnings and provider/model fields:
 
 ```python
 {
   "run_id": str(uuid4()),
   "question": question,
   "retry_count": 0,
-  "max_retries": int(max_retries or self.settings.max_retries),
+  "max_retries": int(max_retries if max_retries is not None else self.settings.max_retries),
   "error": "",
   "trace": [],
   "token_usage": {},
@@ -229,10 +232,10 @@ Entrypoint chain:
    - applies CLI overrides (`provider/model/api_key`)
    - builds `llm = build_chat_model(settings)`
    - returns `NL2SQLAgent(llm, settings=settings)`
-4. `cmd_ask` calls `agent.run(args.question)`.
+4. `cmd_ask` calls `agent.run(args.question)`, passing clarification replies when supplied.
 5. Prints `result["final_answer"]`; if `--show-sql`, also prints `result["sql_query"]`.
 
-Short code fragment from real path:
+Simplified fragment (without the optional clarification branch):
 
 ```python
 result = agent.run(args.question)
@@ -259,12 +262,12 @@ Entrypoint chain:
 5. `agent.stream_prepare(user_query)` emits schema, writer, and guardian updates.
 6. Safe SQL is stored as `pending_query` and shown in an editable text area.
 7. Run calls `agent.execute_prepared(...)`, which validates the edited SQL again.
-8. Current result rows and CSV remain in memory. The state store persists only
-   messages, approved SQL, context, usage/cost snapshots, and bounded metrics.
-9. `render_run_result()` prices each provider-reported model call with the
-   effective local rule and shows plan/runtime warnings.
+8. Structured rows and CSV remain in memory. Saved answer text can still contain
+   result values. Pending approval retains questions, clarifications and SQL.
+9. `_apply_cost()` prices usage with the effective local rule;
+   `render_run_result()` displays the resulting estimate and runtime warnings.
 
-Short code fragment from real path:
+UI result-rendering excerpt:
 
 ```python
 for node_name, update in agent.stream_prepare(user_query):
@@ -366,7 +369,7 @@ Tables and seed columns:
 
 1. SQL must parse and be non-empty (`parse_sql`).
 2. Exactly one statement.
-3. Top-level must be `SELECT` or set op (`UNION/INTERSECT/EXCEPT`) if policy allows.
+3. Top-level must be `SELECT` or the explicitly supported `UNION` AST node.
 4. Optional policy bans:
    - subqueries
    - joins
@@ -391,13 +394,10 @@ Output contract:
 - Success: returns `PreparedSQL(sql=..., tables=...)`.
 - Failure: raises `SQLValidationError` with user-facing message.
 
-Why this matters for learners:
+The safety gate enforces the system's trust boundary before query execution.
+`Settings` flags map to `SQLPolicy` to configure it.
 
-1. This safety gate is the system's trust boundary.
-2. It runs before query execution.
-3. It is configurable through `Settings` flags that map to `SQLPolicy`.
-
-## Module 4: Setup & Run Guide
+## Module 4: Setup and run guide
 
 This section is static and based on repo files (`README.md`, `pyproject.toml`, source).
 
@@ -410,11 +410,9 @@ This section is static and based on repo files (`README.md`, `pyproject.toml`, s
 ### 4.2 Install on a clean machine
 
 ```bash
-git clone <repo-url>
+git clone https://github.com/pypi-ahmad/natural-language-to-sql-agent.git
 cd natural-language-to-sql-agent
-uv venv --python 3.12.10
-uv sync --all-groups
-uv pip install -e .
+uv sync --locked --all-groups
 ```
 
 ### 4.3 Environment configuration (`.env` or shell env)
@@ -459,6 +457,7 @@ Use these as `NL2SQL_*` variables:
 3. `anthropic -> ANTHROPIC_API_KEY`
 4. `huggingface -> HF_TOKEN`
 5. `xai -> XAI_API_KEY`
+6. `agnes -> AGNESAI_API_KEY` (legacy aliases remain accepted)
 
 Minimal `.env` examples:
 
@@ -524,15 +523,19 @@ uv run nl2sql-agent eval --min-pass-rate 0.8
 
 ### 4.5 Database migration/seeding steps
 
-There is no migration framework (no Alembic/Flyway-style migration scripts in this repo).
+Demo database creation uses idempotent DDL, not Alembic or Flyway. The separate
+local state database has a versioned initializer using SQLite `user_version`.
 
 Current behavior:
 
 1. Schema creation is runtime and idempotent via `Database.ensure_schema()`.
 2. Seeding is controlled by `db_seed` (`NL2SQL_DB_SEED`, default `True`).
 3. Backward-compatible helper exists: `setup_db(path, seed=True)`.
+4. Only the managed demo is initialized by the agent. Never point the demo path
+   at a database that should not receive its schema; use an injected backend or
+   the upload/PostgreSQL path for existing data.
 
-## Module 5: Study Plan & Practice Exercises
+## Module 5: Study plan and practice exercises
 
 ### 5.1 Ordered study plan (zero to hero)
 
@@ -546,7 +549,7 @@ Current behavior:
 8. Read `src/nl2sql_agent/ui/streamlit_app.py` + `ui/components.py`.
 9. Read `src/nl2sql_agent/cli.py`.
 10. Confirm the current package state with the verification commands in
-    `README.md`. Use the restored `tests/` suite for offline regression proof,
+    `README.md`. Use the `tests/` suite for offline regression proof,
     then the 15-case smoke evaluator for an explicitly authorized live check.
 
 ### 5.2 Practice exercises
@@ -591,6 +594,11 @@ Current behavior:
     Explain why reference-result comparison accepts multiple correct SQL forms.
     File focus: `src/nl2sql_agent/evaluation/runner.py`, `src/nl2sql_agent/evaluation/data/demo.jsonl`.
 
+11. Cost accounting:
+    Explain how per-call usage differs from a run total, and why UI budget alerts
+    do not enforce the benchmark driver's US$2 ledger ceiling.
+    File focus: `llm/pricing.py`, `llm/budget.py`, `ui/streamlit_app.py`.
+
 ### 5.3 Solution outlines
 
 1. Exercise 1 outline:
@@ -632,15 +640,13 @@ Current behavior:
     to match; ordered cases still require the requested row order.
 
 11. Exercise 11 outline:
-    `write_sql()` and `summarize()` retain per-call provider usage in
-    `AgentState.usage_records`; `calculate_cost()` selects the effective rule
-    and actual mode for each call, including cache and long-context adjustments.
+    `write_sql()` and the legacy model branch of `summarize_result()` retain per-call provider usage in
+    `AgentState.usage_records`; `effective_pricing_rule()` selects the rule, and `calculate_cost()` prices the
+    actual mode for each call, including cache and long-context adjustments.
     Approved runs freeze the price snapshot. Unknown Ollama or custom Hugging
     Face models remain unpriced until a matching rule is configured.
 
-## Verification Checklist
-
-Use this to self-check mastery:
+## Verification checklist
 
 1. Can you explain the full node order in `NL2SQLAgent` and both routing decisions?
 2. Can you describe exactly how unsafe SQL is blocked before execution?

@@ -6,7 +6,7 @@ labels: bug
 assignees: ''
 ---
 
-Thanks for taking the time to report this. Please fill in as much as you can, but don't let a missing field stop you from posting.
+Fill in the details you have. You can submit the report with missing fields.
 
 ## What happened
 
@@ -23,8 +23,8 @@ A clear description of the bug.
 ## Diagnostics
 
 ```
-Paste the output of `uv run nl2sql-agent config`, or the exact error text
-shown in the UI or terminal, here.
+Paste reviewed, sanitized settings or error text here. The config command
+masks credentials but can still expose local paths and endpoint addresses.
 ```
 
 ## Environment

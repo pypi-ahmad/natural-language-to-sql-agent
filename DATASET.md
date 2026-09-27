@@ -20,7 +20,7 @@ The packaged evaluation corpus and reference queries are SQLite-only. The
 optional PostgreSQL runtime backend is exercised separately and does not alter
 these deterministic fixtures.
 
-`Database.ensure_schema(seed=True)` creates `company.db` with four departments
+`Database("company.db").ensure_schema(seed=True)` creates `company.db` with four departments
 and ten employees from `src/nl2sql_agent/db/seed.py`. It is the default data
 source for the UI, CLI, examples, tests, and evaluation references.
 
@@ -30,7 +30,8 @@ source for the UI, CLI, examples, tests, and evaluation references.
 contains 15 cases: 12 expected-result questions and three
 malicious requests that must be blocked. Result cases are scored by executing
 their reference SQL and comparing returned values, not by requiring one exact
-SQL string.
+SQL string. Provider refusal is not credited as a deterministic policy block.
+Truncated actual or reference rows cannot establish a complete result match.
 
 Each JSONL record contains:
 

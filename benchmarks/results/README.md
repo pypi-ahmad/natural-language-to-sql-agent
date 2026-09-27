@@ -3,7 +3,9 @@
 These are development runs on the repository owner's Windows laptop, not a
 leaderboard submission or a frozen model-ranking study. JSON manifests retain
 case IDs, outcomes, SQL, usage, settings, and failed attempts. No raw database
-rows, credentials, private endpoints, or reasoning traces are included.
+rows, credentials, private endpoints, or reasoning traces are included as
+separate fields. Questions and SQL may contain dataset values. These retained
+artifacts are historical evidence; a documentation update does not rerun models.
 
 ## Common cases
 
@@ -32,7 +34,7 @@ full-result match under this configuration and are counted as not passed.
 This retracts Luna's original pass on question 11 and Agnes's passes on 11 and
 24, without making another model call. Original manifests remain unchanged.
 
-Important observations:
+Run observations:
 
 - Agnes and GPT-OSS each had 21 provider/interface failures in their 30-case
   synthetic runs. GPT-OSS had 20 such failures in BIRD. A later one-case probe

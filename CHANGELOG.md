@@ -1,11 +1,20 @@
 # Changelog
 
-All notable changes to this project will be documented in this file.
+This file records notable project changes.
 
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
+
+### Documentation
+
+- Synchronized setup, API, architecture, security and study guides with current
+  source and tests; added OpenWiki navigation and public-symbol docstrings.
+- Corrected persistence privacy claims: message text can retain result values,
+  and pending approval stores unapproved SQL. Successful answers render locally.
+- Retained historical benchmark scores and diagram receipts without claiming
+  a new model run or visual review.
 
 ### Changed
 
@@ -24,7 +33,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Added interactive architecture, workflow, sequence, data-flow, and lifecycle
   diagrams under `diagrams/` plus a source-grounded API reference.
 
-## [0.5.2] — 2026-08-17
+## [0.5.2]: 2026-08-17
 
 ### Added
 
@@ -51,7 +60,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   releases. It now reads from installed package metadata via `importlib.metadata.version`, so it
   can't silently drift from `pyproject.toml` again.
 
-## [0.5.1] — 2026-08-14
+## [0.5.1]: 2026-08-14
 
 ### Changed
 
@@ -59,7 +68,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   Streamlit launches and the `nl2sql-agent serve` wrapper.
 - Version advanced to 0.5.1 for this backward-compatible runtime-default fix.
 
-## [0.5.0] — 2026-08-14
+## [0.5.0]: 2026-08-14
 
 ### Added
 
@@ -81,7 +90,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - The Agnes endpoint is fixed to HTTPS and credentials remain process/session
   only; they are excluded from logs, saved sessions, and configuration output.
 
-## [0.4.0] — 2026-08-14
+## [0.4.0]: 2026-08-14
 
 ### Added
 
@@ -113,7 +122,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   and `EXPLAIN ANALYZE` execution paths.
 - Ollama discovery now closes its HTTP client deterministically.
 
-## [0.3.1] — 2026-08-14
+## [0.3.1]: 2026-08-14
 
 ### Fixed
 
@@ -121,7 +130,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
   detection; the file embeds public Git revisions that are false positives on
   Linux runners.
 
-## [0.3.0] — 2026-08-14
+## [0.3.0]: 2026-08-14
 
 ### Added
 
@@ -178,12 +187,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 - Hosted model choices are deterministic and enforced across settings, CLI,
   UI, and factory boundaries. Live model discovery remains Ollama-only.
 
-## [0.2.0] — 2026-06-22
+## [0.2.0]: 2026-06-22
 
-### Major release — production modernization
+### Major release: package rewrite
 
 This is a complete rewrite of the project from a two-file Streamlit demo
-into a properly modularized, tested, production-grade Python package.
+into a modular, tested Python package.
 All v0.1 functionality is preserved; public behavior is equivalent.
 
 #### Added
@@ -282,9 +291,8 @@ All v0.1 functionality is preserved; public behavior is equivalent.
 - `uv run pytest --cov=src/nl2sql_agent --cov-report=term-missing` for
   coverage.
 
----
 
-## [0.1.0] — 2026-03-01
+## [0.1.0]: 2026-03-01
 
 Initial release. Streamlit + LangGraph + SQLite, two-file layout
 (`app.py` + `backend.py`), keyword-based SQL safety, 126 tests, 100%

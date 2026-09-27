@@ -13,9 +13,9 @@ A short description of the change and why it's needed. Link the issue it address
 ## How was this tested?
 
 ```bash
-uv run ruff check src
+uv run ruff check src tests
 uv run pytest -q --cov=nl2sql_agent
-uv run ty check
+uv run ty check src
 uv audit --locked
 uv build
 uv run prek run --all-files
@@ -30,4 +30,4 @@ uv run prek run --all-files
 - [ ] I updated README.md/ARCHITECTURE.md if this change affects public behavior or configuration
 - [ ] I did not commit any API keys, database connection strings, or private data
 - [ ] Behavioral changes include focused tests or explain why testing was not possible
-- [ ] This PR is focused on one change (not several unrelated things bundled together)
+- [ ] This PR focuses on one change

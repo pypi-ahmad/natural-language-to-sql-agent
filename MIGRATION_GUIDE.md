@@ -1,10 +1,10 @@
-# Migration Guide: v0.1 → v0.2
+# Migration guide: v0.1 → v0.2
 
 This guide covers the user-facing and developer-facing changes between
-v0.1 and v0.2. The behavior of the agent is unchanged; the changes are
-in how the project is installed, configured, and extended.
+v0.1 and v0.2, followed by current migration notes. Historical examples describe
+those releases; use the current commands and contracts below for this checkout.
 
-> **Current `main`:** Existing `run()`, `stream()`, and `ask` callers remain
+> Current `main`: Existing `run()`, `stream()`, and `ask` callers remain
 > compatible. New optional capabilities include `prepare()` /
 > `execute_prepared()`, session-scoped SQLite uploads, table authorization,
 > hardened read-only execution, and `nl2sql-agent eval`.
@@ -14,13 +14,13 @@ in how the project is installed, configured, and extended.
 > Redundant direct dependency declarations were removed; transitive security
 > floors are maintained through uv constraints and checked with `uv audit`.
 >
-> **v0.4 addendum:** SQLite remains the default. Set
+> v0.4 addendum: SQLite remains the default. Set
 > `NL2SQL_DB_BACKEND=postgres`, `NL2SQL_POSTGRES_DSN`, and optionally
 > `NL2SQL_POSTGRES_SCHEMA` to use a least-privileged read-only PostgreSQL role.
 > The UI now has Chat, Costs, Sessions, Insights, and Pricing views. Local
-> saved history excludes result rows, uploads, schemas, keys, and DSNs.
+> saved payloads exclude structured rows, uploads, schemas, keys and DSNs.
+> Answer text can retain result values; pending approvals retain unapproved SQL.
 
----
 
 ## 1. Installation
 
@@ -35,16 +35,12 @@ pip install -r requirements.txt
 ### v0.2
 
 ```bash
-uv venv --python 3.12.10
-uv sync --all-groups
-uv pip install -e .
+uv sync --locked --all-groups
 ```
 
-`uv` is the only required new tool. Everything else (Streamlit, LangChain,
-LangGraph, sqlglot) is now pinned in `pyproject.toml` and installed
-automatically.
+`uv` is the only required new tool. Dependency ranges live in `pyproject.toml`; exact resolution lives in
+`uv.lock`. Sync installs the project and its selected dependency groups.
 
----
 
 ## 2. Running the UI
 
@@ -60,7 +56,6 @@ streamlit run app.py
 uv run streamlit run src/nl2sql_agent/ui/streamlit_app.py
 ```
 
----
 
 ## 3. Running from the CLI
 
@@ -81,14 +76,13 @@ On Windows, `Launch NL2SQL Agent.cmd` is the equivalent double-click entrypoint.
 The launcher and `nl2sql-agent serve` now default to `127.0.0.1:8512`.
 Pass `--port` explicitly when another local port is required.
 
----
 
 ## 4. Configuration
 
 ### v0.1
 
-Hard-coded in `app.py` and `backend.py`. The only configurable thing
-was the API key from environment variables.
+Configuration was hard-coded in `app.py` and `backend.py`; only the API key
+could be supplied through environment variables.
 
 ### v0.2
 
@@ -109,7 +103,6 @@ NL2SQL_LOG_LEVEL=INFO
 NL2SQL_LOG_JSON=false
 ```
 
----
 
 ## 5. Public Python API
 
@@ -137,11 +130,9 @@ result = agent.run("What is the total salary in Engineering?")
 print(result["final_answer"])
 ```
 
-The v0.2 API is stricter and more discoverable: type hints
-throughout, explicit dataclass return values, named arguments
-everywhere.
+The v0.2 API uses type hints throughout, explicit dataclass return values,
+and named arguments.
 
----
 
 ## 6. SQL safety
 
@@ -158,7 +149,6 @@ This is a security improvement. There is no action required on
 your part, but if you previously relied on the deny-list to reject
 specific keywords, the AST validator is more accurate and configurable.
 
----
 
 ## 7. Database path
 
@@ -171,7 +161,6 @@ Hard-coded `"company.db"` in three functions.
 `NL2SQL_DB_PATH` env var or `Settings(db_path=...)` argument.
 Defaults to `company.db` in the current working directory.
 
----
 
 ## 8. Verification
 
@@ -194,7 +183,6 @@ runs PostgreSQL 17 integration, `prek`, dependency audit, package build, and
 an isolated wheel CLI smoke check.
 See [README.md](README.md#12-verification) for the current commands.
 
----
 
 ## 9. Tooling
 
@@ -207,7 +195,6 @@ See [README.md](README.md#12-verification) for the current commands.
 | Logging | `print()` | `loguru` (configurable, JSON-capable) |
 | Packaging | none | `uv_build` (`uv pip install -e .` works) |
 
----
 
 ## 10. What is **not** changing
 
@@ -225,13 +212,15 @@ See [README.md](README.md#12-verification) for the current commands.
 If your v0.1 scripts imported the agent and asked questions, they will
 keep working with the v0.2 package after the import path is updated.
 
----
 
 ## 11. Using the current approval-first API
 
 ```python
 prepared = agent.prepare("What is the total salary in Engineering?")
-result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
+if prepared.get("outcome") == "prepared" and not prepared.get("error"):
+    print(prepared["sql_query"])  # Present for review before proceeding.
+    # After explicit user approval:
+    result = agent.execute_prepared(prepared, sql_query=prepared["sql_query"])
 ```
 
 Automation can continue using `run()` or `stream()` unchanged. The Streamlit

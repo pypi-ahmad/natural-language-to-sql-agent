@@ -1,4 +1,4 @@
-# Architecture Guide
+# Architecture guide
 
 PostgreSQL foreign-key discovery uses `pg_catalog` with column-access checks.
 The standard `referential_constraints` view hides relationships from SELECT-only
@@ -6,21 +6,17 @@ roles, so it cannot support the app's read-only role contract. Composite keys
 are paired by position. See PostgreSQL's [visibility rule](https://www.postgresql.org/docs/current/infoschema-referential-constraints.html)
 and [constraint catalog](https://www.postgresql.org/docs/17/catalog-pg-constraint.html).
 
-This document explains the design decisions behind the project. It is
-written for engineers who want to extend the agent (add a new
-provider, add a new safety rule, swap the database) or who want to
-understand why things are the way they are.
+Use this guide to understand the agent's design or extend it with a provider,
+safety rule, or database backend.
 
 Interactive views are available for the [component architecture](diagrams/nl2sql-architecture.html),
 [query workflow](diagrams/nl2sql-workflow.html), [approval sequence](diagrams/nl2sql-sequence.html),
 [data flow](diagrams/nl2sql-dataflow.html), and [run lifecycle](diagrams/nl2sql-lifecycle.html).
 
----
 
 ## 1. Design principles
 
-1. **One module, one responsibility.** Every sub-package has a
-   single, well-defined job:
+1. Each sub-package owns one part of the system:
    - `config`: runtime configuration
    - `db`: database I/O
    - `security`: SQL validation
@@ -29,27 +25,23 @@ Interactive views are available for the [component architecture](diagrams/nl2sql
    - `agent`: orchestration
    - `persistence`: local sessions, pricing, and run summaries
    - `ui`: Streamlit presentation
-   - `utils`: shared helpers (logging, text)
+   - `utils`: shared helpers (logging, text, audit)
+   - `evaluation`: scoring, benchmark orchestration and the optional judge
 
-2. **No hidden global state.** All settings come from
-   `nl2sql_agent.config.get_settings()`. Tests can monkeypatch the
-   environment and reset the cache with `reset_settings_cache()`.
+2. Explicit settings ownership. `get_settings()` caches a mutable process
+   singleton. The one-shot CLI applies overrides to it; Streamlit deep-copies it
+   before session-specific overrides. Tests reset it with `reset_settings_cache()`.
 
-3. **No magic.** Every LangGraph node is a plain Python method on
+3. Every LangGraph node is a plain Python method on
    `NL2SQLAgent`. You can read them, log them, and replace them
    individually.
 
-4. **Allow-list, not deny-list.** The SQL safety model is allow-list:
-   the validator parses the SQL and only allows the operations you
-   have explicitly opted into. This is more secure than the
-   traditional "block destructive keywords" approach.
+4. The validator parses SQL and allows operations that the policy permits. Joins, subqueries, aggregates, CTEs and UNION are enabled
+   by default. A conservative keyword scan remains alongside AST checks.
 
-5. **Database agnostic of LLM, LLM agnostic of database.** The two
-   most important external dependencies are connected only through
-   the agent layer. You can swap the database engine (Postgres,
-   MySQL) without touching the LLM, and vice versa.
+5. The database and LLM dependencies connect only through the agent layer. SQLite and PostgreSQL implement the backend protocol.
+   Another engine requires a new adapter and dialect-specific validation/tests.
 
----
 
 ## 2. Module dependency graph
 
@@ -84,16 +76,17 @@ Interactive views are available for the [component architecture](diagrams/nl2sql
                      └─────────────┘
 ```
 
-The intended module graph has no cycles. The CLI and UI both depend on `agent`; the
-`agent` depends on `db`, `security`, `llm`, `prompts`, and `config`;
-the foundational modules depend only on `config` and `utils`.
+The diagram summarizes responsibilities rather than every import. CLI and UI
+compose the agent, database and model factory. The agent uses settings, prompt
+templates, SQL policy, audit helpers and a database backend. Persistence depends
+on pricing records and is owned by the UI, not the query graph.
 
----
 
 ## 3. State machine
 
 The agent's state is a `TypedDict` with `total=False`, so partial
-updates from nodes can be merged by LangGraph without `KeyError`.
+updates from nodes can be merged by LangGraph. It does not make direct access to
+a missing key safe; consumers must check optional fields.
 
 ```
 (run_id, question, schema, allowed_tables, sql_query, sql_safe, error,
@@ -149,35 +142,37 @@ The Streamlit client uses the two-phase path. Upload bytes are checked for an
 allowed extension, size, and SQLite header, then stored under their SHA-256 in
 a session-owned temporary directory. Changing the database, provider, or model
 starts a new saved context; changing the allowlist invalidates pending SQL.
-Saved history retains messages, approved SQL, pricing snapshots, and bounded
-metrics, but never raw rows, CSV payloads, uploads, schemas, keys, or DSNs.
+Saved history retains questions and answers verbatim. Answers can contain result
+values; pending approval also retains unapproved SQL and clarifications.
+Payload allowlists exclude structured rows, CSV, uploads, schemas, keys and DSNs.
+Approved-run SQL can contain literals. See [persistence](openwiki/operations/persistence-audit.md).
 The project Streamlit configuration and `nl2sql-agent serve` wrapper both
 default to the loopback endpoint `127.0.0.1:8512`; command-line options can
 override the port while the wrapper continues to reject non-loopback hosts.
 
----
 
 ## 4. SQL safety in depth
 
 ### The five layers
 
-1. **Read-only connection.** SQLite uses URI `mode=ro`, `query_only`, disabled
+1. Read-only connection. SQLite uses URI `mode=ro`, `query_only`, disabled
    extension loading, and `trusted_schema=OFF`. PostgreSQL uses a
    non-autocommit read-only transaction, verifies `transaction_read_only`, and
    rejects privileged roles before queries are accepted.
-2. **Driver constraint.** `sqlite3.Cursor.execute()` refuses to
+2. Driver constraint. `sqlite3.Cursor.execute()` refuses to
    execute multi-statement input. So `SELECT 1; DROP TABLE x` already
    raises `ProgrammingError` at the driver level.
-3. **AST validation.** The `validate_sql()` function parses the SQL
+3. AST validation. The `validate_sql()` function parses the SQL
    with `sqlglot` and rejects:
    - Anything that isn't a single SELECT (or UNION thereof).
    - Dangerous file, configuration, sleep, dblink, advisory-lock, and
      large-object functions.
-   - Forbidden keywords as a paranoid fallback (CREATE, PRAGMA, etc.).
-4. **Configurable policy.** Joins, subqueries, aggregates, CTEs, and
+   - Forbidden keywords as a conservative fallback (CREATE, PRAGMA, etc.).
+4. Configurable policy. Joins, subqueries, aggregates, CTEs, and
    UNION can each be turned off via the `SQLPolicy` object. The
-   `Settings.sql_allow_*` flags propagate from environment variables.
-5. **Authorization and resource bounds.** Scope-aware traversal checks physical
+   `Settings.sql_allow_*` flags expose subquery, join, aggregate and CTE choices.
+   `allow_union` is a Python `SQLPolicy` option without a matching settings flag.
+5. Authorization and resource bounds. Scope-aware traversal checks physical
    tables against the allowlist while treating CTE aliases as derived sources;
    a same-named CTE cannot hide an unauthorized physical table.
    SQLite uses `EXPLAIN QUERY PLAN`, elapsed-time and VM-step guards;
@@ -205,11 +200,10 @@ The v0.1 keyword regex couldn't distinguish:
 | `SELECT load_extension('evil.so')` → not blocked | `load_extension` is a function, so it's blocked |
 | `SELECT 1; DROP TABLE x` → blocked by driver only | Blocked at AST layer, never reaches driver |
 
----
 
 ## 5. Multi-provider design
 
-The LLM factory is intentionally small and boring:
+The LLM factory selects the configured provider:
 
 ```python
 def build_chat_model(settings, *, provider=None, model=None) -> BaseChatModel:
@@ -224,7 +218,7 @@ against fixed direct endpoints, so they do not require provider-specific SDKs.
 
 OpenAI, Anthropic, Gemini, xAI, and Hugging Face use the configured
 medium-reasoning path. Agnes uses its documented Chat Completions Thinking
-flag, which is boolean rather than an effort level. All except Hugging Face use
+flag, which is boolean rather than an effort level. Hosted providers except Hugging Face use
 strict model allow-lists; Hugging Face accepts validated
 `namespace/model[:routing-policy]` IDs. Only Ollama performs live model
 discovery. Provider defaults and approved choices live with `Settings`, so the
@@ -238,11 +232,11 @@ To add another provider:
    `src/nl2sql_agent/llm/factory.py`.
 3. Add its approved/default model choices and credential environment name.
 4. Wire the provider name into `Settings.provider` and the sidebar.
-5. Add model discovery only when the provider genuinely requires it.
+5. Add model discovery only when the provider requires it.
 
-That's it. No other module needs to change.
+Also check pricing, credential redaction, UI runtime overrides, saved-session
+restoration, benchmark support and regression tests for the new provider.
 
----
 
 ## 6. Observability strategy
 
@@ -250,8 +244,8 @@ The project uses Loguru as a single logging backend, with
 optional JSON output for log aggregators.
 
 Runtime metadata lists only dependencies imported by the application.
-Security-only floors for transitive packages live in uv constraints, keeping
-the published dependency surface truthful without weakening lock-file audits.
+Security-only minimum versions for transitive packages live in uv constraints.
+Lock-file audits still check those packages.
 
 Audit JSONL accepts only a fixed operational-field allowlist. Questions are
 hashed, SQL literals are redacted, and exception detail is not returned to UI
@@ -266,14 +260,8 @@ log = get_logger(__name__)
 log.info("user asked a question", extra={"user_id": "..."})
 ```
 
-The agent's workflow emits structured events:
-
-```
-12:34:56.789 | INFO  | nl2sql_agent.agent.workflow:__init__:84 - Agent ready: provider model in use, db=company.db, max_retries=3
-12:34:56.798 | DEBUG | nl2sql_agent.agent.workflow:fetch_schema:95 - Schema fetched (243 chars)
-12:34:57.231 | INFO  | nl2sql_agent.agent.workflow:write_sql:118 - writer attempt=1 produced sql=SELECT COUNT(*) ...
-12:34:57.456 | INFO  | nl2sql_agent.db.database:execute:185 - Query returned 1 row in 4ms
-```
+The writer logs an attempt number and SQL hash. Execution audit events record
+redacted SQL, duration and row counts; they do not contain full result rows.
 
 Set `NL2SQL_LOG_LEVEL=DEBUG` for verbose output, or
 `NL2SQL_LOG_JSON=true` for structured logging.
@@ -282,35 +270,32 @@ Each LLM call contributes provider-reported input, output, cache-read, and
 cache-creation usage. Effective-dated rules price each call using its actual
 mode and long-context threshold. The local state store keeps immutable pricing
 snapshots with approved runs, enabling session/model totals, budget alerts,
-CSV export, and historical reproducibility. It stores no prompts, result rows,
-credentials, DSNs, or provider billing records and is not an invoice.
+CSV export, and historical reproducibility. The state store also retains
+conversation text and pending questions/SQL; these can contain sensitive values.
+Cost exports omit that text. Estimates are not provider invoices.
 
 Database execution also emits normalized plan and runtime metrics. The UI
 shows trends and threshold warnings without running `EXPLAIN ANALYZE`; this
 keeps planning read-only and avoids executing a query twice.
 
----
 
 ## 7. Why LangGraph, not a hand-rolled loop?
 
 A plain while-loop in a function would also work. We chose LangGraph
 for three reasons:
 
-1. **Streaming.** LangGraph gives us `app.stream(inputs)` out of the
+1. Streaming. LangGraph gives us `app.stream(inputs)` out of the
    box, which is what the Streamlit UI uses to show live status.
-2. **Composability.** You can add a new node, a new edge, or a
+2. Composability. You can add a new node, a new edge, or a
    sub-graph without rewriting the whole loop.
-3. **Inspection.** LangSmith and LangGraph Studio can visualize the
+3. Inspection. LangSmith and LangGraph Studio can visualize the
    state machine and replay specific runs.
 
 The cost is one extra dependency (`langgraph`) and a slightly less
 direct style of code. We judged the trade-off worth it.
 
----
 
 ## 8. Extensibility checklist
-
-To extend the system, follow these recipes:
 
 ### Add a new LLM provider
 
@@ -327,8 +312,8 @@ To extend the system, follow these recipes:
 1. Add a new field to `SQLPolicy` in `security/sql_validator.py`.
 2. Add the corresponding `Settings` field in `config/settings.py`.
 3. Add a check in `_check_select()` in `security/sql_validator.py`.
-4. Add focused tests for accepted and rejected SQL. The current checkout has
-   no baseline `tests/` directory, so include the required fixture setup.
+4. Add focused tests for accepted and rejected SQL under `tests/unit/`, using
+   the temporary database and mock-model fixtures in `tests/conftest.py`.
 
 ### Add a new LangGraph node
 
@@ -345,4 +330,5 @@ To extend the system, follow these recipes:
 ### Extend saved sessions
 
 Add a versioned migration to `StateStore`, persist only explicitly allowed
-fields, and keep database content and credentials outside the state database.
+fields, and review text as well as structured payloads for privacy. Existing
+message content is stored verbatim; field allowlists are not text redaction.

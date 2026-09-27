@@ -1,9 +1,9 @@
-# Security Policy
+# Security policy
 
-## Runtime Data Safety
+## Runtime data safety
 
 Generated SQL is treated as untrusted. Query connections are read-only,
-AST validation permits one SELECT statement, table allowlists restrict the
+AST validation permits one SELECT or supported UNION statement, table allowlists restrict the
 visible database surface, and SQLite progress handlers bound execution.
 PostgreSQL requires a non-privileged role, verifies read-only transaction
 state, confines names to one configured schema, and uses non-executing JSON
@@ -38,22 +38,33 @@ Hugging Face, xAI, and Agnes AI use fixed HTTPS API roots. Custom Hugging Face
 values are model repository identifiers, not editable endpoint URLs, and are
 validated before requests are constructed.
 
-The local state database stores messages, pending approvals, approved SQL,
-bounded plans/metrics, usage, and immutable pricing snapshots. It explicitly
-excludes raw result rows, CSV payloads, uploads, schemas, API keys, DSNs, and
-blocked or unapproved SQL. Protect the local user profile and state file as you
-would any conversation history.
+The local state database stores messages, pending approvals, approved-run SQL,
+plans/metrics, usage and pricing snapshots. Payload allowlists exclude structured
+result rows, CSV payloads, uploads, schemas, API keys and DSNs. They do not redact
+message content: questions and answers are saved verbatim, and answers can
+contain result values. Pending approvals include unapproved SQL, questions and
+clarifications. Approved SQL can contain literals. The `result_not_stored` flag
+does not mean all result values are absent from disk. Protect the state file,
+backups and audit log separately; deleting a saved session does not remove audit
+events or backups.
+
+Writer prompts include questions, selected schema, clarification replies,
+configured samples and catalog context. Successful execution renders answers
+locally without sending result rows to a second model call. The legacy
+non-executed summarization path can still send its supplied result text to the
+model. Do not treat loopback serving as authentication or the context signature
+as a snapshot of database contents.
 
 UI cost estimates use provider-reported usage and locally configured pricing.
 They do not inspect or expose keys, prompts, result rows, or provider billing
 records, and are not authoritative invoices. CSV exports contain cost metadata
 only and receive formula neutralization at serialization.
 
-## Supported Versions
+## Supported versions
 
 Security fixes are applied to the default branch and recent actively maintained updates.
 
-## Reporting a Vulnerability
+## Reporting a vulnerability
 
 Report potential vulnerabilities through [GitHub private vulnerability
 reporting](https://github.com/pypi-ahmad/natural-language-to-sql-agent/security/advisories/new).
@@ -68,7 +79,7 @@ When reporting, include:
 
 Avoid posting exploit details that could put users at risk.
 
-## Response Process
+## Response process
 
 Maintainers will triage reports, assess severity, and communicate remediation status
 through issue updates and release/change notes when fixes are available.

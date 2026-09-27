@@ -1,5 +1,8 @@
 # API reference
 
+For working examples, see the [offline tutorial](ZERO_TO_MASTERY_TUTORIAL.md).
+For extension work and module ownership, use the [developer guide](DEVELOPER_GUIDE.md).
+
 This reference covers the public objects exported by the `nl2sql_agent`
 subpackages. Import workflow objects from their subpackages; the top-level
 package currently exports only `__version__`.
@@ -12,7 +15,9 @@ from nl2sql_agent.agent import AgentState, NL2SQLAgent, NodeTrace
 
 ### `NL2SQLAgent`
 
-```python
+Constructor signature (reference notation):
+
+```text
 NL2SQLAgent(
     llm,
     *,
@@ -24,7 +29,8 @@ NL2SQLAgent(
 )
 ```
 
-`llm` must implement the LangChain chat-model interface. `database` may be any
+`llm` must provide `invoke(messages)` and a response compatible with the writer's
+content/text and optional usage fields; a LangChain chat model satisfies this contract. `database` may be any
 `DatabaseBackend`; when omitted, settings select SQLite or PostgreSQL.
 
 | Method | Purpose |
@@ -48,6 +54,8 @@ Terminal outcomes include `prepared`, `executed`, `needs_clarification`,
 `database_error`, and `budget_exhausted`. `error_code` gives a stable reason.
 At most two clarification replies are accepted. Prepared states carry a
 `context_signature`; old or changed context requires preparation again.
+`execute_prepared()` performs one revalidated execution attempt, without the
+full graph's automatic writer-repair loop. A signature is not a row snapshot.
 `selected_tables`, `schema_incomplete`, `assumptions`, and `row_limit_applied`
 describe the context and result limits.
 
@@ -119,6 +127,11 @@ print(prepared.sql)
 | `referenced_tables(sql, *, dialect="sqlite")` | Return physical table names referenced by the SQL. |
 | `prepare_sql(...)` | Parse once, validate, authorize tables, and apply the configured row limit. |
 
+`SQLPolicy` enables joins, subqueries, aggregates, CTEs and UNION by default.
+Its `allow_union` flag is available in Python, without a corresponding settings
+field. The validator's top-level set-operation branch explicitly supports UNION.
+An additional keyword scan can reject valid literals or quoted identifiers.
+
 `SQLValidationError` indicates rejected or invalid SQL. Treat its message as a
 user-facing validation result, not as permission to execute the original SQL.
 
@@ -152,7 +165,8 @@ report = EvaluationRunner(agent, database).run(cases)
 `EvaluationRunner` compares executed results with reference-query results,
 scores expected blocks, records runtime and usage data, and verifies that the
 SQLite database digest is unchanged. `load_cases()` raises `ValueError` for an
-empty or malformed JSONL corpus.
+empty or malformed JSONL corpus. Result matching also requires untruncated
+actual and reference rows; unordered comparisons preserve duplicate counts.
 
 It also rejects duplicate IDs and empty runs. Report version 2 includes case
 counts and null metrics for missing categories. Policy credit requires
@@ -163,6 +177,21 @@ decisions are scored separately.
 `nl2sql_agent.llm.budget` provides `Rates`, `BudgetLedger`, and `BudgetedModel`.
 Reserve before a call and reconcile only known usage. Uncertain calls retain
 their reservation. `BudgetExhausted` stops requests that cannot fit.
+
+## Saved sessions
+
+`StateStore(path)` creates or opens the local SQLite state database. It provides
+session creation/listing/loading/renaming/deletion, ordered messages, pending
+approval storage, idempotent run records, pricing rules and preferences.
+`append_message()` permits user/assistant roles and stores content verbatim;
+payload fields are allowlisted, not recursively redacted. `save_pending()`
+retains question and unapproved SQL. `save_run(..., approved=False)` omits SQL
+from the run record only. `replace_pricing_rules()` rejects invalid or
+overlapping windows. SQLite errors can propagate to callers.
+
+Use [the persistence guide](openwiki/operations/persistence-audit.md) for privacy
+and reporting boundaries. Signatures and typed parameters live in
+[`persistence.py`](src/nl2sql_agent/persistence.py).
 
 ## Utilities
 
@@ -214,6 +243,8 @@ nl2sql-agent eval [--dataset PATH] [--output PATH] [--min-pass-rate RATE]
                   [--output-cost-per-million VALUE]
 ```
 
-`serve` rejects non-loopback hosts. `eval` exits unsuccessfully when its result
-or safety rate is below `--min-pass-rate`, or when the database integrity check
-fails.
+`serve` rejects non-loopback hosts and uses a source-relative script path, so
+launch it from the checkout. `ask` executes directly; it has no approval prompt.
+`eval` exits unsuccessfully when any present scored category is below
+`--min-pass-rate`, the report is empty, or database integrity fails. Missing
+categories remain null and are not assigned a perfect score.

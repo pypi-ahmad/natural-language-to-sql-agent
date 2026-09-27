@@ -39,8 +39,9 @@ isolated installed-wheel CLI smoke, and local Markdown file-link checks passed.
 CI also exercises PostgreSQL 17 with an unprivileged reader role. The tests
 verify read-only execution, FK discovery, and composite key pairing.
 
-GitHub review: [PR #7](https://github.com/pypi-ahmad/natural-language-to-sql-agent/pull/7).
-Nothing has been merged, tagged, or deployed by this workflow.
+The implementation was merged through [PR #8](https://github.com/pypi-ahmad/natural-language-to-sql-agent/pull/8)
+on 2026-09-27 at `c7a7e23e084622ee7bb9509fc95848102228f255`.
+This documentation sync does not create a release, deploy, commit or push.
 
 All five generators completed coverage of the common 30 synthetic and 20 BIRD
 case IDs. Qwen required a separate continuation for eight previously unattempted
@@ -79,6 +80,27 @@ execution, context-bound approval, clarification, cross-platform CI, PostgreSQL
 integration, and reproducible failure reporting. Describe it as an evaluated
 NL-to-SQL application, not a production-proven system or a state-of-the-art SQL
 model. Report exact benchmark subsets and denominators with any accuracy claim.
+
+## Documentation sync
+
+Local checks for this documentation pass: 352 unit tests passed; Ruff and ty
+passed. An AST comparison against HEAD, excluding docstrings, found no Python
+logic changes. Public module/class symbol docstring coverage is 179/179,
+excluding private names and nested local helpers. This is presence coverage,
+not a claim that every example or parameter has exhaustive narrative coverage.
+Live inference, PostgreSQL services and historical benchmarks were not rerun.
+
+The current code-to-doc pass corrects data-flow and persistence descriptions,
+writer-attempt limits, SQL policy defaults, setup examples and API notes. The
+[OpenWiki quickstart](openwiki/quickstart.md) links ten source-grounded pages;
+its Claims and producer metadata are maintained through OpenWiki, not edited
+by hand. Historical benchmark manifests and diagram receipts remain evidence
+of their original runs.
+
+Session payload filtering does not redact message content. Saved answer text
+can contain result values, and pending approval stores unapproved SQL. Ordinary
+successful answers are rendered locally without a second model call. These
+boundaries now appear consistently in the public documentation.
 
 ## Skills applied
 

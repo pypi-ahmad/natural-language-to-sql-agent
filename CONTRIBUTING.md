@@ -1,6 +1,7 @@
 # Contributing to NL2SQL Agent
 
-Thanks for considering a contribution. This is a free, community-driven project, and bug reports, feature suggestions, and pull requests all genuinely help.
+You can contribute bug reports, feature suggestions, code, or documentation to
+this free, community-driven project.
 
 ## Before you start
 
@@ -10,10 +11,15 @@ Do not include real API keys, database credentials, connection strings, private 
 
 ## Development setup
 
+For a first checkout, follow [onboarding](ONBOARDING.md). For an existing
+checkout, use the [contributor runbook](CONTRIBUTOR_RUNBOOK.md) from baseline
+checks through review. The [developer guide](DEVELOPER_GUIDE.md) maps changes
+to implementation owners and tests.
+
 ```bash
 git clone https://github.com/pypi-ahmad/natural-language-to-sql-agent.git
 cd natural-language-to-sql-agent
-uv sync --all-groups
+uv sync --locked --all-groups
 ```
 
 This installs the pinned Python (3.12.10) and every development dependency group.
@@ -31,9 +37,9 @@ This installs the pinned Python (3.12.10) and every development dependency group
 ## Required checks
 
 ```bash
-uv run ruff check src
+uv run ruff check src tests
 uv run pytest -q --cov=nl2sql_agent
-uv run ty check
+uv run ty check src
 uv audit --locked
 uv build
 ```
@@ -47,12 +53,24 @@ uv run prek run --all-files
 CI runs the suite on Windows and Linux, requires 80% coverage, checks a real
 PostgreSQL 17 fixture, and runs `nl2sql-agent --help` from an isolated wheel.
 
+Coverage excludes the Streamlit app and page modules; AppTest separately checks
+their behavior. Ollama tests require `NL2SQL_LIVE_TESTS=1`, a reachable server
+and the selected installed model. PostgreSQL tests require
+`NL2SQL_TEST_POSTGRES_ADMIN_DSN` pointing to a fresh disposable `nl2sql_test`
+database; the fixture creates roles and tables and does not clean up a user's
+database. See [verification](openwiki/testing/verification.md).
+
+For documentation changes, follow current source and tests, preserve historical
+benchmark artifacts, and distinguish actual checks from instructions to run
+them. Update OpenWiki through its page-job lifecycle; do not hand-edit its
+Claims, provenance, indexes or managed setup blocks.
+
 ## Coding conventions
 
 - Match the existing code style; don't introduce unrelated formatting changes.
-- Keep the database layer, agent workflow, LLM factory, and security validator cleanly separated — see [ARCHITECTURE.md](ARCHITECTURE.md) for the intended boundaries.
+- Keep the database layer, agent workflow, LLM factory, and security validator cleanly separated: see [ARCHITECTURE.md](ARCHITECTURE.md) for the intended boundaries.
 - Treat any new LLM provider integration, SQL safety rule, or database backend as security-sensitive: add tests that cover both the allowed and rejected paths.
-- Never log or persist raw API keys, database connection strings, or full query results in audit output — see [SECURITY.md](SECURITY.md) for what's already redacted.
+- Never log or persist raw API keys, database connection strings, or full query results in audit output: see [SECURITY.md](SECURITY.md) for what's already redacted.
 
 ## Pull requests
 
@@ -66,4 +84,4 @@ Be respectful and constructive. Disagreements about approach are fine and expect
 
 ## No financial contributions
 
-This project does not want or accept donations, sponsorships, or any other form of financial support. If you'd like to give back, the most valuable thing you can do is contribute code, tests, docs, or a well-written bug report. Thank you!
+This project does not want or accept donations, sponsorships, or any other form of financial support. You can contribute code, tests, docs, or a reproducible bug report.

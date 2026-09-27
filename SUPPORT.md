@@ -11,7 +11,10 @@ This is a free, open-source, community-driven project maintained in spare time. 
 
 ## What to expect
 
-Responses come as time allows, with no guaranteed turnaround. Include the exact error, LLM provider, database backend, and output of `uv run nl2sql-agent config` so maintainers can reproduce the problem.
+Responses come as time allows, with no guaranteed turnaround. Include the error,
+LLM provider/model, database backend and relevant settings. Review diagnostic
+output before sharing it: `config` masks credential fields but can still show
+local paths, endpoint addresses and other private configuration.
 
 For evaluation reports, include `outcome`, `error_code`, case IDs, report
 version, and whether the run was partial. Share the sanitized manifest, not
