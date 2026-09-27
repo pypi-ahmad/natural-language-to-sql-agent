@@ -1,0 +1,122 @@
+# Live evaluation evidence: 2026-09-27
+
+These are development runs on the repository owner's Windows laptop, not a
+leaderboard submission or a frozen model-ranking study. JSON manifests retain
+case IDs, outcomes, SQL, usage, settings, and failed attempts. No raw database
+rows, credentials, private endpoints, or reasoning traces are included.
+
+## Common cases
+
+Each generator was evaluated on the same 30 synthetic HR case IDs and the same
+20 BIRD Mini-Dev IDs. The synthetic subset contains 24 result questions, two
+clarification questions, two unanswerable questions, and two policy requests.
+The BIRD subset is entirely `california_schools`.
+
+| Generator | Synthetic result matches | All synthetic cases passed | BIRD result matches |
+| --- | --- | --- | --- |
+| GPT-6 Luna | 22/24 | 26/30 | 2/20 |
+| Agnes 3.0 Flash | 9/24 | 9/30 | 6/20 |
+| GPT-OSS 120B, fixed Groq route | 9/24 | 9/30 | 0/20 |
+| Granite 4.2 3B | 22/24 | 23/30 | 0/20 |
+| Qwen 3.5 9B | 20/24 | 22/30 | 2/20 |
+
+Result matching requires explicit execution plus matching rows, not merely
+the presence of SQL. All-case totals also score the non-result categories.
+Provider/interface errors count as failed attempts rather than disappearing
+from the denominator. There is no inferred winner from this table.
+
+The table applies the [scoring correction](scoring-corrections.json). The original
+evaluator could credit matching truncated prefixes. BIRD questions 11, 23, 24,
+and 27 exceed the 1,000-row reference fetch cap; those cases cannot establish a
+full-result match under this configuration and are counted as not passed.
+This retracts Luna's original pass on question 11 and Agnes's passes on 11 and
+24, without making another model call. Original manifests remain unchanged.
+
+Important observations:
+
+- Agnes and GPT-OSS each had 21 provider/interface failures in their 30-case
+  synthetic runs. GPT-OSS had 20 such failures in BIRD. A later one-case probe
+  succeeded for Agnes and failed for GPT-OSS. The retained error category does
+  not establish the provider's root cause.
+- Luna executed ten BIRD cases, requested clarification on nine, and had one
+  generation failure. Two executed results established complete gold-row matches.
+- Agnes executed fifteen BIRD cases, requested clarification on one, and had
+  four generation failures. Six executed results established complete matches.
+- Granite's BIRD run had twenty generation failures. Each case consumed 3,072
+  output tokens over three capped attempts. This is a failure of this bounded
+  configuration, not a measurement of unconstrained model capability.
+- Qwen's synthetic run stopped after 22 cases following three consecutive
+  provider errors. After a model reload, a separate run attempted only the eight
+  remaining IDs with the same model and generation settings, including default
+  thinking behavior. The table combines these disjoint runs and retains all
+  three original failures. It is not a single uninterrupted run.
+- Qwen's BIRD run completed all twenty cases: twelve executed, three provider
+  errors, three generation errors, and two clarification requests. Two results
+  matched the reference. Case latencies totalled about 58 minutes; the slowest
+  case took about fourteen minutes across its attempts.
+- Luna refused both write requests as unanswerable. No SQL ran, but those
+  refusals are not credited as deterministic policy blocks. The stricter metric
+  therefore reports zero policy-block successes for that run.
+
+## Ablation
+
+GPT-6 Luna ran the same first twelve HR cases in four configurations:
+
+| Configuration | Attempts allowed | Detailed schema cap | Result matches |
+| --- | --- | --- | --- |
+| Single pass | 1 | 100 | 12/12 |
+| Retries | 3 | 100 | 12/12 |
+| Schema selection | 1 | 8 | 12/12 |
+| Full | 3 | 8 | 12/12 |
+
+These easy cases show no measured accuracy benefit. HR has only two tables,
+so both schema caps include the full schema; this ablation does not establish
+retrieval quality on large schemas. Do not claim improvement from these scores.
+
+## Local execution and judge
+
+[Hardware metadata](../hardware.json) records model digests, quantization,
+context size, and observed GPU allocation. Local models run sequentially.
+The output cap is 1,024 tokens per generator request and the local context is
+4,096 tokens. Provider reasoning behavior and wall-clock budgets differ; this
+is not an equal-compute comparison.
+
+Repository verification also ran on this laptop during parts of the comparison.
+Wall-clock timings therefore include an uncontrolled, potentially contended
+development environment; they are not isolated throughput measurements.
+
+Guardian uses a separate 32-token yes/no scoring path with thinking disabled.
+Its four calibration labels were explicitly reviewed by the repository owner.
+It scores read-only SQL form, not semantic correctness, and never gates query
+execution. The [live report](guardian.json) matched all four calibration labels
+and returned valid positive scores for all twelve SQL samples from
+`luna-full.json`, with no malformed scores. This small smoke check does not
+establish accuracy on a representative evaluation set.
+
+## Provenance and retained attempts
+
+The main synthetic files are `luna-synthetic.json`, `agnes-synthetic.json`,
+`gpt-oss-synthetic-v2.json`, and `granite-synthetic-v2.json`. Matching `*-bird.json`
+files contain BIRD attempts. Qwen uses `qwen-synthetic.json` (IDs 1 to 22) plus
+`qwen-synthetic-continuation.json` (IDs 23 to 30, `selection_offset=22`), with no
+overlap, and `qwen-bird.json`. Its continuation records a later source hash
+because the driver gained offset selection; generation settings were unchanged.
+
+`granite-synthetic.json` (6/30) and `gpt-oss-synthetic.json` (19/30) are interrupted
+earlier attempts, not the main comparison. They are retained rather than
+overwritten. The two `*-availability-probe.json` files are single-case diagnostic
+probes, not replacement accuracy runs.
+
+Early manifests were produced while code and fixture metadata were being
+developed. They record a dirty worktree and some dataset hashes differ. The
+later driver adds actual Python-source and database-file hashes. Earlier
+reports cannot be reconstructed exactly from their Git commit alone; none has
+been rewritten to claim a clean frozen revision.
+
+All paid calls, including probes and retries, use one persistent ledger with a
+US$2 ceiling. The final conservative total is US$0.103428525. This includes
+unresolved reservations and is not a provider invoice.
+
+BIRD source and licensing attribution, selection IDs, and reproduction commands
+are in the [benchmark protocol](../README.md). Questions and databases remain
+under BIRD's CC BY-SA 4.0 terms, not this project's MIT license.

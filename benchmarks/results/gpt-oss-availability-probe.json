@@ -1,0 +1,43 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T11:26:34.669268+00:00",
+  "commit": "22e6c6b7be7eb0c168123182bccbb1054c7e9645",
+  "working_tree_dirty": true,
+  "provider": "huggingface",
+  "model": "openai/gpt-oss-120b:groq",
+  "suite": "bird",
+  "dataset_sha256": "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2",
+  "dataset_revision": "f65faf4ae3b638c1fa6df1d3370c8d92c8366301",
+  "prompt_version": "decision-v2",
+  "context_tokens": null,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 1,
+  "cases": [
+    {
+      "id": "bird-5",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 385.659,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    }
+  ],
+  "budget_committed_usd": "0.103391225",
+  "completed_at": "2026-09-27T11:26:35.313117+00:00"
+}

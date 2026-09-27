@@ -15,6 +15,7 @@ from psycopg.rows import dict_row
 
 from .base import DatabaseError, QueryMetrics, QueryPlan, QueryPlanNode
 from .database import QueryResult, _sample_cell
+from .schema_context import rank_tables
 
 
 class PostgresDatabase:
@@ -124,12 +125,49 @@ class PostgresDatabase:
                 (self.schema,),
             ).fetchall()
             metadata: dict[str, list[dict[str, object]]] = {}
-            allowed = {name.casefold() for name in allowed_tables} if allowed_tables else None
+            allowed = (
+                {name.casefold() for name in allowed_tables} if allowed_tables is not None else None
+            )
             for row in rows:
                 table = str(row["table_name"])
                 if allowed is None or table.casefold() in allowed:
                     metadata.setdefault(table, []).append(row)
-            tables = self._rank_tables(list(metadata), metadata, question, max_tables)
+            # information_schema.referential_constraints hides FKs from roles
+            # with only SELECT. Read catalog metadata without granting writes,
+            # pairing composite keys by position and checking column access.
+            foreign_keys = conn.execute(
+                "SELECT src.relname AS table_name, sa.attname AS column_name, "
+                "dst.relname AS target_table, da.attname AS target_column "
+                "FROM pg_catalog.pg_constraint fk "
+                "JOIN pg_catalog.pg_class src ON src.oid=fk.conrelid "
+                "JOIN pg_catalog.pg_namespace sn ON sn.oid=src.relnamespace "
+                "JOIN pg_catalog.pg_class dst ON dst.oid=fk.confrelid "
+                "JOIN pg_catalog.pg_namespace dn ON dn.oid=dst.relnamespace "
+                "CROSS JOIN LATERAL unnest(fk.conkey, fk.confkey) WITH ORDINALITY "
+                "AS keys(source_num, target_num, position) "
+                "JOIN pg_catalog.pg_attribute sa ON sa.attrelid=src.oid AND sa.attnum=keys.source_num "
+                "JOIN pg_catalog.pg_attribute da ON da.attrelid=dst.oid AND da.attnum=keys.target_num "
+                "WHERE fk.contype='f' AND sn.nspname=%s AND dn.nspname=%s "
+                "AND has_column_privilege(src.oid, sa.attnum, 'SELECT') "
+                "AND has_column_privilege(dst.oid, da.attnum, 'SELECT') "
+                "ORDER BY src.relname, fk.oid, keys.position",
+                (self.schema, self.schema),
+            ).fetchall()
+            links: dict[str, set[str]] = {table: set() for table in metadata}
+            for key in foreign_keys:
+                source, target = str(key["table_name"]), str(key["target_table"])
+                if source in links and target in links:
+                    links[source].add(target)
+                    links[target].add(source)
+            tables = rank_tables(
+                {
+                    table: [str(row["column_name"]) for row in rows]
+                    for table, rows in metadata.items()
+                },
+                question,
+                max_tables,
+                links,
+            )
             if not tables:
                 return "(no tables)"
             parts: list[str] = []
@@ -140,6 +178,11 @@ class PostgresDatabase:
                     for row in metadata[table]
                 )
                 parts.append(f"Table {table}({columns})")
+                for key in foreign_keys:
+                    if key["table_name"] == table and key["target_table"] in metadata:
+                        parts.append(
+                            f"  └─ {table}.{key['column_name']} → {key['target_table']}.{key['target_column']}"
+                        )
                 if include_sample_values:
                     query = psycopg_sql.SQL("SELECT * FROM {}.{} LIMIT 3").format(
                         psycopg_sql.Identifier(self.schema), psycopg_sql.Identifier(table)

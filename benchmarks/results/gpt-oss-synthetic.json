@@ -1,0 +1,430 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T11:02:26.666778+00:00",
+  "commit": "0c6462805d953346a5c119d759b3a738f2755bb1",
+  "working_tree_dirty": true,
+  "provider": "huggingface",
+  "model": "openai/gpt-oss-120b:groq",
+  "suite": "synthetic",
+  "dataset_sha256": "84987f428684f7e2c8ebaf437ad86585f86a5be2fc2e58a36cdf8856e03f1fe0",
+  "dataset_revision": null,
+  "prompt_version": "decision-v2",
+  "context_tokens": null,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 30,
+  "cases": [
+    {
+      "id": "hr-01",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 392.083,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-02",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 169.353,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-03",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 112.216,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-04",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 112.81,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-05",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 116.151,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-06",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1287.539,
+      "retries": 0,
+      "input_tokens": 393,
+      "output_tokens": 125,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT name FROM employees ORDER BY id LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-07",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1701.201,
+      "retries": 0,
+      "input_tokens": 393,
+      "output_tokens": 164,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary > 15 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The salary column stores numeric values in the same unit as the threshold (15).",
+        "Employee IDs are returned as the 'id' column from the employees table."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-08",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1676.492,
+      "retries": 0,
+      "input_tokens": 393,
+      "output_tokens": 281,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary = 20 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Salary is stored as a numeric value in the same units as the literal 20",
+        "Exact equality comparison (salary = 20) correctly captures the intended employees"
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-09",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 871.508,
+      "retries": 0,
+      "input_tokens": 390,
+      "output_tokens": 145,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Missing salary is interpreted as a NULL value in the employees.salary column."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-10",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 814.816,
+      "retries": 0,
+      "input_tokens": 391,
+      "output_tokens": 159,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) AS employee_count FROM employees WHERE NOT salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "A NULL value in the employees.salary column means the salary is unknown.",
+        "All rows in the employees table represent distinct employees."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-11",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 978.435,
+      "retries": 0,
+      "input_tokens": 389,
+      "output_tokens": 141,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT DISTINCT salary FROM employees WHERE NOT salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The term 'known salary values' refers to salary entries that are not NULL in the employees table."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-12",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 994.584,
+      "retries": 0,
+      "input_tokens": 397,
+      "output_tokens": 158,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary >= 10 AND salary <= 20 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The salary column is numeric and stores the employee's salary in consistent units.",
+        "The range 10 to 20 is inclusive as requested."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-13",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1171.003,
+      "retries": 0,
+      "input_tokens": 393,
+      "output_tokens": 172,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary > 1000 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The salary column is expressed in the same monetary units referenced by the question.",
+        "\"over 1000\" is interpreted as strictly greater than 1000 (not inclusive)."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-14",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 658.11,
+      "retries": 0,
+      "input_tokens": 390,
+      "output_tokens": 86,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT name FROM departments ORDER BY name ASC LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-15",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 359.356,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-16",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 363.42,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-17",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 332.077,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-18",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 354.153,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    },
+    {
+      "id": "hr-19",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 734.024,
+      "retries": 0,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "error": "The model provider could not complete the request.",
+      "outcome": "provider_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "error_code": "provider_error"
+    }
+  ],
+  "budget_committed_usd": "0.023446475",
+  "completed_at": "2026-09-27T11:02:40.232019+00:00"
+}

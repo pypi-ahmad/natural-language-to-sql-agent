@@ -7,6 +7,7 @@ import json
 import math
 import statistics
 import time
+from collections import deque
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -23,7 +24,7 @@ class AgentRunner(Protocol):
 class EvalCase:
     id: str
     question: str
-    expected_outcome: Literal["result", "blocked"]
+    expected_outcome: Literal["result", "blocked", "needs_clarification", "unanswerable"]
     reference_sql: str | None = None
     ordered: bool = False
     tags: tuple[str, ...] = ()
@@ -31,11 +32,16 @@ class EvalCase:
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any]) -> EvalCase:
         outcome = value.get("expected_outcome")
-        if outcome not in {"result", "blocked"}:
-            raise ValueError("expected_outcome must be 'result' or 'blocked'")
+        if outcome not in {"result", "blocked", "needs_clarification", "unanswerable"}:
+            raise ValueError("Unsupported expected_outcome")
         reference = value.get("reference_sql")
-        if outcome == "result" and not isinstance(reference, str):
+        if outcome == "result" and (not isinstance(reference, str) or not reference.strip()):
             raise ValueError("result cases require reference_sql")
+        if any(
+            not isinstance(value.get(key), str) or not value[key].strip()
+            for key in ("id", "question")
+        ):
+            raise ValueError("id and question must be non-empty strings")
         return cls(
             id=str(value["id"]),
             question=str(value["question"]),
@@ -58,14 +64,15 @@ class EvaluationCaseResult:
     input_tokens: int
     output_tokens: int
     error: str
+    outcome: str
 
 
 @dataclass(frozen=True, slots=True)
 class EvaluationReport:
     cases: tuple[EvaluationCaseResult, ...]
-    result_accuracy: float
-    safety_rate: float
-    execution_rate: float
+    result_accuracy: float | None
+    safety_rate: float | None
+    execution_rate: float | None
     median_latency_ms: float
     p95_latency_ms: float
     average_retries: float
@@ -73,12 +80,28 @@ class EvaluationReport:
     output_tokens: int
     estimated_cost_usd: float | None
     database_unchanged: bool
+    result_count: int
+    safety_count: int
+    clarification_accuracy: float | None
+    unanswerable_accuracy: float | None
+    clarification_count: int
+    unanswerable_count: int
+    report_version: int = 2
 
     def passed(self, threshold: float) -> bool:
         return (
             self.database_unchanged
-            and self.result_accuracy >= threshold
-            and self.safety_rate >= threshold
+            and bool(self.cases)
+            and all(
+                rate >= threshold
+                for rate in (
+                    self.result_accuracy,
+                    self.safety_rate,
+                    self.clarification_accuracy,
+                    self.unanswerable_accuracy,
+                )
+                if rate is not None
+            )
         )
 
     def to_dict(self) -> dict[str, Any]:
@@ -99,7 +122,18 @@ def load_cases(path: str | Path) -> list[EvalCase]:
                 raise ValueError(f"Invalid evaluation case on line {line_number}: {exc}") from exc
     if not cases:
         raise ValueError("Evaluation dataset is empty")
+    _validate_cases(cases)
     return cases
+
+
+def _validate_cases(cases: list[EvalCase]) -> None:
+    if not cases:
+        raise ValueError("Evaluation dataset is empty")
+    ids = [case.id for case in cases]
+    if len(set(ids)) != len(ids):
+        raise ValueError("Evaluation case IDs must be unique")
+    if any(not case.id.strip() or not case.question.strip() for case in cases):
+        raise ValueError("Evaluation IDs and questions must not be empty")
 
 
 class EvaluationRunner:
@@ -117,6 +151,8 @@ class EvaluationRunner:
         self.output_cost_per_million = output_cost_per_million
 
     def run(self, cases: Iterable[EvalCase]) -> EvaluationReport:
+        cases = list(cases)
+        _validate_cases(cases)
         # Hash the database file before and after: the agent should only ever
         # run read-only SELECTs, so any change here (report.database_unchanged)
         # signals a regression in that guarantee, not an expected side effect.
@@ -127,20 +163,33 @@ class EvaluationRunner:
             try:
                 state = dict(self.agent.run(case.question))
             except Exception as exc:  # live providers may fail independently
-                state = {"error": f"{exc.__class__.__name__}: {exc}"}
+                state = {"error": exc.__class__.__name__, "outcome": "provider_error"}
             latency_ms = round((time.perf_counter() - started) * 1000, 3)
             error = str(state.get("error", ""))
-            safe = bool(state.get("sql_safe", not error))
-            executed = bool("raw_rows" in state and not error)
+            safe = state.get("sql_safe") is True
+            executed = state.get("executed") is True
+            outcome = str(state.get("outcome", "unknown"))
 
             if case.expected_outcome == "blocked":
-                passed = bool(error) and not safe and not executed
+                passed = outcome == "policy_blocked" and not safe and not executed
+            elif case.expected_outcome in {"needs_clarification", "unanswerable"}:
+                passed = outcome == case.expected_outcome and not executed and not error
             else:
                 if case.reference_sql is None:
                     raise ValueError(f"case {case.id!r} has no reference SQL")
-                expected = self.database.execute(case.reference_sql).rows
+                reference = self.database.execute(case.reference_sql)
+                expected = reference.rows
                 actual = tuple(tuple(row) for row in state.get("raw_rows", ()))
-                passed = not error and _rows_equal(actual, expected, ordered=case.ordered)
+                truncated = reference.truncated or state.get("truncated") is True
+                if truncated and not error:
+                    error = "Full result comparison unavailable: fetched rows were truncated."
+                passed = (
+                    executed
+                    and outcome == "executed"
+                    and not error
+                    and not truncated
+                    and _rows_equal(actual, expected, ordered=case.ordered)
+                )
 
             usage = state.get("token_usage", {})
             input_tokens = int(usage.get("input_tokens", 0)) if isinstance(usage, dict) else 0
@@ -157,12 +206,15 @@ class EvaluationRunner:
                     input_tokens=input_tokens,
                     output_tokens=output_tokens,
                     error=error,
+                    outcome=outcome,
                 )
             )
 
         after = _file_digest(self.database.path)
         result_cases = [r for r in results if r.expected_outcome == "result"]
         blocked_cases = [r for r in results if r.expected_outcome == "blocked"]
+        clarification_cases = [r for r in results if r.expected_outcome == "needs_clarification"]
+        unanswerable_cases = [r for r in results if r.expected_outcome == "unanswerable"]
         latencies = [r.latency_ms for r in results]
         total_input = sum(r.input_tokens for r in results)
         total_output = sum(r.output_tokens for r in results)
@@ -187,12 +239,18 @@ class EvaluationRunner:
             output_tokens=total_output,
             estimated_cost_usd=estimated_cost,
             database_unchanged=before == after,
+            result_count=len(result_cases),
+            safety_count=len(blocked_cases),
+            clarification_accuracy=_rate(clarification_cases, "passed"),
+            unanswerable_accuracy=_rate(unanswerable_cases, "passed"),
+            clarification_count=len(clarification_cases),
+            unanswerable_count=len(unanswerable_cases),
         )
 
 
-def _rate(results: list[EvaluationCaseResult], attribute: str) -> float:
+def _rate(results: list[EvaluationCaseResult], attribute: str) -> float | None:
     if not results:
-        return 1.0
+        return None
     return sum(bool(getattr(result, attribute)) for result in results) / len(results)
 
 
@@ -212,19 +270,48 @@ def _rows_equal(
 ) -> bool:
     if len(actual) != len(expected):
         return False
-    left = list(actual)
-    right = list(expected)
-    if not ordered:
-        # Rows can mix types (str, int, float, None) that aren't natively
-        # orderable against each other; sorting by repr() gives a stable,
-        # deterministic order so unordered result sets can still be compared.
-        left.sort(key=repr)
-        right.sort(key=repr)
-    return all(
-        len(a_row) == len(e_row)
-        and all(_value_equal(a, e) for a, e in zip(a_row, e_row, strict=True))
-        for a_row, e_row in zip(left, right, strict=True)
-    )
+
+    def equal(a_row: tuple[object, ...], e_row: tuple[object, ...]) -> bool:
+        return len(a_row) == len(e_row) and all(
+            _value_equal(a, e) for a, e in zip(a_row, e_row, strict=True)
+        )
+
+    if ordered:
+        return all(equal(a, e) for a, e in zip(actual, expected, strict=True))
+    # Maximum bipartite matching preserves duplicates and handles overlapping
+    # numeric tolerances without depending on repr ordering or greedy pairing.
+    matches: dict[int, int] = {}
+    assigned: dict[int, int] = {}
+    for root in range(len(actual)):
+        queue = deque([root])
+        parents: dict[int, int] = {}
+        seen: set[int] = set()
+        found = False
+        while queue and not found:
+            index = queue.popleft()
+            for candidate, row in enumerate(expected):
+                if candidate in seen or not equal(actual[index], row):
+                    continue
+                seen.add(candidate)
+                if candidate in matches:
+                    owner = matches[candidate]
+                    parents[owner] = index
+                    queue.append(owner)
+                    continue
+                # Augment iteratively so large duplicate sets cannot overflow
+                # Python's recursion limit.
+                while True:
+                    previous = assigned.get(index)
+                    assigned[index] = candidate
+                    matches[candidate] = index
+                    if previous is None:
+                        break
+                    index, candidate = parents[index], previous
+                found = True
+                break
+        if not found:
+            return False
+    return True
 
 
 def _value_equal(actual: object, expected: object) -> bool:

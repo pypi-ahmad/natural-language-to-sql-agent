@@ -1,0 +1,279 @@
+{
+  "revision": "f65faf4ae3b638c1fa6df1d3370c8d92c8366301",
+  "source_sha256": "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2",
+  "selection_method": "ascending question_id with fixed difficulty quotas; not domain-stratified",
+  "selection_50": [
+    {
+      "question_id": 5,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 11,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 12,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 17,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 23,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 24,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 25,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 26,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 27,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 28,
+      "db_id": "california_schools",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 31,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 32,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 36,
+      "db_id": "california_schools",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 37,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 39,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 40,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 41,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 45,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 46,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 47,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 48,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 50,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 62,
+      "db_id": "california_schools",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 72,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 77,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 79,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 82,
+      "db_id": "california_schools",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 83,
+      "db_id": "california_schools",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 85,
+      "db_id": "california_schools",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 87,
+      "db_id": "california_schools",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 89,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 92,
+      "db_id": "financial",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 93,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 94,
+      "db_id": "financial",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 95,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 98,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 99,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 100,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 112,
+      "db_id": "financial",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 115,
+      "db_id": "financial",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 116,
+      "db_id": "financial",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 117,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 118,
+      "db_id": "financial",
+      "difficulty": "moderate"
+    },
+    {
+      "question_id": 125,
+      "db_id": "financial",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 149,
+      "db_id": "financial",
+      "difficulty": "challenging"
+    },
+    {
+      "question_id": 159,
+      "db_id": "financial",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 195,
+      "db_id": "toxicology",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 200,
+      "db_id": "toxicology",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 227,
+      "db_id": "toxicology",
+      "difficulty": "simple"
+    },
+    {
+      "question_id": 239,
+      "db_id": "toxicology",
+      "difficulty": "simple"
+    }
+  ],
+  "live_20_ids": [
+    5,
+    11,
+    12,
+    17,
+    23,
+    24,
+    25,
+    26,
+    27,
+    28,
+    31,
+    32,
+    36,
+    37,
+    39,
+    40,
+    41,
+    46,
+    62,
+    83
+  ]
+}

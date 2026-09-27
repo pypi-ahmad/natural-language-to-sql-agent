@@ -1,0 +1,10 @@
+{
+  "tables": {
+    "employees": {
+      "description": "Employees in the synthetic HR fixture, including salary and department membership.",
+      "aliases": ["staff", "workforce"],
+      "metrics": {"payroll": "SUM(salary); salary units follow the source database."},
+      "values": {}
+    }
+  }
+}

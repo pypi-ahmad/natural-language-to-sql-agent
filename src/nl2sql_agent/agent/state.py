@@ -21,10 +21,16 @@ class AgentState(TypedDict, total=False):
     # ---- User input ----
     question: str
     """The original natural-language question from the user."""
+    clarifications: list[str]
+    clarification_question: str
+    assumptions: list[str]
 
     # ---- Schema context ----
     schema: str
     """Human-readable schema description for the LLM prompt."""
+    selected_tables: list[str]
+    schema_incomplete: bool
+    context_signature: str
 
     # ---- SQL generation ----
     sql_query: str
@@ -45,6 +51,13 @@ class AgentState(TypedDict, total=False):
     # ---- Errors and retries ----
     error: str
     """Most recent error message (security, execution, or none)."""
+    outcome: str
+    """Explicit workflow outcome; failures never imply a successful policy block."""
+    error_code: str
+    executed: bool
+    """True only after successful database execution, including empty results."""
+    row_limit_applied: bool
+    summary_sampled: bool
     retry_count: int
     """Number of writer attempts so far."""
     max_retries: int

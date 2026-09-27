@@ -6,7 +6,8 @@ labels: enhancement
 assignees: ''
 ---
 
-Thanks for the suggestion! Check the [ROADMAP](README.md#17-roadmap) in the README first in case it's already planned. Feel free to open this anyway if you want to add detail or a different angle.
+Check the [roadmap](../../README.md#17-roadmap) before filing a request. Open
+the issue anyway when you have a different requirement or more detail.
 
 ## What problem does this solve?
 

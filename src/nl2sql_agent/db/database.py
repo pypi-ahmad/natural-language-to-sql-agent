@@ -20,6 +20,7 @@ from pathlib import Path
 
 from ..utils import get_logger
 from .base import QueryMetrics, QueryPlan, QueryPlanNode
+from .schema_context import rank_tables
 from .seed import SEED_DEPARTMENTS, SEED_EMPLOYEES
 
 logger = get_logger(__name__)
@@ -252,7 +253,23 @@ class Database:
                     (table,),
                 ).fetchall()
 
-            selected = self._rank_tables(tables, metadata, question=question, max_tables=max_tables)
+            foreign_keys = {
+                table: conn.execute("SELECT * FROM pragma_foreign_key_list(?)", (table,)).fetchall()
+                for table in tables
+            }
+            links: dict[str, set[str]] = {table: set() for table in tables}
+            for table, keys in foreign_keys.items():
+                for key in keys:
+                    target = str(key["table"])
+                    if target in links:
+                        links[table].add(target)
+                        links[target].add(table)
+            selected = rank_tables(
+                {table: [str(col["name"]) for col in metadata[table]] for table in tables},
+                question,
+                max_tables,
+                links,
+            )
             parts: list[str] = []
             if selected != tables:
                 parts.append("Available tables: " + ", ".join(tables))
@@ -266,9 +283,10 @@ class Database:
                 )
                 parts.append(f"Table {table}({col_descr})")
 
-                fks = conn.execute("SELECT * FROM pragma_foreign_key_list(?)", (table,)).fetchall()
+                fks = foreign_keys[table]
                 for fk in fks:
-                    parts.append(f"  └─ {table}.{fk['from']} → {fk['table']}.{fk['to']}")
+                    if fk["table"] in tables:
+                        parts.append(f"  └─ {table}.{fk['from']} → {fk['table']}.{fk['to']}")
                 if include_sample_values:
                     quoted = _quote_identifier(table)
                     rows = conn.execute(
@@ -311,8 +329,8 @@ class Database:
     def execute(self, sql: str) -> QueryResult:
         """Execute a single SELECT and return its result.
 
-        Enforces ``max_rows`` by appending ``LIMIT`` when missing. The
-        caller is responsible for having validated ``sql`` for safety.
+        Executes SQL verbatim and caps fetched rows. The caller must validate
+        SQL and apply the query LIMIT before execution.
         """
         started = time.perf_counter()
         with self.connect() as conn:

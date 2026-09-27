@@ -173,14 +173,14 @@ Defaults to `company.db` in the current working directory.
 
 ---
 
-## 8. Tests
+## 8. Verification
 
 ### v0.1
 
 `python -m pytest tests/ -v`: 126 tests, 100% coverage of
 `backend.py`.
 
-### v0.2
+### v0.2 release state
 
 ```bash
 uv run pytest tests/unit -v          # offline unit suite
@@ -188,8 +188,11 @@ uv run pytest tests/integration -v   # live Ollama, requires service
 uv run pytest --cov=src/nl2sql_agent --cov-report=term-missing
 ```
 
-The old `tests/test_*.py` files at the repo root have been removed;
-their coverage is in `tests/unit/` organized by module.
+Those counts describe the v0.2 release checkout. The restored current suite
+runs offline on Windows and Linux; live model tests require opt-in. CI also
+runs PostgreSQL 17 integration, `prek`, dependency audit, package build, and
+an isolated wheel CLI smoke check.
+See [README.md](README.md#12-verification) for the current commands.
 
 ---
 

@@ -7,6 +7,23 @@ and this project adheres to [Semantic Versioning](https://semver.org/).
 
 ## [Unreleased]
 
+### Changed
+
+- Restored the pytest suite and Windows/Linux coverage gates; added a real
+  PostgreSQL 17 integration job.
+- Evaluation v2 distinguishes policy blocks, provider failures, preparation,
+  execution, clarification, and unanswerable questions. Empty/missing results
+  cannot pass without execution; absent metric categories return null.
+- Added structured writer decisions, two-round clarification, operator schema
+  catalogs, shared FK-aware table selection, stale-approval rejection, and
+  deterministic result answers.
+- Added GPT-6 Luna, Agnes 3.0 Flash, Granite 4.2 3B, Qwen 3.5 9B, and pinned
+  Groq routing for GPT-OSS 120B. Agnes keeps its legacy credential aliases.
+- Added a persistent Decimal budget ledger, synthetic benchmark fixtures,
+  and difficulty-stratified selection from pinned BIRD Mini-Dev data.
+- Added interactive architecture, workflow, sequence, data-flow, and lifecycle
+  diagrams under `diagrams/` plus a source-grounded API reference.
+
 ## [0.5.2] — 2026-08-17
 
 ### Added

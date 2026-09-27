@@ -41,6 +41,7 @@ logger = get_logger(__name__)
 def _init_session_state() -> None:
     st.session_state.setdefault("messages", [])
     st.session_state.setdefault("pending_query", None)
+    st.session_state.setdefault("pending_clarification", None)
     st.session_state.setdefault("active_context", None)
     st.session_state.setdefault("current_session_id", None)
     if "upload_workspace" not in st.session_state:
@@ -201,6 +202,11 @@ def _history_message(state: dict[str, Any], *, model: str) -> dict[str, Any]:
         "columns": list(state.get("columns", [])),
         "raw_rows": list(state.get("raw_rows", [])),
         "error": str(state.get("error", "")),
+        "outcome": str(state.get("outcome", "unknown")),
+        "error_code": str(state.get("error_code", "")),
+        "executed": bool(state.get("executed", False)),
+        "assumptions": list(state.get("assumptions", [])),
+        "row_limit_applied": bool(state.get("row_limit_applied", False)),
         "csv_data": str(state.get("csv_data", "")),
         "trace": list(state.get("trace", [])),
         "run_id": str(state.get("run_id", "result")),
@@ -319,7 +325,7 @@ def _persist_result(
 def _ensure_session(
     store: StateStore | None,
     *,
-    context: tuple[str, str, str],
+    context: tuple[object, ...],
     database: DatabaseBackend,
     database_name: str,
     fingerprint: str,
@@ -329,10 +335,11 @@ def _ensure_session(
     # A change to any part of `context` (database fingerprint, provider, or
     # model) is treated as a new conversation: history is cleared and a new
     # persisted session is created rather than continuing the old one.
-    if st.session_state.active_context == context and st.session_state.current_session_id:
-        return cast(str, st.session_state.current_session_id)
+    if st.session_state.active_context == context:
+        return cast(str | None, st.session_state.current_session_id)
     st.session_state.messages = []
     st.session_state.pending_query = None
+    st.session_state.pending_clarification = None
     st.session_state.active_context = context
     if store is None:
         st.session_state.current_session_id = None
@@ -349,12 +356,21 @@ def _ensure_session(
 
 
 def _stage_text(node: str, update: dict[str, Any]) -> str:
+    outcomes = {
+        "needs_clarification": "A clarification is needed before generating SQL.",
+        "unanswerable": "The available data cannot answer this question.",
+        "policy_blocked": "SQL blocked by policy; nothing was executed.",
+        "provider_error": "The model provider failed; nothing was executed.",
+        "budget_exhausted": "The request budget is exhausted; nothing was executed.",
+    }
+    if update.get("outcome") in outcomes:
+        return outcomes[update["outcome"]]
     if node == "fetch_schema":
         return "Relevant schema selected."
     if node == "writer":
         return f"SQL draft {update.get('retry_count', 1)} generated."
     if node == "guardian" and update.get("error"):
-        return "SQL blocked; requesting a corrected draft."
+        return "SQL preflight failed; a corrected draft may be requested."
     if node == "guardian":
         return "SQL validated and preflighted."
     return node.replace("_", " ").capitalize()
@@ -415,7 +431,7 @@ def _chat_page() -> None:
     else:
         st.sidebar.caption("The demo includes bounded sample rows in prompts.")
 
-    context = (fingerprint, provider, model)
+    context = (fingerprint, provider, model, tuple(sorted(allowed_tables)), include_sample_values)
     session_id = _ensure_session(
         store,
         context=context,
@@ -456,8 +472,16 @@ def _chat_page() -> None:
     )
 
     pending = st.session_state.pending_query
+    clarification = st.session_state.pending_clarification
+    if clarification:
+        st.info(clarification.get("clarification_question", "Please clarify your question."))
+        if st.button("Cancel clarification"):
+            st.session_state.pending_clarification = None
+            st.rerun()
     if pending:
         with st.chat_message("assistant"):
+            for assumption in pending.get("assumptions", []):
+                st.caption("Assumption: " + assumption)
             st.info(
                 "Review or edit the validated SQL, then run it.",
                 icon=":material/edit:",
@@ -548,6 +572,9 @@ def _chat_page() -> None:
     if not user_query or pending:
         return
 
+    replies = [*clarification.get("clarifications", []), user_query] if clarification else []
+    original_query = str(clarification["question"]) if clarification else user_query
+
     st.session_state.messages.append({"role": "user", "content": user_query})
     if store is not None and session_id is not None:
         store.append_message(session_id, "user", user_query)
@@ -564,14 +591,20 @@ def _chat_page() -> None:
         return
 
     final_state: AgentState = {
-        "question": user_query,
+        "question": original_query,
+        "clarifications": replies,
         "trace": [],
         "token_usage": {},
     }
     with st.chat_message("assistant"):
         status = st.status("Preparing SQL…", expanded=True)
         try:
-            for node_name, update in agent.stream_prepare(user_query):
+            events = (
+                agent.stream_prepare(original_query, clarifications=replies)
+                if replies
+                else agent.stream_prepare(original_query)
+            )
+            for node_name, update in events:
                 final_state.update(cast(AgentState, update))
                 status.write(_stage_text(node_name, update))
         except Exception:
@@ -585,11 +618,23 @@ def _chat_page() -> None:
             else:
                 st.error("SQL preparation failed. Check the provider connection.")
             return
-        if final_state.get("error"):
-            final_state["final_answer"] = (
-                "The query was blocked before execution: " + final_state["error"]
+        st.session_state.pending_clarification = None
+        if final_state.get("outcome") == "needs_clarification":
+            st.session_state.pending_clarification = dict(final_state)
+            status.update(label="Clarification needed", state="complete", expanded=False)
+        elif final_state.get("outcome") == "unanswerable":
+            st.session_state.messages.append(
+                {
+                    "role": "assistant",
+                    "content": final_state.get(
+                        "final_answer", "The available data cannot answer this question."
+                    ),
+                }
             )
-            status.update(label="Query blocked", state="error", expanded=False)
+            status.update(label="Not answerable", state="complete", expanded=False)
+        elif final_state.get("error"):
+            final_state["final_answer"] = "The query was not executed: " + final_state["error"]
+            status.update(label="Query not executed", state="error", expanded=False)
             blocked = dict(final_state)
             blocked["approved"] = False
             _apply_cost(blocked, model=model, store=store)

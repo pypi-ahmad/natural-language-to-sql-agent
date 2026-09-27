@@ -22,7 +22,8 @@ This installs the pinned Python (3.12.10) and every development dependency group
 
 1. Fork and clone the repository.
 2. Create a focused branch from `main`.
-3. Make your change and add or update tests for it.
+3. Make your change and add focused regression tests when behavior changes.
+   Tests use fake models by default; live services require explicit opt-in.
 4. Run the checks (see below) and fix anything they flag.
 5. Update `README.md`, `ARCHITECTURE.md`, or other docs when your change affects public behavior or configuration.
 6. Open a pull request with a clear description of the problem, the fix, and how you verified it.
@@ -30,9 +31,11 @@ This installs the pinned Python (3.12.10) and every development dependency group
 ## Required checks
 
 ```bash
-uv run ruff check src tests
-uv run ty check src
-uv run pytest tests/unit
+uv run ruff check src
+uv run pytest -q --cov=nl2sql_agent
+uv run ty check
+uv audit --locked
+uv build
 ```
 
 Then run the same gate CI runs, which also covers formatting and secret scanning:
@@ -41,7 +44,8 @@ Then run the same gate CI runs, which also covers formatting and secret scanning
 uv run prek run --all-files
 ```
 
-CI runs this full suite before a pull request can merge.
+CI runs the suite on Windows and Linux, requires 80% coverage, checks a real
+PostgreSQL 17 fixture, and runs `nl2sql-agent --help` from an isolated wheel.
 
 ## Coding conventions
 
@@ -52,7 +56,7 @@ CI runs this full suite before a pull request can merge.
 
 ## Pull requests
 
-- Keep PRs focused: one change per PR is much easier to review than five.
+- Keep pull requests focused so reviewers can verify each behavioral change.
 - Describe what you changed and why in the PR description.
 - Be patient: this is maintained in spare time, so review may take a bit.
 

@@ -1,0 +1,165 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T10:59:24.336462+00:00",
+  "commit": "0c6462805d953346a5c119d759b3a738f2755bb1",
+  "working_tree_dirty": true,
+  "provider": "ollama",
+  "model": "granite4.2:3b",
+  "suite": "synthetic",
+  "dataset_sha256": "0512dd9200a86fb46a412794eb4a17f9941f687cd14ee0b55594cfbe4367df09",
+  "dataset_revision": null,
+  "prompt_version": "decision-v2",
+  "context_tokens": 4096,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 30,
+  "cases": [
+    {
+      "id": "hr-01",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 62867.848,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 486,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "All rows in the employees table represent distinct employees.",
+        "No additional filtering (e.g., by date) is required for the answer."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-02",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 70500.477,
+      "retries": 2,
+      "input_tokens": 1141,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    },
+    {
+      "id": "hr-03",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 13797.849,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 656,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT AVG(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The average is taken over all employees in the employees table.",
+        "The salary column is REAL and contains numeric salary values.",
+        "No time range or department filter is applied (overall average)."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-04",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 15824.479,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 771,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MIN(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains salary values (REAL) for each employee.",
+        "There is at least one employee record."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-05",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 15307.645,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 647,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MAX(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table exists and contains salary values.",
+        "There is at least one employee record."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-06",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 21110.655,
+      "retries": 0,
+      "input_tokens": 368,
+      "output_tokens": 963,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT name FROM employees ORDER BY id LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains all relevant rows.",
+        "The name column is non-null for all rows.",
+        "Ordering is ascending by employee ID."
+      ],
+      "error_code": ""
+    }
+  ],
+  "budget_committed_usd": "0.023446475",
+  "completed_at": "2026-09-27T11:02:43.930848+00:00"
+}

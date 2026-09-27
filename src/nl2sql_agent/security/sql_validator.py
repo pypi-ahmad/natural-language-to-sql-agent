@@ -33,6 +33,10 @@ logger = get_logger(__name__)
 class SQLValidationError(ValueError):
     """Raised when a SQL string fails safety validation."""
 
+    def __init__(self, message: str, *, code: str = "policy_blocked") -> None:
+        super().__init__(message)
+        self.code = code
+
 
 # Functions that can read files, execute shell commands, or otherwise
 # access the host. ``sqlite_load_extension`` is a particularly nasty one.
@@ -92,6 +96,7 @@ class PreparedSQL:
 
     sql: str
     tables: frozenset[str]
+    row_limit_applied: bool = False
 
 
 def parse_sql(sql: str, *, dialect: str = "sqlite") -> list[exp.Expression]:
@@ -101,16 +106,16 @@ def parse_sql(sql: str, *, dialect: str = "sqlite") -> list[exp.Expression]:
     converted to :class:`SQLValidationError` with a uniform message.
     """
     if not sql or not sql.strip():
-        raise SQLValidationError("SQL is empty")
+        raise SQLValidationError("SQL is empty", code="generation_error")
     try:
         statements: list[exp.Expression | None] = sqlglot.parse(sql, dialect=dialect)
     except sqlglot.errors.ParseError as exc:
-        raise SQLValidationError(f"SQL is not valid: {exc}") from exc
+        raise SQLValidationError(f"SQL is not valid: {exc}", code="generation_error") from exc
 
     # ``sqlglot.parse`` returns ``[None]`` for blank input or commands like SET.
     filtered: list[exp.Expression] = [s for s in statements if s is not None]
     if not filtered:
-        raise SQLValidationError("SQL parsed to no executable statement")
+        raise SQLValidationError("SQL parsed to no executable statement", code="generation_error")
     return filtered
 
 
@@ -245,6 +250,9 @@ def _validate_statements(
     else:
         raise SQLValidationError(
             f"Only SELECT queries are allowed (got {top.__class__.__name__}).",
+            code="generation_error"
+            if isinstance(top, (exp.Column, exp.Literal, exp.Alias))
+            else "policy_blocked",
         )
 
     for sel in selects:
@@ -362,6 +370,7 @@ def prepare_sql(
         if denied:
             raise SQLValidationError("Tables are not allowed for this query: " + ", ".join(denied))
 
+    row_limit_applied = False
     if policy.max_limit is not None:
         limit = top.args.get("limit")
         limit_n: int | None = None
@@ -371,6 +380,7 @@ def prepare_sql(
             except (TypeError, ValueError):
                 limit_n = None
         if limit_n is None or limit_n > policy.max_limit:
+            row_limit_applied = True
             top.set(
                 "limit",
                 exp.Limit(expression=exp.Literal.number(policy.max_limit)),
@@ -379,4 +389,5 @@ def prepare_sql(
     return PreparedSQL(
         sql=top.sql(dialect=dialect),
         tables=frozenset(tables),
+        row_limit_applied=row_limit_applied,
     )

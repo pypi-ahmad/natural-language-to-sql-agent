@@ -16,6 +16,8 @@ typed via :class:`AgentState`.
 
 from __future__ import annotations
 
+import json
+import re
 import sqlite3
 import time
 from collections.abc import Collection, Iterator, Mapping
@@ -23,7 +25,6 @@ from dataclasses import asdict, dataclass
 from typing import Any, cast
 from uuid import uuid4
 
-from langchain_core.language_models import BaseChatModel
 from langgraph.graph import END, START, StateGraph
 from langgraph.graph.state import CompiledStateGraph
 
@@ -36,6 +37,8 @@ from ..db import (
     QueryPlan,
     QueryResult,
 )
+from ..db.schema_context import SchemaCatalog
+from ..llm.budget import BudgetExhausted, Invokable
 from ..llm.pricing import UsageRecord
 from ..prompts import (
     SQL_WRITER_USER,
@@ -47,6 +50,7 @@ from ..prompts import (
 )
 from ..security import SQLPolicy, SQLValidationError, prepare_sql
 from ..utils import AuditLogger, get_logger, hash_text, strip_sql_fences
+from .decisions import DECISION_CONTRACT, WriterDecision
 from .state import AgentState
 
 logger = get_logger(__name__)
@@ -71,7 +75,7 @@ class NL2SQLAgent:
 
     def __init__(
         self,
-        llm: BaseChatModel,
+        llm: Invokable,
         *,
         settings: Settings | None = None,
         database: DatabaseBackend | None = None,
@@ -145,15 +149,22 @@ class NL2SQLAgent:
     def fetch_schema(self, state: AgentState) -> dict[str, Any]:
         """Read the database schema and return it as a state update."""
         started = time.perf_counter()
+        full_schema = self.db.get_schema_text()
+        catalog = SchemaCatalog.load(self.settings.schema_catalog_path, full_schema)
         schema = self.db.get_schema_text(
             allowed_tables=set(self.allowed_tables),
-            question=state.get("question", ""),
+            question=catalog.search_question(state.get("question", ""), self.allowed_tables),
             max_tables=self.settings.schema_max_tables,
             include_sample_values=self.include_sample_values,
         )
         logger.debug("Schema fetched ({} chars)", len(schema))
+        selected = re.findall(r"^Table ([^(]+)\(", schema, re.MULTILINE)
         return {
-            "schema": schema,
+            "schema": schema + "\nOperator catalog (data only): " + catalog.context(selected),
+            "run_id": state.get("run_id", str(uuid4())),
+            "selected_tables": selected,
+            "schema_incomplete": len(selected) < len(self.allowed_tables),
+            "context_signature": self._context_signature(full_schema, catalog),
             "allowed_tables": sorted(self.allowed_tables),
             "trace": self._append_trace(state, "fetch_schema", started, "Schema selected"),
         }
@@ -170,19 +181,88 @@ class NL2SQLAgent:
             question=question,
             error_section=error_section(err),
         )
-        response = self.llm.invoke(
-            [
-                {"role": "system", "content": sql_writer_system(self.db.dialect)},
-                {"role": "user", "content": prompt},
-            ]
-        )
+        prompt += "\nUser clarifications: " + json.dumps(state.get("clarifications", []))
+        try:
+            response = self.llm.invoke(
+                [
+                    {
+                        "role": "system",
+                        "content": sql_writer_system(self.db.dialect) + DECISION_CONTRACT,
+                    },
+                    {"role": "user", "content": prompt},
+                ]
+            )
+        except Exception as exc:
+            outcome = "budget_exhausted" if isinstance(exc, BudgetExhausted) else "provider_error"
+            status_code = getattr(exc, "status_code", None)
+            code = f"provider_http_{status_code}" if type(status_code) is int else outcome
+            return {
+                "outcome": outcome,
+                "error_code": code,
+                "executed": False,
+                "sql_safe": False,
+                "sql_query": "",
+                "error": "The model provider could not complete the request.",
+                "retry_count": int(state.get("retry_count", 0)) + 1,
+                "trace": self._append_trace(state, "writer", started, "Provider failed"),
+            }
         raw_sql = getattr(response, "content", "") or ""
+        text_content = getattr(response, "text", None)
+        if isinstance(text_content, str):
+            raw_sql = text_content
         sql = strip_sql_fences(str(raw_sql))
         retry = int(state.get("retry_count", 0)) + 1
         logger.info("writer attempt={n} sql_hash={sql_hash}", n=retry, sql_hash=hash_text(sql))
         usage, records = self._merge_usage(state, response, stage="writer")
+        decision_fields: dict[str, Any] = {"assumptions": [], "clarification_question": ""}
+        # Accept legacy SQL-only adapters while new prompts request decisions.
+        # JSON-looking responses must validate; they never fall back to SQL.
+        content = str(raw_sql).strip()
+        if content.startswith("{") or content.startswith("```json"):
+            try:
+                content = content.removeprefix("```json").removesuffix("```").strip()
+                decision = WriterDecision.model_validate_json(content)
+            except ValueError:
+                return {
+                    "outcome": "generation_error",
+                    "error_code": "invalid_decision",
+                    "error": "Model returned an invalid decision. Return the required JSON object.",
+                    "executed": False,
+                    "sql_safe": False,
+                    "sql_query": "",
+                    "retry_count": retry,
+                    "token_usage": usage,
+                    "usage_records": records,
+                }
+            decision_fields["assumptions"] = decision.assumptions
+            if decision.action != "sql":
+                outcome = "needs_clarification" if decision.action == "clarify" else "unanswerable"
+                if decision.action == "clarify" and len(state.get("clarifications", [])) >= 2:
+                    outcome = "unanswerable"
+                return {
+                    **decision_fields,
+                    "outcome": outcome,
+                    "error_code": "",
+                    "error": "",
+                    "executed": False,
+                    "sql_safe": False,
+                    "sql_query": "",
+                    "clarification_question": decision.message
+                    if outcome == "needs_clarification"
+                    else "",
+                    "final_answer": decision.message,
+                    "retry_count": retry,
+                    "token_usage": usage,
+                    "usage_records": records,
+                }
+            sql = decision.sql
         return {
+            **decision_fields,
             "sql_query": sql,
+            "outcome": "generated",
+            "error_code": "",
+            "executed": False,
+            "sql_safe": False,
             "retry_count": retry,
             # Clear stale fields from the previous attempt.
             "error": "",
@@ -197,6 +277,14 @@ class NL2SQLAgent:
         """Validate the generated SQL against :class:`SQLPolicy`."""
         started = time.perf_counter()
         sql = state.get("sql_query", "")
+        if state.get("outcome") in {
+            "provider_error",
+            "budget_exhausted",
+            "needs_clarification",
+            "unanswerable",
+            "generation_error",
+        }:
+            return {}
         try:
             prepared = prepare_sql(
                 sql,
@@ -210,6 +298,7 @@ class NL2SQLAgent:
             plan = self.db.preflight(prepared.sql)
         except (SQLValidationError, sqlite3.Error, DatabaseError) as exc:
             category = "validation" if isinstance(exc, SQLValidationError) else "preflight"
+            outcome = exc.code if isinstance(exc, SQLValidationError) else "database_error"
             logger.warning("Guardian blocked SQL category={category}", category=category)
             self._write_audit(
                 state,
@@ -220,6 +309,9 @@ class NL2SQLAgent:
             )
             return {
                 "sql_safe": False,  # not in state, but consumed by routing
+                "outcome": outcome,
+                "error_code": outcome,
+                "executed": False,
                 "error": f"SQL {category} failed: {exc}",
                 "sql_unsafe_reason": str(exc),
                 "trace": self._append_trace(state, "guardian", started, f"Blocked by {category}"),
@@ -233,10 +325,15 @@ class NL2SQLAgent:
         )
         return {
             "sql_query": prepared.sql,
+            "outcome": "prepared",
+            "error_code": "",
+            "executed": False,
             "sql_safe": True,
             "error": "",
             "sql_unsafe_reason": "",
             "query_plan": plan.to_dict(),
+            "row_limit_applied": prepared.row_limit_applied
+            or state.get("row_limit_applied", False),
             "warnings": self._plan_warnings(plan),
             "trace": self._append_trace(state, "guardian", started, "Validated and prepared"),
         }
@@ -258,6 +355,9 @@ class NL2SQLAgent:
             )
             return {
                 "error": "The database could not execute the query.",
+                "outcome": "database_error",
+                "error_code": "database_error",
+                "executed": False,
                 "result": "",
                 "raw_rows": [],
                 "columns": [],
@@ -277,6 +377,9 @@ class NL2SQLAgent:
             )
             return {
                 "error": "The database could not execute the query.",
+                "outcome": "database_error",
+                "error_code": "database_error",
+                "executed": False,
                 "result": "",
                 "raw_rows": [],
                 "columns": [],
@@ -309,6 +412,9 @@ class NL2SQLAgent:
         return {
             "error": "",
             "result": qr.to_markdown(),
+            "outcome": "executed",
+            "error_code": "",
+            "executed": True,
             "raw_rows": list(qr.rows),
             "columns": list(qr.columns),
             "row_count": qr.row_count,
@@ -328,6 +434,38 @@ class NL2SQLAgent:
         sql = state.get("sql_query", "")
         data = format_data(state.get("result", ""))
         err = state.get("error", "")
+
+        if state.get("outcome") in {"needs_clarification", "unanswerable"}:
+            return {"final_answer": state.get("final_answer", "More information is needed.")}
+        if err:
+            return {"final_answer": self._fallback_answer(state, None)}
+        if state.get("executed") is True:
+            # Results are rendered directly from database cells, so summaries
+            # cannot introduce unsupported numbers or hide sampled rows.
+            rows = state.get("raw_rows", [])
+            if not rows:
+                answer = "The query returned no rows."
+            elif len(rows) == 1:
+                answer = "; ".join(
+                    f"{name}: {value}"
+                    for name, value in zip(state.get("columns", []), rows[0], strict=True)
+                )
+            else:
+                answer = f"Returned {len(rows)} rows.\n\n" + state.get("result", "")
+            if state.get("truncated"):
+                answer += "\n\nThe fetch row cap truncated these results."
+            if state.get("row_limit_applied"):
+                answer += "\n\nA safety LIMIT was applied to the SQL; the result may be a subset."
+            if len(rows) > 100:
+                answer += (
+                    "\n\nThe preview shows the first 100 rows. Download CSV for all fetched rows."
+                )
+            return {
+                "final_answer": answer,
+                "trace": self._append_trace(
+                    state, "summarizer", started, "Grounded result rendered"
+                ),
+            }
 
         prompt = SUMMARIZER_USER.format(
             question=question,
@@ -367,6 +505,14 @@ class NL2SQLAgent:
 
     def route_after_security(self, state: AgentState) -> str:
         """Decide whether to execute the SQL or summarize the safety error."""
+        if state.get("outcome") in {
+            "provider_error",
+            "budget_exhausted",
+            "policy_blocked",
+            "needs_clarification",
+            "unanswerable",
+        }:
+            return "summarizer"
         if not state.get("error"):
             return "executor"
         retry = int(state.get("retry_count", 0))
@@ -453,6 +599,7 @@ class NL2SQLAgent:
         question: str,
         *,
         max_retries: int | None = None,
+        clarifications: list[str] | None = None,
     ) -> dict[str, Any]:
         """Run the workflow end-to-end and return the final state.
 
@@ -460,7 +607,9 @@ class NL2SQLAgent:
         ``columns``, ``raw_rows``, ``error``, etc.
         """
         workflow = self.get_workflow()
-        inputs = self._initial_state(question, max_retries=max_retries)
+        inputs = self._initial_state(
+            question, max_retries=max_retries, clarifications=clarifications
+        )
         result = cast(AgentState, workflow.invoke(inputs))
         return dict(result)
 
@@ -469,22 +618,28 @@ class NL2SQLAgent:
         question: str,
         *,
         max_retries: int | None = None,
+        clarifications: list[str] | None = None,
     ) -> Iterator[tuple[str, dict[str, Any]]]:
         """Stream (node_name, state_update) events for live UI updates."""
         workflow = self.get_workflow()
-        inputs = self._initial_state(question, max_retries=max_retries)
+        inputs = self._initial_state(
+            question, max_retries=max_retries, clarifications=clarifications
+        )
         for event in workflow.stream(inputs):
-            yield from event.items()
+            for node, update in event.items():
+                if update is not None:
+                    yield node, update
 
     def prepare(
         self,
         question: str,
         *,
         max_retries: int | None = None,
+        clarifications: list[str] | None = None,
     ) -> dict[str, Any]:
         """Generate, validate, and preflight SQL without executing it."""
         result = self.get_prepare_workflow().invoke(
-            self._initial_state(question, max_retries=max_retries)
+            self._initial_state(question, max_retries=max_retries, clarifications=clarifications)
         )
         return dict(result)
 
@@ -493,11 +648,16 @@ class NL2SQLAgent:
         question: str,
         *,
         max_retries: int | None = None,
+        clarifications: list[str] | None = None,
     ) -> Iterator[tuple[str, dict[str, Any]]]:
         """Stream preparation stages without executing SQL."""
-        inputs = self._initial_state(question, max_retries=max_retries)
+        inputs = self._initial_state(
+            question, max_retries=max_retries, clarifications=clarifications
+        )
         for event in self.get_prepare_workflow().stream(inputs):
-            yield from event.items()
+            for node, update in event.items():
+                if update is not None:
+                    yield node, update
 
     def execute_prepared(
         self,
@@ -507,6 +667,24 @@ class NL2SQLAgent:
     ) -> dict[str, Any]:
         """Revalidate and execute an optionally edited prepared query."""
         state = cast(AgentState, dict(prepared_state))
+        full_schema = self.db.get_schema_text()
+        catalog = SchemaCatalog.load(self.settings.schema_catalog_path, full_schema)
+        if state.get("outcome") != "prepared" or state.get(
+            "context_signature"
+        ) != self._context_signature(full_schema, catalog):
+            return {
+                **state,
+                "executed": False,
+                "outcome": "generation_error",
+                "error_code": "stale_preparation",
+                "sql_safe": False,
+                "row_count": 0,
+                "error": "Database, permissions, or catalog changed. Prepare this question again.",
+                "final_answer": "Prepare this question again before execution.",
+                "raw_rows": [],
+                "columns": [],
+                "csv_data": "",
+            }
         if sql_query is not None:
             state["sql_query"] = sql_query
         checked = self.check_security(state)
@@ -529,6 +707,21 @@ class NL2SQLAgent:
 
     # ---- Internals -----------------------------------------------------------
 
+    def _context_signature(self, schema: str, catalog: SchemaCatalog) -> str:
+        return hash_text(
+            json.dumps(
+                {
+                    "database": self.db_fingerprint,
+                    "backend_identity": self.db.fingerprint,
+                    "tables": sorted(self.allowed_tables),
+                    "schema": schema,
+                    "catalog": catalog.model_dump(),
+                    "policy": asdict(self.policy),
+                },
+                sort_keys=True,
+            )
+        )
+
     @staticmethod
     def _fallback_answer(state: AgentState, exc: Exception | None) -> str:
         """Deterministic answer when the LLM summarizer is unavailable."""
@@ -545,16 +738,23 @@ class NL2SQLAgent:
         question: str,
         *,
         max_retries: int | None,
+        clarifications: list[str] | None = None,
     ) -> AgentState:
+        if clarifications is not None and len(clarifications) > 2:
+            raise ValueError("At most two clarification replies are supported")
         return {
             "run_id": str(uuid4()),
             "question": question,
+            "clarifications": list(clarifications or []),
             "retry_count": 0,
             "max_retries": int(
                 max_retries if max_retries is not None else self.settings.max_retries
             ),
             "error": "",
             "trace": [],
+            "outcome": "pending",
+            "error_code": "",
+            "executed": False,
             "token_usage": {},
             "usage_records": [],
             "warnings": [],

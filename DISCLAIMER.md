@@ -4,7 +4,7 @@ Please read this before pointing NL2SQL Agent at a database you care about.
 
 ## You run this entirely on your own machine, with your own credentials
 
-NL2SQL Agent is a local-first tool. There is no hosted version, no backend server operated by the author, and no account system. It connects to a SQLite or PostgreSQL database you provide, using whichever LLM provider you configure. API keys (`OPENAI_API_KEY`, `GOOGLE_API_KEY`, `ANTHROPIC_API_KEY`, `HF_TOKEN`, `XAI_API_KEY`, `NL2SQL_AGNES_API_KEY`) and the PostgreSQL connection string are read only from your environment and are redacted from `config` output and audit logs — see [SECURITY.md](SECURITY.md).
+NL2SQL Agent is a local-first tool. There is no hosted version, no backend server operated by the author, and no account system. It connects to a SQLite or PostgreSQL database you provide, using whichever LLM provider you configure. API keys (`OPENAI_API_KEY`, `GOOGLE_API_KEY`, `ANTHROPIC_API_KEY`, `HF_TOKEN`, `XAI_API_KEY`, `AGNESAI_API_KEY`) and the PostgreSQL connection string are read only from your environment and are redacted from `config` output and audit logs — see [SECURITY.md](SECURITY.md). Legacy Agnes credential aliases remain supported.
 
 ## What actually leaves your machine
 

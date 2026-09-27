@@ -26,6 +26,11 @@ from .llm.pricing import DEFAULT_PRICING_RULES, PricingRule
 # question text, etc. can't leak to disk by accident.
 _SAFE_MESSAGE_FIELDS = frozenset(
     {
+        "outcome",
+        "error_code",
+        "executed",
+        "assumptions",
+        "row_limit_applied",
         "sql",
         "error",
         "trace",
@@ -45,6 +50,13 @@ _SAFE_MESSAGE_FIELDS = frozenset(
 )
 _SAFE_PENDING_FIELDS = frozenset(
     {
+        "outcome",
+        "context_signature",
+        "selected_tables",
+        "schema_incomplete",
+        "assumptions",
+        "clarifications",
+        "row_limit_applied",
         "run_id",
         "question",
         "sql_query",
@@ -470,7 +482,7 @@ class StateStore:
                     _json(plan),
                     _json(metrics),
                     _json(warnings),
-                    "blocked" if state.get("error") else "completed",
+                    state.get("outcome", "blocked" if state.get("error") else "completed"),
                 ),
             )
 

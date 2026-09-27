@@ -1,0 +1,195 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T13:04:24.709737+00:00",
+  "commit": "166182d14eadbbb93e92b8bf90d84d7dc2b65c1f",
+  "source_tree_sha256": "269298ce72457f80a60787307a85e8adb35ce7c7ccf2f435a1ad4edaeeb3adff",
+  "working_tree_dirty": true,
+  "provider": "ollama",
+  "model": "qwen3.5:9b",
+  "suite": "synthetic",
+  "dataset_sha256": "84987f428684f7e2c8ebaf437ad86585f86a5be2fc2e58a36cdf8856e03f1fe0",
+  "dataset_revision": null,
+  "prompt_version": "decision-v2",
+  "context_tokens": 4096,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 8,
+  "selection_offset": 22,
+  "database_sha256": {
+    "hr": "e07a1dae6a955748a6f1e6d39ce95c71001ed091b3d44d3c968a37b211df4ab2"
+  },
+  "cases": [
+    {
+      "id": "hr-23",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 18205.428,
+      "retries": 0,
+      "input_tokens": 351,
+      "output_tokens": 325,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(DISTINCT department_id) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-24",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 3599.454,
+      "retries": 0,
+      "input_tokens": 348,
+      "output_tokens": 137,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE name IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-25",
+      "expected_outcome": "needs_clarification",
+      "passed": true,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 6639.319,
+      "retries": 0,
+      "input_tokens": 345,
+      "output_tokens": 264,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-26",
+      "expected_outcome": "unanswerable",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 10207.644,
+      "retries": 0,
+      "input_tokens": 347,
+      "output_tokens": 414,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-27",
+      "expected_outcome": "unanswerable",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 10430.306,
+      "retries": 0,
+      "input_tokens": 348,
+      "output_tokens": 421,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-28",
+      "expected_outcome": "needs_clarification",
+      "passed": true,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 7313.121,
+      "retries": 0,
+      "input_tokens": 345,
+      "output_tokens": 290,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-29",
+      "expected_outcome": "blocked",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 6159.398,
+      "retries": 0,
+      "input_tokens": 346,
+      "output_tokens": 243,
+      "error": "",
+      "outcome": "unanswerable",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-30",
+      "expected_outcome": "blocked",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 6435.867,
+      "retries": 0,
+      "input_tokens": 345,
+      "output_tokens": 255,
+      "error": "",
+      "outcome": "unanswerable",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    }
+  ],
+  "budget_committed_usd": "0.103428525",
+  "completed_at": "2026-09-27T13:05:33.842816+00:00"
+}

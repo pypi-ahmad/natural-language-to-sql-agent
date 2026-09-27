@@ -1,5 +1,15 @@
 # Upgrade Summary: v0.1 → v0.2
 
+This document is a historical migration snapshot. Test counts, coverage, and
+verification results below describe the v0.2 release checkout, not current
+`main`. See [README.md](README.md#12-verification) for current verification.
+
+The current implementation restores and extends the tests, uses report v2
+with explicit outcomes, supports clarification, and validates saved approval
+context. Agnes now defaults to `agnes-3.0-flash` with `AGNESAI_API_KEY`; the
+older aliases and model remain supported. Historical addenda below describe
+their original releases.
+
 > **v0.5.1 addendum:** The Streamlit UI now defaults to `127.0.0.1:8512`. This
 > applies to the Windows launcher, `nl2sql-agent serve`, and direct Streamlit
 > launches using the repository configuration. Existing `--port` overrides
@@ -48,10 +58,9 @@
 
 ## TL;DR
 
-The project went from a two-file Streamlit demo to a properly
-modularized, tested, production-grade Python package. The agent's
-behavior is unchanged; the surface area is similar; the internals are
-far more robust.
+The project moved from a two-file Streamlit demo to a modular Python package.
+The agent behavior remained compatible while configuration, SQL validation,
+packaging, and operational logging moved into separate modules.
 
 ---
 
@@ -185,7 +194,7 @@ far more robust.
 
 ---
 
-## New tests
+## Historical v0.2 test inventory
 
 | Test file | What it covers | Count |
 |---|---|---|
@@ -203,6 +212,10 @@ far more robust.
 ---
 
 ## Verification gates
+
+The table below records the v0.2 upgrade verification at the time it was
+performed. It is not the status of the current checkout, which no longer
+contains the listed test files.
 
 | Check | Result |
 |---|---|
@@ -223,5 +236,5 @@ far more robust.
 3. **Optionally set env vars** in a `.env` file (see
    `MIGRATION_GUIDE.md`).
 4. **Update any Python imports** from `backend` to `nl2sql_agent`.
-5. **Run the test suite** with `uv run pytest tests/unit` to confirm
-   your local environment is healthy.
+5. **Run the current verification gates** from
+   [README.md](README.md#12-verification).

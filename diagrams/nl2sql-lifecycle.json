@@ -1,0 +1,23 @@
+{
+  "schema_version":1,"diagram_type":"lifecycle",
+  "meta":{"title":"NL2SQL Run Lifecycle","locale":"en","quality_profile":"showcase","viewBox":[1050,630]},
+  "lanes":[{"id":"main","label":"Lifecycle phases"},{"id":"recovery","label":"Recovery loop"},{"id":"terminal","label":"Terminal outcomes"}],
+  "states":[
+    {"id":"created","type":"start","label":"Created","sublabel":"Question and run ID","lane":"main","col":0},
+    {"id":"context","type":"active","label":"Context ready","sublabel":"Authorized schema","lane":"main","col":1},
+    {"id":"drafted","type":"active","label":"SQL drafted","sublabel":"Writer candidate","lane":"main","col":2},
+    {"id":"prepared","type":"waiting","label":"Prepared","sublabel":"Awaiting approval","lane":"main","col":3},
+    {"id":"executed","type":"active","label":"Executed","sublabel":"Rows and metrics","lane":"main","col":4},
+    {"id":"retrying","type":"failure","label":"Retrying","sublabel":"Feedback to writer","lane":"recovery","col":0},
+    {"id":"blocked","type":"failure","label":"Not executed","sublabel":"Denied or failed","lane":"terminal","col":1},
+    {"id":"completed","type":"success","label":"Completed","sublabel":"Answer returned","lane":"terminal","col":2}
+  ],
+  "transitions":[
+    {"id":"created-context","from":"created","to":"context"},{"id":"context-drafted","from":"context","to":"drafted"},{"id":"drafted-prepared","from":"drafted","to":"prepared"},{"id":"prepared-executed","from":"prepared","to":"executed"},
+    {"id":"drafted-retrying","from":"drafted","to":"retrying","label":"invalid","variant":"security","fromSide":"bottom","toSide":"top","route":"straight","labelAt":[452,202]},
+    {"id":"retrying-drafted","from":"retrying","to":"drafted","label":"rewrite","variant":"emphasis","fromSide":"left","toSide":"top","via":[[320,307],[320,80],[402,80]],"labelAt":[290,220]},
+    {"id":"prepared-blocked","from":"prepared","to":"blocked","label":"denied","variant":"security","fromSide":"bottom","toSide":"top","route":"straight","labelAt":[556,202]},
+    {"id":"executed-completed","from":"executed","to":"completed","label":"render","fromSide":"bottom","toSide":"top","route":"straight","labelAt":[710,202]}
+  ],
+  "cards":[{"dot":"amber","title":"SQL lifecycle shown","items":["Generation or database failures can return to the writer","Clarification and unanswerable decisions do not enter execution"]}]
+}
