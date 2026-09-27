@@ -4,9 +4,27 @@ from __future__ import annotations
 
 from unittest.mock import MagicMock
 
+import pytest
+from langchain_core.messages import AIMessage
+
 from nl2sql_agent.agent import AgentState, NL2SQLAgent
 from nl2sql_agent.security import SQLPolicy
 from nl2sql_agent.utils import AuditLogger
+
+
+@pytest.mark.parametrize("method", ["stream", "stream_prepare"])
+def test_clarification_streams_only_mapping_updates(seeded_db, mock_llm, method):
+    mock_llm.invoke.return_value = AIMessage(
+        content='{"action":"clarify","message":"Which department?"}'
+    )
+    agent = _make_agent(seeded_db, mock_llm)
+    events = list(getattr(agent, method)("How many staff?"))
+    state = {}
+    for _, update in events:
+        assert isinstance(update, dict)
+        state.update(update)
+    assert state["outcome"] == "needs_clarification"
+    assert state["executed"] is False
 
 
 def _make_agent(seeded_db, mock_llm, **policy_overrides) -> NL2SQLAgent:

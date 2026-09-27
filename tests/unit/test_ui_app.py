@@ -4,7 +4,9 @@ from __future__ import annotations
 
 from pathlib import Path
 from types import SimpleNamespace
+from unittest.mock import MagicMock
 
+from langchain_core.messages import AIMessage
 from streamlit.testing.v1 import AppTest
 
 from nl2sql_agent.config import Settings, reset_settings_cache
@@ -66,6 +68,42 @@ def test_main_app_renders_chat_navigation(tmp_path, monkeypatch):
     assert not app.exception
     assert app.title[0].value == "Natural language to SQL"
     assert app.chat_input[0].placeholder.startswith("Ask about the data")
+    app.session_state["upload_workspace"].cleanup()
+
+
+def test_clarification_then_explicit_approval_executes_without_summary_call(
+    tmp_path, monkeypatch, request
+):
+    monkeypatch.setenv("NL2SQL_STATE_PATH", str(tmp_path / "state.sqlite3"))
+    monkeypatch.setenv("NL2SQL_DB_PATH", str(tmp_path / "company.sqlite3"))
+    reset_settings_cache()
+    model = MagicMock()
+    model.invoke.side_effect = [
+        AIMessage(content='{"action":"clarify","message":"All employees or one department?"}'),
+        AIMessage(content='{"action":"sql","sql":"SELECT COUNT(*) AS total FROM employees"}'),
+    ]
+    monkeypatch.setattr(streamlit_app, "build_chat_model", lambda *args, **kwargs: model)
+    app = AppTest.from_string("from nl2sql_agent.ui.streamlit_app import main\nmain()").run(
+        timeout=60
+    )
+    request.addfinalizer(lambda: app.session_state["upload_workspace"].cleanup())
+    app.chat_input[0].set_value("Count the staff").run(timeout=60)
+    assert not app.exception
+    assert app.session_state["pending_clarification"]["outcome"] == "needs_clarification"
+    assert app.session_state["pending_query"] is None
+    app.chat_input[0].set_value("All employees").run(timeout=60)
+    assert not app.exception
+    assert app.session_state["pending_query"]["outcome"] == "prepared"
+    assert not app.session_state["pending_query"]["executed"]
+    next(button for button in app.button if button.label == "Run query").click().run(timeout=60)
+    assert not app.exception
+    assert app.session_state["pending_query"] is None
+    assert model.invoke.call_count == 2
+    answer = app.session_state["messages"][-1]
+    assert answer["sql"]
+    assert answer["outcome"] == "executed"
+    assert answer["executed"] is True
+    assert answer["raw_rows"]
     app.session_state["upload_workspace"].cleanup()
 
 

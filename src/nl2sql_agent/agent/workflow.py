@@ -626,7 +626,9 @@ class NL2SQLAgent:
             question, max_retries=max_retries, clarifications=clarifications
         )
         for event in workflow.stream(inputs):
-            yield from event.items()
+            for node, update in event.items():
+                if update is not None:
+                    yield node, update
 
     def prepare(
         self,
@@ -653,7 +655,9 @@ class NL2SQLAgent:
             question, max_retries=max_retries, clarifications=clarifications
         )
         for event in self.get_prepare_workflow().stream(inputs):
-            yield from event.items()
+            for node, update in event.items():
+                if update is not None:
+                    yield node, update
 
     def execute_prepared(
         self,
