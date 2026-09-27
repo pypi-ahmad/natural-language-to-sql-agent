@@ -335,8 +335,8 @@ def _ensure_session(
     # A change to any part of `context` (database fingerprint, provider, or
     # model) is treated as a new conversation: history is cleared and a new
     # persisted session is created rather than continuing the old one.
-    if st.session_state.active_context == context and st.session_state.current_session_id:
-        return cast(str, st.session_state.current_session_id)
+    if st.session_state.active_context == context:
+        return cast(str | None, st.session_state.current_session_id)
     st.session_state.messages = []
     st.session_state.pending_query = None
     st.session_state.pending_clarification = None
@@ -356,12 +356,21 @@ def _ensure_session(
 
 
 def _stage_text(node: str, update: dict[str, Any]) -> str:
+    outcomes = {
+        "needs_clarification": "A clarification is needed before generating SQL.",
+        "unanswerable": "The available data cannot answer this question.",
+        "policy_blocked": "SQL blocked by policy; nothing was executed.",
+        "provider_error": "The model provider failed; nothing was executed.",
+        "budget_exhausted": "The request budget is exhausted; nothing was executed.",
+    }
+    if update.get("outcome") in outcomes:
+        return outcomes[update["outcome"]]
     if node == "fetch_schema":
         return "Relevant schema selected."
     if node == "writer":
         return f"SQL draft {update.get('retry_count', 1)} generated."
     if node == "guardian" and update.get("error"):
-        return "SQL blocked; requesting a corrected draft."
+        return "SQL preflight failed; a corrected draft may be requested."
     if node == "guardian":
         return "SQL validated and preflighted."
     return node.replace("_", " ").capitalize()

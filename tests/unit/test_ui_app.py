@@ -3,11 +3,45 @@
 from __future__ import annotations
 
 from pathlib import Path
+from types import SimpleNamespace
 
 from streamlit.testing.v1 import AppTest
 
 from nl2sql_agent.config import Settings, reset_settings_cache
+from nl2sql_agent.ui import streamlit_app
 from nl2sql_agent.ui.streamlit_app import _runtime_settings
+
+
+def test_in_memory_clarification_survives_rerun_without_persistence(monkeypatch):
+    pending = {"question": "How is performance?"}
+    state = SimpleNamespace(
+        active_context=("demo",),
+        current_session_id=None,
+        messages=[{"role": "user", "content": "How is performance?"}],
+        pending_clarification=pending,
+        pending_query=None,
+    )
+    monkeypatch.setattr(streamlit_app.st, "session_state", state)
+    assert (
+        streamlit_app._ensure_session(
+            None,
+            context=("demo",),
+            database=SimpleNamespace(kind="sqlite"),
+            database_name="demo",
+            fingerprint="demo",
+            provider="ollama",
+            model="demo",
+        )
+        is None
+    )
+    assert state.pending_clarification == pending
+    assert len(state.messages) == 1
+
+
+def test_stage_text_does_not_promise_retry_after_policy_block():
+    assert "nothing was executed" in streamlit_app._stage_text(
+        "guardian", {"outcome": "policy_blocked", "error": "blocked"}
+    )
 
 
 def test_runtime_settings_assigns_agnes_key():

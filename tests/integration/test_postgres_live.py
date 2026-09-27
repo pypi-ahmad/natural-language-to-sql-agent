@@ -35,6 +35,11 @@ def postgres_db():
         )
         conn.execute("INSERT INTO departments VALUES (1, 'Engineering')")
         conn.execute("INSERT INTO employees VALUES (1, 1, 'Alice'), (2, 1, 'Bob')")
+        conn.execute("CREATE TABLE regions(country TEXT, city TEXT, PRIMARY KEY(country, city))")
+        conn.execute(
+            "CREATE TABLE offices(id INTEGER PRIMARY KEY, country TEXT, city TEXT, "
+            "FOREIGN KEY(country, city) REFERENCES regions(country, city))"
+        )
         conn.execute("GRANT USAGE ON SCHEMA public TO nl2sql_reader")
         conn.execute("GRANT SELECT ON ALL TABLES IN SCHEMA public TO nl2sql_reader")
     return PostgresDatabase(
@@ -68,3 +73,11 @@ def test_readonly_role_cannot_write(postgres_db):
     with pytest.raises(DatabaseError):
         postgres_db.execute("DELETE FROM employees")
     assert postgres_db.execute("SELECT COUNT(*) FROM employees").rows == ((2,),)
+
+
+def test_readonly_role_sees_correct_composite_foreign_key_pairs(postgres_db):
+    schema = postgres_db.get_schema_text(allowed_tables={"regions", "offices"})
+    assert "offices.country → regions.country" in schema
+    assert "offices.city → regions.city" in schema
+    assert "offices.country → regions.city" not in schema
+    assert "employees" not in schema

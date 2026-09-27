@@ -132,13 +132,25 @@ class PostgresDatabase:
                 table = str(row["table_name"])
                 if allowed is None or table.casefold() in allowed:
                     metadata.setdefault(table, []).append(row)
+            # information_schema.referential_constraints hides FKs from roles
+            # with only SELECT. Read catalog metadata without granting writes,
+            # pairing composite keys by position and checking column access.
             foreign_keys = conn.execute(
-                "SELECT tc.table_name, kcu.column_name, ccu.table_name AS target_table, ccu.column_name AS target_column "
-                "FROM information_schema.table_constraints tc "
-                "JOIN information_schema.key_column_usage kcu ON tc.constraint_name=kcu.constraint_name AND tc.constraint_schema=kcu.constraint_schema "
-                "JOIN information_schema.referential_constraints rc ON rc.constraint_name=tc.constraint_name AND rc.constraint_schema=tc.constraint_schema "
-                "JOIN information_schema.key_column_usage ccu ON ccu.constraint_name=rc.unique_constraint_name AND ccu.constraint_schema=rc.unique_constraint_schema AND ccu.ordinal_position=kcu.position_in_unique_constraint "
-                "WHERE tc.constraint_type='FOREIGN KEY' AND tc.table_schema=%s AND ccu.table_schema=%s",
+                "SELECT src.relname AS table_name, sa.attname AS column_name, "
+                "dst.relname AS target_table, da.attname AS target_column "
+                "FROM pg_catalog.pg_constraint fk "
+                "JOIN pg_catalog.pg_class src ON src.oid=fk.conrelid "
+                "JOIN pg_catalog.pg_namespace sn ON sn.oid=src.relnamespace "
+                "JOIN pg_catalog.pg_class dst ON dst.oid=fk.confrelid "
+                "JOIN pg_catalog.pg_namespace dn ON dn.oid=dst.relnamespace "
+                "CROSS JOIN LATERAL unnest(fk.conkey, fk.confkey) WITH ORDINALITY "
+                "AS keys(source_num, target_num, position) "
+                "JOIN pg_catalog.pg_attribute sa ON sa.attrelid=src.oid AND sa.attnum=keys.source_num "
+                "JOIN pg_catalog.pg_attribute da ON da.attrelid=dst.oid AND da.attnum=keys.target_num "
+                "WHERE fk.contype='f' AND sn.nspname=%s AND dn.nspname=%s "
+                "AND has_column_privilege(src.oid, sa.attnum, 'SELECT') "
+                "AND has_column_privilege(dst.oid, da.attnum, 'SELECT') "
+                "ORDER BY src.relname, fk.oid, keys.position",
                 (self.schema, self.schema),
             ).fetchall()
             links: dict[str, set[str]] = {table: set() for table in metadata}
