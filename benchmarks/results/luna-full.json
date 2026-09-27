@@ -1,0 +1,293 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T11:12:55.133518+00:00",
+  "commit": "78e0e46a96460cc97c38c3dd6eb8486ddd6ab723",
+  "working_tree_dirty": true,
+  "provider": "openai",
+  "model": "gpt-6-luna",
+  "suite": "synthetic",
+  "dataset_sha256": "84987f428684f7e2c8ebaf437ad86585f86a5be2fc2e58a36cdf8856e03f1fe0",
+  "dataset_revision": null,
+  "prompt_version": "decision-v2",
+  "context_tokens": null,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 12,
+  "cases": [
+    {
+      "id": "hr-01",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1903.923,
+      "retries": 0,
+      "input_tokens": 325,
+      "output_tokens": 67,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) AS employee_count FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-02",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1934.605,
+      "retries": 0,
+      "input_tokens": 326,
+      "output_tokens": 124,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT SUM(salary) AS total_salary FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The question refers to all employees.",
+        "SQLite SUM ignores NULL salary values."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-03",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1801.933,
+      "retries": 0,
+      "input_tokens": 325,
+      "output_tokens": 116,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT AVG(salary) AS average_salary FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Average salary is across all employees; SQLite AVG ignores NULL salary values."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-04",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1940.225,
+      "retries": 0,
+      "input_tokens": 325,
+      "output_tokens": 114,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MIN(salary) AS smallest_salary FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "NULL salary values are excluded, as with SQLite's MIN aggregate."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-05",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1855.594,
+      "retries": 0,
+      "input_tokens": 325,
+      "output_tokens": 102,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MAX(salary) AS largest_salary FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "“Largest salary” means the maximum value in employees.salary across all employees; NULL values are ignored by MAX()."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-06",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1594.777,
+      "retries": 0,
+      "input_tokens": 329,
+      "output_tokens": 78,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT name FROM employees ORDER BY id ASC LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "“ID order” means ascending employee ID."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-07",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1742.792,
+      "retries": 0,
+      "input_tokens": 329,
+      "output_tokens": 114,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary > 15 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-08",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1566.875,
+      "retries": 0,
+      "input_tokens": 329,
+      "output_tokens": 69,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary = 20 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Salary equal to 20 means an exact numeric equality."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-09",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1973.975,
+      "retries": 0,
+      "input_tokens": 326,
+      "output_tokens": 144,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "“Missing salary” means the salary value is NULL."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-10",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1759.218,
+      "retries": 0,
+      "input_tokens": 327,
+      "output_tokens": 84,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) AS employee_count FROM employees WHERE NOT salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "A known salary is a non-NULL value in employees.salary."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-11",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 1674.824,
+      "retries": 0,
+      "input_tokens": 325,
+      "output_tokens": 92,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT DISTINCT salary FROM employees WHERE NOT salary IS NULL ORDER BY salary LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "“Known” salary values means non-NULL values."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-12",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 2197.341,
+      "retries": 0,
+      "input_tokens": 333,
+      "output_tokens": 88,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary BETWEEN 10 AND 20 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    }
+  ],
+  "budget_committed_usd": "0.101297625",
+  "completed_at": "2026-09-27T11:13:17.338344+00:00"
+}

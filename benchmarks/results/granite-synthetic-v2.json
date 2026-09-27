@@ -1,0 +1,735 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T11:02:45.868543+00:00",
+  "commit": "0c6462805d953346a5c119d759b3a738f2755bb1",
+  "working_tree_dirty": true,
+  "provider": "ollama",
+  "model": "granite4.2:3b",
+  "suite": "synthetic",
+  "dataset_sha256": "84987f428684f7e2c8ebaf437ad86585f86a5be2fc2e58a36cdf8856e03f1fe0",
+  "dataset_revision": null,
+  "prompt_version": "decision-v2",
+  "context_tokens": 4096,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 30,
+  "cases": [
+    {
+      "id": "hr-01",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 13448.681,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 486,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "All rows in the employees table represent distinct employees.",
+        "No additional filtering (e.g., by date) is required for the answer."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-02",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 57404.248,
+      "retries": 2,
+      "input_tokens": 1141,
+      "output_tokens": 3053,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT SUM(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The query sums the salary column from the employees table for all rows.",
+        "No filters or date ranges are applied.",
+        "Salary column is REAL and contains numeric values.",
+        "All employees' salaries are included."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-03",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 8577.42,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 598,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT AVG(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains salary values in REAL type.",
+        "We compute the average across all rows in employees."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-04",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 8062.602,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 563,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MIN(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains valid salary values (REAL) and is up-to-date.",
+        "There is at least one employee record with a salary."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-05",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 5507.566,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 386,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MAX(salary) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains a column named salary of type REAL.",
+        "All salary values are valid and represent the employee's salary.",
+        "The query returns the maximum salary across all employees."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-06",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 15965.894,
+      "retries": 0,
+      "input_tokens": 368,
+      "output_tokens": 1019,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT name FROM employees ORDER BY id LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "All employees are present in the employees table.",
+        "Each employee has a non-null name.",
+        "Ordering is ascending by employee ID."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-07",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 8350.008,
+      "retries": 0,
+      "input_tokens": 368,
+      "output_tokens": 565,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT e.id FROM employees AS e WHERE e.salary > 15 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table exists with columns id, salary, department_id, name.",
+        "Salary column is stored as REAL and the comparison > 15 is valid."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-08",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 13763.267,
+      "retries": 0,
+      "input_tokens": 368,
+      "output_tokens": 682,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary = 20 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains rows with salary as REAL.",
+        "salary = 20 is exact numeric equality (no rounding).",
+        "Only employees with salary exactly 20 are returned."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-09",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 12088.009,
+      "retries": 0,
+      "input_tokens": 365,
+      "output_tokens": 676,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Missing salary is defined as salary column being NULL.",
+        "Only the employees table is considered."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-10",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 16346.748,
+      "retries": 0,
+      "input_tokens": 366,
+      "output_tokens": 778,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) FROM employees WHERE NOT salary IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Known salary is interpreted as salary column not being NULL.",
+        "Each row in employees corresponds to one employee."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-11",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 15848.043,
+      "retries": 0,
+      "input_tokens": 364,
+      "output_tokens": 698,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT DISTINCT salary FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees.salary column contains numeric values (REAL).",
+        "Distinct known salary values are requested as a list of unique salaries."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-12",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 8166.076,
+      "retries": 0,
+      "input_tokens": 372,
+      "output_tokens": 567,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT employees.id FROM employees WHERE employees.salary BETWEEN 10 AND 20 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains columns id, name, department_id, salary as defined.",
+        "Salary is stored as REAL numeric value.",
+        "The condition is inclusive (>=10 and <=20)."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-13",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 9681.979,
+      "retries": 0,
+      "input_tokens": 368,
+      "output_tokens": 581,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT e.id FROM employees AS e WHERE e.salary > 1000 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table exists with columns id, salary, department_id.",
+        "Salary column is REAL representing monetary amount.",
+        "Comparison uses numeric > 1000."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-14",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 13185.003,
+      "retries": 0,
+      "input_tokens": 365,
+      "output_tokens": 604,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT name FROM departments ORDER BY name LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The departments table exists with columns id (INTEGER PRIMARY KEY) and name (TEXT NOT NULL).",
+        "All department names are stored as TEXT and can be ordered alphabetically using ORDER BY name."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-15",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 43299.77,
+      "retries": 2,
+      "input_tokens": 1162,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    },
+    {
+      "id": "hr-16",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 13250.907,
+      "retries": 0,
+      "input_tokens": 366,
+      "output_tokens": 953,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT SUM(e.salary) AS total_salary FROM employees AS e JOIN departments AS d ON e.department_id = d.id WHERE d.name = 'North' LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The department name 'North' is stored exactly as 'North' in the departments.name column.",
+        "All employees linked to North are represented in the employees table with a valid department_id referencing the North department."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-17",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 14191.446,
+      "retries": 0,
+      "input_tokens": 366,
+      "output_tokens": 944,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT e.id FROM employees AS e WHERE e.department_id IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "employees table exists with columns id, name, department_id, salary",
+        "department_id is nullable (or null) indicating no department assignment",
+        "Only employees whose department_id is NULL are listed."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-18",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 30332.254,
+      "retries": 1,
+      "input_tokens": 764,
+      "output_tokens": 1718,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT d.name FROM departments AS d LEFT JOIN employees AS e ON e.department_id = d.id WHERE e.id IS NULL LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The departments table contains all departments.",
+        "The employees table contains all employees, with department_id referencing departments.id.",
+        "No other rows affect the result."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-19",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 17608.651,
+      "retries": 0,
+      "input_tokens": 367,
+      "output_tokens": 989,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT e.id FROM employees AS e WHERE e.salary > (SELECT AVG(salary) FROM employees) LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains columns id (INTEGER), name (TEXT), department_id (INTEGER), salary (REAL).",
+        "All employees have a salary value (no NULLs).",
+        "The average is computed across all employees' salaries.",
+        "The result includes only the employee ID column."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-20",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 16228.77,
+      "retries": 0,
+      "input_tokens": 367,
+      "output_tokens": 994,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT d.name FROM departments AS d JOIN employees AS e ON e.department_id = d.id GROUP BY d.id, d.name HAVING COUNT(e.id) >= 2 LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The schema includes departments and employees tables as described.",
+        "All relevant rows are present and the foreign key relationship holds.",
+        "Each employee row is unique; counting rows counts distinct employees.",
+        "The requirement 'at least two employees' is interpreted as employee count >= 2."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-21",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 45264.471,
+      "retries": 2,
+      "input_tokens": 1150,
+      "output_tokens": 3050,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT salary FROM employees ORDER BY salary DESC LIMIT 2",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains salary values; we assume there are at least two rows.",
+        "We are selecting only the salary column as requested."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-22",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 8906.076,
+      "retries": 0,
+      "input_tokens": 368,
+      "output_tokens": 629,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT e.id, e.salary FROM employees AS e ORDER BY e.id DESC LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "All employees rows are included.",
+        "Columns are exactly as defined: employees.id, employees.salary."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-23",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 10589.585,
+      "retries": 0,
+      "input_tokens": 369,
+      "output_tokens": 690,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(DISTINCT department_id) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "employees.department_id is the foreign key referencing departments.id; null values are ignored.",
+        "All employees rows are valid."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-24",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 25136.503,
+      "retries": 1,
+      "input_tokens": 764,
+      "output_tokens": 1707,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT id FROM employees WHERE name IS NULL OR name = '' LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "The employees table contains column 'name' of type TEXT.",
+        "Missing name is represented as NULL or empty string.",
+        "Only employees rows are considered."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "hr-25",
+      "expected_outcome": "needs_clarification",
+      "passed": true,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 17120.293,
+      "retries": 0,
+      "input_tokens": 363,
+      "output_tokens": 972,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-26",
+      "expected_outcome": "unanswerable",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 13298.748,
+      "retries": 0,
+      "input_tokens": 365,
+      "output_tokens": 739,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-27",
+      "expected_outcome": "unanswerable",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 34665.526,
+      "retries": 1,
+      "input_tokens": 755,
+      "output_tokens": 1952,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-28",
+      "expected_outcome": "needs_clarification",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 7911.76,
+      "retries": 0,
+      "input_tokens": 363,
+      "output_tokens": 475,
+      "error": "",
+      "outcome": "unanswerable",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "hr-29",
+      "expected_outcome": "blocked",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 45491.403,
+      "retries": 2,
+      "input_tokens": 1138,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    },
+    {
+      "id": "hr-30",
+      "expected_outcome": "blocked",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 12624.783,
+      "retries": 0,
+      "input_tokens": 363,
+      "output_tokens": 774,
+      "error": "",
+      "outcome": "unanswerable",
+      "sql_query": "",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    }
+  ],
+  "budget_committed_usd": "0.098586450",
+  "completed_at": "2026-09-27T11:12:08.560491+00:00"
+}

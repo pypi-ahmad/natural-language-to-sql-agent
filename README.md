@@ -141,6 +141,10 @@ uv run nl2sql-agent ask --show-sql "What is the total salary in Engineering?"
 
 ## 4. Architecture
 
+See the [implementation report](IMPLEMENTATION_REPORT.md) for verification and
+known limits, and [live evaluation evidence](benchmarks/results/README.md) for
+case-level model results. These development runs are not leaderboard scores.
+
 Open the interactive diagrams for the [component architecture](diagrams/nl2sql-architecture.html),
 [query workflow](diagrams/nl2sql-workflow.html), [approval sequence](diagrams/nl2sql-sequence.html),
 [data flow](diagrams/nl2sql-dataflow.html), and [run lifecycle](diagrams/nl2sql-lifecycle.html).
@@ -159,7 +163,7 @@ Open the interactive diagrams for the [component architecture](diagrams/nl2sql-a
    │   │ fetch_schema │→ │ writer  │→ │ guardian │→ │ executor│  │
    │   └─────────────┘  └────┬────┘  └────┬─────┘  └────┬────┘  │
    │         ▲               │           │             │       │
-   │         │               │  retry    │  unsafe     │       │
+   │         │               │  retry    │  invalid    │       │
    │         └───────────────┘           │             │       │
    │                                     │             ▼       │
    │                                     │     ┌─────────────┐ │

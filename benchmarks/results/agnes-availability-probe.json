@@ -1,0 +1,45 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T11:26:41.354154+00:00",
+  "commit": "22e6c6b7be7eb0c168123182bccbb1054c7e9645",
+  "working_tree_dirty": true,
+  "provider": "agnes",
+  "model": "agnes-3.0-flash",
+  "suite": "synthetic",
+  "dataset_sha256": "84987f428684f7e2c8ebaf437ad86585f86a5be2fc2e58a36cdf8856e03f1fe0",
+  "dataset_revision": null,
+  "prompt_version": "decision-v2",
+  "context_tokens": null,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 1,
+  "cases": [
+    {
+      "id": "hr-01",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 2239.545,
+      "retries": 0,
+      "input_tokens": 404,
+      "output_tokens": 114,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) FROM employees LIMIT 1000",
+      "selected_tables": [
+        "departments",
+        "employees"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Counting all rows in the employees table, with no filters applied."
+      ],
+      "error_code": ""
+    }
+  ],
+  "budget_committed_usd": "0.103428525",
+  "completed_at": "2026-09-27T11:26:43.795266+00:00"
+}

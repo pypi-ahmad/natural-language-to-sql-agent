@@ -1,0 +1,532 @@
+{
+  "report_version": 2,
+  "started_at": "2026-09-27T11:05:53.830404+00:00",
+  "commit": "0c6462805d953346a5c119d759b3a738f2755bb1",
+  "working_tree_dirty": true,
+  "provider": "agnes",
+  "model": "agnes-3.0-flash",
+  "suite": "bird",
+  "dataset_sha256": "88ceb0710163cae46a256ecea8f0a8c98286599530b60587fda5c3cfe57d45d2",
+  "dataset_revision": "f65faf4ae3b638c1fa6df1d3370c8d92c8366301",
+  "prompt_version": "decision-v2",
+  "context_tokens": null,
+  "max_output_tokens": 1024,
+  "max_attempts": 3,
+  "schema_tables": 8,
+  "platform": "Windows-11-10.0.26200-SP0",
+  "planned": 20,
+  "cases": [
+    {
+      "id": "bird-5",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 18433.641,
+      "retries": 0,
+      "input_tokens": 961,
+      "output_tokens": 931,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) FROM satscores AS s JOIN schools AS sc ON s.cds = sc.CDSCode WHERE s.AvgScrMath > 400 AND sc.Virtual = 'F' AND s.rtype = 'S' LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Per the provided evidence, 'exclusively virtual' is defined as Virtual = 'F' in the schools table.",
+        "School-level records are identified by rtype = 'S' in the satscores table to avoid counting district- or county-level aggregates.",
+        "'Average score in Math greater than 400' maps to AvgScrMath > 400 in satscores."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-11",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 3411.145,
+      "retries": 0,
+      "input_tokens": 974,
+      "output_tokens": 298,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT CDSCode FROM frpm WHERE \"Enrollment (K-12)\" + \"Enrollment (Ages 5-17)\" > 500 LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Total enrollment is defined as Enrollment (K-12) + Enrollment (Ages 5-17), per the provided evidence.",
+        "'Codes' refers to CDSCode, the school identifier in the frpm table."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-12",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 27997.773,
+      "retries": 1,
+      "input_tokens": 2059,
+      "output_tokens": 1705,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT MAX(f.\"Free Meal Count (Ages 5-17)\" / f.\"Enrollment (Ages 5-17)\") AS max_eligible_free_rate_5_17 FROM satscores AS s JOIN frpm AS f ON s.cds = f.CDSCode WHERE s.NumTstTakr > 0 AND (CAST(s.NumGE1500 AS REAL) / s.NumTstTakr) > 0.3 AND f.\"Enrollment (Ages 5-17)\" > 0 LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Excellence rate is defined as NumGE1500 / NumTstTakr (per the provided evidence).",
+        "Eligible free rate for ages 5-17 is defined as Free Meal Count (Ages 5-17) / Enrollment (Ages 5-17) (per the provided evidence).",
+        "The filter 'over 0.3' is interpreted as strictly greater than 0.3.",
+        "Rows with NumTstTakr = 0 or Enrollment (Ages 5-17) = 0 are excluded to avoid division-by-zero.",
+        "The join is on satscores.cds = frpm.CDSCode."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-17",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 5859.539,
+      "retries": 0,
+      "input_tokens": 961,
+      "output_tokens": 574,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT RANK() OVER (ORDER BY s.AvgScrWrite DESC) AS rank, s.sname AS school_name, sch.CharterNum AS charter_number FROM satscores AS s JOIN schools AS sch ON s.cds = sch.CDSCode WHERE s.AvgScrWrite > 499 AND NOT sch.CharterNum IS NULL LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Rank is computed with RANK() (ties share the same rank) ordered by AvgScrWrite descending (highest scores get rank 1).",
+        "Per the evidence, a valid charter number is one that is NOT NULL, so only schools with non-null CharterNum are included.",
+        "The join between satscores and schools is on satscores.cds = schools.CDSCode."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-23",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 14097.136,
+      "retries": 0,
+      "input_tokens": 995,
+      "output_tokens": 842,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT f.\"School Name\", s.Street, s.City, s.Zip, s.State FROM frpm AS f JOIN schools AS s ON f.CDSCode = s.CDSCode WHERE ABS(f.\"Enrollment (K-12)\" - f.\"Enrollment (Ages 5-17)\") > 30 LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Interpreted 'more than 30 difference' as the absolute difference (ABS) between Enrollment (K-12) and Enrollment (Ages 5-17) exceeding 30, since 'difference' in natural language implies magnitude.",
+        "Interpreted 'full street address' as the Street, City, Zip, and State columns from the schools table.",
+        "Used the evidence formula Enrollment (K-12) - Enrollment (Ages 5-17) as the basis for the difference calculation."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-24",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 9477.522,
+      "retries": 0,
+      "input_tokens": 998,
+      "output_tokens": 899,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT f.\"School Name\" FROM frpm AS f JOIN satscores AS s ON f.CDSCode = s.cds WHERE f.\"Enrollment (K-12)\" > 0 AND f.\"Free Meal Count (K-12)\" / f.\"Enrollment (K-12)\" > 0.1 AND s.NumGE1500 > 0 LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Percent eligible for free meals (K-12) is computed as Free Meal Count (K-12) / Enrollment (K-12), as stated in the evidence.",
+        "\"Test takers whose test score is greater than or equal to 1500\" is interpreted as the satscores.NumGE1500 column being greater than 0 (at least one test taker scored >= 1500).",
+        "The school name is taken from the frpm.\"School Name\" column.",
+        "A guard clause (Enrollment > 0) is included to avoid division by zero."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-25",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 103809.672,
+      "retries": 2,
+      "input_tokens": 2972,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    },
+    {
+      "id": "bird-26",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 41083.196,
+      "retries": 2,
+      "input_tokens": 2987,
+      "output_tokens": 3041,
+      "error": "",
+      "outcome": "needs_clarification",
+      "sql_query": "",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": ""
+    },
+    {
+      "id": "bird-27",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 42734.124,
+      "retries": 2,
+      "input_tokens": 3002,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    },
+    {
+      "id": "bird-28",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 40509.551,
+      "retries": 2,
+      "input_tokens": 3074,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    },
+    {
+      "id": "bird-31",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 9297.162,
+      "retries": 0,
+      "input_tokens": 1008,
+      "output_tokens": 657,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT \"School Name\", \"Free Meal Count (K-12)\" / \"Enrollment (K-12)\" AS eligible_free_rate FROM frpm ORDER BY \"Enrollment (K-12)\" DESC LIMIT 2 OFFSET 9",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Eligible free rate for K-12 is defined as Free Meal Count (K-12) divided by Enrollment (K-12), per the provided evidence.",
+        "'10th and 11th schools with the highest enrollment' means ranking all rows in frpm by Enrollment (K-12) in descending order and selecting positions 10 and 11 (i.e., skipping the top 9).",
+        "Ties in Enrollment (K-12) are handled by SQLite's default (arbitrary) ordering among equal values; no secondary sort is specified.",
+        "The frpm table contains one row per school (CDSCode is the primary key), so each row represents a distinct school."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-32",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 23349.126,
+      "retries": 1,
+      "input_tokens": 2065,
+      "output_tokens": 1821,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT f.\"FRPM Count (K-12)\" / f.\"Enrollment (K-12)\" AS \"Eligible Free or Reduced Price Meal Rate (K-12)\" FROM frpm AS f JOIN schools AS s ON f.CDSCode = s.CDSCode WHERE s.DOC = '66' ORDER BY f.\"FRPM Count (K-12)\" DESC LIMIT 5",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Ownership code 66 corresponds to schools.DOC = '66'.",
+        "Grades 1-12 are represented by the K-12 columns in the frpm table (per provided evidence).",
+        "The eligible free or reduced price meal rate is computed as FRPM Count (K-12) / Enrollment (K-12).",
+        "Ties in FRPM Count (K-12) are broken arbitrarily by SQLite's default ordering when no secondary sort key is specified."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-36",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 19601.34,
+      "retries": 1,
+      "input_tokens": 2018,
+      "output_tokens": 1891,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT s.AdmFName1, s.AdmLName1, s.AdmFName2, s.AdmLName2, s.AdmFName3, s.AdmLName3 FROM satscores AS sat JOIN schools AS s ON sat.cds = s.CDSCode WHERE NOT sat.NumGE1500 IS NULL ORDER BY sat.NumGE1500 DESC LIMIT 1",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "School-level SAT data is used (no filter on rtype since the question asks about 'the school' with the highest count).",
+        "'Full names' means each administrator's first name and last name (up to 3 admins per school).",
+        "Ties for highest NumGE1500 are broken arbitrarily (LIMIT 1)."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-37",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 7865.956,
+      "retries": 0,
+      "input_tokens": 982,
+      "output_tokens": 649,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT s.Street, s.City, s.Zip, s.State FROM satscores AS sc JOIN schools AS s ON sc.cds = s.CDSCode WHERE sc.NumTstTakr > 0 ORDER BY sc.NumGE1500 * 1.0 / sc.NumTstTakr ASC LIMIT 1",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Excellence rate is calculated as NumGE1500 / NumTstTakr (per user evidence).",
+        "Rows where NumTstTakr = 0 are excluded to avoid division by zero.",
+        "All rtype values in satscores are considered (no filter on rtype specified).",
+        "The join between satscores.cds and schools.CDSCode is used to retrieve the address fields."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-39",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 9385.447,
+      "retries": 0,
+      "input_tokens": 996,
+      "output_tokens": 733,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT AVG(s.NumTstTakr) AS avg_test_takers FROM satscores AS s JOIN schools AS sch ON s.cds = sch.CDSCode WHERE sch.County = 'Fresno' AND STRFTIME('%Y', sch.OpenDate) = '1980' LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "'Fresno schools' refers to schools in County = 'Fresno' in the schools table.",
+        "'Opened between 1/1/1980 and 12/31/1980' is interpreted as OpenDate falling in calendar year 1980, per the provided evidence.",
+        "'Average number of test takers' uses NumTstTakr from the satscores table.",
+        "The join between satscores and schools is on satscores.cds = schools.CDSCode."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-40",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 22414.548,
+      "retries": 1,
+      "input_tokens": 1941,
+      "output_tokens": 1802,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT s.Phone FROM satscores AS sa JOIN schools AS s ON sa.cds = s.CDSCode WHERE sa.dname = 'Fresno Unified' AND NOT sa.AvgScrRead IS NULL ORDER BY sa.AvgScrRead ASC LIMIT 1",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Fresno Unified matches the dname field in satscores",
+        "Lowest average reading score is the minimum non-NULL AvgScrRead value",
+        "The telephone number is stored in the Phone column of the schools table"
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-41",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 39859.002,
+      "retries": 1,
+      "input_tokens": 1967,
+      "output_tokens": 1928,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT School FROM (SELECT scs.School, ROW_NUMBER() OVER (PARTITION BY scs.County ORDER BY sc.AvgScrRead DESC) AS rn FROM satscores AS sc JOIN schools AS scs ON sc.cds = scs.CDSCode WHERE scs.Virtual = 'F' AND NOT sc.AvgScrRead IS NULL) WHERE rn <= 5 LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Virtual = 'F' identifies exclusively virtual schools per the provided evidence.",
+        "Partitioning is done on schools.County as directed by the evidence.",
+        "Ranking is by satscores.AvgScrRead in descending order (highest reading score first).",
+        "Ties in AvgScrRead within a county are broken by ROW_NUMBER (arbitrary order among ties).",
+        "Rows with NULL AvgScrRead are excluded from ranking."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-46",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 9345.307,
+      "retries": 0,
+      "input_tokens": 972,
+      "output_tokens": 899,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT s.School, f.\"Enrollment (K-12)\" AS Enrollment_K12 FROM schools AS s JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE s.DOC = '31' ORDER BY f.\"Enrollment (K-12)\" DESC LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "State Special Schools are identified by DOC = '31' in the schools table (as provided in the evidence).",
+        "Grades 1 through 12 corresponds to the K-12 enrollment column 'Enrollment (K-12)' in the frpm table.",
+        "'Highest number of enrollees' means the largest value of Enrollment (K-12); results are returned in descending order so the top schools appear first."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-62",
+      "expected_outcome": "result",
+      "passed": true,
+      "safe": true,
+      "executed": true,
+      "latency_ms": 11138.493,
+      "retries": 0,
+      "input_tokens": 1033,
+      "output_tokens": 951,
+      "error": "",
+      "outcome": "executed",
+      "sql_query": "SELECT COUNT(*) FROM schools AS s JOIN frpm AS f ON s.CDSCode = f.CDSCode WHERE s.Charter = 0 AND s.County = 'Los Angeles' AND f.\"Enrollment (K-12)\" > 0 AND f.\"Free Meal Count (K-12)\" * 100.0 / f.\"Enrollment (K-12)\" < 0.18 LIMIT 1000",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [
+        "Non-chartered schools are identified by schools.Charter = 0.",
+        "\"County of Los Angeles\" corresponds to schools.County = 'Los Angeles'.",
+        "The percent eligible free rate for K-12 is computed as Free Meal Count (K-12) * 100 / Enrollment (K-12) per the provided evidence.",
+        "Rows where Enrollment (K-12) is 0 or NULL are excluded to avoid division by zero; such rows would not have a meaningful percent.",
+        "The join between schools and frpm is on CDSCode."
+      ],
+      "error_code": ""
+    },
+    {
+      "id": "bird-83",
+      "expected_outcome": "result",
+      "passed": false,
+      "safe": false,
+      "executed": false,
+      "latency_ms": 50322.186,
+      "retries": 2,
+      "input_tokens": 3122,
+      "output_tokens": 3072,
+      "error": "SQL validation failed: SQL is empty",
+      "outcome": "generation_error",
+      "sql_query": "",
+      "selected_tables": [
+        "frpm",
+        "satscores",
+        "schools"
+      ],
+      "schema_incomplete": false,
+      "assumptions": [],
+      "error_code": "generation_error"
+    }
+  ],
+  "budget_committed_usd": "0.101895275",
+  "completed_at": "2026-09-27T11:14:27.062886+00:00"
+}
