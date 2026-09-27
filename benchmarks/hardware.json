@@ -1,0 +1,13 @@
+{
+  "captured_date": "2026-09-27",
+  "platform": "Windows 11",
+  "gpu": "NVIDIA GeForce RTX 4060 Laptop GPU",
+  "gpu_memory_mib": 8188,
+  "driver": "617.14",
+  "context_tokens": 4096,
+  "models": [
+    {"name":"granite4.2:3b","digest":"40577dc168a3a9ad34e9a1234e0c2570be86097fa75a236d4574ae985705d3c4","quantization":"Q4_K_M","size_bytes":2244023965,"observed_loaded_bytes":2501745048,"observed_gpu_bytes":2501745048},
+    {"name":"qwen3.5:9b","digest":"6488c96fa5faab64bb65cbd30d4289e20e6130ef535a93ef9a49f42eda893ea7","quantization":"Q4_K_M","size_bytes":6594474711,"observed_gpu_bytes":null},
+    {"name":"granite4.1-guardian:8b","digest":"f82c0882cec110279601307cdd632d868e29f16eaa59947bef51096e5f740492","quantization":"Q6_K","size_bytes":6879320213,"role":"evaluation-only","observed_gpu_bytes":null}
+  ]
+}
