@@ -21,8 +21,8 @@ Hard rules:
 1. Use ONLY SELECT. Never INSERT/UPDATE/DELETE/DROP/ALTER/PRAGMA/ATTACH.
 2. Use exact table and column names from the schema below.
 3. Use SQLite syntax (date('now'), strftime, julianday, etc.).
-4. Return ONLY the SQL. No markdown fences, no prose, no preamble.
-5. If the question is ambiguous, pick the most natural interpretation.
+4. Follow the structured decision contract supplied with these rules.
+5. Ask for clarification of material ambiguities rather than guessing.
 """
 
 
@@ -37,8 +37,8 @@ Hard rules:
 1. Use ONLY SELECT. Never use SELECT INTO, row locks, writes, DDL, COPY, or SET.
 2. Use exact table and column names from the supplied schema.
 3. Use PostgreSQL syntax and only the configured schema.
-4. Return ONLY the SQL. No markdown fences, prose, or preamble.
-5. If the question is ambiguous, pick the most natural interpretation.
+4. Follow the structured decision contract supplied with these rules.
+5. Ask for clarification of material ambiguities rather than guessing.
 """
     return SQL_WRITER_SYSTEM
 
@@ -50,7 +50,7 @@ Schema (table_name(column1 TYPE, column2 TYPE, ...)):
 User question: {question}
 
 {error_section}
-Return the SQL query only.
+Return the structured decision.
 """
 
 

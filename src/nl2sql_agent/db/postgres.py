@@ -15,6 +15,7 @@ from psycopg.rows import dict_row
 
 from .base import DatabaseError, QueryMetrics, QueryPlan, QueryPlanNode
 from .database import QueryResult, _sample_cell
+from .schema_context import rank_tables
 
 
 class PostgresDatabase:
@@ -124,12 +125,37 @@ class PostgresDatabase:
                 (self.schema,),
             ).fetchall()
             metadata: dict[str, list[dict[str, object]]] = {}
-            allowed = {name.casefold() for name in allowed_tables} if allowed_tables else None
+            allowed = (
+                {name.casefold() for name in allowed_tables} if allowed_tables is not None else None
+            )
             for row in rows:
                 table = str(row["table_name"])
                 if allowed is None or table.casefold() in allowed:
                     metadata.setdefault(table, []).append(row)
-            tables = self._rank_tables(list(metadata), metadata, question, max_tables)
+            foreign_keys = conn.execute(
+                "SELECT tc.table_name, kcu.column_name, ccu.table_name AS target_table, ccu.column_name AS target_column "
+                "FROM information_schema.table_constraints tc "
+                "JOIN information_schema.key_column_usage kcu ON tc.constraint_name=kcu.constraint_name AND tc.constraint_schema=kcu.constraint_schema "
+                "JOIN information_schema.referential_constraints rc ON rc.constraint_name=tc.constraint_name AND rc.constraint_schema=tc.constraint_schema "
+                "JOIN information_schema.key_column_usage ccu ON ccu.constraint_name=rc.unique_constraint_name AND ccu.constraint_schema=rc.unique_constraint_schema AND ccu.ordinal_position=kcu.position_in_unique_constraint "
+                "WHERE tc.constraint_type='FOREIGN KEY' AND tc.table_schema=%s AND ccu.table_schema=%s",
+                (self.schema, self.schema),
+            ).fetchall()
+            links: dict[str, set[str]] = {table: set() for table in metadata}
+            for key in foreign_keys:
+                source, target = str(key["table_name"]), str(key["target_table"])
+                if source in links and target in links:
+                    links[source].add(target)
+                    links[target].add(source)
+            tables = rank_tables(
+                {
+                    table: [str(row["column_name"]) for row in rows]
+                    for table, rows in metadata.items()
+                },
+                question,
+                max_tables,
+                links,
+            )
             if not tables:
                 return "(no tables)"
             parts: list[str] = []
@@ -140,6 +166,11 @@ class PostgresDatabase:
                     for row in metadata[table]
                 )
                 parts.append(f"Table {table}({columns})")
+                for key in foreign_keys:
+                    if key["table_name"] == table and key["target_table"] in metadata:
+                        parts.append(
+                            f"  └─ {table}.{key['column_name']} → {key['target_table']}.{key['target_column']}"
+                        )
                 if include_sample_values:
                     query = psycopg_sql.SQL("SELECT * FROM {}.{} LIMIT 3").format(
                         psycopg_sql.Identifier(self.schema), psycopg_sql.Identifier(table)
