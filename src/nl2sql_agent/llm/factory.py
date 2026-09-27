@@ -307,6 +307,6 @@ def _list_ollama(base_url: str) -> list[str]:
     raw = getattr(info, "models", None) or info.get("models", [])
     for m in raw:
         name = getattr(m, "model", None) or m.get("name") or m.get("model")
-        if name:
+        if name and str(name).split(":", 1)[0] != "granite4.1-guardian":
             models.append(name)
     return models

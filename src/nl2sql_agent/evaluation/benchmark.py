@@ -34,7 +34,7 @@ class Recorder:
         return self.state
 
 
-BIRD_REVISION = "f65faf4ae3b638c1fa6df1d3370c8d92c8366301"
+BIRD_REVISION = "f65faf4ae3b638c1fa6df1d3370c8d92c8366301"  # pragma: allowlist secret
 MODEL_RATES = {
     # Input uses the maximum cache-write/standard rate conservatively.
     ("openai", "gpt-6-luna"): Rates(Decimal(".125"), Decimal(".50")),

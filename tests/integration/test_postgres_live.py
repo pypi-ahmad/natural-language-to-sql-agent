@@ -37,7 +37,13 @@ def postgres_db():
         conn.execute("INSERT INTO employees VALUES (1, 1, 'Alice'), (2, 1, 'Bob')")
         conn.execute("GRANT USAGE ON SCHEMA public TO nl2sql_reader")
         conn.execute("GRANT SELECT ON ALL TABLES IN SCHEMA public TO nl2sql_reader")
-    return PostgresDatabase(make_conninfo(dsn, user="nl2sql_reader", password="test-reader-only"))
+    return PostgresDatabase(
+        make_conninfo(
+            dsn,
+            user="nl2sql_reader",
+            password="test-reader-only",  # pragma: allowlist secret
+        )
+    )
     # The service container is disposed by CI; no broad cleanup on a user's DB.
 
 

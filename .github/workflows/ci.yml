@@ -32,7 +32,7 @@ jobs:
       postgres:
         image: postgres:17
         env:
-          POSTGRES_PASSWORD: ci-only-password
+          POSTGRES_PASSWORD: ci-only-password # pragma: allowlist secret
           POSTGRES_DB: nl2sql_test
         ports:
           - 5432:5432
@@ -47,4 +47,4 @@ jobs:
       - run: uv sync --locked --all-groups
       - run: uv run pytest tests/integration/test_postgres_live.py -q
         env:
-          NL2SQL_TEST_POSTGRES_ADMIN_DSN: postgresql://postgres:ci-only-password@localhost:5432/nl2sql_test
+          NL2SQL_TEST_POSTGRES_ADMIN_DSN: postgresql://postgres:ci-only-password@localhost:5432/nl2sql_test # pragma: allowlist secret

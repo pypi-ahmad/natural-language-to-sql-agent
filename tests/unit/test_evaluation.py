@@ -185,3 +185,5 @@ def test_unordered_numeric_multiset():
     assert _rows_equal(((1, 2), (1, 10)), ((1.0, 10.0), (1.0, 2.0)), ordered=False)
     assert not _rows_equal(((1,), (1,)), ((1,), (2,)), ordered=False)
     assert not _rows_equal(((1,), (2,)), ((2,), (1,)), ordered=True)
+    assert _rows_equal(((1.0,), (1.0000009,)), ((1.0,), (0.9999991,)), ordered=False)
+    assert _rows_equal(((1.00000001,),) * 1001, ((1.0,),) * 1001, ordered=False)

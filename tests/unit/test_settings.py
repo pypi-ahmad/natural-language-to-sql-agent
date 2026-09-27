@@ -19,6 +19,10 @@ from nl2sql_agent.config import (
 
 
 class TestSettings:
+    def test_guardian_is_not_a_generator(self):
+        with pytest.raises(ValueError, match="evaluation-only"):
+            Settings(provider="ollama", model="granite4.1-guardian:8b")
+
     @pytest.mark.parametrize(
         "url",
         [

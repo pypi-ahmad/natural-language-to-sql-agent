@@ -57,6 +57,8 @@ def validate_model_for(provider: Provider, model: str) -> str:
     if not model:
         raise ValueError("model must not be empty")
     if provider == "ollama":
+        if model.split(":", 1)[0] == "granite4.1-guardian":
+            raise ValueError("Granite Guardian is an evaluation-only judge, not a SQL generator")
         return model
     if provider == "huggingface":
         if _HUGGING_FACE_MODEL_ID.fullmatch(model):

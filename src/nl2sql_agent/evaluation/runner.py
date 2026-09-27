@@ -7,6 +7,7 @@ import json
 import math
 import statistics
 import time
+from collections import deque
 from collections.abc import Iterable, Mapping
 from dataclasses import asdict, dataclass
 from pathlib import Path
@@ -34,8 +35,13 @@ class EvalCase:
         if outcome not in {"result", "blocked", "needs_clarification", "unanswerable"}:
             raise ValueError("Unsupported expected_outcome")
         reference = value.get("reference_sql")
-        if outcome == "result" and not isinstance(reference, str):
+        if outcome == "result" and (not isinstance(reference, str) or not reference.strip()):
             raise ValueError("result cases require reference_sql")
+        if any(
+            not isinstance(value.get(key), str) or not value[key].strip()
+            for key in ("id", "question")
+        ):
+            raise ValueError("id and question must be non-empty strings")
         return cls(
             id=str(value["id"]),
             question=str(value["question"]),
@@ -270,18 +276,37 @@ def _rows_equal(
     # Maximum bipartite matching preserves duplicates and handles overlapping
     # numeric tolerances without depending on repr ordering or greedy pairing.
     matches: dict[int, int] = {}
-
-    def match(index: int, seen: set[int]) -> bool:
-        for candidate, row in enumerate(expected):
-            if candidate in seen or not equal(actual[index], row):
-                continue
-            seen.add(candidate)
-            if candidate not in matches or match(matches[candidate], seen):
-                matches[candidate] = index
-                return True
-        return False
-
-    return all(match(index, set()) for index in range(len(actual)))
+    assigned: dict[int, int] = {}
+    for root in range(len(actual)):
+        queue = deque([root])
+        parents: dict[int, int] = {}
+        seen: set[int] = set()
+        found = False
+        while queue and not found:
+            index = queue.popleft()
+            for candidate, row in enumerate(expected):
+                if candidate in seen or not equal(actual[index], row):
+                    continue
+                seen.add(candidate)
+                if candidate in matches:
+                    owner = matches[candidate]
+                    parents[owner] = index
+                    queue.append(owner)
+                    continue
+                # Augment iteratively so large duplicate sets cannot overflow
+                # Python's recursion limit.
+                while True:
+                    previous = assigned.get(index)
+                    assigned[index] = candidate
+                    matches[candidate] = index
+                    if previous is None:
+                        break
+                    index, candidate = parents[index], previous
+                found = True
+                break
+        if not found:
+            return False
+    return True
 
 
 def _value_equal(actual: object, expected: object) -> bool:
