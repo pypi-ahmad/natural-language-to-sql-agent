@@ -1,5 +1,27 @@
 # Release Notes
 
+## Unreleased: reliable evaluation and clarification
+
+The restored tests run offline with an 80% coverage gate. Evaluation v2 no
+longer credits provider failures as policy blocks or missing execution as an
+empty correct result. Missing categories have null metrics and explicit counts.
+The writer supports clarification and unanswerable decisions, schema catalogs,
+and grounded result rendering. Saved pending SQL must be re-prepared when its
+context changes. See [benchmark instructions](benchmarks/README.md) for corpus,
+budget, and reproducibility limits. These changes are not a tagged release.
+
+## v0.5.2 — 2026-08-17
+
+This release adds the contributor, support, disclaimer, issue-template, and
+pull-request documentation used by the public repository. The README now links
+the maintained documentation set and states that the project does not accept
+financial support.
+
+The Windows launcher performs an explicit locked environment sync when the
+virtual environment is missing. Package version reporting now reads installed
+metadata, and the security/configuration documentation includes every redacted
+credential field and current environment variable.
+
 ## v0.5.1 — 2026-08-14
 
 The Streamlit UI now defaults to `127.0.0.1:8512` for the Windows launcher,
@@ -78,6 +100,10 @@ compatible.
 ---
 
 ## v0.2.0 — Historical release
+
+The test counts and live-model results in this section are archived release
+evidence. The suite has since been restored and extended; use
+[README.md](README.md#12-verification) for current verification.
 
 **Date:** 2026-06-22
 **Status:** Stable

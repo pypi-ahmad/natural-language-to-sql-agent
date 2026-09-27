@@ -1,0 +1,29 @@
+{
+  "schema_version":1,"diagram_type":"dataflow",
+  "meta":{"title":"NL2SQL Data and Governance Flow","locale":"en","quality_profile":"showcase","viewBox":[1080,630]},
+  "stages":[{"label":"Inputs"},{"label":"Generate"},{"label":"Govern"},{"label":"Execute"},{"label":"Consume"}],
+  "nodes":[
+    {"id":"question","type":"external","label":"User question","sublabel":"Natural language","stage":0,"row":0},
+    {"id":"schema","type":"database","label":"Schema","sublabel":"Authorized metadata","stage":0,"row":2},
+    {"id":"context","type":"backend","label":"Prompt context","sublabel":"Question + schema","stage":1,"row":1},
+    {"id":"candidate","type":"cloud","label":"Candidate SQL","sublabel":"Untrusted LLM output","stage":1,"row":3},
+    {"id":"policy","type":"security","label":"Safety policy","sublabel":"AST + authorization","stage":2,"row":1},
+    {"id":"prepared","type":"backend","label":"Prepared SQL","sublabel":"Bounded SELECT","stage":2,"row":3},
+    {"id":"rows","type":"database","label":"Result rows","sublabel":"Bounded and measured","stage":3,"row":1},
+    {"id":"telemetry","type":"backend","label":"Telemetry","sublabel":"Redacted audit + cost","stage":3,"row":3},
+    {"id":"answer","type":"frontend","label":"User answer","sublabel":"Result + SQL + plan","stage":4,"row":1},
+    {"id":"sessions","type":"database","label":"State store","sublabel":"Approved run metadata","stage":4,"row":3}
+  ],
+  "flows":[
+    {"id":"question-context","from":"question","to":"context","label":"question","fromSide":"right","toSide":"left","via":[[205,157],[205,271]],"labelAt":[204,190]},
+    {"id":"schema-context","from":"schema","to":"context","label":"selected metadata","fromSide":"right","toSide":"left","via":[[222,385],[222,271]],"labelAt":[220,342]},
+    {"id":"context-candidate","from":"context","to":"candidate","label":"LLM prompt","fromSide":"bottom","toSide":"top","route":"straight","labelAt":[315,330]},
+    {"id":"candidate-policy","from":"candidate","to":"policy","label":"untrusted SQL","variant":"security","fromSide":"top","toSide":"bottom","via":[[315,420],[530,420]],"labelAt":[410,400]},
+    {"id":"policy-prepared","from":"policy","to":"prepared","label":"safe SQL + plan","variant":"security","fromSide":"bottom","toSide":"top","route":"straight","labelAt":[620,350]},
+    {"id":"prepared-rows","from":"prepared","to":"rows","label":"read-only execution","fromSide":"top","toSide":"bottom","via":[[530,420],[745,420]],"labelAt":[680,410]},
+    {"id":"rows-answer","from":"rows","to":"answer","label":"formatted result","route":"straight"},
+    {"id":"prepared-telemetry","from":"prepared","to":"telemetry","label":"plan + usage","variant":"dashed","route":"straight","labelDy":-28},
+    {"id":"telemetry-sessions","from":"telemetry","to":"sessions","label":"bounded metadata","variant":"dashed","route":"straight"}
+  ],
+  "cards":[{"dot":"rose","title":"Never persisted","items":["Credentials and DSNs","Raw rows, CSV payloads, uploads, and schemas"]},{"dot":"cyan","title":"Measured","items":["Stage latency and retries","Query plan, runtime, tokens, and estimated cost"]}]
+}

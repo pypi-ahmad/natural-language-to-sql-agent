@@ -1,0 +1,30 @@
+{
+  "schema_version": 1, "diagram_type": "workflow",
+  "meta": {"title":"NL2SQL Query Workflow","locale":"en","quality_profile":"showcase","viewBox":[900,820]},
+  "lanes":[{"id":"request","label":"Request and context"},{"id":"agent","label":"Agent workflow"},{"id":"approval","label":"Approval and execution"},{"id":"recovery","label":"Recovery","variant":"exception"}],
+  "mainPath":["question","schema","writer","guardian","review","execute","answer"],
+  "nodes":[
+    {"id":"question","lane":"request","col":0,"type":"external","label":"Question","sublabel":"User request"},
+    {"id":"schema","lane":"request","col":1,"type":"database","label":"Fetch schema","sublabel":"Authorized tables"},
+    {"id":"writer","lane":"agent","col":2,"type":"cloud","label":"Write SQL","sublabel":"LLM candidate"},
+    {"id":"guardian","lane":"agent","col":3,"type":"security","label":"Guardian","sublabel":"Policy and preflight"},
+    {"id":"review","lane":"approval","col":4,"type":"frontend","label":"Review SQL","sublabel":"Approve or edit"},
+    {"id":"execute","lane":"approval","col":5,"type":"database","label":"Execute","sublabel":"Read-only query"},
+    {"id":"answer","lane":"recovery","col":5,"type":"frontend","label":"Answer","sublabel":"Rows, plan, metrics"},
+    {"id":"retry","lane":"recovery","col":2,"type":"backend","label":"Retry","sublabel":"Error feedback"},
+    {"id":"blocked","lane":"recovery","col":4,"type":"security","label":"Not executed","sublabel":"Policy or failure"}
+  ],
+  "edges":[
+    {"id":"question-schema","from":"question","to":"schema","role":"main"},
+    {"id":"schema-writer","from":"schema","to":"writer","role":"main","fromSide":"bottom","toSide":"top","route":"drop"},
+    {"id":"writer-guardian","from":"writer","to":"guardian","role":"main"},
+    {"id":"guardian-review","from":"guardian","to":"review","label":"safe","role":"main","fromSide":"bottom","toSide":"top","route":"drop","labelDx":32},
+    {"id":"review-execute","from":"review","to":"execute","role":"main"},
+    {"id":"execute-answer","from":"execute","to":"answer","label":"rows","role":"main","fromSide":"bottom","toSide":"top","route":"drop","labelDx":28},
+    {"id":"guardian-retry","from":"guardian","to":"retry","role":"error"},
+    {"id":"retry-writer","from":"retry","to":"writer","role":"return","fromSide":"top","toSide":"bottom","route":"drop"},
+    {"id":"review-blocked","from":"review","to":"blocked","label":"denied","role":"error","fromSide":"bottom","toSide":"top","route":"drop","labelDx":30},
+    {"id":"guardian-blocked","from":"guardian","to":"blocked","role":"error","fromSide":"bottom","toSide":"left"}
+  ],
+  "cards":[{"dot":"violet","title":"SQL path shown","items":["Clarification and unanswerable decisions exit before SQL approval","Policy blocks stop; generation and database errors can retry"]}]
+}

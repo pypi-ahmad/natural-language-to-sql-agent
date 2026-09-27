@@ -66,6 +66,33 @@ questions (6 simple, 10 moderate, 4 challenging). Evidence is included in the
 question; database values are not sampled into prompts. This is a bounded
 subset evaluation, not the official full BIRD leaderboard protocol.
 
+[The checked-in selection](bird-selection.json) lists all 50 question IDs and
+the common 20 live IDs. Selection is difficulty-stratified, not domain-stratified:
+the 20-case live subset is entirely `california_schools`. Do not generalize its
+scores to all BIRD databases.
+
+## Operator-authored schema context
+
+Set `NL2SQL_SCHEMA_CATALOG_PATH` to a JSON catalog matching your database.
+[catalog.example.json](catalog.example.json) demonstrates aliases, descriptions,
+and a named metric for the synthetic HR fixture. Adapt it before use with a
+different schema. Catalog table names and example-value column names are
+validated against visible metadata; unknown references fail closed. Metric
+definitions are prompt context, never executable authorization.
+
+## Optional local judge
+
+```powershell
+uv run python -m nl2sql_agent.evaluation.judge outputs/benchmarks/luna-full.json --output outputs/benchmarks/guardian.json
+```
+
+Granite Guardian 4.1 8B runs separately, with thinking disabled and a strict
+`<score>yes</score>` / `<score>no</score>` parser. Missing or malformed scores are
+`judge_failure`, never a passing score. The criterion checks read-only SQL form,
+not answer correctness. Four deterministically authored labels provide a smoke
+calibration only; they are not independently human-reviewed calibration data.
+Guardian cannot authorize SQL and is rejected as a generator model.
+
 ## Reading results
 
 Result accuracy requires successful execution and matching rows. Unordered

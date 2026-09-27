@@ -12,8 +12,12 @@ Operational audits store hashes and literal-redacted SQL only; raw questions,
 results, database paths, samples, and credentials are excluded.
 The `config` CLI command replaces configured API keys and the PostgreSQL DSN with `***`.
 This includes `OPENAI_API_KEY`, `GOOGLE_API_KEY`, `ANTHROPIC_API_KEY`,
-`HF_TOKEN`, `XAI_API_KEY`, `NL2SQL_AGNES_API_KEY`, and the PostgreSQL DSN;
+`HF_TOKEN`, `XAI_API_KEY`, `AGNESAI_API_KEY` and its legacy aliases, and the PostgreSQL DSN;
 launcher output never prints their values.
+Prepared SQL is bound to a context signature and revalidated before execution.
+Changing the schema, allowlist, catalog, database identity, or policy requires
+preparation again. Granite Guardian is an optional evaluation judge, never a
+substitute for AST authorization or read-only database enforcement.
 Audit events accept only an explicit field allowlist, and database failures use
 generic user-facing messages. CSV exports prefix formula-like cells before they
 reach spreadsheet software.

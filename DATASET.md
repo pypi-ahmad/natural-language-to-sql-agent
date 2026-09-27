@@ -1,6 +1,18 @@
 # Datasets
 
-The application includes two local datasets with different purposes.
+The application includes a demo database and packaged smoke cases. The
+repository also includes a larger synthetic suite and a pinned BIRD workflow.
+
+## Extended benchmark data
+
+See [benchmarks/README.md](benchmarks/README.md) for 120 synthetic cases across
+four schemas, source licensing, pinned BIRD selection, and live-run limits.
+The synthetic schemas share query patterns; they are not independent evidence
+of generalization. Every golden query is checked by the offline suite.
+
+Evaluation v2 rejects empty corpora and duplicate IDs, requires explicit
+execution for result matches, and treats absent categories as null metrics.
+Model refusals, policy blocks, and provider failures are distinct outcomes.
 
 ## Demo SQLite database
 
@@ -12,7 +24,7 @@ these deterministic fixtures.
 and ten employees from `src/nl2sql_agent/db/seed.py`. It is the default data
 source for the UI, CLI, examples, tests, and evaluation references.
 
-## NL2SQL evaluation corpus
+## NL2SQL smoke-evaluation corpus
 
 `src/nl2sql_agent/evaluation/data/demo.jsonl` is packaged with every wheel and
 contains 15 cases: 12 expected-result questions and three
@@ -39,3 +51,8 @@ uv run nl2sql-agent eval --model qwen3.5:4b --min-pass-rate 0.9
 Reports are written under `outputs/evals/` unless `--output` is supplied. They
 include accuracy, safety, execution rate, latency, retries, token counts, an
 optional caller-supplied cost estimate, and a database-integrity check.
+
+This small corpus verifies the packaged demo path. It does not measure
+cross-domain text-to-SQL performance, large-schema retrieval, or production
+accuracy. Do not compare its pass rate with BIRD, Spider, or another external
+benchmark.

@@ -1,9 +1,19 @@
 # Architecture Guide
 
+PostgreSQL foreign-key discovery uses `pg_catalog` with column-access checks.
+The standard `referential_constraints` view hides relationships from SELECT-only
+roles, so it cannot support the app's read-only role contract. Composite keys
+are paired by position. See PostgreSQL's [visibility rule](https://www.postgresql.org/docs/current/infoschema-referential-constraints.html)
+and [constraint catalog](https://www.postgresql.org/docs/17/catalog-pg-constraint.html).
+
 This document explains the design decisions behind the project. It is
 written for engineers who want to extend the agent (add a new
 provider, add a new safety rule, swap the database) or who want to
 understand why things are the way they are.
+
+Interactive views are available for the [component architecture](diagrams/nl2sql-architecture.html),
+[query workflow](diagrams/nl2sql-workflow.html), [approval sequence](diagrams/nl2sql-sequence.html),
+[data flow](diagrams/nl2sql-dataflow.html), and [run lifecycle](diagrams/nl2sql-lifecycle.html).
 
 ---
 
@@ -74,7 +84,7 @@ understand why things are the way they are.
                      └─────────────┘
 ```
 
-There are no cycles. The CLI and UI both depend on `agent`; the
+The intended module graph has no cycles. The CLI and UI both depend on `agent`; the
 `agent` depends on `db`, `security`, `llm`, `prompts`, and `config`;
 the foundational modules depend only on `config` and `utils`.
 
@@ -103,14 +113,14 @@ writer
   ↓ (writes: sql_query, retry_count; clears: error, sql_unsafe_reason)
 guardian
   ├── safe → executor
-  ├── unsafe AND retry_count < max_retries → writer
-  └── unsafe AND retry_count >= max_retries → summarizer
+  ├── generation/preflight error AND attempts remain → writer
+  └── policy block, provider failure, clarification, or exhausted attempts → summarizer
 executor
   ├── ok → summarizer
   └── errored AND retry_count < max_retries → writer (with error in prompt)
   └── errored AND retry_count >= max_retries → summarizer
 summarizer
-  ↓ (writes: final_answer, result)
+  ↓ (renders database values into final_answer; preserves result table)
 END
 ```
 
@@ -122,7 +132,18 @@ again before calling the executor and summarizer. Existing `run()` and
 The evaluation runner drives the compatible `run()` interface. It compares
 query results with read-only reference queries, scores malicious prompts by
 their blocked state, records timing/retry/token metrics, and verifies the
-database file digest is unchanged.
+database file digest is unchanged. Report v2 requires explicit execution and
+policy outcomes. The optional Guardian model is an evaluation judge only;
+the graph's `guardian` node remains deterministic SQL policy and preflight.
+
+The writer validates JSON decisions with Pydantic; legacy SQL-only adapters
+remain accepted. Material ambiguity can return `needs_clarification`, and
+missing data can return `unanswerable`. Neither path executes a query.
+An operator JSON catalog adds descriptions, aliases, metric definitions, and
+curated values without changing permissions. Both backends rank authorized
+tables through `db/schema_context.py` and include a connecting FK path when
+it fits the configured cap. Pending approval signatures cover backend identity,
+schema, allowlist, catalog content, and SQL policy.
 
 The Streamlit client uses the two-phase path. Upload bytes are checked for an
 allowed extension, size, and SQLite header, then stored under their SHA-256 in
@@ -306,7 +327,8 @@ To extend the system, follow these recipes:
 1. Add a new field to `SQLPolicy` in `security/sql_validator.py`.
 2. Add the corresponding `Settings` field in `config/settings.py`.
 3. Add a check in `_check_select()` in `security/sql_validator.py`.
-4. Add a parametrized test in `tests/unit/test_sql_validator.py`.
+4. Add focused tests for accepted and rejected SQL. The current checkout has
+   no baseline `tests/` directory, so include the required fixture setup.
 
 ### Add a new LangGraph node
 
@@ -318,7 +340,7 @@ To extend the system, follow these recipes:
 
 1. Create `src/nl2sql_agent/db/<engine>.py` implementing `DatabaseBackend`.
 2. Select it from `Settings.db_backend` in the workflow and UI.
-3. Add tests under `tests/unit/test_db_<engine>.py`.
+3. Add self-contained backend contract and safety tests.
 
 ### Extend saved sessions
 

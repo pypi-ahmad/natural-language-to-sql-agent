@@ -1,10 +1,10 @@
-# NL2SQL Agent: Production-Grade Natural Language to SQL
+# NL2SQL Agent: Local-First Natural Language to SQL
 
 [![Python 3.12](https://img.shields.io/badge/python-3.12.10-blue.svg)](https://www.python.org/downloads/)
 [![License: MIT](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
 [![Code style: ruff](https://img.shields.io/badge/code%20style-ruff-000000.svg)](https://github.com/astral-sh/ruff)
 [![Type checker: ty](https://img.shields.io/badge/type%20checker-ty-blue.svg)](https://docs.astral.sh/ty/)
-[![Tests: 317 passing](https://img.shields.io/badge/tests-317_passing-brightgreen.svg)](#testing)
+[![CI](https://github.com/pypi-ahmad/natural-language-to-sql-agent/actions/workflows/ci.yml/badge.svg)](https://github.com/pypi-ahmad/natural-language-to-sql-agent/actions/workflows/ci.yml)
 
 Repository: [github.com/pypi-ahmad/natural-language-to-sql-agent](https://github.com/pypi-ahmad/natural-language-to-sql-agent)
 
@@ -37,7 +37,7 @@ requests are genuinely welcome.
 9. [Safety model](#9-safety-model)
 10. [Running the UI](#10-running-the-ui)
 11. [CLI](#11-cli)
-12. [Testing](#12-testing)
+12. [Verification](#12-verification)
 13. [Project layout](#13-project-layout)
 14. [API reference](#14-api-reference)
 15. [Operations runbook](#15-operations-runbook)
@@ -73,7 +73,7 @@ The system is composed of five cooperating pieces:
 
 - **Local-first by default.** Runs end-to-end on a laptop with no external
   API calls. Default model is **Microsoft Phi-4-mini** served by **Ollama**.
-- **Production-grade safety.** SQL is parsed by `sqlglot` into an AST and
+- **Layered SQL safety.** SQL is parsed by `sqlglot` into an AST and
   validated against a configurable allow-list policy. The legacy approach
   of regex-matching destructive keywords is gone: it can no longer be
   fooled by column names like `updated_at`.
@@ -81,8 +81,9 @@ The system is composed of five cooperating pieces:
   log, debug, and replace, with a real state machine and retries.
 - **Pinned and reproducible.** Python 3.12.10 and `uv`-managed direct
   dependencies, with security floors expressed as transitive constraints.
-- **Tested.** An offline suite plus opt-in live Ollama integration tests
-  cover config, db, security, prompts, agent, llm factory, and text utilities.
+- **Evaluated by execution result.** The packaged 15-case smoke corpus compares
+  returned values and checks that malicious requests are blocked. It is not a
+  substitute for a cross-domain text-to-SQL benchmark.
 - **Observable.** Structured Loguru logging, request-friendly error
   contracts, JSON logging mode for log aggregators.
 
@@ -140,6 +141,10 @@ uv run nl2sql-agent ask --show-sql "What is the total salary in Engineering?"
 
 ## 4. Architecture
 
+Open the interactive diagrams for the [component architecture](diagrams/nl2sql-architecture.html),
+[query workflow](diagrams/nl2sql-workflow.html), [approval sequence](diagrams/nl2sql-sequence.html),
+[data flow](diagrams/nl2sql-dataflow.html), and [run lifecycle](diagrams/nl2sql-lifecycle.html).
+
 ```
                        ┌─────────────────────────────────────┐
                        │            Streamlit UI             │
@@ -168,7 +173,7 @@ uv run nl2sql-agent ask --show-sql "What is the total salary in Engineering?"
                                           └───────────────────┘
 ```
 
-The agent's responsibilities are strictly separated: the database layer
+The agent's responsibilities are separated: the database layer
 doesn't know about the LLM, the security layer doesn't know about the
 workflow, and the LLM factory doesn't know about the database. This makes
 each piece independently testable and replaceable.
@@ -177,7 +182,8 @@ each piece independently testable and replaceable.
 
 ## 5. How the workflow works
 
-Every question goes through the same five nodes, in this order:
+The SQL execution path uses these five nodes. Clarification, unanswerable,
+provider-error, and policy-block outcomes exit before execution:
 
 | # | Node | Reads from state | Writes to state |
 |---|---|---|---|
@@ -187,13 +193,12 @@ Every question goes through the same five nodes, in this order:
 | 4 | `executor` | `sql_query` | `result`, `raw_rows`, `columns`, `row_count`, `error` |
 | 5 | `summarizer` | `question`, `sql_query`, `result`, `error` | `final_answer` |
 
-**Routing decisions:**
+Routing decisions:
 
-- After **guardian**: if the SQL is unsafe, skip the executor and go
-  directly to the summarizer so the user sees a clear explanation.
-- After **executor**: if the SQL failed at execution time *and* the
-  retry budget is not exhausted, route back to the **writer** with the
-  error injected into the prompt. Otherwise summarize.
+- After `guardian`, safe SQL proceeds to execution. Generation and preflight
+  errors may return to `writer` while attempts remain. Policy blocks are terminal.
+- After `executor`, an execution error returns to `writer` while attempts
+  remain. Successful and exhausted runs proceed to `summarizer`.
 
 The default retry budget is 3 attempts. This is configurable via
 `NL2SQL_MAX_RETRIES`.
@@ -224,7 +229,9 @@ uv run nl2sql-agent config
 | `ANTHROPIC_API_KEY` | — | Required when `NL2SQL_PROVIDER=anthropic`. |
 | `HF_TOKEN` | — | Required when `NL2SQL_PROVIDER=huggingface`; `NL2SQL_HF_TOKEN` is also accepted. |
 | `XAI_API_KEY` | — | Required when `NL2SQL_PROVIDER=xai`; `NL2SQL_XAI_API_KEY` is also accepted. |
-| `AGNES_API_KEY` | — | Required when `NL2SQL_PROVIDER=agnes`; `NL2SQL_AGNES_API_KEY` is also accepted. |
+| `AGNESAI_API_KEY` | — | Canonical Agnes credential; legacy `AGNES_API_KEY` and `NL2SQL_AGNES_API_KEY` are also accepted. |
+| `NL2SQL_OLLAMA_NUM_CTX` | `4096` | Local model context window. |
+| `NL2SQL_SCHEMA_CATALOG_PATH` | — | Operator-authored JSON descriptions, aliases, metrics, and curated values. |
 | `NL2SQL_DB_PATH` | `company.db` | Path to the SQLite database file. |
 | `NL2SQL_DB_BACKEND` | `sqlite` | CLI database backend: `sqlite` or `postgres`. |
 | `NL2SQL_POSTGRES_DSN` | — | Operator-only PostgreSQL DSN. Never shown or saved by the UI. |
@@ -285,11 +292,15 @@ persists the DSN. The packaged `eval` corpus remains SQLite-only.
 |---|---|---|---|
 | **Ollama** | None | `phi4-mini:3.8b` | Local, private, no internet required. |
 | **Hugging Face** | `HF_TOKEN` | `openai/gpt-oss-120b:fastest` | Direct HF router; accepts custom `namespace/model[:routing-policy]` IDs. |
-| **OpenAI** | `OPENAI_API_KEY` | `gpt-5.6-luna` | Only Luna and `gpt-5.6-terra`; Responses API at medium effort. |
+| **OpenAI** | `OPENAI_API_KEY` | `gpt-5.6-luna` | Also `gpt-5.6-terra` and `gpt-6-luna`; Responses API at medium effort. |
 | **Anthropic** | `ANTHROPIC_API_KEY` | `claude-sonnet-5` | Adaptive thinking at medium effort. |
 | **Gemini** | `GOOGLE_API_KEY` | `gemini-3.7-flash` | Also supports `gemini-3.5-flash-lite`; medium thinking. |
 | **xAI** | `XAI_API_KEY` | `grok-4.6` | Direct xAI API at medium reasoning effort. |
-| **Agnes AI** | `AGNES_API_KEY` | `agnes-2.5-flash` | Fixed Agnes API Hub endpoint; documented Chat Completions Thinking mode. |
+| **Agnes AI** | `AGNESAI_API_KEY` | `agnes-3.0-flash` | Fixed API Hub endpoint; legacy `agnes-2.5-flash` remains selectable. |
+
+Local choices include `granite4.2:3b` and pinned `qwen3.5:9b`. Granite Guardian
+4.1 is evaluation-only and is excluded from SQL generation. The benchmark HF
+route is `openai/gpt-oss-120b:groq`; the app's existing HF default is unchanged.
 
 The hosted allow-lists are enforced in settings, CLI overrides, and the model
 factory. Hugging Face remains intentionally flexible, but its custom model ID
@@ -396,8 +407,9 @@ output as untrusted generated code.
 Audit events contain hashes and literal-redacted SQL, never raw questions,
 result rows, database paths, sample values, or credentials.
 
-The validator lives in `src/nl2sql_agent/security/sql_validator.py` and
-is fully tested in `tests/unit/test_sql_validator.py`.
+The validator lives in `src/nl2sql_agent/security/sql_validator.py`, with
+regression tests under `tests/unit/test_sql_validator.py`. Model judgments
+never replace this policy or the database's read-only boundary.
 
 ---
 
@@ -482,39 +494,46 @@ cases=15 accuracy=... safety=... execution=... p95_ms=... report=...
 
 ---
 
-## 12. Testing
+## 12. Verification
 
-SQL preparation has a parse-count regression test. On the documented complex
-CTE benchmark (2,000 calls), reuse of a single AST reduced preparation latency
-from 4.36 ms to 2.68 ms per call on the development machine; results vary by
-hardware.
-
-Schema-context retrieval also has single-pass ranking and connection-reuse
-regression tests. Reusing normalized identifiers and loading foreign-key
-metadata only for selected tables reduced median retrieval from 3.060 ms to
-2.224 ms for 10 tables (27%) and from 25.410 ms to 14.911 ms for 120 tables
-(41%) on the development machine; results vary by hardware.
-
-The project ships with **317 tests**, including an offline suite and opt-in
-live integration tests for external providers.
+CI runs offline tests on Windows and Linux with an 80% coverage threshold,
+plus a PostgreSQL 17 service job using an unprivileged read-only role. Local
+model tests require `NL2SQL_LIVE_TESTS=1`; normal tests never call hosted models.
 
 ```bash
-# Unit tests (no external services needed)
-uv run pytest tests/unit -v
-
-# With coverage
-uv run pytest tests/unit --cov=src/nl2sql_agent --cov-report=term-missing
-
-# Integration test (requires local Ollama running)
-uv run pytest tests/integration -v
+uv sync --locked --all-groups
+uv run pytest -q --cov=nl2sql_agent
+uv run prek run --all-files
+uv audit --locked
+uv build
+uv run --isolated --no-project --with dist/*.whl nl2sql-agent --help
 
 # Result and safety evaluation (uses the configured provider)
 uv run nl2sql-agent eval --min-pass-rate 0.8
 ```
 
-Upload handling, evaluation scoring, CLI parsing, and agent behavior are
-covered offline. A Streamlit `AppTest` smoke check verifies that the documented
-entrypoint renders without exceptions.
+For a live model and database smoke check, run the packaged evaluator. Its 15
+cases cover the seeded SQLite database only; see [DATASET.md](DATASET.md).
+
+### Reliable outcomes and benchmark runs
+
+The writer can return SQL, request clarification, or explain why the schema
+cannot answer a question. CLI replies use repeated `--clarification` arguments;
+the chat UI accepts up to two replies before stopping unresolved questions.
+Assumptions appear before SQL approval. A saved query must be prepared again
+if its database, schema, allowed tables, catalog, or policy changes.
+
+Successful answers are rendered from database cells. The UI keeps raw fetched
+results separate from the answer and identifies SQL limits, fetch truncation,
+and the 100-row preview. It does not send result rows to a second model call.
+
+Evaluation report version 2 requires explicit execution evidence for result
+accuracy and an explicit `policy_blocked` outcome for policy-block tests.
+Provider failures are failures, not successful blocks. Missing categories
+have null metrics and zero counts.
+
+See [benchmarks/README.md](benchmarks/README.md) for the 120-case synthetic
+suite, pinned BIRD source, budgeted runs, and interpretation limits.
 
 ---
 
@@ -526,6 +545,7 @@ natural-language-to-sql-agent/
 ├── pyproject.toml            # Single source of truth for deps + tool config
 ├── uv.lock                   # Reproducible lockfile
 ├── README.md                 # This file
+├── API_REFERENCE.md          # Public package and CLI reference
 ├── CHANGELOG.md              # Release history
 ├── LICENSE
 ├── SECURITY.md
@@ -543,20 +563,17 @@ natural-language-to-sql-agent/
 │       ├── persistence.py    # Saved sessions, pricing, costs, and insights
 │       ├── ui/               # Multipage Streamlit components + app
 │       └── utils/            # Logging, redacted audit, text helpers
-└── tests/
-    ├── conftest.py
-    ├── unit/                 # Fast, no external services
-    └── integration/          # Requires a running local Ollama
+└── diagrams/                 # Interactive architecture and workflow diagrams
 ```
 
 ---
 
 ## 14. API reference
 
-The full, type-annotated surface is discoverable in the source. The most
-common entry points:
+See [API_REFERENCE.md](API_REFERENCE.md) for the exported Python surface, CLI
+commands, exceptions, and short examples. Common entry points include:
 
-- `nl2sql_agent.NL2SQLAgent(llm, *, settings=None, database=None,
+- `nl2sql_agent.agent.NL2SQLAgent(llm, *, settings=None, database=None,
   allowed_tables=None, include_sample_values=None)` — the workflow class.
   `run()` and `stream()` remain end-to-end; `prepare()`, `stream_prepare()`,
   and `execute_prepared()` support approval-first clients.
@@ -582,7 +599,7 @@ common entry points:
 
 ```bash
 uv run python -c "import nl2sql_agent; print(nl2sql_agent.__version__)"
-# → 0.5.1
+# → 0.5.2
 
 uv run nl2sql-agent config | python -m json.tool | head -20
 ```
@@ -596,18 +613,16 @@ uv run nl2sql-agent ask "How many employees are there?"
 
 ### Verifying the guardian blocks bad SQL
 
-The integration test `tests/integration/test_ollama_live.py` includes a
-case that forces the LLM to return `DROP TABLE employees` and asserts
-that the table is still there afterward:
+You can exercise the validator directly without connecting to a model or
+database:
 
 ```python
-class FakeLLM:
-    def invoke(self, messages):
-        return AIMessage(content="DROP TABLE employees")
+from nl2sql_agent.security import SQLValidationError, validate_sql
 
-agent = NL2SQLAgent(FakeLLM(), settings=live_settings)
-result = agent.run("destroy everything")
-assert "validation" in result["error"].lower()  # guardian blocked it
+try:
+    validate_sql("DROP TABLE employees")
+except SQLValidationError as exc:
+    print(exc)
 ```
 
 ### Increasing log verbosity
@@ -653,7 +668,7 @@ The 25 known issues from the v0.1 audit are all addressed in v0.2. See
 
 ## 17. Roadmap
 
-Possible future work after the current unreleased changes:
+Possible future work:
 
 - **Optional schema embeddings** for databases where deterministic identifier
   ranking is insufficient.
@@ -669,8 +684,8 @@ Possible future work after the current unreleased changes:
 
 1. Fork and clone.
 2. Install the pinned Python and all development groups with `uv sync --all-groups`.
-3. Make your change. Add tests. Run `uv run ruff check src tests`,
-   `uv run ty check src`, and `uv run pytest tests/unit`.
+3. Make your change. Add focused tests when behavior changes. Run
+   `uv run ruff check src` and `uv run ty check`.
 4. Run `uv run prek run --all-files` — this is the same gate CI runs, and also checks
    formatting (`ruff format --check`) and secret scanning, which the commands above don't cover.
 5. Open a PR with a clear description.
@@ -691,6 +706,8 @@ See [CONTRIBUTING.md](CONTRIBUTING.md) for the full guide, and the
 | Document | Purpose |
 | --- | --- |
 | [ARCHITECTURE.md](ARCHITECTURE.md) | Full system design: modules, workflow, safety model, extension points |
+| [API_REFERENCE.md](API_REFERENCE.md) | Exported Python API, CLI commands, errors, and examples |
+| [Interactive diagrams](diagrams/nl2sql-architecture.html) | Architecture, workflow, sequence, data-flow, and lifecycle views |
 | [DATASET.md](DATASET.md) | Seed dataset shape and how to swap in your own |
 | [SECURITY.md](SECURITY.md) | Security model, redacted fields, and private vulnerability reporting |
 | [CONTRIBUTING.md](CONTRIBUTING.md) | Development setup, required checks, and pull-request guidance |

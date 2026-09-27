@@ -95,7 +95,7 @@ START
   -> fetch_schema      (db.get_schema_text)
   -> writer            (LLM creates sql_query)
   -> guardian          (prepare_sql + EXPLAIN QUERY PLAN)
-       | safe                      | unsafe and retry budget remains
+       | safe                      | preflight error and attempts remain
        v                           v
     executor                        writer
  (db.execute)                  (LLM SQL rewrite)
@@ -141,8 +141,8 @@ Files a new contributor should learn first (in practical reading order):
 | `src/nl2sql_agent/prompts/templates.py` | Prompt templates and formatting helpers | `SQL_WRITER_SYSTEM`, `SQL_WRITER_USER`, `SUMMARIZER_SYSTEM`, `SUMMARIZER_USER`, `error_section`, `format_data` | Prompt placeholders `{schema}`, `{question}`, `{error_section}`, `{sql}`, `{data}`, `{error}` |
 | `src/nl2sql_agent/utils/text.py` | SQL/text normalization utilities | `strip_sql_fences`, `truncate` | Regex constants `_SQL_FENCE_RE`, `_LEADING_SQL_TOKEN_RE` |
 | `src/nl2sql_agent/utils/logging.py` | Unified Loguru logging setup | `configure_logging`, `get_logger` | `level`, `json`, stdlib interception for `httpx/httpcore/...` |
-| `tests/unit/test_agent.py` | Workflow behavior contract | Routing/retry/fallback tests for node methods and `run/stream` | Asserts on `retry_count`, `error`, `final_answer`, node names |
-| `tests/unit/test_sql_validator.py` | Security policy contract | Safety/forbidden/function/subquery/join/CTE/union tests | Confirms allow-list behavior and failure cases |
+| `API_REFERENCE.md` | Exported Python and CLI reference | Public constructors, methods, errors, and examples | Generated from the current package exports and signatures |
+| `diagrams/` | Interactive system views | Architecture, workflow, sequence, data flow, lifecycle | Standalone HTML with editable JSON specifications |
 
 ## Module 3: Core Execution Flows
 
@@ -299,7 +299,9 @@ guidance rather than provider invoices.
    - reads: `question`, `schema`, previous `error`/`sql_unsafe_reason`
    - builds `SQL_WRITER_USER` prompt
    - LLM call with system+user messages
-   - cleans output via `strip_sql_fences()`
+   - parses a structured `sql`, `clarify`, or `unanswerable` decision
+   - validates JSON fields; SQL-only responses remain a compatibility path
+   - ends without execution on clarification, unanswerable, or provider failure
    - returns:
      - `sql_query`
      - incremented `retry_count`
@@ -313,7 +315,8 @@ guidance rather than provider invoices.
 
 4. `route_after_security(state)`:
    - if safe -> `"executor"`
-   - if blocked and retry budget remains -> `"writer"`
+   - if generation/preflight failed and retry budget remains -> `"writer"`
+   - policy blocks, provider failures, and clarification decisions do not retry SQL
    - otherwise -> `"summarizer"`
 
 5. `execute_sql(state)`:
@@ -326,10 +329,10 @@ guidance rather than provider invoices.
    - otherwise -> `"summarizer"`
 
 7. `summarize_result(state)`:
-   - builds summarizer prompt from `question`, `sql_query`, formatted `result`, `error`
-   - LLM generates `final_answer`
-   - fallback path via `_fallback_answer` if LLM fails or returns empty
-   - returns `{"final_answer": answer, "result": answer}`
+   - renders successful results directly from database cells
+   - preserves `result` as the raw Markdown table and sets `final_answer`
+   - reports SQL-limit, fetch-truncation, and preview-sampling limits separately
+   - renders clarification, unanswerable, and error messages without another model call
 
 `prepare()`/`stream_prepare()` use a smaller graph that ends after guardian.
 `execute_prepared()` re-enters guardian before executor. `run()` and `stream()`
@@ -476,12 +479,12 @@ OPENAI_API_KEY=your_key_here
 NL2SQL_DB_PATH=company.db
 ```
 
-Hosted requests use medium reasoning. OpenAI allows only `gpt-5.6-luna` and
-`gpt-5.6-terra`; Anthropic allows `claude-sonnet-5`; Gemini allows
+Hosted requests use medium reasoning. OpenAI allows `gpt-5.6-luna`,
+`gpt-5.6-terra`, and `gpt-6-luna`; Anthropic allows `claude-sonnet-5`; Gemini allows
 `gemini-3.7-flash` and `gemini-3.5-flash-lite`; xAI allows `grok-4.6`.
 Hugging Face accepts `namespace/model[:routing-policy]` through its direct
-router and defaults to `openai/gpt-oss-120b:fastest`. Agnes allows only
-`agnes-2.5-flash` and uses its documented boolean Chat Completions Thinking
+router and defaults to `openai/gpt-oss-120b:fastest`. Agnes defaults to
+`agnes-3.0-flash`, keeps `agnes-2.5-flash`, and uses boolean Chat Completions Thinking
 flag rather than a low/medium/high effort value.
 
 ### 4.4 Typical run commands
@@ -542,11 +545,9 @@ Current behavior:
 7. Read `src/nl2sql_agent/agent/state.py` then `agent/workflow.py` linearly.
 8. Read `src/nl2sql_agent/ui/streamlit_app.py` + `ui/components.py`.
 9. Read `src/nl2sql_agent/cli.py`.
-10. Confirm understanding through tests:
-    - `tests/unit/test_agent.py`
-    - `tests/unit/test_sql_validator.py`
-    - `tests/unit/test_database.py`
-    - `tests/unit/test_cli.py`
+10. Confirm the current package state with the verification commands in
+    `README.md`. Use the restored `tests/` suite for offline regression proof,
+    then the 15-case smoke evaluator for an explicitly authorized live check.
 
 ### 5.2 Practice exercises
 
@@ -599,7 +600,7 @@ Current behavior:
    Minimum practical keys are `question`, `schema`; optional prior context is `error` or `sql_unsafe_reason`; `retry_count` defaults to `0` if missing.
 
 3. Exercise 3 outline:
-   `check_security` calls `prepare_sql`; the policy raises `SQLValidationError("JOIN clauses are not allowed.")`; the node returns `error` + `sql_unsafe_reason`; `route_after_security` retries `writer` while budget remains, then ends at `summarizer`.
+   `check_security` calls `prepare_sql`; the policy raises `SQLValidationError("JOIN clauses are not allowed.")`; the node returns `policy_blocked`; routing stops SQL retries and renders the error without execution.
 
 4. Exercise 4 outline:
    `route_after_execute` checks `err and retry < max_retries`; with `2 < 3`, it routes to `"writer"` for another SQL rewrite attempt.
@@ -616,9 +617,9 @@ Current behavior:
 8. Exercise 8 outline:
    `Provider` includes `xai`; `env_var_for()` maps `XAI_API_KEY`; `_build_xai()` targets the fixed HTTPS endpoint with medium reasoning; the sidebar exposes only `grok-4.6`.
 
-   The same trace for Agnes is `Provider` → `AGNES_API_KEY` → `_build_agnes()`
+   The same trace for Agnes is `Provider` → `AGNESAI_API_KEY` → `_build_agnes()`
    → fixed API Hub endpoint with Chat Completions Thinking →
-   `agnes-2.5-flash` in the sidebar.
+   `agnes-3.0-flash` as the sidebar default.
 
 9. Exercise 9 outline:
    `execute_prepared()` replaces the candidate with the edited SQL, calls
