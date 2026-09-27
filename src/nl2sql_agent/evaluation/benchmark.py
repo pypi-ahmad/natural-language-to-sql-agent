@@ -43,6 +43,18 @@ MODEL_RATES = {
 }
 
 
+def source_digest() -> str:
+    """Hash the actual Python source, including uncommitted benchmark changes."""
+    root = Path(__file__).resolve().parents[1]
+    digest = hashlib.sha256()
+    for path in sorted(root.rglob("*.py")):
+        digest.update(path.relative_to(root).as_posix().encode())
+        digest.update(b"\0")
+        digest.update(path.read_bytes())
+        digest.update(b"\0")
+    return digest.hexdigest()
+
+
 def select_bird(source: Path, *, size: int = 50) -> list[dict]:
     """Select stable difficulty-stratified rows, without inspecting model results."""
     quotas = {
@@ -154,6 +166,7 @@ def main(argv: list[str] | None = None) -> int:
         "report_version": 2,
         "started_at": datetime.now(UTC).isoformat(),
         "commit": commit,
+        "source_tree_sha256": source_digest(),
         "working_tree_dirty": bool(
             subprocess.run(  # noqa: S603 - resolved Git binary and fixed arguments
                 [git, "status", "--porcelain"],
@@ -174,6 +187,7 @@ def main(argv: list[str] | None = None) -> int:
         "schema_tables": args.schema_tables,
         "platform": platform.platform(),
         "planned": len(rows),
+        "database_sha256": {},
         "cases": [],
     }
     args.output.parent.mkdir(parents=True, exist_ok=True)
@@ -197,6 +211,11 @@ def main(argv: list[str] | None = None) -> int:
                 args.output.write_text(json.dumps(report, indent=2), encoding="utf-8")
                 continue
             database = Database(matches[0])
+        if row["domain"] not in report["database_sha256"]:
+            with database.path.open("rb") as database_file:
+                report["database_sha256"][row["domain"]] = hashlib.file_digest(
+                    database_file, "sha256"
+                ).hexdigest()
         agent = NL2SQLAgent(model, settings=cfg, database=database, include_sample_values=False)
         recorder = Recorder(agent)
         case_report = (

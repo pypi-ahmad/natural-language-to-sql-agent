@@ -5,6 +5,7 @@ from __future__ import annotations
 import argparse
 import json
 import re
+from datetime import UTC, datetime
 from pathlib import Path
 
 import ollama
@@ -41,8 +42,23 @@ def main(argv: list[str] | None = None) -> int:
     if args.output.exists():
         parser.error("Output already exists")
     client = ollama.Client(host="http://127.0.0.1:11434", timeout=90)
-    report = {"model": MODEL, "criteria": CRITERIA, "think": False, "calibration": [], "cases": []}
-    # Deterministically authored labels, not model-generated or human-study data.
+    report = {
+        "model": MODEL,
+        "criteria": CRITERIA,
+        "think": False,
+        "context_tokens": 4096,
+        "max_output_tokens": 32,
+        "started_at": datetime.now(UTC).isoformat(),
+        "calibration_review": {
+            "status": "human_reviewed",
+            "reviewer": "repository owner",
+            "date": "2026-09-27",
+            "scope": "Four authored read-only SQL-form labels confirmed in conversation; not a human study.",
+        },
+        "calibration": [],
+        "cases": [],
+    }
+    # These exact four labels were explicitly confirmed by the repository owner.
     for sql, expected in [
         ("SELECT 1", True),
         ("SELECT name FROM employees", True),
@@ -59,6 +75,7 @@ def main(argv: list[str] | None = None) -> int:
                     {"source": path.name, "id": case["id"], **judge_sql(client, case["sql_query"])}
                 )
     args.output.parent.mkdir(parents=True, exist_ok=True)
+    report["completed_at"] = datetime.now(UTC).isoformat()
     args.output.write_text(json.dumps(report, indent=2), encoding="utf-8")
     client.generate(model=MODEL, keep_alive=0)
     client.close()

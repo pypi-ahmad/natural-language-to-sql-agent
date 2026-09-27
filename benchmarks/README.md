@@ -20,7 +20,8 @@ uv run python -m nl2sql_agent.evaluation.benchmark --provider openai --model gpt
 
 The default selects the same first 30 HR cases. Use `--limit 120` to include
 all schemas. Reports refuse to overwrite existing files and checkpoint every
-attempt. They include dataset hash, commit, dirty-tree status, model, settings,
+attempt. They include dataset, database, and Python source hashes, commit,
+dirty-tree status, model, settings,
 outcome, latency, usage, and SQL, but never credentials, private endpoints,
 raw database rows, or reasoning traces. Generated databases stay under outputs.
 
@@ -89,8 +90,9 @@ uv run python -m nl2sql_agent.evaluation.judge outputs/benchmarks/luna-full.json
 Granite Guardian 4.1 8B runs separately, with thinking disabled and a strict
 `<score>yes</score>` / `<score>no</score>` parser. Missing or malformed scores are
 `judge_failure`, never a passing score. The criterion checks read-only SQL form,
-not answer correctness. Four deterministically authored labels provide a smoke
-calibration only; they are not independently human-reviewed calibration data.
+not answer correctness. The repository owner explicitly reviewed and confirmed
+the four authored labels on 2026-09-27. This is a small smoke calibration, not
+a human study or evidence that the judge can assess semantic correctness.
 Guardian cannot authorize SQL and is rejected as a generator model.
 
 ## Reading results

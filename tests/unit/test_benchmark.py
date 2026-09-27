@@ -73,6 +73,8 @@ def test_benchmark_manifest_records_attempt_not_just_success(tmp_path, monkeypat
     assert report["cases"][0]["passed"] is True
     assert report["cases"][1]["passed"] is False
     assert report["dataset_sha256"]
+    assert len(report["source_tree_sha256"]) == 64
+    assert len(report["database_sha256"]["hr"]) == 64
     assert report["budget_committed_usd"] == "0"
     assert "raw_rows" not in output.read_text()
     with pytest.raises(SystemExit):
