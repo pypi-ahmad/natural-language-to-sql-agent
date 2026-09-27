@@ -3,6 +3,8 @@
 # Preserve the exact bytes referenced by Archify delivery receipts.
 diagrams/*.html -text
 diagrams/*.json -text
+architecture-diagram.html -text
+architecture-diagram.json -text
 benchmarks/cases.jsonl -text
 benchmarks/fixtures/*.sql -text
 benchmarks/results/*.json -text

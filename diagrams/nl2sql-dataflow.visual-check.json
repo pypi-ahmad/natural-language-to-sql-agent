@@ -6,8 +6,8 @@
   "visualReview": "pending",
   "artifact": {
     "path": "D:\\AI\\Github\\natural-language-to-sql-agent\\diagrams\\nl2sql-dataflow.html",
-    "sha256": "ec65f93f682a066843ebb4beebd10939b817bc2f59e21acdcec4f037f404f625",
-    "bytes": 729371
+    "sha256": "879c33f1783d10485c124126601ddc663ff2a392f42a5bfa135f667a29bca990",
+    "bytes": 729803
   },
   "state": {
     "detail": "read",

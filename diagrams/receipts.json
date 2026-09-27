@@ -2,9 +2,11 @@
   {
     "type": "architecture",
     "specification": "diagrams/nl2sql-architecture.json",
-    "specification_sha256": "b7a1c326fb6464d8e38ac3b13450947298fff956b43dc7671752e3b97d26d7ad",
+    "specification_sha256": "b8cf843b3173b826f8d7b56b4e2c79f027009fb1138612f12c06fb46192230b1",
+    "specification_bytes": 3954,
     "artifact": "diagrams/nl2sql-architecture.html",
-    "artifact_sha256": "8a6084f494ea122145c830072d0600b9f3abe77e8c373c5e3c927fe4e08814e2",
+    "artifact_sha256": "c1979af358c177542e542ced6fc24317c5c08f4203607fc3907ceb715b20806b",
+    "artifact_bytes": 725676,
     "checks_passed": 9,
     "checks_total": 9,
     "composition": {
@@ -12,14 +14,17 @@
       "warnings": 0
     },
     "containment": "pass",
-    "visual_review": "See README.md for inspected screenshots and limitations"
+    "visual_review": "passed: inspected light and dark at 1440x900 and 2048x1320",
+    "visual_evidence": "diagrams/nl2sql-architecture.visual-check.json"
   },
   {
     "type": "workflow",
     "specification": "diagrams/nl2sql-workflow.json",
-    "specification_sha256": "1fe8dc8256bbeb13808babdbf850171193145eeefca45ec64e74e91ffb399a9b",
+    "specification_sha256": "7bec5439f6babc2884443d16ea06732296b430f7d4dee57a2a3ec570be13581e",
+    "specification_bytes": 4157,
     "artifact": "diagrams/nl2sql-workflow.html",
-    "artifact_sha256": "2fbb9e11cd0a43dbe61ae9b1250378e26fb17c2884713c4002ed20c468198917",
+    "artifact_sha256": "52dbd03c34e785b7789a69567fdf396d617c469c47e84c988b25ea43e74e7a62",
+    "artifact_bytes": 726749,
     "checks_passed": 9,
     "checks_total": 9,
     "composition": {
@@ -27,14 +32,17 @@
       "warnings": 0
     },
     "containment": "fail",
-    "visual_review": "See README.md for inspected screenshots and limitations"
+    "visual_review": "failed: desktop vertical overflow",
+    "visual_evidence": "diagrams/nl2sql-workflow.visual-check.json"
   },
   {
     "type": "dataflow",
     "specification": "diagrams/nl2sql-dataflow.json",
-    "specification_sha256": "b600082217d5bcb87170898c152b80067568f463cf75289e8731ee8698c9870d",
+    "specification_sha256": "198738301ab67df42f2db11b2bb2a4e77859cb4919c14dcfc893858c2f779c5f",
+    "specification_bytes": 5317,
     "artifact": "diagrams/nl2sql-dataflow.html",
-    "artifact_sha256": "ec65f93f682a066843ebb4beebd10939b817bc2f59e21acdcec4f037f404f625",
+    "artifact_sha256": "879c33f1783d10485c124126601ddc663ff2a392f42a5bfa135f667a29bca990",
+    "artifact_bytes": 729803,
     "checks_passed": 9,
     "checks_total": 9,
     "composition": {
@@ -42,14 +50,17 @@
       "warnings": 0
     },
     "containment": "pass",
-    "visual_review": "See README.md for inspected screenshots and limitations"
+    "visual_review": "passed: inspected light and dark at 1440x900 and 2048x1320",
+    "visual_evidence": "diagrams/nl2sql-dataflow.visual-check.json"
   },
   {
     "type": "sequence",
     "specification": "diagrams/nl2sql-sequence.json",
-    "specification_sha256": "bc36c21c25b8b1a579d87d5e305fe7b132aecbd48e54f15ccc1a119d309f7708",
+    "specification_sha256": "1217b73c4ff67620a1ddc8351358fd8acd6bd013d32fb04d241f1a8b8208498a",
+    "specification_bytes": 3726,
     "artifact": "diagrams/nl2sql-sequence.html",
-    "artifact_sha256": "ad0816de39849c0f0f2b3313086e99ef1257c3f6cfbf0f6d636270662b86318e",
+    "artifact_sha256": "4c35e29a1ab4840f51d11db7b13e4763c40f4f9ee70b32bb9cf83f5862c4a46c",
+    "artifact_bytes": 729463,
     "checks_passed": 9,
     "checks_total": 9,
     "composition": {
@@ -57,14 +68,17 @@
       "warnings": 0
     },
     "containment": "pass",
-    "visual_review": "See README.md for inspected screenshots and limitations"
+    "visual_review": "passed: inspected light and dark at 1440x900 and 2048x1320",
+    "visual_evidence": "diagrams/nl2sql-sequence.visual-check.json"
   },
   {
     "type": "lifecycle",
     "specification": "diagrams/nl2sql-lifecycle.json",
-    "specification_sha256": "c3657f4cf681250c992d1844a75f96bd09bb31e244d21426c9a7907efcaff47c",
+    "specification_sha256": "94a47c6d9ad0befd1a61ffcd77273d9f3052624bb89b0a10511ba806f1f84676",
+    "specification_bytes": 3719,
     "artifact": "diagrams/nl2sql-lifecycle.html",
-    "artifact_sha256": "3984156410f28eb4c2fb25f41f5c282369a891683273239e0767c380a8042e57",
+    "artifact_sha256": "8412d16e2d6f6e01b6bbae9298a34c54563132fcf18e56c91b3367deb1e3bdcb",
+    "artifact_bytes": 724057,
     "checks_passed": 9,
     "checks_total": 9,
     "composition": {
@@ -72,6 +86,26 @@
       "warnings": 0
     },
     "containment": "pass",
-    "visual_review": "See README.md for inspected screenshots and limitations"
+    "visual_review": "passed: inspected light and dark at 1440x900 and 2048x1320",
+    "visual_evidence": "diagrams/nl2sql-lifecycle.visual-check.json"
+  },
+  {
+    "type": "architecture",
+    "specification": "architecture-diagram.json",
+    "specification_sha256": "b8cf843b3173b826f8d7b56b4e2c79f027009fb1138612f12c06fb46192230b1",
+    "specification_bytes": 3954,
+    "artifact": "architecture-diagram.html",
+    "artifact_sha256": "c1979af358c177542e542ced6fc24317c5c08f4203607fc3907ceb715b20806b",
+    "artifact_bytes": 725676,
+    "checks_passed": 9,
+    "checks_total": 9,
+    "composition": {
+      "errors": 0,
+      "warnings": 0
+    },
+    "containment": "pass",
+    "visual_review": "passed: inspected light and dark at 1440x900 and 2048x1320",
+    "visual_evidence": "diagrams/nl2sql-architecture.visual-check.json",
+    "note": "Byte-identical compatibility copy of diagrams/nl2sql-architecture.html; shares its visual evidence"
   }
 ]

@@ -1,29 +1,213 @@
 {
-  "schema_version": 1, "diagram_type": "architecture",
-  "meta": {"title": "NL2SQL Agent Architecture", "locale": "en", "quality_profile": "showcase", "viewBox": [1180, 720]},
+  "schema_version": 1,
+  "diagram_type": "architecture",
+  "meta": {
+    "title": "NL2SQL Agent Architecture",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1180,
+      720
+    ]
+  },
   "components": [
-    {"id":"user","type":"external","label":"User","sublabel":"Question and approval","pos":[40,260],"size":[130,64]},
-    {"id":"clients","type":"frontend","label":"Streamlit UI / CLI","sublabel":"Shared client layer","pos":[230,260],"size":[150,64]},
-    {"id":"agent","type":"backend","label":"LangGraph Agent","sublabel":"Orchestration and retries","pos":[450,260],"size":[150,64]},
-    {"id":"database","type":"database","label":"Database Backends","sublabel":"SQLite / PostgreSQL","pos":[890,260],"size":[150,64]},
-    {"id":"validator","type":"security","label":"SQL Safety","sublabel":"AST policy and preflight","pos":[680,100],"size":[150,64]},
-    {"id":"llm","type":"cloud","label":"LLM Providers","sublabel":"Local or hosted","pos":[450,430],"size":[150,64]},
-    {"id":"store","type":"database","label":"State Store","sublabel":"Sessions and pricing","pos":[680,430],"size":[150,64]},
-    {"id":"audit","type":"backend","label":"Observability","sublabel":"Audit, plans, usage, cost","pos":[890,430],"size":[150,64]}
+    {
+      "id": "user",
+      "type": "external",
+      "label": "User",
+      "sublabel": "Question and approval",
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "clients",
+      "type": "frontend",
+      "label": "Streamlit UI / CLI",
+      "sublabel": "Shared client layer",
+      "pos": [
+        230,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "LangGraph Agent",
+      "sublabel": "Orchestration and retries",
+      "pos": [
+        450,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "database",
+      "type": "database",
+      "label": "Database Backends",
+      "sublabel": "SQLite / PostgreSQL",
+      "pos": [
+        890,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "validator",
+      "type": "security",
+      "label": "SQL Safety",
+      "sublabel": "AST policy and preparation",
+      "pos": [
+        680,
+        100
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM Providers",
+      "sublabel": "Local or hosted",
+      "pos": [
+        450,
+        430
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "State Store",
+      "sublabel": "Messages, SQL and pricing",
+      "pos": [
+        230,
+        430
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "audit",
+      "type": "backend",
+      "label": "Query Metrics",
+      "sublabel": "Plans and runtime",
+      "pos": [
+        890,
+        430
+      ],
+      "size": [
+        150,
+        64
+      ]
+    }
   ],
   "connections": [
-    {"id":"user-clients","from":"user","to":"clients","label":"question / approval","variant":"emphasis","labelDy":-28},
-    {"id":"clients-agent","from":"clients","to":"agent","label":"prepare or run","labelDy":-28},
-    {"id":"agent-validator","from":"agent","to":"validator","label":"candidate SQL","variant":"security","fromSide":"top","toSide":"left"},
-    {"id":"validator-db","from":"validator","to":"database","label":"safe SELECT + plan","variant":"security","fromSide":"right","toSide":"top"},
-    {"id":"agent-db","from":"agent","to":"database","label":"approved SELECT","variant":"emphasis"},
-    {"id":"agent-llm","from":"agent","to":"llm","label":"prompt / response","fromSide":"bottom","toSide":"top","labelAt":[510,380]},
-    {"id":"agent-store","from":"agent","to":"store","label":"safe run metadata","variant":"dashed","fromSide":"bottom","toSide":"left"},
-    {"id":"database-audit","from":"database","to":"audit","label":"plan + metrics","variant":"dashed","fromSide":"bottom","toSide":"top","labelAt":[1060,360]},
-    {"id":"store-audit","from":"store","to":"audit","label":"cost + session totals","variant":"dashed","labelDy":-28}
+    {
+      "id": "user-clients",
+      "from": "user",
+      "to": "clients",
+      "label": "question / approval",
+      "variant": "emphasis",
+      "labelDy": -28
+    },
+    {
+      "id": "clients-agent",
+      "from": "clients",
+      "to": "agent",
+      "label": "prepare or run",
+      "labelDy": -28
+    },
+    {
+      "id": "agent-validator",
+      "from": "agent",
+      "to": "validator",
+      "label": "candidate SQL",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "left"
+    },
+    {
+      "id": "agent-db",
+      "from": "agent",
+      "to": "database",
+      "label": "preflight / execute",
+      "variant": "emphasis"
+    },
+    {
+      "id": "agent-llm",
+      "from": "agent",
+      "to": "llm",
+      "label": "prompt / response",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        510,
+        380
+      ]
+    },
+    {
+      "id": "database-audit",
+      "from": "database",
+      "to": "audit",
+      "label": "plan + metrics",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        1060,
+        360
+      ]
+    },
+    {
+      "id": "clients-store",
+      "from": "clients",
+      "to": "store",
+      "label": "UI persistence",
+      "labelAt": [305, 375],
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
   ],
   "cards": [
-    {"dot":"emerald","title":"Trust boundary","items":["Only validated, authorized SELECT queries execute","Credentials, DSNs, raw rows, and schemas are not persisted"]},
-    {"dot":"cyan","title":"Replaceable adapters","items":["Database and LLM providers meet at the agent layer","UI and CLI use the same workflow"]}
+    {
+      "dot": "emerald",
+      "title": "Trust boundary",
+      "items": [
+        "The agent validates SQL and owns database preflight",
+        "Saved answer text can contain returned values"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Replaceable adapters",
+      "items": [
+        "UI and CLI share the agent; only the UI uses session storage",
+        "The UI reviews SQL; the CLI runs without that approval step"
+      ]
+    }
   ]
 }

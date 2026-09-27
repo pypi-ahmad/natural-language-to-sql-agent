@@ -1,38 +1,199 @@
 {
   "schema_version": 1,
   "diagram_type": "sequence",
-  "meta": {"title": "Approved Query Request Sequence", "locale": "en", "quality_profile": "showcase", "viewBox": [1460, 860], "column_fit": "spread"},
+  "meta": {
+    "title": "Approved Query Request Sequence",
+    "locale": "en",
+    "quality_profile": "showcase",
+    "viewBox": [
+      1460,
+      860
+    ],
+    "column_fit": "spread"
+  },
   "participants": [
-    {"id": "user", "label": "User", "type": "external"},
-    {"id": "ui", "label": "Streamlit UI", "type": "frontend"},
-    {"id": "agent", "label": "NL2SQLAgent", "type": "backend"},
-    {"id": "llm", "label": "LLM", "type": "cloud"},
-    {"id": "guard", "label": "SQL Validator", "type": "security"},
-    {"id": "db", "label": "Database", "type": "database"},
-    {"id": "store", "label": "State Store", "type": "database"}
+    {
+      "id": "user",
+      "label": "User",
+      "type": "external"
+    },
+    {
+      "id": "ui",
+      "label": "Streamlit UI",
+      "type": "frontend"
+    },
+    {
+      "id": "agent",
+      "label": "NL2SQLAgent",
+      "type": "backend"
+    },
+    {
+      "id": "llm",
+      "label": "LLM",
+      "type": "cloud"
+    },
+    {
+      "id": "guard",
+      "label": "SQL Validator",
+      "type": "security"
+    },
+    {
+      "id": "db",
+      "label": "Database",
+      "type": "database"
+    },
+    {
+      "id": "store",
+      "label": "State Store",
+      "type": "database"
+    }
   ],
   "messages": [
-    {"from": "user", "to": "ui", "y": 170, "label": "Ask business question"},
-    {"from": "ui", "to": "agent", "y": 200, "label": "prepare(question)", "variant": "emphasis"},
-    {"from": "agent", "to": "db", "y": 230, "label": "get_schema_text()"},
-    {"from": "db", "to": "agent", "y": 260, "label": "authorized schema", "variant": "return"},
-    {"from": "agent", "to": "llm", "y": 290, "label": "generate SQL"},
-    {"from": "llm", "to": "agent", "y": 320, "label": "candidate SQL", "variant": "return"},
-    {"from": "agent", "to": "guard", "y": 350, "label": "validate + prepare", "variant": "security"},
-    {"from": "guard", "to": "db", "y": 380, "label": "read-only preflight", "variant": "security"},
-    {"from": "db", "to": "guard", "y": 410, "label": "query plan", "variant": "return"},
-    {"from": "guard", "to": "agent", "y": 440, "label": "prepared SQL", "variant": "return"},
-    {"from": "agent", "to": "ui", "y": 470, "label": "SQL awaiting approval", "variant": "return"},
-    {"from": "user", "to": "ui", "y": 500, "label": "Approve or edit", "variant": "emphasis"},
-    {"from": "ui", "to": "agent", "y": 530, "label": "execute_prepared()", "variant": "emphasis"},
-    {"from": "agent", "to": "guard", "y": 560, "label": "revalidate SQL", "variant": "security"},
-    {"from": "agent", "to": "db", "y": 590, "label": "execute SELECT"},
-    {"from": "db", "to": "agent", "y": 620, "label": "bounded rows + metrics", "variant": "return"},
-    {"from": "agent", "to": "store", "y": 680, "label": "persist approved run metadata", "variant": "dashed"},
-    {"from": "agent", "to": "ui", "y": 710, "label": "answer + SQL + metrics", "variant": "return"},
-    {"from": "ui", "to": "user", "y": 740, "label": "Render result", "variant": "return"}
+    {
+      "from": "user",
+      "to": "ui",
+      "y": 170,
+      "label": "Ask business question"
+    },
+    {
+      "from": "ui",
+      "to": "agent",
+      "y": 200,
+      "label": "stream_prepare()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "db",
+      "y": 230,
+      "label": "get_schema_text()"
+    },
+    {
+      "from": "db",
+      "to": "agent",
+      "y": 260,
+      "label": "authorized schema",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "llm",
+      "y": 290,
+      "label": "generate SQL"
+    },
+    {
+      "from": "llm",
+      "to": "agent",
+      "y": 320,
+      "label": "candidate SQL",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "guard",
+      "y": 350,
+      "label": "validate + prepare",
+      "variant": "security"
+    },
+    {
+      "from": "guard",
+      "to": "agent",
+      "y": 380,
+      "label": "prepared SQL",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "db",
+      "y": 410,
+      "label": "read-only preflight",
+      "variant": "security"
+    },
+    {
+      "from": "db",
+      "to": "agent",
+      "y": 440,
+      "label": "query plan",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "ui",
+      "y": 470,
+      "label": "SQL awaiting approval",
+      "variant": "return"
+    },
+    {
+      "from": "user",
+      "to": "ui",
+      "y": 500,
+      "label": "Approve or edit",
+      "variant": "emphasis"
+    },
+    {
+      "from": "ui",
+      "to": "agent",
+      "y": 530,
+      "label": "execute_prepared()",
+      "variant": "emphasis"
+    },
+    {
+      "from": "agent",
+      "to": "db",
+      "y": 560,
+      "label": "verify current context",
+      "variant": "security"
+    },
+    {
+      "from": "agent",
+      "to": "guard",
+      "y": 590,
+      "label": "revalidate SQL",
+      "variant": "security"
+    },
+    {
+      "from": "agent",
+      "to": "db",
+      "y": 620,
+      "label": "preflight + execute SELECT"
+    },
+    {
+      "from": "db",
+      "to": "agent",
+      "y": 650,
+      "label": "bounded rows + metrics",
+      "variant": "return"
+    },
+    {
+      "from": "agent",
+      "to": "ui",
+      "y": 680,
+      "label": "answer + SQL + metrics",
+      "variant": "return"
+    },
+    {
+      "from": "ui",
+      "to": "store",
+      "y": 710,
+      "label": "save answer and run",
+      "variant": "default"
+    },
+    {
+      "from": "ui",
+      "to": "user",
+      "y": 740,
+      "label": "Render result",
+      "variant": "return"
+    }
   ],
   "cards": [
-    {"dot": "emerald", "title": "Approval boundary", "items": ["Edited SQL and context are validated again", "Answers render database cells without a summary model call"]}
+    {
+      "dot": "emerald",
+      "title": "Approval boundary",
+      "items": [
+        "Success path shown; UI also stores pending messages before approval",
+        "Execution checks current context; answers render locally without an LLM"
+      ]
+    }
   ]
 }

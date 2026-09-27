@@ -5053,11 +5053,11 @@
         </g>
         </g>
 
-        <g data-edge-from="ui" data-edge-to="agent" data-edge-label="prepare(question)" data-edge-key="1">
+        <g data-edge-from="ui" data-edge-to="agent" data-edge-label="stream_prepare()" data-edge-key="1">
           <path data-composition-edge-from="ui" data-composition-edge-to="agent" data-composition-points="351,200;535.5,200" d="M 351 200 L 535.5 200" class="a-emphasis" stroke-width="1.8" marker-end="url(#arrowhead-emphasis)"/>
         <g data-detail="context">
-          <rect x="393.05" y="180" width="100.4" height="16" rx="3" class="c-mask"/>
-          <text x="443.25" y="190" class="t-backend" font-size="9" text-anchor="middle">prepare(question)</text>
+          <rect x="395.65" y="180" width="95.2" height="16" rx="3" class="c-mask"/>
+          <text x="443.25" y="190" class="t-backend" font-size="9" text-anchor="middle">stream_prepare()</text>
         </g>
         </g>
 
@@ -5101,27 +5101,27 @@
         </g>
         </g>
 
-        <g data-edge-from="guard" data-edge-to="db" data-edge-label="read-only preflight" data-edge-key="7">
-          <path data-composition-edge-from="guard" data-composition-edge-to="db" data-composition-points="946.5,380;1131,380" d="M 946.5 380 L 1131 380" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <g data-edge-from="guard" data-edge-to="agent" data-edge-label="prepared SQL" data-edge-key="7">
+          <path data-composition-edge-from="guard" data-composition-edge-to="agent" data-composition-points="932.5,380;549.5,380" d="M 932.5 380 L 549.5 380" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="983.35" y="360" width="110.8" height="16" rx="3" class="c-mask"/>
-          <text x="1038.75" y="370" class="t-security" font-size="9" text-anchor="middle">read-only preflight</text>
+          <rect x="703.8" y="360" width="74.4" height="16" rx="3" class="c-mask"/>
+          <text x="741" y="370" class="t-muted" font-size="9" text-anchor="middle">prepared SQL</text>
         </g>
         </g>
 
-        <g data-edge-from="db" data-edge-to="guard" data-edge-label="query plan" data-edge-key="8">
-          <path data-composition-edge-from="db" data-composition-edge-to="guard" data-composition-points="1131,410;946.5,410" d="M 1131 410 L 946.5 410" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="agent" data-edge-to="db" data-edge-label="read-only preflight" data-edge-key="8">
+          <path data-composition-edge-from="agent" data-composition-edge-to="db" data-composition-points="549.5,410;1131,410" d="M 549.5 410 L 1131 410" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
         <g data-detail="context">
-          <rect x="1006.75" y="390" width="64" height="16" rx="3" class="c-mask"/>
-          <text x="1038.75" y="400" class="t-muted" font-size="9" text-anchor="middle">query plan</text>
+          <rect x="784.85" y="390" width="110.8" height="16" rx="3" class="c-mask"/>
+          <text x="840.25" y="400" class="t-security" font-size="9" text-anchor="middle">read-only preflight</text>
         </g>
         </g>
 
-        <g data-edge-from="guard" data-edge-to="agent" data-edge-label="prepared SQL" data-edge-key="9">
-          <path data-composition-edge-from="guard" data-composition-edge-to="agent" data-composition-points="932.5,440;549.5,440" d="M 932.5 440 L 549.5 440" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="db" data-edge-to="agent" data-edge-label="query plan" data-edge-key="9">
+          <path data-composition-edge-from="db" data-composition-edge-to="agent" data-composition-points="1131,440;549.5,440" d="M 1131 440 L 549.5 440" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="703.8" y="420" width="74.4" height="16" rx="3" class="c-mask"/>
-          <text x="741" y="430" class="t-muted" font-size="9" text-anchor="middle">prepared SQL</text>
+          <rect x="808.25" y="420" width="64" height="16" rx="3" class="c-mask"/>
+          <text x="840.25" y="430" class="t-muted" font-size="9" text-anchor="middle">query plan</text>
         </g>
         </g>
 
@@ -5149,47 +5149,55 @@
         </g>
         </g>
 
-        <g data-edge-from="agent" data-edge-to="guard" data-edge-label="revalidate SQL" data-edge-key="13">
-          <path data-composition-edge-from="agent" data-composition-edge-to="guard" data-composition-points="549.5,560;932.5,560" d="M 549.5 560 L 932.5 560" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
+        <g data-edge-from="agent" data-edge-to="db" data-edge-label="verify current context" data-edge-key="13">
+          <path data-composition-edge-from="agent" data-composition-edge-to="db" data-composition-points="549.5,560;1131,560" d="M 549.5 560 L 1131 560" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
         <g data-detail="context">
-          <rect x="698.6" y="540" width="84.8" height="16" rx="3" class="c-mask"/>
-          <text x="741" y="550" class="t-security" font-size="9" text-anchor="middle">revalidate SQL</text>
+          <rect x="777.05" y="540" width="126.4" height="16" rx="3" class="c-mask"/>
+          <text x="840.25" y="550" class="t-security" font-size="9" text-anchor="middle">verify current context</text>
         </g>
         </g>
 
-        <g data-edge-from="agent" data-edge-to="db" data-edge-label="execute SELECT" data-edge-key="14">
-          <path data-composition-edge-from="agent" data-composition-edge-to="db" data-composition-points="549.5,590;1131,590" d="M 549.5 590 L 1131 590" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="agent" data-edge-to="guard" data-edge-label="revalidate SQL" data-edge-key="14">
+          <path data-composition-edge-from="agent" data-composition-edge-to="guard" data-composition-points="549.5,590;932.5,590" d="M 549.5 590 L 932.5 590" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
         <g data-detail="context">
-          <rect x="797.85" y="570" width="84.8" height="16" rx="3" class="c-mask"/>
-          <text x="840.25" y="580" class="t-backend" font-size="9" text-anchor="middle">execute SELECT</text>
+          <rect x="698.6" y="570" width="84.8" height="16" rx="3" class="c-mask"/>
+          <text x="741" y="580" class="t-security" font-size="9" text-anchor="middle">revalidate SQL</text>
         </g>
         </g>
 
-        <g data-edge-from="db" data-edge-to="agent" data-edge-label="bounded rows + metrics" data-edge-key="15">
-          <path data-composition-edge-from="db" data-composition-edge-to="agent" data-composition-points="1131,620;549.5,620" d="M 1131 620 L 549.5 620" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+        <g data-edge-from="agent" data-edge-to="db" data-edge-label="preflight + execute SELECT" data-edge-key="15">
+          <path data-composition-edge-from="agent" data-composition-edge-to="db" data-composition-points="549.5,620;1131,620" d="M 549.5 620 L 1131 620" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="777.05" y="600" width="126.4" height="16" rx="3" class="c-mask"/>
-          <text x="840.25" y="610" class="t-muted" font-size="9" text-anchor="middle">bounded rows + metrics</text>
+          <rect x="766.65" y="600" width="147.20000000000002" height="16" rx="3" class="c-mask"/>
+          <text x="840.25" y="610" class="t-backend" font-size="9" text-anchor="middle">preflight + execute SELECT</text>
         </g>
         </g>
 
-        <g data-edge-from="agent" data-edge-to="store" data-edge-label="persist approved run metadata" data-edge-key="16">
-          <path data-composition-edge-from="agent" data-composition-edge-to="store" data-composition-points="549.5,680;1329.5,680" d="M 549.5 680 L 1329.5 680" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
+        <g data-edge-from="db" data-edge-to="agent" data-edge-label="bounded rows + metrics" data-edge-key="16">
+          <path data-composition-edge-from="db" data-composition-edge-to="agent" data-composition-points="1131,650;549.5,650" d="M 1131 650 L 549.5 650" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="858.1" y="660" width="162.8" height="16" rx="3" class="c-mask"/>
-          <text x="939.5" y="670" class="t-messagebus" font-size="9" text-anchor="middle">persist approved run metadata</text>
+          <rect x="777.05" y="630" width="126.4" height="16" rx="3" class="c-mask"/>
+          <text x="840.25" y="640" class="t-muted" font-size="9" text-anchor="middle">bounded rows + metrics</text>
         </g>
         </g>
 
         <g data-edge-from="agent" data-edge-to="ui" data-edge-label="answer + SQL + metrics" data-edge-key="17">
-          <path data-composition-edge-from="agent" data-composition-edge-to="ui" data-composition-points="535.5,710;351,710" d="M 535.5 710 L 351 710" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
+          <path data-composition-edge-from="agent" data-composition-edge-to="ui" data-composition-points="535.5,680;351,680" d="M 535.5 680 L 351 680" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
-          <rect x="380.05" y="690" width="126.4" height="16" rx="3" class="c-mask"/>
-          <text x="443.25" y="700" class="t-muted" font-size="9" text-anchor="middle">answer + SQL + metrics</text>
+          <rect x="380.05" y="660" width="126.4" height="16" rx="3" class="c-mask"/>
+          <text x="443.25" y="670" class="t-muted" font-size="9" text-anchor="middle">answer + SQL + metrics</text>
         </g>
         </g>
 
-        <g data-edge-from="ui" data-edge-to="user" data-edge-label="Render result" data-edge-key="18">
+        <g data-edge-from="ui" data-edge-to="store" data-edge-label="save answer and run" data-edge-key="18">
+          <path data-composition-edge-from="ui" data-composition-edge-to="store" data-composition-points="351,710;1329.5,710" d="M 351 710 L 1329.5 710" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <g data-detail="context">
+          <rect x="784.85" y="690" width="110.8" height="16" rx="3" class="c-mask"/>
+          <text x="840.25" y="700" class="t-backend" font-size="9" text-anchor="middle">save answer and run</text>
+        </g>
+        </g>
+
+        <g data-edge-from="ui" data-edge-to="user" data-edge-label="Render result" data-edge-key="19">
           <path data-composition-edge-from="ui" data-composition-edge-to="user" data-composition-points="337,740;152.5,740" d="M 337 740 L 152.5 740" class="a-default" stroke-width="1.4" stroke-dasharray="3,5" marker-end="url(#arrowhead)"/>
         <g data-detail="context">
           <rect x="204.95" y="720" width="79.60000000000001" height="16" rx="3" class="c-mask"/>
@@ -5293,13 +5301,9 @@
             <path d="M 235 803 L 269 803" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
             <text x="278" y="806" class="t-muted" font-size="10" font-weight="500">security</text>
           </g>
-          <g data-legend-semantic-kind="dashed" data-legend-x="340" data-legend-baseline="806" data-legend-width="98">
-            <path d="M 340 803 L 374 803" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-            <text x="383" y="806" class="t-muted" font-size="10" font-weight="500">async trace</text>
-          </g>
-          <g data-legend-semantic-kind="default" data-legend-x="460" data-legend-baseline="806" data-legend-width="118">
-            <path d="M 460 803 L 494 803" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-            <text x="503" y="806" class="t-muted" font-size="10" font-weight="500">default message</text>
+          <g data-legend-semantic-kind="default" data-legend-x="340" data-legend-baseline="806" data-legend-width="118">
+            <path d="M 340 803 L 374 803" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+            <text x="383" y="806" class="t-muted" font-size="10" font-weight="500">default message</text>
           </g>
         </g>
       </svg>
@@ -5494,8 +5498,8 @@
           <h3>Approval boundary</h3>
         </div>
         <ul>
-          <li>&bull; Edited SQL and context are validated again</li>
-          <li>&bull; Answers render database cells without a summary model call</li>
+          <li>&bull; Success path shown; UI also stores pending messages before approval</li>
+          <li>&bull; Execution checks current context; answers render locally without an LLM</li>
         </ul>
       </div>
     </div>

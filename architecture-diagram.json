@@ -3,48 +3,211 @@
   "diagram_type": "architecture",
   "meta": {
     "title": "NL2SQL Agent Architecture",
-    "subtitle": "Approval-first SQL with persistent costs, plans, and strictly read-only databases",
-    "output": "architecture-diagram.html",
+    "locale": "en",
     "quality_profile": "showcase",
-    "visual_preset": "blueprint",
-    "repository": {
-      "url": "https://github.com/pypi-ahmad/natural-language-to-sql-agent",
-      "revision": "d17ad6017e71c5374fa100d78dff91bdaa7490e7"
-    },
-    "views": [
-      {"id": "request", "label": "Approval-first request", "focus": ["user", "clients", "agent", "guardian", "databases"], "note": "Natural language becomes reviewed, guarded SQL before either database executes it."},
-      {"id": "model", "label": "Model calls and cost", "focus": ["agent", "providers", "state"], "note": "Per-call usage is priced with effective rules and saved as immutable run snapshots."},
-      {"id": "safety", "label": "Safety boundaries", "focus": ["guardian", "databases"], "note": "AST policy, table authorization, read-only connections, limits, plans, and redacted audit events."}
-    ],
-    "viewBox": [1440, 820]
+    "viewBox": [
+      1180,
+      720
+    ]
   },
   "components": [
-    {"id": "user", "type": "external", "label": "Operator", "sublabel": "Question + SQL approval", "pos": [40, 330], "size": [150, 70]},
-    {"id": "clients", "type": "frontend", "label": "CLI / Streamlit", "sublabel": "Chat · Costs · Sessions · Insights · Pricing", "tag": "127.0.0.1:8512", "pos": [250, 320], "size": [210, 90], "sources": [{"path": "src/nl2sql_agent/ui/streamlit_app.py", "label": "UI entrypoint"}, {"path": "src/nl2sql_agent/cli.py", "label": "CLI"}]},
-    {"id": "agent", "type": "backend", "label": "LangGraph Agent", "sublabel": "schema → writer → guardian → executor → summary", "pos": [530, 310], "size": [230, 110], "sources": [{"path": "src/nl2sql_agent/agent/workflow.py", "label": "Workflow"}]},
-    {"id": "guardian", "type": "security", "label": "SQL Guardian", "sublabel": "AST policy · physical-table allowlist · LIMIT", "pos": [830, 320], "size": [220, 90], "sources": [{"path": "src/nl2sql_agent/security/sql_validator.py", "label": "Validator"}]},
-    {"id": "databases", "type": "database", "label": "Read-only Databases", "sublabel": "SQLite mode=ro · PostgreSQL verified transaction", "pos": [1120, 310], "size": [250, 110], "sources": [{"path": "src/nl2sql_agent/db/database.py", "label": "Backend contract"}]},
-    {"id": "providers", "type": "external", "label": "Model Providers", "sublabel": "Ollama · HF · OpenAI · Anthropic · Gemini · xAI · Agnes", "pos": [530, 90], "size": [230, 90], "sources": [{"path": "src/nl2sql_agent/llm/factory.py", "label": "Factory"}]},
-    {"id": "state", "type": "database", "label": "Local State Store", "sublabel": "Sessions · approved SQL · usage · pricing · metrics", "pos": [530, 590], "size": [230, 100]},
-    {"id": "pricing", "type": "backend", "label": "Pricing Engine", "sublabel": "Effective dates · cache · batch · fast · long context", "pos": [830, 590], "size": [220, 100], "sources": [{"path": "src/nl2sql_agent/llm/pricing.py", "label": "Pricing"}]}
-  ],
-  "boundaries": [
-    {"kind": "region", "label": "Local single-user application", "wraps": ["clients", "agent", "guardian", "state", "pricing"], "pad": 24},
-    {"kind": "security-group", "label": "Untrusted SQL boundary", "wraps": ["guardian", "databases"], "pad": 18}
+    {
+      "id": "user",
+      "type": "external",
+      "label": "User",
+      "sublabel": "Question and approval",
+      "pos": [
+        40,
+        260
+      ],
+      "size": [
+        130,
+        64
+      ]
+    },
+    {
+      "id": "clients",
+      "type": "frontend",
+      "label": "Streamlit UI / CLI",
+      "sublabel": "Shared client layer",
+      "pos": [
+        230,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "agent",
+      "type": "backend",
+      "label": "LangGraph Agent",
+      "sublabel": "Orchestration and retries",
+      "pos": [
+        450,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "database",
+      "type": "database",
+      "label": "Database Backends",
+      "sublabel": "SQLite / PostgreSQL",
+      "pos": [
+        890,
+        260
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "validator",
+      "type": "security",
+      "label": "SQL Safety",
+      "sublabel": "AST policy and preparation",
+      "pos": [
+        680,
+        100
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "llm",
+      "type": "cloud",
+      "label": "LLM Providers",
+      "sublabel": "Local or hosted",
+      "pos": [
+        450,
+        430
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "store",
+      "type": "database",
+      "label": "State Store",
+      "sublabel": "Messages, SQL and pricing",
+      "pos": [
+        230,
+        430
+      ],
+      "size": [
+        150,
+        64
+      ]
+    },
+    {
+      "id": "audit",
+      "type": "backend",
+      "label": "Query Metrics",
+      "sublabel": "Plans and runtime",
+      "pos": [
+        890,
+        430
+      ],
+      "size": [
+        150,
+        64
+      ]
+    }
   ],
   "connections": [
-    {"id": "ask", "from": "user", "to": "clients", "variant": "emphasis"},
-    {"id": "prepare", "from": "clients", "to": "agent", "variant": "emphasis"},
-    {"id": "validate", "from": "agent", "to": "guardian", "variant": "security"},
-    {"id": "execute", "from": "guardian", "to": "databases", "variant": "security"},
-    {"id": "model-calls", "from": "agent", "to": "providers", "label": "chat + usage", "variant": "dashed"},
-    {"id": "save-session", "from": "clients", "to": "state", "label": "safe history", "variant": "dashed"},
-    {"id": "price-run", "from": "agent", "to": "pricing", "variant": "dashed"},
-    {"id": "store-cost", "from": "pricing", "to": "state", "variant": "dashed"}
+    {
+      "id": "user-clients",
+      "from": "user",
+      "to": "clients",
+      "label": "question / approval",
+      "variant": "emphasis",
+      "labelDy": -28
+    },
+    {
+      "id": "clients-agent",
+      "from": "clients",
+      "to": "agent",
+      "label": "prepare or run",
+      "labelDy": -28
+    },
+    {
+      "id": "agent-validator",
+      "from": "agent",
+      "to": "validator",
+      "label": "candidate SQL",
+      "variant": "security",
+      "fromSide": "top",
+      "toSide": "left"
+    },
+    {
+      "id": "agent-db",
+      "from": "agent",
+      "to": "database",
+      "label": "preflight / execute",
+      "variant": "emphasis"
+    },
+    {
+      "id": "agent-llm",
+      "from": "agent",
+      "to": "llm",
+      "label": "prompt / response",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        510,
+        380
+      ]
+    },
+    {
+      "id": "database-audit",
+      "from": "database",
+      "to": "audit",
+      "label": "plan + metrics",
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top",
+      "labelAt": [
+        1060,
+        360
+      ]
+    },
+    {
+      "id": "clients-store",
+      "from": "clients",
+      "to": "store",
+      "label": "UI persistence",
+      "labelAt": [305, 375],
+      "variant": "dashed",
+      "fromSide": "bottom",
+      "toSide": "top"
+    }
   ],
   "cards": [
-    {"dot": "rose", "title": "Safety", "items": ["Edited SQL is revalidated before execution", "PostgreSQL requires a non-privileged read-only role", "Plans never use EXPLAIN ANALYZE"]},
-    {"dot": "cyan", "title": "Persistence", "items": ["Raw rows, CSV, uploads, schemas, keys, and DSNs are never saved", "Approved runs freeze pricing snapshots"]},
-    {"dot": "emerald", "title": "Observability", "items": ["Session/model cost dashboards", "Runtime trends and configurable expensive-query warnings"]}
+    {
+      "dot": "emerald",
+      "title": "Trust boundary",
+      "items": [
+        "The agent validates SQL and owns database preflight",
+        "Saved answer text can contain returned values"
+      ]
+    },
+    {
+      "dot": "cyan",
+      "title": "Replaceable adapters",
+      "items": [
+        "UI and CLI share the agent; only the UI uses session storage",
+        "The UI reviews SQL; the CLI runs without that approval step"
+      ]
+    }
   ]
 }

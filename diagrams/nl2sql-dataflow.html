@@ -5053,8 +5053,9 @@
         <path data-edge-from="policy" data-edge-to="prepared" data-edge-label="safe SQL + plan" data-edge-key="4" data-edge-id="policy-prepared" data-composition-points="530,300;530,470" d="M 530 300 L 530 470" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
         <path data-edge-from="prepared" data-edge-to="rows" data-edge-label="read-only execution" data-edge-key="5" data-edge-id="prepared-rows" data-composition-points="530,470;530,420;745,420;745,300" d="M 530 470 L 530 420 L 745 420 L 745 300" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
         <path data-edge-from="rows" data-edge-to="answer" data-edge-label="formatted result" data-edge-key="6" data-edge-id="rows-answer" data-composition-points="801,271;904,271" d="M 801 271 L 904 271" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-        <path data-edge-from="prepared" data-edge-to="telemetry" data-edge-label="plan + usage" data-edge-key="7" data-edge-id="prepared-telemetry" data-composition-points="586,499;689,499" d="M 586 499 L 689 499" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-        <path data-edge-from="telemetry" data-edge-to="sessions" data-edge-label="bounded metadata" data-edge-key="8" data-edge-id="telemetry-sessions" data-composition-points="801,499;904,499" d="M 801 499 L 904 499" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
+        <path data-edge-from="prepared" data-edge-to="telemetry" data-edge-label="plan + usage" data-edge-key="7" data-edge-id="prepared-telemetry" data-composition-points="586,499;689,499" d="M 586 499 L 689 499" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="telemetry" data-edge-to="sessions" data-edge-label="bounded metadata" data-edge-key="8" data-edge-id="telemetry-sessions" data-composition-points="801,499;904,499" d="M 801 499 L 904 499" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+        <path data-edge-from="answer" data-edge-to="sessions" data-edge-label="saved answer text" data-edge-key="9" data-edge-id="answer-sessions" data-composition-points="960,300;960,300;960,470;960,470" d="M 960 300 L 960 300 L 960 470 L 960 470" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
 
         <!-- Nodes -->
         <g id="node-question" data-node-id="question" data-node-label="User question" tabindex="0" role="button" aria-label="Focus User question, Natural language, 01 / Inputs" aria-pressed="false" data-node-kind="external" data-node-sublabel="Natural language" data-node-context="01 / Inputs">
@@ -5138,15 +5139,15 @@
           <text data-detail="context" x="745" y="279" class="t-muted" font-size="7" text-anchor="middle">Bounded and measured</text>
         </g>
 
-        <g id="node-telemetry" data-node-id="telemetry" data-node-label="Telemetry" tabindex="0" role="button" aria-label="Focus Telemetry, Redacted audit + cost, 04 / Execute" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Redacted audit + cost" data-node-context="04 / Execute">
-          <title>Telemetry · Redacted audit + cost · 04 / Execute</title>
+        <g id="node-telemetry" data-node-id="telemetry" data-node-label="Run metadata" tabindex="0" role="button" aria-label="Focus Run metadata, Plan, usage and cost, 04 / Execute" aria-pressed="false" data-node-kind="backend" data-node-sublabel="Plan, usage and cost" data-node-context="04 / Execute">
+          <title>Run metadata · Plan, usage and cost · 04 / Execute</title>
           <rect x="689" y="470" width="112" height="58" rx="6" class="c-mask"/>
           <rect x="689" y="470" width="112" height="58" rx="6" class="c-backend" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="backend" class="semantic-sigil s-backend" transform="translate(695 476) scale(0.6875)">
             <path d="M6 3 3 8l3 5M10 3l3 5-3 5"/>
           </g>
-          <text data-node-label="" data-detail-anchor="" x="745" y="491" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">Telemetry</text>
-          <text data-detail="context" x="745" y="507" class="t-muted" font-size="7" text-anchor="middle">Redacted audit + cost</text>
+          <text data-node-label="" data-detail-anchor="" x="745" y="491" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">Run metadata</text>
+          <text data-detail="context" x="745" y="507" class="t-muted" font-size="7" text-anchor="middle">Plan, usage and cost</text>
         </g>
 
         <g id="node-answer" data-node-id="answer" data-node-label="User answer" tabindex="0" role="button" aria-label="Focus User answer, Result + SQL + plan, 05 / Consume" aria-pressed="false" data-node-kind="frontend" data-node-sublabel="Result + SQL + plan" data-node-context="05 / Consume">
@@ -5163,8 +5164,8 @@
           <text data-detail="context" x="960" y="279" class="t-muted" font-size="7" text-anchor="middle">Result + SQL + plan</text>
         </g>
 
-        <g id="node-sessions" data-node-id="sessions" data-node-label="State store" tabindex="0" role="button" aria-label="Focus State store, Approved run metadata, 05 / Consume" aria-pressed="false" data-node-kind="database" data-node-sublabel="Approved run metadata" data-node-context="05 / Consume">
-          <title>State store · Approved run metadata · 05 / Consume</title>
+        <g id="node-sessions" data-node-id="sessions" data-node-label="State store" tabindex="0" role="button" aria-label="Focus State store, Messages, SQL, pricing, 05 / Consume" aria-pressed="false" data-node-kind="database" data-node-sublabel="Messages, SQL, pricing" data-node-context="05 / Consume">
+          <title>State store · Messages, SQL, pricing · 05 / Consume</title>
           <rect x="904" y="470" width="112" height="58" rx="6" class="c-mask"/>
           <rect x="904" y="470" width="112" height="58" rx="6" class="c-database" stroke-width="1.5"/>
           <g aria-hidden="true" data-semantic-sigil="database" class="semantic-sigil s-database" transform="translate(910 476) scale(0.6875)">
@@ -5172,7 +5173,7 @@
             <path d="M3 4v8c0 1.1 2.2 2 5 2s5-.9 5-2V4M3 8c0 1.1 2.2 2 5 2s5-.9 5-2"/>
           </g>
           <text data-node-label="" data-detail-anchor="" x="960" y="491" class="t-primary" font-size="10" font-weight="600" text-anchor="middle">State store</text>
-          <text data-detail="context" x="960" y="507" class="t-muted" font-size="7" text-anchor="middle">Approved run metadata</text>
+          <text data-detail="context" x="960" y="507" class="t-muted" font-size="7" text-anchor="middle">Messages, SQL, pricing</text>
         </g>
 
         <!-- Flow labels -->
@@ -5206,11 +5207,15 @@
         </g>
         <g data-detail="context" data-edge-from="prepared" data-edge-to="telemetry" data-edge-label="plan + usage" data-edge-key="7" data-edge-id="prepared-telemetry">
           <rect x="602.1" y="450" width="70.8" height="16" rx="4" class="c-mask"/>
-          <text x="637.5" y="461" class="t-messagebus" font-size="8" text-anchor="middle">plan + usage</text>
+          <text x="637.5" y="461" class="t-muted" font-size="8" text-anchor="middle">plan + usage</text>
         </g>
         <g data-detail="context" data-edge-from="telemetry" data-edge-to="sessions" data-edge-label="bounded metadata" data-edge-key="8" data-edge-id="telemetry-sessions">
           <rect x="807.3" y="478" width="90.4" height="16" rx="4" class="c-mask"/>
-          <text x="852.5" y="489" class="t-messagebus" font-size="8" text-anchor="middle">bounded metadata</text>
+          <text x="852.5" y="489" class="t-muted" font-size="8" text-anchor="middle">bounded metadata</text>
+        </g>
+        <g data-detail="context" data-edge-from="answer" data-edge-to="sessions" data-edge-label="saved answer text" data-edge-key="9" data-edge-id="answer-sessions">
+          <rect x="912.35" y="364" width="95.3" height="16" rx="4" class="c-mask"/>
+          <text x="960" y="375" class="t-muted" font-size="8" text-anchor="middle">saved answer text</text>
         </g>
 
         <!-- Legend -->
@@ -5220,17 +5225,13 @@
             <path d="M 40 591 L 74 591" class="a-security" stroke-width="1.4" marker-end="url(#arrowhead-security)"/>
             <text x="83" y="594" class="t-muted" font-size="10" font-weight="500">policy / PII</text>
           </g>
-          <g data-legend-semantic-kind="dashed" data-legend-x="165" data-legend-baseline="594" data-legend-width="98">
-            <path d="M 165 591 L 199 591" class="a-dashed" stroke-width="1.4" marker-end="url(#arrowhead-dashed)"/>
-            <text x="208" y="594" class="t-muted" font-size="10" font-weight="500">async batch</text>
+          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="data store" data-legend-x="165" data-legend-baseline="594" data-legend-width="93">
+            <rect x="165" y="586" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
+            <text x="187" y="594" class="t-muted" font-size="10" font-weight="500">data store</text>
           </g>
-          <g data-legend-semantic-kind="database" data-legend-kind="database" data-legend-label="data store" data-legend-x="285" data-legend-baseline="594" data-legend-width="93">
-            <rect x="285" y="586" width="14" height="9" rx="2" class="c-database" stroke-width="1"/>
-            <text x="307" y="594" class="t-muted" font-size="10" font-weight="500">data store</text>
-          </g>
-          <g data-legend-semantic-kind="default" data-legend-x="400" data-legend-baseline="594" data-legend-width="88">
-            <path d="M 400 591 L 434 591" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
-            <text x="443" y="594" class="t-muted" font-size="10" font-weight="500">data flow</text>
+          <g data-legend-semantic-kind="default" data-legend-x="280" data-legend-baseline="594" data-legend-width="88">
+            <path d="M 280 591 L 314 591" class="a-default" stroke-width="1.4" marker-end="url(#arrowhead)"/>
+            <text x="323" y="594" class="t-muted" font-size="10" font-weight="500">data flow</text>
           </g>
         </g>
       </svg>
@@ -5422,22 +5423,22 @@
       <div class="card">
         <div class="card-header">
           <div class="card-dot rose"></div>
-          <h3>Never persisted</h3>
+          <h3>Persistence boundary</h3>
         </div>
         <ul>
-          <li>&bull; Credentials and DSNs</li>
-          <li>&bull; Raw rows, CSV payloads, uploads, and schemas</li>
+          <li>&bull; Structured payloads omit credentials, DSNs, raw rows and schemas</li>
+          <li>&bull; Saved answer text can still contain returned values</li>
         </ul>
       </div>
 
       <div class="card">
         <div class="card-header">
           <div class="card-dot cyan"></div>
-          <h3>Measured</h3>
+          <h3>Context and measurement</h3>
         </div>
         <ul>
-          <li>&bull; Stage latency and retries</li>
-          <li>&bull; Query plan, runtime, tokens, and estimated cost</li>
+          <li>&bull; Prompt context may include catalog sample values</li>
+          <li>&bull; Audit logs are separate; runs record plans, usage and cost</li>
         </ul>
       </div>
     </div>
