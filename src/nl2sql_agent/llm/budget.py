@@ -19,11 +19,17 @@ class BudgetExhausted(RuntimeError):  # noqa: N818 - a terminal workflow outcome
 
 
 class Invokable(Protocol):
-    def invoke(self, messages: list[dict[str, str]], /) -> object: ...
+    """Minimal message-invocation interface for the agent and budget wrapper."""
+
+    def invoke(self, messages: list[dict[str, str]], /) -> object:
+        """Send message dictionaries and return a provider response object."""
+        ...
 
 
 @dataclass(frozen=True)
 class Rates:
+    """Finite nonnegative input/output prices in USD per million tokens."""
+
     input: Decimal
     output: Decimal
 
@@ -32,6 +38,7 @@ class Rates:
             raise ValueError("Rates must be finite and nonnegative")
 
     def cost(self, input_tokens: int, output_tokens: int) -> Decimal:
+        """Return Decimal cost for token counts; negative counts raise ValueError."""
         if input_tokens < 0 or output_tokens < 0:
             raise ValueError("Token counts cannot be negative")
         return (self.input * input_tokens + self.output * output_tokens) / 1_000_000
@@ -62,6 +69,7 @@ class BudgetLedger:
 
     @property
     def committed(self) -> Decimal:
+        """Return settled costs plus outstanding reservations in USD."""
         with sqlite3.connect(self.path) as conn:
             return self._total(conn)
 
@@ -72,6 +80,9 @@ class BudgetLedger:
         )
 
     def reserve(self, amount: Decimal) -> str:
+        """Reserve a finite nonnegative amount and return its ID.
+
+        Invalid amounts raise ValueError; insufficient capacity raises BudgetExhausted."""
         if not amount.is_finite() or amount < 0:
             raise ValueError("Reservation must be finite and nonnegative")
         with sqlite3.connect(self.path) as conn:
@@ -83,6 +94,9 @@ class BudgetLedger:
         return reservation
 
     def reconcile(self, reservation: str, actual: Decimal) -> None:
+        """Settle reservation with actual cost; invalid or settled IDs raise ValueError.
+
+        An overrun is recorded before BudgetExhausted is raised."""
         if not actual.is_finite() or actual < 0:
             raise ValueError("Actual cost must be finite and nonnegative")
         with sqlite3.connect(self.path) as conn:
@@ -118,6 +132,10 @@ class BudgetedModel:
         self.model, self.ledger, self.rates, self.max_tokens = model, ledger, rates, max_tokens
 
     def invoke(self, messages: list[dict[str, str]]) -> object:
+        """Reserve for messages, invoke once and reconcile validated usage only.
+
+        Provider errors propagate and retain reservations. BudgetExhausted can occur
+        before the call or after reported usage exceeds the reservation."""
         input_bound = (
             sum(len(message["content"].encode("utf-8")) + 256 for message in messages) + 1024
         )

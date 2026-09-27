@@ -11,6 +11,8 @@ from pydantic import BaseModel, ConfigDict, Field
 
 
 class CatalogEntry(BaseModel):
+    """Operator-authored table descriptions, aliases, metric hints and example values."""
+
     model_config = ConfigDict(extra="forbid", strict=True)
     description: str = ""
     aliases: list[str] = Field(default_factory=list)
@@ -19,11 +21,16 @@ class CatalogEntry(BaseModel):
 
 
 class SchemaCatalog(BaseModel):
+    """Strict table-name mapping for prompt context; it grants no SQL permissions."""
+
     model_config = ConfigDict(extra="forbid", strict=True)
     tables: dict[str, CatalogEntry] = Field(default_factory=dict)
 
     @classmethod
     def load(cls, path: Path | None, schema: str) -> SchemaCatalog:
+        """Load path or an empty catalog and validate references against schema text.
+
+        Invalid JSON/references raise ValueError; file errors propagate."""
         catalog = cls.model_validate_json(path.read_text(encoding="utf-8")) if path else cls()
         known = {
             match.group(1): match.group(2)
@@ -38,6 +45,7 @@ class SchemaCatalog(BaseModel):
         return catalog
 
     def search_question(self, question: str, allowed: frozenset[str]) -> str:
+        """Append matching alias/metric table hints from the allowed table set."""
         hints = [
             table
             for table, entry in self.tables.items()
@@ -50,6 +58,7 @@ class SchemaCatalog(BaseModel):
         return question + " " + " ".join(hints)
 
     def context(self, selected: list[str]) -> str:
+        """Return JSON context for selected tables with catalog entries."""
         return json.dumps(
             {table: self.tables[table].model_dump() for table in selected if table in self.tables},
             ensure_ascii=False,

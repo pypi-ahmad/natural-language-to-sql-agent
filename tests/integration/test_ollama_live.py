@@ -1,8 +1,7 @@
 """End-to-end smoke test that requires a running local Ollama instance.
 
-Marked with the ``integration`` pytest marker; skipped automatically when
-Ollama is unreachable. This is the only test in the suite that hits an
-external service.
+Requires ``NL2SQL_LIVE_TESTS=1``, a reachable Ollama server and the selected
+installed model. PostgreSQL has a separate explicitly configured live suite.
 """
 
 from __future__ import annotations

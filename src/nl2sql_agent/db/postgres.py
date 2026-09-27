@@ -100,6 +100,7 @@ class PostgresDatabase:
                     conn.close()
 
     def list_tables(self) -> tuple[str, ...]:
+        """Return ordinary table names visible in the configured schema."""
         with self.connect() as conn:
             rows = conn.execute(
                 "SELECT table_name FROM information_schema.tables "
@@ -117,6 +118,10 @@ class PostgresDatabase:
         max_tables: int | None = None,
         include_sample_values: bool = False,
     ) -> str:
+        """Return allowed schema ranked for question and max_tables.
+
+        An empty allowed_tables set returns no tables; None uses visible tables.
+        include_sample_values appends up to three sample rows per selected table."""
         with self.connect() as conn:
             rows = conn.execute(
                 "SELECT table_name, column_name, data_type, is_nullable "
@@ -225,6 +230,9 @@ class PostgresDatabase:
         # Executes sql verbatim: the caller (see security.prepare_sql and
         # agent.workflow.check_security) is responsible for having already
         # validated it as a safe, read-only, single SELECT.
+        """Execute caller-validated SQL read-only and return bounded rows and metrics.
+
+        SQL is not validated here. Connection/query failures become DatabaseError."""
         started = time.perf_counter()
         with self.connect() as conn:
             cursor = conn.execute(psycopg_sql.SQL(cast(LiteralString, sql)))
@@ -248,6 +256,7 @@ class PostgresDatabase:
         )
 
     def preflight(self, sql: str) -> QueryPlan:
+        """Return a JSON EXPLAIN plan without ANALYZE; failures raise DatabaseError."""
         with self.connect() as conn:
             explain = psycopg_sql.SQL("EXPLAIN (FORMAT JSON, COSTS TRUE) ") + psycopg_sql.SQL(
                 cast(LiteralString, sql)

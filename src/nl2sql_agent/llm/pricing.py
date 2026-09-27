@@ -38,6 +38,7 @@ class UsageRecord:
     request_mode: RequestMode = "standard"
 
     def to_dict(self) -> dict[str, object]:
+        """Return the per-call usage fields as a dictionary."""
         return asdict(self)
 
 
@@ -100,6 +101,7 @@ class CostBreakdown:
     total_cost: Decimal
 
     def to_dict(self) -> dict[str, object]:
+        """Return cost fields with ISO timestamps and Decimal amounts as strings."""
         data = asdict(self)
         data["calculated_at"] = self.calculated_at.isoformat()
         data["total_cost"] = str(self.total_cost)

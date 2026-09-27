@@ -20,10 +20,9 @@ from uuid import uuid4
 
 from .llm.pricing import DEFAULT_PRICING_RULES, PricingRule
 
-# Fail-closed privacy allowlists: only these keys are ever written to the
-# local state database. A new AgentState/pending field is invisible to
-# persistence until it is deliberately added here, so raw query rows,
-# question text, etc. can't leak to disk by accident.
+# Payload allowlists exclude structured rows and schema fields. Message content
+# is stored separately and verbatim; pending state includes questions and SQL.
+# These lists do not redact sensitive values inside otherwise allowed fields.
 _SAFE_MESSAGE_FIELDS = frozenset(
     {
         "outcome",
@@ -312,6 +311,7 @@ class StateStore:
         model: str,
         title: str = "New session",
     ) -> str:
+        """Create a session from backend/model metadata and return its UUID; store only the label basename."""
         session_id = str(uuid4())
         now = _utc_now()
         with self._connect() as conn:
@@ -332,6 +332,7 @@ class StateStore:
         return session_id
 
     def list_sessions(self, *, limit: int = 200) -> list[SavedSession]:
+        """Return sessions newest first, capped by limit (at least one)."""
         with self._connect() as conn:
             rows = conn.execute(
                 "SELECT * FROM sessions ORDER BY updated_at DESC LIMIT ?", (max(limit, 1),)
@@ -339,11 +340,13 @@ class StateStore:
         return [SavedSession(row["id"], *tuple(row)[1:]) for row in rows]
 
     def get_session(self, session_id: str) -> SavedSession | None:
+        """Return the session identified by session_id, or None when absent."""
         with self._connect() as conn:
             row = conn.execute("SELECT * FROM sessions WHERE id = ?", (session_id,)).fetchone()
         return SavedSession(row["id"], *tuple(row)[1:]) if row else None
 
     def rename_session(self, session_id: str, title: str) -> None:
+        """Normalize title and update the session; raise ValueError for an empty title."""
         normalized = " ".join(title.split()).strip()
         if not normalized:
             raise ValueError("Session title must not be empty")
@@ -354,6 +357,7 @@ class StateStore:
             )
 
     def delete_session(self, session_id: str) -> None:
+        """Delete session_id and its cascading messages, pending query and runs."""
         with self._connect() as conn:
             conn.execute("DELETE FROM sessions WHERE id = ?", (session_id,))
 
@@ -364,6 +368,10 @@ class StateStore:
         content: str,
         payload: Mapping[str, Any] | None = None,
     ) -> None:
+        """Append user/assistant content verbatim with allowlisted payload fields.
+
+        Invalid roles raise ValueError. Text is not redacted; position allocation
+        and insertion share a transaction."""
         if role not in {"user", "assistant"}:
             raise ValueError("Unsupported message role")
         safe_payload = _safe_mapping(payload or {}, _SAFE_MESSAGE_FIELDS)
@@ -392,6 +400,7 @@ class StateStore:
             conn.execute("COMMIT")
 
     def load_messages(self, session_id: str) -> list[dict[str, Any]]:
+        """Return ordered message dictionaries, merging stored content and payload."""
         with self._connect() as conn:
             rows = conn.execute(
                 "SELECT role, content, payload_json FROM messages "
@@ -406,6 +415,7 @@ class StateStore:
         return messages
 
     def save_pending(self, session_id: str, state: Mapping[str, Any]) -> None:
+        """Replace pending state with allowlisted fields, including questions and SQL."""
         safe = _safe_mapping(state, _SAFE_PENDING_FIELDS)
         with self._connect() as conn:
             conn.execute(
@@ -416,6 +426,7 @@ class StateStore:
             )
 
     def load_pending(self, session_id: str) -> dict[str, Any] | None:
+        """Return the stored pending-state dictionary, or None when absent."""
         with self._connect() as conn:
             row = conn.execute(
                 "SELECT payload_json FROM pending_queries WHERE session_id = ?", (session_id,)
@@ -423,6 +434,7 @@ class StateStore:
         return json.loads(row[0]) if row else None
 
     def clear_pending(self, session_id: str) -> None:
+        """Remove the pending query for session_id without deleting the conversation."""
         with self._connect() as conn:
             conn.execute("DELETE FROM pending_queries WHERE session_id = ?", (session_id,))
 
@@ -437,6 +449,10 @@ class StateStore:
         database_fingerprint: str,
         approved: bool,
     ) -> None:
+        """Store usage, pricing and runtime metadata, replacing an existing run ID.
+
+        Provider/model and database fields identify context. approved controls SQL
+        storage in this run record, not in separate pending-query storage."""
         usage = dict(state.get("token_usage", {}))
         usage_records = list(state.get("usage_records", []))
         cache_read = sum(max(int(item.get("cache_read_tokens", 0)), 0) for item in usage_records)
@@ -487,6 +503,7 @@ class StateStore:
             )
 
     def list_pricing_rules(self) -> list[PricingRule]:
+        """Return typed pricing rules ordered by model and effective start."""
         with self._connect() as conn:
             rows = conn.execute(
                 "SELECT * FROM pricing_rules ORDER BY model, effective_from"
@@ -524,6 +541,7 @@ class StateStore:
         )
 
     def replace_pricing_rules(self, rules: list[PricingRule]) -> None:
+        """Atomically replace rules; invalid IDs, rates or overlapping windows raise ValueError."""
         self._validate_rules(rules)
         with self._connect() as conn:
             conn.execute("BEGIN IMMEDIATE")
@@ -568,11 +586,13 @@ class StateStore:
                     raise ValueError(f"Pricing windows overlap for {model}")
 
     def get_preference_decimal(self, key: str) -> Decimal:
+        """Return the numeric preference for key, defaulting to Decimal zero."""
         with self._connect() as conn:
             row = conn.execute("SELECT value FROM preferences WHERE key = ?", (key,)).fetchone()
         return Decimal(row[0]) if row else Decimal(0)
 
     def set_preference_decimal(self, key: str, value: Decimal) -> None:
+        """Upsert value for key; negative values raise ValueError."""
         if value < 0:
             raise ValueError("Preference cannot be negative")
         with self._connect() as conn:
@@ -591,6 +611,10 @@ class StateStore:
         model: str | None = None,
         limit: int = 5000,
     ) -> list[dict[str, Any]]:
+        """Return recent run dictionaries filtered by time, session and model.
+
+        start_at is inclusive and end_at exclusive; limit is clamped to 1..20000.
+        Rows include SQL and titles; use cost_rows_to_csv for restricted exports."""
         clauses = ["1=1"]
         params: list[object] = []
         for value, clause in (
@@ -637,6 +661,7 @@ class StateStore:
         return Decimal(str(value))
 
     def runtime_rows(self, *, limit: int = 5000) -> list[dict[str, Any]]:
+        """Return up to limit recent runs with decoded plan and metrics dictionaries."""
         rows = self.cost_rows(limit=limit)
         for row in rows:
             row["plan"] = json.loads(row.pop("plan_json"))

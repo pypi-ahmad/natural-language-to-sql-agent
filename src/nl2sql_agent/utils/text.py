@@ -46,7 +46,22 @@ def strip_sql_fences(text: str) -> str:
 
 
 def truncate(text: str, max_chars: int, *, suffix: str = "...") -> str:
-    """Truncate ``text`` to ``max_chars`` keeping a tail ``suffix`` if cut."""
+    """Return a bounded string, including a suffix when space permits.
+
+    ``text`` and keyword-only ``suffix`` are strings; ``max_chars`` is an
+    integer character cap. A non-positive cap disables truncation. If text
+    exceeds a positive cap and the suffix is at least as long as that cap,
+    return only the original text's prefix. Otherwise include the suffix
+    within the cap. This counts characters, not encoded bytes or model tokens.
+    No exception is deliberately raised for inputs of the annotated types.
+
+    >>> truncate("hello world", 8)
+    'hello...'
+    >>> truncate("hello", 2, suffix="...")
+    'he'
+    >>> truncate("hello", 0)
+    'hello'
+    """
     if max_chars <= 0 or len(text) <= max_chars:
         return text
     if len(suffix) >= max_chars:

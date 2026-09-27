@@ -54,6 +54,10 @@ class AuditLogger:
         self.dialect = dialect
 
     def write(self, *, event: str, run_id: str, **fields: Any) -> None:
+        """Append permitted event fields as redacted JSONL when enabled.
+
+        Questions are hashed and SQL literals redacted; unsupported fields raise
+        ValueError. Filesystem errors propagate."""
         if not self.enabled:
             return
         payload: dict[str, Any] = {

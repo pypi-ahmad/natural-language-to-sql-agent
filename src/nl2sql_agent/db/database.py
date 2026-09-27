@@ -69,6 +69,7 @@ class QueryResult:
         return "\n".join(lines)
 
     def to_csv(self) -> str:
+        """Return fetched rows as CSV with formula-like string cells neutralized."""
         import csv
         import io
 

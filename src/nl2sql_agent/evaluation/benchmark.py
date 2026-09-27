@@ -25,11 +25,14 @@ from .runner import EvalCase, EvaluationRunner
 
 
 class Recorder:
+    """Wrap an agent and retain its latest state for benchmark artifact collection."""
+
     def __init__(self, agent: NL2SQLAgent) -> None:
         self.agent = agent
         self.state: dict = {}
 
     def run(self, question: str) -> dict:
+        """Run question and retain/return the wrapped agent's resulting state."""
         self.state = self.agent.run(question)
         return self.state
 
@@ -78,6 +81,9 @@ def select_bird(source: Path, *, size: int = 50) -> list[dict]:
 
 
 def curated_database(root: Path, domain: str, output: Path) -> Database:
+    """Return a content-named SQLite fixture in output using root/fixtures DDL.
+
+    Unknown domains raise ValueError; file and SQLite errors propagate."""
     if domain not in {"hr", "retail", "inventory", "support"}:
         raise ValueError("Unknown fixture domain")
     ddl = (root / "fixtures" / f"{domain}.sql").read_text(encoding="utf-8")
@@ -91,6 +97,10 @@ def curated_database(root: Path, domain: str, output: Path) -> Database:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Parse argv and run a bounded comparison with checkpointed output.
+
+    Invalid arguments or existing output cause argparse to exit. Paid calls
+    require configured rates and the persistent ledger and can incur charges."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument(
         "--provider", required=True, choices=["ollama", "openai", "agnes", "huggingface"]

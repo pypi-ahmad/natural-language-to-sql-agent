@@ -86,6 +86,7 @@ def _build_agent(
 
 
 def cmd_ask(args: argparse.Namespace) -> int:
+    """Run parsed ask arguments, print the answer and return the outcome exit code."""
     configure_logging(level="WARNING")
     agent = _build_agent(
         provider=args.provider,
@@ -105,6 +106,7 @@ def cmd_ask(args: argparse.Namespace) -> int:
 
 
 def cmd_config(args: argparse.Namespace) -> int:
+    """Print resolved settings with credentials masked; paths and endpoints remain visible."""
     settings = get_settings()
     payload = settings.model_dump(mode="json")
     for field in (
@@ -189,6 +191,7 @@ def cmd_eval(args: argparse.Namespace) -> int:
 
 
 def build_parser() -> argparse.ArgumentParser:
+    """Return the parser for ask, config, serve and eval."""
     parser = argparse.ArgumentParser(
         prog="nl2sql-agent",
         description="Natural Language to SQL data analyst agent.",
@@ -231,6 +234,7 @@ def build_parser() -> argparse.ArgumentParser:
 
 
 def main(argv: Sequence[str] | None = None) -> int:
+    """Parse argv or process arguments, dispatch the command and return its exit code."""
     parser = build_parser()
     args = parser.parse_args(argv)
     return int(args.func(args) or 0)

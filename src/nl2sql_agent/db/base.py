@@ -57,18 +57,28 @@ class DatabaseBackend(Protocol):
     """Minimum interface required by the NL2SQL workflow."""
 
     @property
-    def kind(self) -> str: ...
+    def kind(self) -> str:
+        """Return the backend identifier used in reports."""
+        ...
 
     @property
-    def dialect(self) -> str: ...
+    def dialect(self) -> str:
+        """Return the SQLGlot dialect name used for parsing and policy."""
+        ...
 
     @property
-    def display_name(self) -> str: ...
+    def display_name(self) -> str:
+        """Return the interface display label."""
+        ...
 
     @property
-    def fingerprint(self) -> str: ...
+    def fingerprint(self) -> str:
+        """Return backend identity, not a digest of current row values."""
+        ...
 
-    def list_tables(self) -> tuple[str, ...]: ...
+    def list_tables(self) -> tuple[str, ...]:
+        """Return visible ordinary table names."""
+        ...
 
     def get_schema_text(
         self,
@@ -77,8 +87,17 @@ class DatabaseBackend(Protocol):
         question: str = "",
         max_tables: int | None = None,
         include_sample_values: bool = False,
-    ) -> str: ...
+    ) -> str:
+        """Render allowed schema ranked for question and capped by max_tables.
 
-    def preflight(self, sql: str) -> QueryPlan: ...
+        None permits visible tables; an empty allowlist permits none.
+        include_sample_values controls bounded values in schema text."""
+        ...
 
-    def execute(self, sql: str) -> object: ...
+    def preflight(self, sql: str) -> QueryPlan:
+        """Return a non-executing plan for previously validated SQL."""
+        ...
+
+    def execute(self, sql: str) -> object:
+        """Execute previously validated SQL under read-only and resource controls."""
+        ...

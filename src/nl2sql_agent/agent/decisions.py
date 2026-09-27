@@ -8,6 +8,8 @@ from pydantic import BaseModel, ConfigDict, Field, model_validator
 
 
 class WriterDecision(BaseModel):
+    """Strict writer action, SQL/message and assumptions used before SQL validation."""
+
     model_config = ConfigDict(extra="forbid", strict=True)
 
     action: Literal["sql", "clarify", "unanswerable"]
@@ -17,6 +19,7 @@ class WriterDecision(BaseModel):
 
     @model_validator(mode="after")
     def validate_action(self) -> WriterDecision:
+        """Return this decision or raise ValueError for inconsistent action fields."""
         if self.action == "sql" and not self.sql.strip():
             raise ValueError("SQL action requires SQL")
         if self.action != "sql" and (self.sql or not self.message.strip()):

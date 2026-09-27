@@ -15,11 +15,13 @@ CRITERIA = "The assistant text is a single read-only SQL SELECT query, not a wri
 
 
 def parse_score(text: str) -> bool | None:
+    """Return True/False for a complete yes/no score tag, or None when malformed."""
     match = re.fullmatch(r"\s*<score>\s*(yes|no)\s*</score>\s*", text, re.IGNORECASE)
     return match.group(1).casefold() == "yes" if match else None
 
 
 def judge_sql(client: ollama.Client, sql: str) -> dict[str, object]:
+    """Score SQL form locally; return judge_failure on call or parser failure."""
     try:
         response = client.chat(
             model=MODEL,
@@ -35,6 +37,10 @@ def judge_sql(client: ollama.Client, sql: str) -> dict[str, object]:
 
 
 def main(argv: list[str] | None = None) -> int:
+    """Parse argv, judge calibration/report SQL locally and write a new output.
+
+    Existing output is rejected. This makes real Ollama calls and does not
+    authorize execution or measure semantic correctness."""
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("reports", nargs="*", type=Path)
     parser.add_argument("--output", required=True, type=Path)

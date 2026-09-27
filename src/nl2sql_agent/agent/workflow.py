@@ -1,13 +1,11 @@
 """LangGraph workflow for the NL2SQL agent.
 
-The workflow is:
-
-```
-fetch_schema → writer → guardian ─┬─(safe)─→ executor ─┬─(ok)─→ summarizer
-                                  └─(unsafe)─→ summarizer
-                                                   │
-                                                   └─(error)─→ writer (retry)
-```
+The full graph fetches schema, writes a decision, validates/preflights SQL,
+executes it and renders the answer. Recoverable generation/database failures
+can return to the writer within the attempt bound. Policy blocks, provider
+failures, clarification and unanswerable decisions terminate without execution.
+The preparation graph stops after validation; approved execution rechecks the
+context and SQL before one execution attempt.
 
 Each node is a small method that reads the relevant state keys, performs
 its single responsibility, and returns a partial state dict. Nodes are
@@ -428,7 +426,7 @@ class NL2SQLAgent:
         }
 
     def summarize_result(self, state: AgentState) -> dict[str, Any]:
-        """Ask the LLM to write a natural-language answer from the data."""
+        """Render executed rows locally; retain model fallback for legacy states."""
         started = time.perf_counter()
         question = state.get("question", "")
         sql = state.get("sql_query", "")
@@ -603,8 +601,17 @@ class NL2SQLAgent:
     ) -> dict[str, Any]:
         """Run the workflow end-to-end and return the final state.
 
-        Returns a dict containing ``final_answer``, ``sql_query``,
-        ``columns``, ``raw_rows``, ``error``, etc.
+        ``question`` is the original user question. ``clarifications`` contains
+        at most two reply strings; more raises ValueError. ``max_retries`` is
+        an optional integer writer-attempt bound, including the first attempt;
+        None uses settings. A non-positive value still allows the initial
+        writer call but no retry.
+
+        Returns a dict with outcome and execution status plus available answer,
+        SQL, rows and error fields. Inspect outcome and executed together.
+        This method can execute SQL without an interactive approval pause.
+        Workflow failures normally become outcomes, but setup/schema/catalog
+        errors can propagate. Successful answers are rendered locally.
         """
         workflow = self.get_workflow()
         inputs = self._initial_state(
@@ -620,7 +627,12 @@ class NL2SQLAgent:
         max_retries: int | None = None,
         clarifications: list[str] | None = None,
     ) -> Iterator[tuple[str, dict[str, Any]]]:
-        """Stream (node_name, state_update) events for live UI updates."""
+        """Yield (node_name, state_update) pairs from the full execution graph.
+
+        Arguments and errors follow run(). Updates are partial dictionaries,
+        not complete state snapshots. Iterating this generator can execute SQL;
+        use stream_prepare() for a review-first client. Work begins on iteration.
+        """
         workflow = self.get_workflow()
         inputs = self._initial_state(
             question, max_retries=max_retries, clarifications=clarifications
@@ -637,7 +649,17 @@ class NL2SQLAgent:
         max_retries: int | None = None,
         clarifications: list[str] | None = None,
     ) -> dict[str, Any]:
-        """Generate, validate, and preflight SQL without executing it."""
+        """Generate and preflight a candidate without executing SQL.
+
+        Arguments follow run(): question is the original string, max_retries
+        optionally overrides the writer-attempt bound, and clarifications is
+        a list of at most two reply strings. Extra replies raise ValueError.
+
+        Returns a state dict. Check outcome == 'prepared' before presenting
+        SQL for execution; clarification and failures also return states.
+        Provider calls and configured audit writes may occur. Schema/catalog
+        errors can propagate. A prepared state is not a snapshot of row values.
+        """
         result = self.get_prepare_workflow().invoke(
             self._initial_state(question, max_retries=max_retries, clarifications=clarifications)
         )
@@ -650,7 +672,12 @@ class NL2SQLAgent:
         max_retries: int | None = None,
         clarifications: list[str] | None = None,
     ) -> Iterator[tuple[str, dict[str, Any]]]:
-        """Stream preparation stages without executing SQL."""
+        """Yield partial (node_name, state_update) pairs without executing SQL.
+
+        Arguments, side effects and errors follow prepare(). Work begins when
+        the iterator advances. Merge updates if the caller needs a full state;
+        a completed iterator alone does not establish successful preparation.
+        """
         inputs = self._initial_state(
             question, max_retries=max_retries, clarifications=clarifications
         )
@@ -665,7 +692,19 @@ class NL2SQLAgent:
         *,
         sql_query: str | None = None,
     ) -> dict[str, Any]:
-        """Revalidate and execute an optionally edited prepared query."""
+        """Revalidate and attempt one approved execution, without writer retries.
+
+        ``prepared_state`` is a mapping returned by successful preparation.
+        ``sql_query`` optionally replaces its SQL string before validation.
+        The input mapping is shallow-copied; the returned dict contains updated
+        outcome, execution, answer and result fields.
+
+        Missing or changed context returns stale_preparation without execution.
+        Policy/preflight failures also return a failure state. Metadata lookup
+        and catalog loading happen before this check and can raise backend,
+        file or validation errors. Successful execution renders results locally;
+        it does not request a replacement query from the writer.
+        """
         state = cast(AgentState, dict(prepared_state))
         full_schema = self.db.get_schema_text()
         catalog = SchemaCatalog.load(self.settings.schema_catalog_path, full_schema)

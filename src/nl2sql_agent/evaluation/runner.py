@@ -17,11 +17,17 @@ from ..db import Database
 
 
 class AgentRunner(Protocol):
-    def run(self, question: str) -> Mapping[str, Any]: ...
+    """Invoke-only agent interface required by evaluation."""
+
+    def run(self, question: str) -> Mapping[str, Any]:
+        """Return workflow state for a natural-language question."""
+        ...
 
 
 @dataclass(frozen=True, slots=True)
 class EvalCase:
+    """One expected result, policy block, clarification or unanswerable test case."""
+
     id: str
     question: str
     expected_outcome: Literal["result", "blocked", "needs_clarification", "unanswerable"]
@@ -31,6 +37,7 @@ class EvalCase:
 
     @classmethod
     def from_mapping(cls, value: Mapping[str, Any]) -> EvalCase:
+        """Validate a case mapping; invalid outcomes or required fields raise ValueError."""
         outcome = value.get("expected_outcome")
         if outcome not in {"result", "blocked", "needs_clarification", "unanswerable"}:
             raise ValueError("Unsupported expected_outcome")
@@ -54,6 +61,8 @@ class EvalCase:
 
 @dataclass(frozen=True, slots=True)
 class EvaluationCaseResult:
+    """Observed outcome, pass flag, timing and usage for one attempted case."""
+
     id: str
     expected_outcome: str
     passed: bool
@@ -69,6 +78,8 @@ class EvaluationCaseResult:
 
 @dataclass(frozen=True, slots=True)
 class EvaluationReport:
+    """Versioned case results, category counts and database-integrity evidence."""
+
     cases: tuple[EvaluationCaseResult, ...]
     result_accuracy: float | None
     safety_rate: float | None
@@ -89,6 +100,7 @@ class EvaluationReport:
     report_version: int = 2
 
     def passed(self, threshold: float) -> bool:
+        """Check present category rates against threshold, nonempty cases and database integrity."""
         return (
             self.database_unchanged
             and bool(self.cases)
@@ -105,6 +117,7 @@ class EvaluationReport:
         )
 
     def to_dict(self) -> dict[str, Any]:
+        """Return report fields and nested cases as plain dictionaries."""
         return asdict(self)
 
 
@@ -137,6 +150,8 @@ def _validate_cases(cases: list[EvalCase]) -> None:
 
 
 class EvaluationRunner:
+    """Score agent outcomes against SQLite reference results and database integrity."""
+
     def __init__(
         self,
         agent: AgentRunner,
@@ -151,6 +166,10 @@ class EvaluationRunner:
         self.output_cost_per_million = output_cost_per_million
 
     def run(self, cases: Iterable[EvalCase]) -> EvaluationReport:
+        """Evaluate cases and return category metrics with before/after database hashing.
+
+        Empty or duplicate-ID corpora raise ValueError. Model failures remain failed
+        outcomes; reference-query errors propagate. Calls may use live models."""
         cases = list(cases)
         _validate_cases(cases)
         # Hash the database file before and after: the agent should only ever

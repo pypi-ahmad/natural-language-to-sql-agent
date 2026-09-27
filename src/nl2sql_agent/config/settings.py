@@ -173,7 +173,7 @@ class Settings(BaseSettings):
         default=3,
         ge=0,
         le=10,
-        description="Maximum SQL rewrite attempts after a failed execution.",
+        description="Writer-attempt bound including the first attempt; zero disables retries, not the initial call.",
     )
     llm_temperature: float = Field(default=0.0, ge=0.0, le=2.0)
     llm_max_tokens: int = Field(default=1024, ge=64, le=8192)

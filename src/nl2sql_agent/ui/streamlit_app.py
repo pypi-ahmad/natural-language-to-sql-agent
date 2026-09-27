@@ -667,6 +667,7 @@ def _chat_page() -> None:
 
 
 def main() -> None:
+    """Initialize local state and render the five-page Streamlit application."""
     settings = get_settings()
     configure_logging(level=settings.log_level, json=settings.log_json)
     st.set_page_config(

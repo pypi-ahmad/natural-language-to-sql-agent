@@ -6,12 +6,10 @@ nor block unknown-but-dangerous operations. Instead, we parse the SQL with
 ``sqlglot`` and apply allow-list rules on the AST:
 
 1. Exactly one statement.
-2. Top-level operation is a ``SELECT`` (with optional ``UNION``/``INTERSECT``/``EXCEPT``).
+2. Top-level operation is a ``SELECT`` or explicitly supported ``UNION`` node.
 3. No dangerous functions (``sqlite_load_extension``, ``readfile``, etc.).
-4. No subqueries, joins, CTEs, or aggregates unless explicitly enabled.
-
-This is the same approach used by production text-to-SQL systems like
-LangChain's ``SQLDatabaseChain`` and Vanna.ai.
+4. Subqueries, joins, CTEs and aggregates follow the policy, which enables them
+   by default. A conservative keyword scan also remains in force.
 """
 
 from __future__ import annotations
@@ -82,6 +80,7 @@ class SQLPolicy:
     def from_config(
         cls, *, allow_subqueries: bool, allow_joins: bool, allow_aggregates: bool, allow_cte: bool
     ) -> SQLPolicy:
+        """Construct a policy from four feature flags while retaining other defaults."""
         return cls(
             allow_subqueries=allow_subqueries,
             allow_joins=allow_joins,
