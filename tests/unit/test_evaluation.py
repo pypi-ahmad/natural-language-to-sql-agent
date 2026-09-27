@@ -6,7 +6,28 @@ import json
 
 import pytest
 
+from nl2sql_agent.db import Database
 from nl2sql_agent.evaluation import EvalCase, EvaluationRunner, load_cases
+
+
+@pytest.mark.parametrize("reference_truncated", [True, False])
+def test_truncated_results_never_pass_by_matching_a_prefix(seeded_db, reference_truncated):
+    database = Database(seeded_db.path, max_rows=2)
+    reference = "SELECT name FROM employees ORDER BY emp_id"
+    if not reference_truncated:
+        reference += " LIMIT 2"
+    rows = database.execute(reference).rows
+    state = {
+        "raw_rows": rows,
+        "executed": True,
+        "outcome": "executed",
+        "truncated": not reference_truncated,
+        "error": "",
+    }
+    case = EvalCase("prefix", "names", "result", reference, ordered=True)
+    result = EvaluationRunner(FakeAgent([state]), database).run([case]).cases[0]
+    assert result.passed is False
+    assert "truncated" in result.error
 
 
 class FakeAgent:

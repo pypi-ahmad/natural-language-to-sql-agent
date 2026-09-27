@@ -103,6 +103,11 @@ tests require an actual deterministic block; a model refusal is reported as
 unanswerable, not credited as a validator success. Provider errors and invalid
 decisions remain visible. Absent categories are null rather than 100%.
 
+Truncated actual or reference rows cannot pass a full-result comparison. At the
+default 1,000-row cap, some BIRD questions are intentionally counted as not
+passed rather than credited for a matching prefix. See the published scoring
+correction for affected development runs.
+
 Keep failed and interrupted manifests beside completed runs. Compare identical
 case IDs and report the attempted denominator. Never infer a model winner from
 a partial run or claim production readiness from fixture accuracy.

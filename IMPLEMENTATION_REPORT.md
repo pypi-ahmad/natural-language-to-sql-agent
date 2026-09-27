@@ -14,6 +14,8 @@
   preview notices. No second model call invents a narrative over the rows.
 - The restored test suite covers evaluator false positives, authorization,
   approval context, clarification, provider configuration, and budget accounting.
+  Truncated result prefixes cannot pass as complete results; the evidence report
+  preserves and corrects three earlier false-positive BIRD scores explicitly.
 - A 120-case synthetic corpus, pinned BIRD selection, persistent US$2 ledger,
   model comparisons, ablations, and a separate local Guardian judge provide
   inspectable evaluation artifacts.

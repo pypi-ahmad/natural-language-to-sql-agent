@@ -1,0 +1,50 @@
+{
+  "date": "2026-09-27",
+  "reason": "Matching a truncated prefix does not establish equality of complete query results.",
+  "reference_fetch_limit": 1000,
+  "reference_truncated_ids": [
+    "bird-11",
+    "bird-23",
+    "bird-24",
+    "bird-27"
+  ],
+  "verification": "Executed the 20 pinned reference SELECTs against the downloaded read-only BIRD database and checked QueryResult.truncated.",
+  "additional_model_calls": 0,
+  "policy": "Keep all attempted cases in the denominator; truncated references cannot pass full-result comparison.",
+  "original_manifests_preserved": true,
+  "runs": [
+    {
+      "manifest": "luna-bird.json",
+      "attempted": 20,
+      "original_pass_count": 3,
+      "corrected_pass_count": 2,
+      "retracted_pass_ids": [
+        "bird-11"
+      ]
+    },
+    {
+      "manifest": "agnes-bird.json",
+      "attempted": 20,
+      "original_pass_count": 8,
+      "corrected_pass_count": 6,
+      "retracted_pass_ids": [
+        "bird-11",
+        "bird-24"
+      ]
+    },
+    {
+      "manifest": "gpt-oss-bird.json",
+      "attempted": 20,
+      "original_pass_count": 0,
+      "corrected_pass_count": 0,
+      "retracted_pass_ids": []
+    },
+    {
+      "manifest": "granite-bird.json",
+      "attempted": 20,
+      "original_pass_count": 0,
+      "corrected_pass_count": 0,
+      "retracted_pass_ids": []
+    }
+  ]
+}

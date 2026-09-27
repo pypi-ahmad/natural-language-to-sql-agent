@@ -177,12 +177,17 @@ class EvaluationRunner:
             else:
                 if case.reference_sql is None:
                     raise ValueError(f"case {case.id!r} has no reference SQL")
-                expected = self.database.execute(case.reference_sql).rows
+                reference = self.database.execute(case.reference_sql)
+                expected = reference.rows
                 actual = tuple(tuple(row) for row in state.get("raw_rows", ()))
+                truncated = reference.truncated or state.get("truncated") is True
+                if truncated and not error:
+                    error = "Full result comparison unavailable: fetched rows were truncated."
                 passed = (
                     executed
                     and outcome == "executed"
                     and not error
+                    and not truncated
                     and _rows_equal(actual, expected, ordered=case.ordered)
                 )
 

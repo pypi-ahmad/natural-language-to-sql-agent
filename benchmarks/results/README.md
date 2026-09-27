@@ -14,8 +14,8 @@ The BIRD subset is entirely `california_schools`.
 
 | Generator | Synthetic result matches | All synthetic cases passed | BIRD result matches |
 | --- | --- | --- | --- |
-| GPT-6 Luna | 22/24 | 26/30 | 3/20 |
-| Agnes 3.0 Flash | 9/24 | 9/30 | 8/20 |
+| GPT-6 Luna | 22/24 | 26/30 | 2/20 |
+| Agnes 3.0 Flash | 9/24 | 9/30 | 6/20 |
 | GPT-OSS 120B, fixed Groq route | 9/24 | 9/30 | 0/20 |
 | Granite 4.2 3B | 22/24 | 23/30 | 0/20 |
 | Qwen 3.5 9B | Run in progress | Run in progress | Run in progress |
@@ -25,6 +25,13 @@ the presence of SQL. All-case totals also score the non-result categories.
 Provider/interface errors count as failed attempts rather than disappearing
 from the denominator. There is no inferred winner from this table.
 
+The table applies the [scoring correction](scoring-corrections.json). The original
+evaluator could credit matching truncated prefixes. BIRD questions 11, 23, 24,
+and 27 exceed the 1,000-row reference fetch cap; those cases cannot establish a
+full-result match under this configuration and are counted as not passed.
+This retracts Luna's original pass on question 11 and Agnes's passes on 11 and
+24, without making another model call. Original manifests remain unchanged.
+
 Important observations:
 
 - Agnes and GPT-OSS each had 21 provider/interface failures in their 30-case
@@ -32,9 +39,9 @@ Important observations:
   succeeded for Agnes and failed for GPT-OSS. The retained error category does
   not establish the provider's root cause.
 - Luna executed ten BIRD cases, requested clarification on nine, and had one
-  generation failure. Three executed results matched the gold rows.
+  generation failure. Two executed results established complete gold-row matches.
 - Agnes executed fifteen BIRD cases, requested clarification on one, and had
-  four generation failures. Eight executed results matched.
+  four generation failures. Six executed results established complete matches.
 - Granite's BIRD run had twenty generation failures. Each case consumed 3,072
   output tokens over three capped attempts. This is a failure of this bounded
   configuration, not a measurement of unconstrained model capability.
