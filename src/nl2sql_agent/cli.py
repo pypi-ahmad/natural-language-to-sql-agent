@@ -34,6 +34,10 @@ from .utils import configure_logging, get_logger
 logger = get_logger(__name__)
 
 
+def _format_rate(rate: float | None) -> str:
+    return "n/a" if rate is None else f"{rate:.1%}"
+
+
 def _pass_rate(value: str) -> float:
     rate = float(value)
     if not 0.0 <= rate <= 1.0:
@@ -88,11 +92,16 @@ def cmd_ask(args: argparse.Namespace) -> int:
         model=args.model,
         api_key=args.api_key,
     )
-    result = agent.run(args.question)
+    clarifications = getattr(args, "clarification", None)
+    result = (
+        agent.run(args.question, clarifications=clarifications)
+        if clarifications
+        else agent.run(args.question)
+    )
     print(result.get("final_answer", ""))
     if args.show_sql:
         print("\n--- SQL ---\n", result.get("sql_query", ""), sep="")
-    return 0
+    return 0 if result.get("outcome") in {None, "executed"} else 1
 
 
 def cmd_config(args: argparse.Namespace) -> int:
@@ -170,9 +179,9 @@ def cmd_eval(args: argparse.Namespace) -> int:
     output.write_text(json.dumps(completed.to_dict(), indent=2), encoding="utf-8")
     print(
         f"cases={len(completed.cases)} "
-        f"accuracy={completed.result_accuracy:.1%} "
-        f"safety={completed.safety_rate:.1%} "
-        f"execution={completed.execution_rate:.1%} "
+        f"accuracy={_format_rate(completed.result_accuracy)} "
+        f"safety={_format_rate(completed.safety_rate)} "
+        f"execution={_format_rate(completed.execution_rate)} "
         f"p95_ms={completed.p95_latency_ms:.1f} "
         f"report={output}"
     )
@@ -188,6 +197,9 @@ def build_parser() -> argparse.ArgumentParser:
 
     p_ask = sub.add_parser("ask", help="Ask a single question and print the answer.")
     p_ask.add_argument("question", help="The question to ask.")
+    p_ask.add_argument(
+        "--clarification", action="append", help="Reply to a clarification; repeat at most twice."
+    )
     p_ask.add_argument("--provider", help="Override the LLM provider.")
     p_ask.add_argument("--model", help="Override the LLM model.")
     p_ask.add_argument("--api-key", help="Override the API key.")
