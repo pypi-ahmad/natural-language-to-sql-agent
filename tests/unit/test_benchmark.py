@@ -46,7 +46,8 @@ def test_bird_selection_is_stable_and_stratified(tmp_path):
         benchmark.select_bird(path, size=1)
 
 
-def test_benchmark_manifest_records_attempt_not_just_success(tmp_path, monkeypatch):
+@pytest.mark.parametrize("offset", [0, 1])
+def test_benchmark_manifest_records_attempt_not_just_success(tmp_path, monkeypatch, offset):
     model = MagicMock()
     model.invoke.return_value = AIMessage(
         content='{"action":"sql","sql":"SELECT COUNT(*) FROM employees"}'
@@ -62,6 +63,8 @@ def test_benchmark_manifest_records_attempt_not_just_success(tmp_path, monkeypat
         str(ROOT / "cases.jsonl"),
         "--limit",
         "2",
+        "--offset",
+        str(offset),
         "--output",
         str(output),
         "--ledger",
@@ -70,7 +73,9 @@ def test_benchmark_manifest_records_attempt_not_just_success(tmp_path, monkeypat
     assert benchmark.main(args) == 0
     report = json.loads(output.read_text())
     assert len(report["cases"]) == report["planned"] == 2
-    assert report["cases"][0]["passed"] is True
+    assert report["cases"][0]["passed"] is (offset == 0)
+    assert report["cases"][0]["id"] == f"hr-{offset + 1:02}"
+    assert report["selection_offset"] == offset
     assert report["cases"][1]["passed"] is False
     assert report["dataset_sha256"]
     assert len(report["source_tree_sha256"]) == 64

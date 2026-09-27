@@ -105,6 +105,7 @@ def main(argv: list[str] | None = None) -> int:
     )
     parser.add_argument("--bird-databases", type=Path, default=Path("outputs/bird/databases"))
     parser.add_argument("--limit", type=int, default=30)
+    parser.add_argument("--offset", type=int, default=0, help="Skip already attempted case IDs")
     parser.add_argument("--retries", type=int, default=3)
     parser.add_argument("--schema-tables", type=int, default=8)
     parser.add_argument("--output", type=Path, required=True)
@@ -112,6 +113,8 @@ def main(argv: list[str] | None = None) -> int:
     args = parser.parse_args(argv)
     if args.limit <= 0:
         parser.error("--limit must be positive")
+    if args.offset < 0:
+        parser.error("--offset must be non-negative")
     if args.output.exists():
         parser.error("Output exists; choose a new file to preserve prior attempts")
     configure_logging(level="ERROR")
@@ -139,7 +142,7 @@ def main(argv: list[str] | None = None) -> int:
             json.loads(line)
             for line in source.read_text(encoding="utf-8").splitlines()
             if line.strip()
-        ][: args.limit]
+        ][args.offset : args.offset + args.limit]
     else:
         source = args.bird_source
         rows = [
@@ -152,7 +155,9 @@ def main(argv: list[str] | None = None) -> int:
                 "difficulty": row["difficulty"],
             }
             for row in select_bird(source, size=20)
-        ][: args.limit]
+        ][args.offset : args.offset + args.limit]
+    if not rows:
+        parser.error("The requested offset selects no cases")
     git = shutil.which("git")
     if git is None:
         raise RuntimeError("Git is required for benchmark provenance")
@@ -187,6 +192,7 @@ def main(argv: list[str] | None = None) -> int:
         "schema_tables": args.schema_tables,
         "platform": platform.platform(),
         "planned": len(rows),
+        "selection_offset": args.offset,
         "database_sha256": {},
         "cases": [],
     }

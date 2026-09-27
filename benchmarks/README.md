@@ -25,6 +25,12 @@ dirty-tree status, model, settings,
 outcome, latency, usage, and SQL, but never credentials, private endpoints,
 raw database rows, or reasoning traces. Generated databases stay under outputs.
 
+After diagnosing an interrupted run, use `--offset N` with a new output file to
+attempt only the unattempted suffix; `--limit` remains the number of cases to
+attempt. The offset is recorded in the manifest. Keep the original failures and
+do not replace them with the best result from repeated attempts. A fresh run
+still stops after three consecutive provider/interface errors.
+
 All paid calls pass through `outputs/benchmark-budget.db`, with a total US$2
 ceiling. Reservations use conservative input estimates and the full output cap;
 failures or missing usage retain the reservation. SDK retries are disabled.
