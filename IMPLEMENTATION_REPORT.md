@@ -25,10 +25,13 @@
 
 ## Verification
 
-The local full suite passed 349 tests with six opt-in integration tests skipped,
-at 85.4% coverage. The 80% threshold was not lowered. CI runs the full suite on
-Windows and Linux. The existing coverage configuration excludes the Streamlit
-entrypoint and page module; separate AppTest cases exercise the UI, including
+The latest full CI suite passed 352 tests on both Windows and Linux, with six
+opt-in integration tests skipped, at 85.34% coverage. A separate PostgreSQL 17
+job passed all three real integration tests. The local full suite passed 349
+tests before the final truncation and continuation regressions were added;
+their focused suites also passed. The 80% threshold was not lowered. The existing
+coverage configuration excludes the Streamlit entrypoint and page module;
+separate AppTest cases exercise the UI, including
 clarification through explicit query approval and execution.
 
 Ruff, ty, reviewed secret checks, dependency audit, source/wheel builds, an
@@ -39,6 +42,15 @@ verify read-only execution, FK discovery, and composite key pairing.
 GitHub review: [PR #7](https://github.com/pypi-ahmad/natural-language-to-sql-agent/pull/7).
 Nothing has been merged, tagged, or deployed by this workflow.
 
+All five generators completed coverage of the common 30 synthetic and 20 BIRD
+case IDs. Qwen required a separate continuation for eight previously unattempted
+synthetic IDs; its original failures remain in the totals. The
+[case-level results](benchmarks/results/README.md) include corrected truncated-row
+scores, provider failures, and provenance limits. The conservative paid-call
+ledger total is US$0.103428525 against the US$2 ceiling. Guardian matched the four
+reviewed calibration labels and scored twelve recorded SQL samples; this is a
+narrow SQL-form smoke check.
+
 ## Deliberate limits
 
 - SQL-only model output remains a compatibility path; structured JSON decisions
@@ -46,7 +58,8 @@ Nothing has been merged, tagged, or deployed by this workflow.
 - Answer rendering is deterministic. There is no claim-validated free-form
   model narrative layer.
 - Live synthetic comparisons use the 30 HR development cases, not the 90
-  held-out-schema cases. All 120 golden queries are checked locally.
+  held-out-schema cases. All 120 cases are validated; their 96 golden result
+  queries execute in fixture tests.
 - The live BIRD subset is 20 questions from one database. The pinned 50-case
   selection spans three databases; it is not a full leaderboard evaluation.
 - Early development manifests record the Git commit and dirty-tree status but
